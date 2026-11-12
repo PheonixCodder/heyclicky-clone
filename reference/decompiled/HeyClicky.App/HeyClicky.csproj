@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>HeyClicky</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="WinRT.Runtime">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\WinRT.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WinUI">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.WinUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.InteractiveExperiences.Projection">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.InteractiveExperiences.Projection.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Core">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\HeyClicky.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Contracts">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\HeyClicky.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.SDK.NET">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Windows.SDK.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Agents">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\HeyClicky.Agents.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Drawing">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\HeyClicky.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Platform">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\HeyClicky.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Graphics.Canvas.Interop">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Graphics.Canvas.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Sentry">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Sentry.dll</HintPath>
+    </Reference>
+    <Reference Include="Velopack">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Velopack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core.Projection">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Web.WebView2.Core.Projection.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Drawing3D">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\HeyClicky.Drawing3D.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData">
+      <HintPath>..\..\..\..\..\Users\ubaid\AppData\Local\HeyClickyApp\current\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

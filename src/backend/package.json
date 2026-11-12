@@ -1,0 +1,27 @@
+{
+  "name": "@kursor/backend",
+  "version": "1.0.0",
+  "description": "Kursor Local-First Backend Worker & Unified Supabase Auth Mock (HeyClicky v1.1.5 Compatible)",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
+    "start": "tsx --env-file-if-exists=.env src/index.ts",
+    "test": "tsx --env-file-if-exists=.env src/test-phase1.ts && tsx --env-file-if-exists=.env src/test-phase2.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.0",
+    "dotenv": "^16.4.7",
+    "hono": "^4.7.4",
+    "jpeg-js": "^0.4.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

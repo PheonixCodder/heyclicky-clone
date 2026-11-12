@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>HeyClicky.Agents</AssemblyName>
+    <RootNamespace>HeyClicky.Agents</RootNamespace>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>preview</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Nullable>annotations</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kursor.Contracts\Kursor.Contracts.csproj" />
+    <ProjectReference Include="..\Kursor.Core\Kursor.Core.csproj" />
+    <ProjectReference Include="..\Kursor.Platform\Kursor.Platform.csproj" />
+  </ItemGroup>
+</Project>

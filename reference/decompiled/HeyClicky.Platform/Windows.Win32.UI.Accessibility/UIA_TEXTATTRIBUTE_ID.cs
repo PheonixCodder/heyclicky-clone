@@ -1,0 +1,52 @@
+using System.CodeDom.Compiler;
+
+namespace Windows.Win32.UI.Accessibility;
+
+[GeneratedCode("Microsoft.Windows.CsWin32", "0.3.363+6f436ab751.RR")]
+internal enum UIA_TEXTATTRIBUTE_ID
+{
+	UIA_AnimationStyleAttributeId = 40000,
+	UIA_BackgroundColorAttributeId,
+	UIA_BulletStyleAttributeId,
+	UIA_CapStyleAttributeId,
+	UIA_CultureAttributeId,
+	UIA_FontNameAttributeId,
+	UIA_FontSizeAttributeId,
+	UIA_FontWeightAttributeId,
+	UIA_ForegroundColorAttributeId,
+	UIA_HorizontalTextAlignmentAttributeId,
+	UIA_IndentationFirstLineAttributeId,
+	UIA_IndentationLeadingAttributeId,
+	UIA_IndentationTrailingAttributeId,
+	UIA_IsHiddenAttributeId,
+	UIA_IsItalicAttributeId,
+	UIA_IsReadOnlyAttributeId,
+	UIA_IsSubscriptAttributeId,
+	UIA_IsSuperscriptAttributeId,
+	UIA_MarginBottomAttributeId,
+	UIA_MarginLeadingAttributeId,
+	UIA_MarginTopAttributeId,
+	UIA_MarginTrailingAttributeId,
+	UIA_OutlineStylesAttributeId,
+	UIA_OverlineColorAttributeId,
+	UIA_OverlineStyleAttributeId,
+	UIA_StrikethroughColorAttributeId,
+	UIA_StrikethroughStyleAttributeId,
+	UIA_TabsAttributeId,
+	UIA_TextFlowDirectionsAttributeId,
+	UIA_UnderlineColorAttributeId,
+	UIA_UnderlineStyleAttributeId,
+	UIA_AnnotationTypesAttributeId,
+	UIA_AnnotationObjectsAttributeId,
+	UIA_StyleNameAttributeId,
+	UIA_StyleIdAttributeId,
+	UIA_LinkAttributeId,
+	UIA_IsActiveAttributeId,
+	UIA_SelectionActiveEndAttributeId,
+	UIA_CaretPositionAttributeId,
+	UIA_CaretBidiModeAttributeId,
+	UIA_LineSpacingAttributeId,
+	UIA_BeforeParagraphSpacingAttributeId,
+	UIA_AfterParagraphSpacingAttributeId,
+	UIA_SayAsInterpretAsAttributeId
+}

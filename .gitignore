@@ -1,0 +1,79 @@
+# ==============================================================================
+# Kursor (Self-Hosted HeyClicky v1.1.5 Desktop Suite & Backend) — .gitignore
+# ==============================================================================
+
+# 1. Environment Variables & Secrets (NEVER COMMIT)
+.env
+.env.*
+!.env.example
+src/backend/.env
+src/backend/.env.*
+!src/backend/.env.example
+
+# 2. Local Runtime Databases & Logs
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+src/backend/data/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 3. Node.js & TypeScript Dependencies / Build Output
+node_modules/
+src/backend/node_modules/
+src/backend/dist/
+.npm
+.eslintcache
+*.tsbuildinfo
+
+# 4. .NET 9.0 / Visual Studio / WinUI 3 Build Artifacts
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+
+# 5. Built Distribution & Portable Release Packages
+dist/
+release/
+*.zip
+*.7z
+*.tar.gz
+
+# 6. Original Installer & Reverse-Engineering Tool Caches
+executable-file/
+services/
+
+# 7. OS & Editor Metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

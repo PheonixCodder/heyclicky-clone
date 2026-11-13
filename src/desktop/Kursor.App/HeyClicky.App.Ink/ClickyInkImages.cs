@@ -57,13 +57,13 @@ public static class ClickyInkImages
 
 	public static Func<string, CancellationToken, Task<byte[]?>>? PhotoSearch { get; set; }
 
-	public static string WorkerBaseUrl { get; set; } = "https://api.heyclicky.com";
+	public static string WorkerBaseUrl { get; set; } = "http://127.0.0.1:8787";
 
 	private static HttpClient CreateHttp()
 	{
 		HttpClient httpClient = new HttpClient();
 		httpClient.Timeout = TimeSpan.FromSeconds(20L);
-		httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0) HeyClicky");
+		httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0) Kursor");
 		return httpClient;
 	}
 

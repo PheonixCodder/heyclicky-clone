@@ -29,40 +29,26 @@ public static class AppBundleConfiguration
 
 	public static string UseProductionBackendFlagPath => Path.Combine(AppDataDirectory, "use-production-backend.flag");
 
-	public static bool UseProductionBackendRequested => File.Exists(UseProductionBackendFlagPath);
+	public static bool UseProductionBackendRequested => false;
 
 	public static bool IsProductionBackendOverrideActive { get; private set; }
 
-	public static ClickyEndpoints ApplyProductionBackendOverride(ClickyEndpoints endpoints, bool requested)
-	{
-		if (!requested || !IsLocalUrl(endpoints.WorkerBaseUrl))
-		{
-			return endpoints;
-		}
-		return new ClickyEndpoints(new Uri("https://api.heyclicky.com"), new Uri("https://mrpvynsdsnimuisyhkow.supabase.co"), "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ycHZ5bnNkc25pbXVpc3loa293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODAxNzgsImV4cCI6MjA5MTg1NjE3OH0.qf1-em-OB-OtyX4WTuGnSi28djq-5T0k0whKvcTtTAY");
-	}
-
 	public static ClickyEndpoints Load(string? overrideFilePath = null)
 	{
-		ClickyEndpoints clickyEndpoints = LoadConfigured(overrideFilePath);
-		ClickyEndpoints clickyEndpoints2 = ApplyProductionBackendOverride(clickyEndpoints, UseProductionBackendRequested);
-		IsProductionBackendOverrideActive = (object)clickyEndpoints2 != clickyEndpoints;
-		if (IsProductionBackendOverrideActive)
-		{
-			Log.Warn("Config", "Developer → Use production backend is on: this build talks to the production Worker and Supabase");
-		}
-		return clickyEndpoints2;
+		IsProductionBackendOverrideActive = false;
+		return LoadConfigured(overrideFilePath);
 	}
 
 	private static ClickyEndpoints LoadConfigured(string? overrideFilePath)
 	{
 		ClickyEndpoints clickyEndpoints = WithBuildMetadata(Defaults);
 		string path = overrideFilePath ?? OverrideFilePath;
+		string? workerEnv = Environment.GetEnvironmentVariable("KURSOR_WORKER_BASE_URL") ?? Environment.GetEnvironmentVariable("HEYCLICKY_WORKER_BASE_URL");
 		try
 		{
 			if (!File.Exists(path))
 			{
-				return ApplyWorkerOverride(clickyEndpoints, Environment.GetEnvironmentVariable("HEYCLICKY_WORKER_BASE_URL"));
+				return ApplyWorkerOverride(clickyEndpoints, workerEnv);
 			}
 			ReadOnlyMemory<byte> utf8Json = File.ReadAllBytes(path);
 			if (utf8Json.Span.StartsWith("\ufeff"u8))
@@ -85,25 +71,47 @@ public static class AppBundleConfiguration
 		{
 			Log.Warn("Config", "endpoints.json ignored: " + ex.Message);
 		}
-		return ApplyWorkerOverride(clickyEndpoints, Environment.GetEnvironmentVariable("HEYCLICKY_WORKER_BASE_URL"));
+		return ApplyWorkerOverride(clickyEndpoints, workerEnv);
 	}
 
 	public static ClickyEndpoints ApplyWorkerOverride(ClickyEndpoints endpoints, string? workerBaseUrl)
 	{
-		if (string.IsNullOrWhiteSpace(workerBaseUrl))
+		ClickyEndpoints updated = endpoints;
+		string? effectiveWorker = string.IsNullOrWhiteSpace(workerBaseUrl)
+			? (Environment.GetEnvironmentVariable("KURSOR_WORKER_BASE_URL") ?? Environment.GetEnvironmentVariable("HEYCLICKY_WORKER_BASE_URL"))
+			: workerBaseUrl;
+		if (!string.IsNullOrWhiteSpace(effectiveWorker))
 		{
-			return endpoints;
+			if (Uri.TryCreate(effectiveWorker.Trim().TrimEnd('/'), UriKind.Absolute, out Uri? workerUri) && IsLocalUrl(workerUri))
+			{
+				Log.Info("Config", $"{"HEYCLICKY_WORKER_BASE_URL"}: worker={workerUri}");
+				updated = updated with
+				{
+					WorkerBaseUrl = workerUri
+				};
+			}
+			else
+			{
+				Log.Warn("Config", "HEYCLICKY_WORKER_BASE_URL ignored (loopback URLs only)");
+			}
 		}
-		if (!Uri.TryCreate(workerBaseUrl.Trim().TrimEnd('/'), UriKind.Absolute, out Uri result) || !IsLocalUrl(result))
+		string? supabaseUrl = Environment.GetEnvironmentVariable("KURSOR_SUPABASE_URL") ?? Environment.GetEnvironmentVariable("HEYCLICKY_SUPABASE_URL");
+		if (!string.IsNullOrWhiteSpace(supabaseUrl) && Uri.TryCreate(supabaseUrl.Trim().TrimEnd('/'), UriKind.Absolute, out Uri? supabaseUri) && IsLocalUrl(supabaseUri))
 		{
-			Log.Warn("Config", "HEYCLICKY_WORKER_BASE_URL ignored (loopback URLs only)");
-			return endpoints;
+			updated = updated with
+			{
+				SupabaseUrl = supabaseUri
+			};
 		}
-		Log.Info("Config", $"{"HEYCLICKY_WORKER_BASE_URL"}: worker={result}");
-		return endpoints with
+		string? supabaseAnonKey = Environment.GetEnvironmentVariable("KURSOR_SUPABASE_ANON_KEY") ?? Environment.GetEnvironmentVariable("HEYCLICKY_SUPABASE_ANON_KEY");
+		if (!string.IsNullOrWhiteSpace(supabaseAnonKey))
 		{
-			WorkerBaseUrl = result
-		};
+			updated = updated with
+			{
+				SupabaseAnonKey = supabaseAnonKey.Trim()
+			};
+		}
+		return updated;
 	}
 
 	private static ClickyEndpoints WithBuildMetadata(ClickyEndpoints endpoints)
@@ -146,14 +154,20 @@ public static class AppBundleConfiguration
 
 	private static string? ReadConfigured(JsonElement root, string name)
 	{
-		if (root.ValueKind != JsonValueKind.Object || !root.TryGetProperty(name, out var value) || value.ValueKind != JsonValueKind.String)
+		if (root.ValueKind != JsonValueKind.Object)
 		{
 			return null;
 		}
-		string text = value.GetString()?.Trim();
-		if (!string.IsNullOrEmpty(text) && (!text.StartsWith("$(") || !text.EndsWith(')')))
+		foreach (JsonProperty prop in root.EnumerateObject())
 		{
-			return text;
+			if (string.Equals(prop.Name, name, StringComparison.OrdinalIgnoreCase) && prop.Value.ValueKind == JsonValueKind.String)
+			{
+				string? text = prop.Value.GetString()?.Trim();
+				if (!string.IsNullOrEmpty(text) && (!text.StartsWith("$(") || !text.EndsWith(')')))
+				{
+					return text;
+				}
+			}
 		}
 		return null;
 	}

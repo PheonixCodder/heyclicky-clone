@@ -22,19 +22,24 @@ public static class InkFiles
 
 	public static void WriteUtf8Atomically(string path, string text)
 	{
-		string text2 = Path.Combine(Path.GetDirectoryName(path) ?? ".", "." + Path.GetFileName(path) + "." + Guid.NewGuid().ToString("N") + ".tmp");
+		string? directoryName = Path.GetDirectoryName(path);
+		if (!string.IsNullOrEmpty(directoryName))
+		{
+			Directory.CreateDirectory(directoryName);
+		}
+		string text2 = $"{path}.{Guid.NewGuid():N}.tmp";
 		File.WriteAllText(text2, text, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
 		File.Move(text2, path, overwrite: true);
 	}
 
 	public static void WriteBytesAtomically(string path, byte[] bytes)
 	{
-		string directoryName = Path.GetDirectoryName(path);
-		if (directoryName != null)
+		string? directoryName = Path.GetDirectoryName(path);
+		if (!string.IsNullOrEmpty(directoryName))
 		{
 			Directory.CreateDirectory(directoryName);
 		}
-		string text = Path.Combine(directoryName ?? ".", "." + Path.GetFileName(path) + "." + Guid.NewGuid().ToString("N") + ".tmp");
+		string text = $"{path}.{Guid.NewGuid():N}.tmp";
 		File.WriteAllBytes(text, bytes);
 		File.Move(text, path, overwrite: true);
 	}

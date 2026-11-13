@@ -104,12 +104,20 @@ public sealed class RoutineScheduler : IDisposable
 		return new List<ClickyRoutine>();
 	}
 
+	private bool ShouldKeepAwakeLocked(DateTimeOffset now)
+	{
+		return routines.Any((ClickyRoutine r) =>
+			!r.IsPaused &&
+			((r.LastRunStartedAt.HasValue && !r.LastRunFinishedAt.HasValue && now - r.LastRunStartedAt.GetValueOrDefault() <= StaleRunAfter) ||
+			 (r.NextRunAt <= now.AddMinutes(2.0) && r.NextRunAt >= now.AddMinutes(-5.0))));
+	}
+
 	private void SaveLocked()
 	{
 		string sourceFileName = path + ".tmp";
 		File.WriteAllText(sourceFileName, JsonSerializer.Serialize(routines, Json));
 		File.Move(sourceFileName, path, overwrite: true);
-		RoutineKeepAwake.Update(routines.Any((ClickyRoutine r) => !r.IsPaused));
+		RoutineKeepAwake.Update(ShouldKeepAwakeLocked(DateTimeOffset.Now));
 	}
 
 	private void Mutate(string id, Action<ClickyRoutine> change)
@@ -301,10 +309,11 @@ public sealed class RoutineScheduler : IDisposable
 		}
 		try
 		{
+			DateTimeOffset evalNow = DateTimeOffset.Now;
 			bool hasActiveRoutines;
 			lock (gate)
 			{
-				hasActiveRoutines = routines.Any((ClickyRoutine r) => !r.IsPaused);
+				hasActiveRoutines = ShouldKeepAwakeLocked(evalNow);
 			}
 			RoutineKeepAwake.Update(hasActiveRoutines);
 			if (!host.IsSignedIn)

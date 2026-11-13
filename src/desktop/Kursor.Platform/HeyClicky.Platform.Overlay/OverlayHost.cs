@@ -363,13 +363,23 @@ internal sealed class OverlayHost
 		{
 			LowLevelInputHub.Shared.SetMouseMoveWaker(null);
 			LowLevelInputHub.Shared.Release();
+			framePacer.Dispose();
 			DestroyGraphics();
 			if (!windowHandle.IsNull)
 			{
+				ScreenCaptureYield.Unregister(WindowHandle);
 				CaptureExclusion.UnregisterCursorChrome(WindowHandle);
 				PInvoke.DestroyWindow(windowHandle);
 			}
+			ready.Dispose();
+			wakeEvent.Dispose();
+			gpuIdle.Dispose();
 		}
+	}
+
+	private static bool IsDeviceLost(int hr)
+	{
+		return hr == unchecked((int)0x887A0005) || hr == unchecked((int)0x887A0006) || hr == unchecked((int)0x887A0007) || hr == unchecked((int)0x8899000C);
 	}
 
 	private unsafe void RunLoop()
@@ -414,37 +424,72 @@ internal sealed class OverlayHost
 			OverlayFrame frame = new OverlayFrame((double)timestamp / (double)Stopwatch.Frequency, flag ? num3 : 0.0, DisplayEnumeratorFast.CursorPositionPx());
 			bool flag3 = framesRequested;
 			framesRequested = false;
-			if (flag)
+			try
 			{
-				foreach (IOverlayLayer layer2 in layers)
+				if (flag)
 				{
-					flag3 |= layer2.OnFrame(in frame);
-				}
-				FramesRendered++;
-			}
-			else
-			{
-				foreach (IOverlayLayer layer3 in layers)
-				{
-					flag3 |= layer3.OnIdleWake(in frame);
-				}
-				if (flag3)
-				{
-					foreach (IOverlayLayer layer4 in layers)
+					foreach (IOverlayLayer layer2 in layers)
 					{
-						layer4.OnFrame(in frame);
+						flag3 |= layer2.OnFrame(in frame);
 					}
 					FramesRendered++;
 				}
+				else
+				{
+					foreach (IOverlayLayer layer3 in layers)
+					{
+						flag3 |= layer3.OnIdleWake(in frame);
+					}
+					if (flag3)
+					{
+						foreach (IOverlayLayer layer4 in layers)
+						{
+							layer4.OnFrame(in frame);
+						}
+						FramesRendered++;
+					}
+				}
+				if (commitPending)
+				{
+					commitPending = false;
+					CompositionDevice.Commit();
+				}
+				if (drawnSinceFence)
+				{
+					FenceDrawing();
+				}
 			}
-			if (commitPending)
+			catch (COMException ex) when (IsDeviceLost(ex.HResult))
 			{
-				commitPending = false;
-				CompositionDevice.Commit();
+				Log.Warn("Overlay", $"GPU device lost in OverlayHost (0x{ex.HResult:X8}); recreating graphics");
+				try
+				{
+					DestroyGraphics();
+					CreateGraphics();
+					RefreshDisplays();
+				}
+				catch (Exception recreateEx)
+				{
+					Log.Error("Overlay", "OverlayHost graphics recreation failed", recreateEx);
+				}
+				flag = false;
+				continue;
 			}
-			if (drawnSinceFence)
+			catch (Exception ex) when (IsDeviceLost(ex.HResult))
 			{
-				FenceDrawing();
+				Log.Warn("Overlay", $"GPU device lost in OverlayHost (0x{ex.HResult:X8}); recreating graphics");
+				try
+				{
+					DestroyGraphics();
+					CreateGraphics();
+					RefreshDisplays();
+				}
+				catch (Exception recreateEx)
+				{
+					Log.Error("Overlay", "OverlayHost graphics recreation failed", recreateEx);
+				}
+				flag = false;
+				continue;
 			}
 			if (flag || flag3)
 			{
@@ -537,7 +582,11 @@ internal sealed class OverlayHost
 		case 33u:
 			return new LRESULT(3);
 		case 736u:
+		{
+			OverlayHost overlayHost = shared;
+			overlayHost?.Post(overlayHost.RefreshDisplays);
 			return new LRESULT(0);
+		}
 		case 126u:
 		{
 			OverlayHost overlayHost = shared;
@@ -600,6 +649,8 @@ internal sealed class OverlayHost
 		D2DContext?.Dispose();
 		D2DDevice?.Dispose();
 		D2DFactory?.Dispose();
+		gpuFenceDevice?.Dispose();
+		gpuFenceDevice = null;
 		D3DDevice?.Dispose();
 	}
 

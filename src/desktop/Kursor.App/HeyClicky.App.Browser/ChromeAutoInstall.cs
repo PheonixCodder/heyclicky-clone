@@ -100,7 +100,8 @@ public static class ChromeAutoInstall
 					bridge.OpenStoreListing();
 				}
 				await Task.Delay(1500);
-				string goal = (swapsOldCopy ? ChromeSetupBriefs.SwapGoal(browser.Name, "https://chromewebstore.google.com/detail/heyclicky/bphdnlcghkpiaoiplkhfofpfboddahce") : ChromeSetupBriefs.StoreGoal(browser.Name, "https://chromewebstore.google.com/detail/heyclicky/bphdnlcghkpiaoiplkhfofpfboddahce"));
+				string storeUrl = Environment.GetEnvironmentVariable("KURSOR_CHROME_STORE_URL") ?? "https://chromewebstore.google.com/detail/kursor/bphdnlcghkpiaoiplkhfofpfboddahce";
+				string goal = (swapsOldCopy ? ChromeSetupBriefs.SwapGoal(browser.Name, storeUrl) : ChromeSetupBriefs.StoreGoal(browser.Name, storeUrl));
 				if (!drive.DriveForApp(goal, process, delegate(ClickyDriveEnding ending)
 				{
 					AfterDriveAsync(ending);

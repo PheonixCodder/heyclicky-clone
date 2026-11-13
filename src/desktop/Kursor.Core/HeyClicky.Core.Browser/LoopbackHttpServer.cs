@@ -189,9 +189,10 @@ public sealed class LoopbackHttpServer : IDisposable
 	{
 		using (client)
 		{
-			_ = 3;
 			try
 			{
+				using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+				timeoutCts.CancelAfter(TimeSpan.FromSeconds(10));
 				client.NoDelay = true;
 				NetworkStream stream = client.GetStream();
 				MemoryStream buffer = new MemoryStream();
@@ -199,7 +200,7 @@ public sealed class LoopbackHttpServer : IDisposable
 				int num = -1;
 				while (num < 0)
 				{
-					int num2 = await stream.ReadAsync(chunk, ct).ConfigureAwait(continueOnCapturedContext: false);
+					int num2 = await stream.ReadAsync(chunk, timeoutCts.Token).ConfigureAwait(continueOnCapturedContext: false);
 					if (num2 <= 0)
 					{
 						return;
@@ -237,7 +238,7 @@ public sealed class LoopbackHttpServer : IDisposable
 				int bodyStart = num + 4;
 				while (buffer.Length - bodyStart < contentLength)
 				{
-					int num5 = await stream.ReadAsync(chunk, ct).ConfigureAwait(continueOnCapturedContext: false);
+					int num5 = await stream.ReadAsync(chunk, timeoutCts.Token).ConfigureAwait(continueOnCapturedContext: false);
 					if (num5 <= 0)
 					{
 						return;

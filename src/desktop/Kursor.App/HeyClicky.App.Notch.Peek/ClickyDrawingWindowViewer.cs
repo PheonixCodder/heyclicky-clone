@@ -27,53 +27,67 @@ public sealed class ClickyDrawingWindowViewer
 
 	public async void Present(StoredLesson stored, LessonService service)
 	{
-		Displays.Monitor monitor = Displays.UnderCursor();
-		Dismiss(animated: false);
-		int current = ++presentation;
-		ClickyLessonInlinePlayer newPlayer = new ClickyLessonInlinePlayer(stored, service);
-		double scale = monitor.Scale;
-		Vector2 screenSize = new Vector2((float)((double)monitor.Bounds.Width / scale), (float)((double)monitor.Bounds.Height / scale));
-		Vector2 stageSize = ClickyDrawingWindowView.StageSize(screenSize, stored);
-		if (!(await newPlayer.LoadAsync((int)Math.Round((double)stageSize.X * scale))) || current != presentation)
+		try
 		{
-			newPlayer.Dispose();
-			if (current == presentation)
-			{
-				Log.Warn("lessons", "drawing window: the playback engine didn't load; replaying full screen");
-				service.PlayAsync(stored);
-			}
-			return;
-		}
-		if ((object)window == null)
-		{
-			window = new OverlayWindow("HeyClicky drawing", service.ExcludesFromCapture, clickThroughEverywhere: false, activatable: true);
-			window.Activated += delegate(object _, WindowActivatedEventArgs e)
-			{
-				if (e.WindowActivationState != WindowActivationState.Deactivated)
-				{
-					view?.TakeKeyboardFocus();
-				}
-			};
-		}
-		player = newPlayer;
-		view = new ClickyDrawingWindowView(newPlayer, screenSize, stageSize, scale, delegate
-		{
-			Dismiss(animated: true);
-		}, delegate
-		{
+			Displays.Monitor monitor = Displays.UnderCursor();
 			Dismiss(animated: false);
-			service.PlayAsync(stored);
-		});
-		window.Root.Children.Clear();
-		window.Root.Children.Add(view);
-		window.PlacePx(monitor.Bounds.Left, monitor.Bounds.Top, monitor.Bounds.Width, monitor.Bounds.Height);
-		window.ShowActivated();
-		isOpen = true;
-		view.TakeKeyboardFocus();
-		view.Appear();
-		newPlayer.Play();
-		NotchPeekSurface.PeekAction("drawing_window_opened");
-		Log.Info("lessons", $"drawing window: \"{stored.Data.Title}\" ({stored.Data.Lines.Count} lines, stage {stageSize.X:0}x{stageSize.Y:0} pt)");
+			int current = ++presentation;
+			ClickyLessonInlinePlayer newPlayer = new ClickyLessonInlinePlayer(stored, service);
+			double scale = monitor.Scale;
+			Vector2 screenSize = new Vector2((float)((double)monitor.Bounds.Width / scale), (float)((double)monitor.Bounds.Height / scale));
+			Vector2 stageSize = ClickyDrawingWindowView.StageSize(screenSize, stored);
+			if (!(await newPlayer.LoadAsync((int)Math.Round((double)stageSize.X * scale))) || current != presentation)
+			{
+				newPlayer.Dispose();
+				if (current == presentation)
+				{
+					Log.Warn("lessons", "drawing window: the playback engine didn't load; replaying full screen");
+					service.PlayAsync(stored);
+				}
+				return;
+			}
+			if ((object)window == null)
+			{
+				window = new OverlayWindow("Kursor drawing", service.ExcludesFromCapture, clickThroughEverywhere: false, activatable: true);
+				window.Activated += delegate(object _, WindowActivatedEventArgs e)
+				{
+					if (e.WindowActivationState != WindowActivationState.Deactivated)
+					{
+						view?.TakeKeyboardFocus();
+					}
+				};
+			}
+			player = newPlayer;
+			view = new ClickyDrawingWindowView(newPlayer, screenSize, stageSize, scale, delegate
+			{
+				Dismiss(animated: true);
+			}, delegate
+			{
+				Dismiss(animated: false);
+				service.PlayAsync(stored);
+			});
+			window.Root.Children.Clear();
+			window.Root.Children.Add(view);
+			window.PlacePx(monitor.Bounds.Left, monitor.Bounds.Top, monitor.Bounds.Width, monitor.Bounds.Height);
+			window.ShowActivated();
+			isOpen = true;
+			view.TakeKeyboardFocus();
+			view.Appear();
+			newPlayer.Play();
+			NotchPeekSurface.PeekAction("drawing_window_opened");
+			Log.Info("lessons", $"drawing window: \"{stored.Data.Title}\" ({stored.Data.Lines.Count} lines, stage {stageSize.X:0}x{stageSize.Y:0} pt)");
+		}
+		catch (Exception ex)
+		{
+			Log.Error("lessons", "drawing window present failed", ex);
+			try
+			{
+				Dismiss(animated: false);
+			}
+			catch
+			{
+			}
+		}
 	}
 
 	public void Dismiss(bool animated)

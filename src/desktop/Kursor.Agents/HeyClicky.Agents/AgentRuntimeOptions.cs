@@ -15,6 +15,8 @@ public sealed class AgentRuntimeOptions
 
 	public string BundledResourcesDirectory { get; set; } = Path.Combine(AppContext.BaseDirectory, "BundledResources");
 
+	public string WorkerBaseUrl { get; set; } = EnvOr("HEYCLICKY_WORKER_BASE_URL", "http://127.0.0.1:8787");
+
 	public string Model { get; set; } = EnvOr("CLICKY_LOCAL_CODEX_MODEL", "gpt-6-luna");
 
 	public string ReasoningEffort { get; set; } = ValidEffort(Environment.GetEnvironmentVariable("CLICKY_LOCAL_CODEX_REASONING_EFFORT")) ?? "high";

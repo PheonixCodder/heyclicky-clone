@@ -1590,8 +1590,8 @@ public static class ClickyInkParser
 		{
 			return text;
 		}
-		string input = BoldRegex().Replace(text, $"{57345}$1{57346}");
-		return HighlightRegex().Replace(input, $"{57347}$1{57348}");
+		string input = BoldRegex().Replace(text, $"{Emphasis.BoldOn}$1{Emphasis.BoldOff}");
+		return HighlightRegex().Replace(input, $"{Emphasis.HighlightOn}$1{Emphasis.HighlightOff}");
 	}
 
 	// [GeneratedRegex("\\[([^\\]]+)\\]\\((https?://[^)\\s]+)\\)")]
@@ -1616,7 +1616,7 @@ public static class ClickyInkParser
 			return text;
 		}
 		string text2 = text.Substring(0, match.Index);
-		string obj = $"[{57349}{match.Groups[1].Value}{57350}]({match.Groups[2].Value})";
+		string obj = $"[{Emphasis.LinkOn}{match.Groups[1].Value}{Emphasis.LinkOff}]({match.Groups[2].Value})";
 		int num = match.Index + match.Length;
 		return text2 + obj + text.Substring(num, text.Length - num);
 	}

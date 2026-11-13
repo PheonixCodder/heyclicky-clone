@@ -34,7 +34,6 @@ public sealed class JsonAppSettings : IAppSettings
 		public bool ShakeToDetachEnabled { get; set; }
 	}
 
-	[JsonSerializable(typeof(Data))]
 	[GeneratedCode("System.Text.Json.SourceGeneration", "9.0.15.2218")]
 	private sealed class Ctx : JsonSerializerContext, IJsonTypeInfoResolver
 	{
@@ -624,7 +623,7 @@ public sealed class JsonAppSettings : IAppSettings
 	{
 		string path = directory ?? AppPaths.Root;
 		Directory.CreateDirectory(path);
-		this.path = Path.Combine(path, "settings.json");
+		this.path = Path.Combine(path, "legacy-ui-settings.json");
 		try
 		{
 			data = (File.Exists(this.path) ? (JsonSerializer.Deserialize(File.ReadAllText(this.path), Ctx.Default.Data) ?? new Data()) : new Data());

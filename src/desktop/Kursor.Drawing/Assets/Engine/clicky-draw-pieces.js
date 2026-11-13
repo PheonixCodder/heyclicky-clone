@@ -182,6 +182,7 @@ const point = (x, y, name) => {
   circle(x, y, r, __screenPen({tone: INK, role: 'point', label: name, wobble: 0.4})); dot(x, y, __pt(3), {tone: INK, fill: INK, role: 'point'})
   __nameMark([x - r, y - r, 2 * r, 2 * r], name)
 }
+const spot = point
 // target/hover(x, y, w, h, label): the control itself, by its box like frame() (top-left, width, height).
 // The app outlines the real control there and waits for the click (or the cursor resting on it).
 // The older centre-and-radius form target(x, y, r, label) still works.

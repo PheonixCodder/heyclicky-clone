@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace HeyClicky.Core.Ink;
 
@@ -28,13 +29,7 @@ public static class ClickyInkPatchStream
 		{
 			if (text.HasPrefix("@@"))
 			{
-				int num = 1;
-				List<string> list3 = new List<string>(num);
-				CollectionsMarshal.SetCount(list3, num);
-				Span<string> span = CollectionsMarshal.AsSpan(list3);
-				int index = 0;
-				span[index] = text;
-				list2.Add(list3);
+				list2.Add(new List<string> { text });
 			}
 			else if (list2.Count > 0)
 			{
@@ -47,23 +42,66 @@ public static class ClickyInkPatchStream
 			List<string> list4 = list2[j];
 			bool flag = j == list2.Count - 1;
 			string text2 = list4[0];
-			string text3 = text2.Substring(2, text2.Length - 2).TrimWs();
-			if (text3.Length > 0)
+			string anchor = text2.Substring(2, text2.Length - 2).Trim();
+			if (anchor.EndsWith("@@", StringComparison.Ordinal))
 			{
-				int num3 = -1;
-				for (int k = num2; k < list.Count; k++)
+				anchor = anchor.Substring(0, anchor.Length - 2).Trim();
+			}
+			if (anchor.Length > 0)
+			{
+				if (Regex.IsMatch(anchor, @"^-\d+(?:,\d+)?\s+\+\d+(?:,\d+)?$"))
 				{
-					if (Same(list[k], text3))
+					Match rangeMatch = Regex.Match(anchor, @"^-(\d+)");
+					if (rangeMatch.Success && int.TryParse(rangeMatch.Groups[1].Value, out int parsedLine) && parsedLine > 0)
 					{
-						num3 = k;
-						break;
+						num2 = Math.Clamp(parsedLine - 1, 0, list.Count);
 					}
 				}
-				if (num3 < 0)
+				else
 				{
-					return null;
+					Match headerWithTrailingContext = Regex.Match(anchor, @"^-(\d+)(?:,\d+)?\s+\+\d+(?:,\d+)?\s+@@\s*(.*)$");
+					if (headerWithTrailingContext.Success)
+					{
+						string trailing = headerWithTrailingContext.Groups[2].Value.Trim();
+						if (trailing.Length > 0)
+						{
+							int num3 = -1;
+							for (int k = num2; k < list.Count; k++)
+							{
+								if (Same(list[k], trailing))
+								{
+									num3 = k;
+									break;
+								}
+							}
+							if (num3 >= 0)
+							{
+								num2 = num3 + 1;
+							}
+						}
+						else if (int.TryParse(headerWithTrailingContext.Groups[1].Value, out int parsedLine) && parsedLine > 0)
+						{
+							num2 = Math.Clamp(parsedLine - 1, 0, list.Count);
+						}
+					}
+					else
+					{
+						int num3 = -1;
+						for (int k = num2; k < list.Count; k++)
+						{
+							if (Same(list[k], anchor))
+							{
+								num3 = k;
+								break;
+							}
+						}
+						if (num3 < 0)
+						{
+							return null;
+						}
+						num2 = num3 + 1;
+					}
 				}
-				num2 = num3 + 1;
 			}
 			List<string> list5 = (from l in list4.Skip(1)
 				where !l.HasPrefix("***") && !l.HasPrefix("\\")
@@ -75,9 +113,10 @@ public static class ClickyInkPatchStream
 					list5.RemoveAt(list5.Count - 1);
 				}
 			}
-			int? num4 = Location((from l in list5
+			List<string> oldLines = (from l in list5
 				where !l.HasPrefix("+")
-				select (l.Length != 0) ? l.Substring(1, l.Length - 1) : "").ToList(), list, num2);
+				select (l.StartsWith(" ") || l.StartsWith("+") || l.StartsWith("-")) ? l.Substring(1) : l).ToList();
+			int? num4 = Location(oldLines, list, num2) ?? ((num2 > 0 && oldLines.Count > 0) ? Location(oldLines, list, 0) : null);
 			if (num4.HasValue)
 			{
 				int valueOrDefault = num4.GetValueOrDefault();
@@ -101,21 +140,11 @@ public static class ClickyInkPatchStream
 					for (; m < list5.Count && list5[m].HasPrefix("+"); m++)
 					{
 						text2 = list5[m];
-						list6.Add(text2.Substring(1, text2.Length - 1));
+						list6.Add((text2.StartsWith(" ") || text2.StartsWith("+") || text2.StartsWith("-")) ? text2.Substring(1) : text2);
 					}
 					List<string> list7 = ((flag && m >= list5.Count && list6.Count < num6) ? list.GetRange(num5 + list6.Count, num6 - list6.Count) : new List<string>());
 					list.RemoveRange(num5, num6);
-					int index2 = num5;
-					List<string> list8 = list7;
-					int i = 0;
-					array = new string[list6.Count + list8.Count];
-					Span<string> span = CollectionsMarshal.AsSpan(list6);
-					span.CopyTo(new Span<string>(array).Slice(i, span.Length));
-					i += span.Length;
-					Span<string> span2 = CollectionsMarshal.AsSpan(list8);
-					span2.CopyTo(new Span<string>(array).Slice(i, span2.Length));
-					i += span2.Length;
-					list.InsertRange(index2, new global::_003C_003Ez__ReadOnlyArray<string>(array));
+					list.InsertRange(num5, list6.Concat(list7));
 					num5 += list6.Count + list7.Count;
 				}
 				num2 = Math.Min(num5, list.Count);

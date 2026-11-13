@@ -38,7 +38,7 @@ public sealed class PaywallWindow : OverlayWindow
 	public UIElement? Card => card;
 
 	public PaywallWindow(bool excludeFromCapture)
-		: base("HeyClicky", excludeFromCapture)
+		: base("Kursor", excludeFromCapture)
 	{
 		stage = new Grid
 		{

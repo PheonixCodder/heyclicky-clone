@@ -217,7 +217,10 @@ internal sealed class DrawingThread : IDisposable
 			{
 				throw new InvalidOperationException("the drawing thread has stopped");
 			}
-			done.Wait();
+			if (!done.Wait(5000))
+		{
+			throw new TimeoutException("drawing thread invoke timed out");
+		}
 			failure?.Throw();
 			return result;
 		}

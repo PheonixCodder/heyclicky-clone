@@ -521,9 +521,6 @@ public sealed class PhotoLoader
 				}
 				return result2;
 			}
-			IL_042f:
-			byte[] result3;
-			return result3;
 		}
 		catch
 		{
@@ -573,7 +570,7 @@ public sealed class PhotoLoader
 			}
 			return false;
 		}
-		if (address.IsIPv6LinkLocal || address.IsIPv6SiteLocal || address.IsIPv6Multicast)
+		if (address.IsIPv6LinkLocal || address.IsIPv6SiteLocal || address.IsIPv6Multicast || address.Equals(IPAddress.IPv6None) || address.Equals(IPAddress.IPv6Any))
 		{
 			return false;
 		}
@@ -581,10 +578,18 @@ public sealed class PhotoLoader
 		{
 			return false;
 		}
-		if (!address.Equals(IPAddress.IPv6None))
+		if (addressBytes[0] == 0 && addressBytes[1] == 0x64 && addressBytes[2] == 0xFF && addressBytes[3] == 0x9B)
 		{
-			return !address.Equals(IPAddress.IPv6Any);
+			return false;
 		}
-		return false;
+		if (addressBytes[0] == 0x20 && addressBytes[1] == 0x02)
+		{
+			return false;
+		}
+		if (addressBytes[0] == 0x20 && addressBytes[1] == 0x01 && ((addressBytes[2] == 0 && addressBytes[3] == 0) || (addressBytes[2] == 0x0D && addressBytes[3] == 0xB8)))
+		{
+			return false;
+		}
+		return true;
 	}
 }

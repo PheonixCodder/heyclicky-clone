@@ -1,5 +1,6 @@
 using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -10,6 +11,39 @@ namespace HeyClicky.Core.Platform;
 
 public sealed class WindowsDesktopActions : IDesktopActions
 {
+	public const nuint ClickySyntheticExtraInfo = 1296124995u;
+
+	private static class TextInsertion
+	{
+		public static async Task<bool> PasteTextAsync(string text)
+		{
+			List<(uint Format, byte[] Data)>? snapshot = null;
+			bool copied = RunOnStaThread(delegate
+			{
+				snapshot = SnapshotClipboard();
+				return SetClipboardText(text);
+			});
+			if (!copied)
+			{
+				return false;
+			}
+			SendKeys(18, keyUp: true);
+			SendKeys(17, keyUp: false);
+			SendKeys(86, keyUp: false);
+			SendKeys(86, keyUp: true);
+			SendKeys(17, keyUp: true);
+			await Task.Delay(400).ConfigureAwait(continueOnCapturedContext: false);
+			if (snapshot != null && snapshot.Count > 0)
+			{
+				RunOnStaThread(delegate
+				{
+					RestoreClipboard(snapshot);
+					return true;
+				});
+			}
+			return true;
+		}
+	}
 	private struct KeyboardInput
 	{
 		public ushort VirtualKey;
@@ -94,22 +128,25 @@ public sealed class WindowsDesktopActions : IDesktopActions
 		{
 			return CopyToClipboard(text) ? "copied_to_clipboard" : "refused";
 		}
-		string previous = RunOnStaThread(GetClipboardText);
-		if (!CopyToClipboard(text))
+		string? procName = FrontApplication().ProcessName;
+		if (!string.IsNullOrEmpty(procName) && IsBlockedTypingProcess(procName))
 		{
 			return "refused";
 		}
-		SendKeys(18, keyUp: true);
-		SendKeys(17, keyUp: false);
-		SendKeys(86, keyUp: false);
-		SendKeys(86, keyUp: true);
-		SendKeys(17, keyUp: true);
-		await Task.Delay(400).ConfigureAwait(continueOnCapturedContext: false);
-		if (previous != null)
+		if (!(await TextInsertion.PasteTextAsync(text).ConfigureAwait(continueOnCapturedContext: false)))
 		{
-			RunOnStaThread(() => SetClipboardText(previous));
+			return "refused";
 		}
 		return "typed";
+	}
+
+	private static bool IsBlockedTypingProcess(string processName)
+	{
+		return processName.ToLowerInvariant() switch
+		{
+			"cmd" or "powershell" or "pwsh" or "windowsterminal" or "wt" or "conhost" or "mintty" or "1password" or "bitwarden" or "keepass" or "keepassxc" or "dashlane" => true,
+			_ => false,
+		};
 	}
 
 	public (string? DisplayName, string? ProcessName) FrontApplication()
@@ -237,18 +274,127 @@ public sealed class WindowsDesktopActions : IDesktopActions
 		}
 	}
 
+	private static bool IsHandleFormat(uint format)
+	{
+		switch (format)
+		{
+		case 2u:
+		case 3u:
+		case 9u:
+		case 14u:
+		case 128u:
+		case 130u:
+		case 131u:
+		case 142u:
+			return true;
+		default:
+			return format >= 768 && format <= 1023;
+		}
+	}
+
+	private unsafe static List<(uint Format, byte[] Data)> SnapshotClipboard()
+	{
+		List<(uint, byte[])> list = new List<(uint, byte[])>();
+		if (!OpenClipboard(IntPtr.Zero))
+		{
+			return list;
+		}
+		try
+		{
+			uint fmt = 0u;
+			while ((fmt = EnumClipboardFormats(fmt)) != 0)
+			{
+				if (IsHandleFormat(fmt))
+				{
+					continue;
+				}
+				nint handle = GetClipboardData(fmt);
+				if (handle == IntPtr.Zero)
+				{
+					continue;
+				}
+				nuint size = GlobalSize(handle);
+				if (size == 0 || size > 67108864)
+				{
+					continue;
+				}
+				nint locked = GlobalLock(handle);
+				if (locked != IntPtr.Zero)
+				{
+					try
+					{
+						list.Add((fmt, new ReadOnlySpan<byte>((void*)locked, (int)size).ToArray()));
+					}
+					finally
+					{
+						GlobalUnlock(handle);
+					}
+				}
+			}
+			return list;
+		}
+		finally
+		{
+			CloseClipboard();
+		}
+	}
+
+	private unsafe static void RestoreClipboard(List<(uint Format, byte[] Data)> snapshot)
+	{
+		if (!OpenClipboard(IntPtr.Zero))
+		{
+			return;
+		}
+		try
+		{
+			EmptyClipboard();
+			foreach (var (format, data) in snapshot)
+			{
+				nint mem = GlobalAlloc(2u, (nuint)data.Length);
+				if (mem == IntPtr.Zero)
+				{
+					continue;
+				}
+				nint locked = GlobalLock(mem);
+				if (locked == IntPtr.Zero)
+				{
+					GlobalFree(mem);
+					continue;
+				}
+				data.CopyTo(new Span<byte>((void*)locked, data.Length));
+				GlobalUnlock(mem);
+				if (SetClipboardData(format, mem) == IntPtr.Zero)
+				{
+					GlobalFree(mem);
+				}
+			}
+		}
+		finally
+		{
+			CloseClipboard();
+		}
+	}
+
 	private static void SendKeys(ushort virtualKey, bool keyUp)
 	{
+		nuint dwExtraInfo = (nuint)1296124995u;
 		Input input = default(Input);
 		input.Type = 1u;
 		input.Keyboard = new KeyboardInput
 		{
 			VirtualKey = virtualKey,
-			Flags = (keyUp ? 2u : 0u)
+			Flags = (keyUp ? 2u : 0u),
+			ExtraInfo = (nint)dwExtraInfo
 		};
 		Input input2 = input;
 		SendInput(1u, ref input2, Marshal.SizeOf<Input>());
 	}
+
+	[DllImport("user32.dll", ExactSpelling = true)]
+	private static extern uint EnumClipboardFormats(uint format);
+
+	[DllImport("kernel32.dll", ExactSpelling = true)]
+	private static extern nuint GlobalSize(nint hMem);
 
 	[DllImport("user32.dll", ExactSpelling = true)]
 	[LibraryImport("user32.dll")]

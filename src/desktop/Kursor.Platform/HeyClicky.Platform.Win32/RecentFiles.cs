@@ -23,6 +23,10 @@ public static class RecentFiles
 				bool flag = ((length < 2 || length > 6) ? true : false);
 				if (!flag && text.Length <= 200 && text.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 && extension.Skip(1).All(char.IsLetterOrDigit))
 				{
+					if (extension.Equals(".env", StringComparison.OrdinalIgnoreCase) || extension.Equals(".pem", StringComparison.OrdinalIgnoreCase) || extension.Equals(".key", StringComparison.OrdinalIgnoreCase) || extension.Equals(".kdbx", StringComparison.OrdinalIgnoreCase) || extension.Equals(".pfx", StringComparison.OrdinalIgnoreCase))
+					{
+						continue;
+					}
 					return text;
 				}
 			}
@@ -75,13 +79,17 @@ public static class RecentFiles
 		int num2 = 76;
 		if ((num & 1) != 0)
 		{
+			if (!(num2 + 2 <= array.Length))
+			{
+				return null;
+			}
 			num2 += 2 + BitConverter.ToUInt16(array, num2);
 		}
-		if ((num & 2) == 0 || num2 + 28 > array.Length)
+		int num3 = num2;
+		if ((num & 2) == 0 || num3 < 0 || !(num3 + 28 <= array.Length))
 		{
 			return null;
 		}
-		int num3 = num2;
 		int num4 = BitConverter.ToInt32(array, num3 + 4);
 		if ((BitConverter.ToInt32(array, num3 + 8) & 1) == 0)
 		{
@@ -89,7 +97,7 @@ public static class RecentFiles
 		}
 		string text = null;
 		string text2 = null;
-		if (num4 >= 36)
+		if (num4 >= 36 && num3 + 36 <= array.Length)
 		{
 			int num5 = BitConverter.ToInt32(array, num3 + 28);
 			int num6 = BitConverter.ToInt32(array, num3 + 32);
@@ -129,6 +137,10 @@ public static class RecentFiles
 
 	private static string ReadUnicode(byte[] data, int at)
 	{
+		if (!(at >= 0 && at < data.Length))
+		{
+			return "";
+		}
 		StringBuilder stringBuilder = new StringBuilder();
 		for (int i = at; i + 1 < data.Length; i += 2)
 		{

@@ -21,9 +21,21 @@ public static class DocumentText
 
 	private const long MaximumDocumentBytes = 67108864L;
 
+	private const long MaximumArchiveEntryBytes = 16 * 1024 * 1024;
+
+	private static readonly HashSet<string> BlockedExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+	{
+		"env", "pem", "key", "pfx", "p12", "kdbx"
+	};
+
+	private static readonly HashSet<string> BlockedFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+	{
+		".env", "kursor.db"
+	};
+
 	private static readonly HashSet<string> TextExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
-		"txt", "text", "md", "markdown", "mdx", "csv", "tsv", "log", "env", "conf",
+		"txt", "text", "md", "markdown", "mdx", "csv", "tsv", "log", "conf",
 		"cfg", "ini", "toml", "yaml", "yml", "json", "jsonl", "xml", "html", "htm",
 		"xhtml", "svg", "css", "scss", "sass", "less", "js", "mjs", "cjs", "jsx",
 		"ts", "tsx", "py", "rb", "php", "java", "kt", "kts", "swift", "m",
@@ -36,8 +48,23 @@ public static class DocumentText
 
 	private static readonly HashSet<string> SystemDocumentExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "docx", "docm", "dotx", "odt", "rtf", "pptx", "xlsx" };
 
+	private static bool IsBlockedSensitivePath(string path)
+	{
+		string fileName = Path.GetFileName(path);
+		if (BlockedFileNames.Contains(fileName) || fileName.StartsWith(".env.", StringComparison.OrdinalIgnoreCase))
+		{
+			return true;
+		}
+		string ext = Path.GetExtension(path).TrimStart('.');
+		return BlockedExtensions.Contains(ext);
+	}
+
 	public static bool LikelyYieldsText(string path)
 	{
+		if (IsBlockedSensitivePath(path))
+		{
+			return false;
+		}
 		string text = Path.GetExtension(path).TrimStart('.');
 		if (!text.Equals("pdf", StringComparison.OrdinalIgnoreCase) && !SystemDocumentExtensions.Contains(text))
 		{
@@ -50,6 +77,10 @@ public static class DocumentText
 	{
 		string text = Path.GetExtension(path).TrimStart('.').ToLowerInvariant();
 		string kind = ((text == "pdf") ? "pdf" : "file");
+		if (IsBlockedSensitivePath(path))
+		{
+			return new PageContext(kind, path, null, IsTruncated: false, null, AccessDenied: true);
+		}
 		try
 		{
 			using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
@@ -196,13 +227,21 @@ public static class DocumentText
 		case "docm":
 		case "dotx":
 		{
-			ZipArchiveEntry entry2 = zipArchive.GetEntry("word/document.xml");
-			return (entry2 != null) ? WordXmlToText(ReadEntry(entry2)) : null;
+			ZipArchiveEntry? entry2 = zipArchive.GetEntry("word/document.xml");
+			if (entry2 == null || entry2.Length > 16 * 1024 * 1024)
+			{
+				return null;
+			}
+			return WordXmlToText(ReadEntry(entry2));
 		}
 		case "odt":
 		{
-			ZipArchiveEntry entry3 = zipArchive.GetEntry("content.xml");
-			return (entry3 != null) ? OpenDocumentXmlToText(ReadEntry(entry3)) : null;
+			ZipArchiveEntry? entry3 = zipArchive.GetEntry("content.xml");
+			if (entry3 == null || entry3.Length > 16 * 1024 * 1024)
+			{
+				return null;
+			}
+			return OpenDocumentXmlToText(ReadEntry(entry3));
 		}
 		case "pptx":
 		{
@@ -215,9 +254,13 @@ public static class DocumentText
 				return null;
 			}
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (ZipArchiveEntry item in list)
+			foreach (ZipArchiveEntry entry in list)
 			{
-				IEnumerable<string> values = from m in DrawingTextRun().Matches(ReadEntry(item))
+				if (entry.Length > 16 * 1024 * 1024)
+				{
+					continue;
+				}
+				IEnumerable<string> values = from m in DrawingTextRun().Matches(ReadEntry(entry))
 					select XmlUnescape(m.Groups[1].Value);
 				stringBuilder.AppendLine(string.Join(" ", values));
 			}
@@ -225,8 +268,8 @@ public static class DocumentText
 		}
 		case "xlsx":
 		{
-			ZipArchiveEntry entry = zipArchive.GetEntry("xl/sharedStrings.xml");
-			if (entry == null)
+			ZipArchiveEntry? entry = zipArchive.GetEntry("xl/sharedStrings.xml");
+			if (entry == null || entry.Length > 16 * 1024 * 1024)
 			{
 				return null;
 			}
@@ -241,6 +284,10 @@ public static class DocumentText
 
 	private static string ReadEntry(ZipArchiveEntry entry)
 	{
+		if (entry.Length > 16 * 1024 * 1024)
+		{
+			return "";
+		}
 		using Stream stream = entry.Open();
 		using StreamReader streamReader = new StreamReader(stream, Encoding.UTF8);
 		return streamReader.ReadToEnd();

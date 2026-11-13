@@ -86,7 +86,11 @@ internal static class GraphicsCaptureSource
 		TaskCompletionSource<Direct3D11CaptureFrame?> firstFrame = new TaskCompletionSource<Direct3D11CaptureFrame>(TaskCreationOptions.RunContinuationsAsynchronously);
 		framePool.FrameArrived += delegate(Direct3D11CaptureFramePool pool, object _)
 		{
-			firstFrame.TrySetResult(pool.TryGetNextFrame());
+			Direct3D11CaptureFrame? frame = pool.TryGetNextFrame();
+			if (frame != null && !firstFrame.TrySetResult(frame))
+			{
+				frame.Dispose();
+			}
 		};
 		session.StartCapture();
 		using CancellationTokenSource timeoutSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);

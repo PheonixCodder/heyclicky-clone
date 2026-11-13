@@ -178,6 +178,11 @@ public sealed class ClickyThreeKernel
 		{
 			if (!work.TryTake(out (string, string, string) item, IdleRelease))
 			{
+				lock (gate)
+				{
+					failed.Clear();
+					loadFailed = false;
+				}
 				if (engine != null)
 				{
 					buildFunction = null;
@@ -234,15 +239,28 @@ public sealed class ClickyThreeKernel
 				}
 				else
 				{
-					failed.Add(item.Item1);
+					MarkFailed(item.Item1);
 				}
 			}
 			value?.TrySetResult(mesh3D);
 		}
 	}
 
+	private void MarkFailed(string key)
+	{
+		if (failed.Count >= 256)
+		{
+			failed.Clear();
+		}
+		failed.Add(key);
+	}
+
 	private void ReleaseCachedGpuBuffers()
 	{
+		if (ThreeStage.LiveCounts.Stages > 0)
+		{
+			return;
+		}
 		List<Mesh3D> list;
 		lock (gate)
 		{
@@ -287,7 +305,11 @@ public sealed class ClickyThreeKernel
 		try
 		{
 			string path = ResolveScriptDirectory();
-			engine = new V8ScriptEngine("Clicky 3D kernel", V8ScriptEngineFlags.DisableGlobalMembers);
+			engine = new V8ScriptEngine("Clicky 3D kernel", new V8RuntimeConstraints
+			{
+				MaxOldSpaceSize = 128,
+				MaxNewSpaceSize = 32
+			}, V8ScriptEngineFlags.DisableGlobalMembers);
 			string[] array = new string[2] { "clicky-three.js", "clicky-three-parts.js" };
 			foreach (string text in array)
 			{
@@ -344,14 +366,31 @@ public sealed class ClickyThreeKernel
 		}
 		long timestamp = Stopwatch.GetTimestamp();
 		object obj;
-		try
+		using (new Timer(delegate
 		{
-			obj = buildFunction.Invoke(false, kind, recipe);
-		}
-		catch (ScriptEngineException ex)
+			try
+			{
+				engine?.Interrupt();
+			}
+			catch
+			{
+			}
+		}, null, 1500, -1))
 		{
-			Log.Warn("3D", "kernel: " + kind + " failed: " + (ex.ErrorDetails ?? ex.Message));
-			return null;
+			try
+			{
+				obj = buildFunction.Invoke(false, kind, recipe);
+			}
+			catch (ScriptInterruptedException ex)
+			{
+				Log.Warn("3D", "kernel: " + kind + " interrupted by watchdog: " + ex.Message);
+				return null;
+			}
+			catch (ScriptEngineException ex)
+			{
+				Log.Warn("3D", "kernel: " + kind + " failed: " + (ex.ErrorDetails ?? ex.Message));
+				return null;
+			}
 		}
 		if (!(obj is ScriptObject scriptObject))
 		{

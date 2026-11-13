@@ -57,6 +57,7 @@ public class Pressable : Grid
 		{
 			bool num = enabled != value;
 			enabled = value;
+			IsTabStop = value && looksClickable;
 			if (num)
 			{
 				ShowDefaultHover();
@@ -182,6 +183,9 @@ public class Pressable : Grid
 	{
 		base.Background = Ui.Transparent;
 		looksClickable = handCursor;
+		IsTabStop = handCursor;
+		UseSystemFocusVisuals = true;
+		KeyDown += OnKeyDown;
 		base.PointerEntered += delegate
 		{
 			IsHovered = true;
@@ -254,6 +258,15 @@ public class Pressable : Grid
 				base.CornerRadius = cornerRadius2;
 				fittingCorners = false;
 			}
+		}
+	}
+
+	private void OnKeyDown(object sender, KeyRoutedEventArgs e)
+	{
+		if (Enabled && (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space))
+		{
+			e.Handled = true;
+			RaiseClick();
 		}
 	}
 

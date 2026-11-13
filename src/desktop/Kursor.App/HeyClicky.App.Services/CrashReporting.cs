@@ -216,7 +216,7 @@ public static class CrashReporting
 		{
 			text = "local endpoints";
 		}
-		if (text == null && !config.HasSentryDsn)
+		if (text == null && (!config.HasSentryDsn || string.IsNullOrWhiteSpace(config.SentryDsn)))
 		{
 			text = "no DSN configured";
 		}
@@ -224,9 +224,9 @@ public static class CrashReporting
 		{
 			text = "HEYCLICKY_SENTRY_OFF=1";
 		}
-		if (text != null)
+		if (text != null || string.IsNullOrWhiteSpace(config.SentryDsn))
 		{
-			Log.Info("crash", "Sentry off (" + text + "): crash and error reports stay in the logs folder");
+			Log.Info("crash", "Sentry off (" + (text ?? "empty DSN") + "): crash and error reports stay in the logs folder");
 			return;
 		}
 		try
@@ -235,11 +235,11 @@ public static class CrashReporting
 			SentrySdk.Init(delegate(SentryOptions options)
 			{
 				options.Dsn = config.SentryDsn;
-				options.Release = "heyclicky-windows@" + identity.AppVersion + "+" + identity.AppBuild;
+				options.Release = "kursor-windows@" + identity.AppVersion + "+" + identity.AppBuild;
 				options.Environment = "production";
 				options.IsGlobalModeEnabled = true;
 				options.AutoSessionTracking = true;
-				options.SendDefaultPii = true;
+				options.SendDefaultPii = false;
 				options.AttachStacktrace = true;
 				options.CacheDirectoryPath = Path.Combine(AppBundleConfiguration.AppDataDirectory, "sentry");
 				options.TracesSampleRate = 0.0;

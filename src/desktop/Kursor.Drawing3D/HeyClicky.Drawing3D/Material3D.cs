@@ -122,11 +122,13 @@ public struct Material3D
 			result.Roughness = 0.22f;
 			break;
 		case "iron":
+		case "cast":
 			result.Color = Tinted("#5E636B");
 			result.Metalness = 0.45f;
 			result.Roughness = 0.7f;
 			break;
 		case "black":
+		case "carbon":
 			result.Color = Tinted("#33373D");
 			result.Metalness = 0.1f;
 			result.Roughness = 0.4f;

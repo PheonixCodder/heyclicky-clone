@@ -52,17 +52,17 @@ public sealed class ChromeSetupFlow
 
 	private readonly HashSet<string> skippedThreads = new HashSet<string>();
 
-	public const string WithoutChromeSteer = "HeyClicky is passing on the user's answer to your Chrome question: they'd rather not connect Chrome now. Carry on without it: read public pages by fetching them or searching the web, and for a step on a website they're signed into, call mac_step (HeyClicky does it on their screen while they watch). What only their login shows (their home feed, inbox, cart, orders, settings) isn't on any public page, so a search or a guessed account won't find it: get that part with mac_step. Anything public, their own public posts included, search or fetch as usual. If your work is already done, there's nothing more to do.";
+	public const string WithoutChromeSteer = "Kursor is passing on the user's answer to your Chrome question: they'd rather not connect Chrome now. Carry on without it: read public pages by fetching them or searching the web, and for a step on a website they're signed into, emit a <COMPUTER_USE_REQUEST> step (Kursor does it on their screen while they watch). What only their login shows (their home feed, inbox, cart, orders, settings) isn't on any public page, so a search or a guessed account won't find it: get that part with <COMPUTER_USE_REQUEST>. Anything public, their own public posts included, search or fetch as usual. If your work is already done, there's nothing more to do.";
 
-	public const string WithoutChromeMessage = "I'd rather not connect Chrome now. Carry on without it: read public pages by fetching them or searching the web, and for each step on a website I'm signed into, call mac_step and HeyClicky does it on my screen while I watch. What only my login shows (my home feed, inbox, cart, orders, settings) isn't on any public page, so a search or a guessed account won't find it: get that part with mac_step. Anything public, my own public posts included, search or fetch as usual.";
+	public const string WithoutChromeMessage = "I'd rather not connect Chrome now. Carry on without it: read public pages by fetching them or searching the web, and for each step on a website I'm signed into, emit a <COMPUTER_USE_REQUEST> step and Kursor does it on my screen while I watch. What only my login shows (my home feed, inbox, cart, orders, settings) isn't on any public page, so a search or a guessed account won't find it: get that part with <COMPUTER_USE_REQUEST>. Anything public, my own public posts included, search or fetch as usual.";
 
-	public const string ChromeConnectedSteer = "HeyClicky is passing on news about your Chrome question: their Chrome is connected now, so the browser tool works. Carry on with the website part. If your work is already done, there's nothing more to do.";
+	public const string ChromeConnectedSteer = "Kursor is passing on news about your Chrome question: their Chrome is connected now, so the browser tool works. Carry on with the website part. If your work is already done, there's nothing more to do.";
 
 	public const string ChromeConnectedMessage = "Chrome is connected now. Carry on with the task.";
 
-	public const string ChromeAnswerLaunchContext = "HeyClicky is passing on the user's answer to your Chrome question (they chose it on HeyClicky's card; they didn't type this message).";
+	public const string ChromeAnswerLaunchContext = "Kursor is passing on the user's answer to your Chrome question (they chose it on Kursor's card; they didn't type this message).";
 
-	public const string HelperContextWithoutChrome = "They chose not to connect Chrome for this job: don't ask about Chrome again. For a step on a website they're signed into, call mac_step and HeyClicky does it on their screen while they watch.";
+	public const string HelperContextWithoutChrome = "They chose not to connect Chrome for this job: don't ask about Chrome again. For a step on a website they're signed into, emit a <COMPUTER_USE_REQUEST> step and Kursor does it on their screen while they watch.";
 
 	public static ChromeSetupFlow Shared { get; } = new ChromeSetupFlow();
 
@@ -358,10 +358,10 @@ public sealed class ChromeSetupFlow
 		{
 			return;
 		}
-		string jobId = Jobs?.CreatePreviewJob("Posting the song to Discord", "Post my song in the HeyClicky Discord's #general.");
+		string jobId = Jobs?.CreatePreviewJob("Posting the song to Discord", "Post my song in the Kursor Discord's #general.");
 		if (jobId == null)
 		{
-			Log.Info("Browser", "preview held job: jobs aren't ported on Windows yet; saying the line only");
+			Log.Info("Browser", "preview held job: jobs service unavailable; announcing line only");
 			app.AnnounceLineAsync(NeedsChromeLine("Posting the song to Discord"));
 			return;
 		}

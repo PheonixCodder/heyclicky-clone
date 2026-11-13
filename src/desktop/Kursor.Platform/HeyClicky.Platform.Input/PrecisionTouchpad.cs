@@ -213,12 +213,13 @@ public static class PrecisionTouchpad
 				return;
 			}
 			int num = 0;
+			byte* ptr2 = stackalloc byte[32];
 			for (int i = 0; i < count; i++)
 			{
 				nint num2 = *(nint*)(ptr + i * 16);
 				if (*(uint*)(ptr + i * 16 + 8) == 2)
 				{
-					byte* ptr2 = stackalloc byte[32];
+					new Span<byte>(ptr2, 32).Clear();
 					*(int*)ptr2 = 32;
 					uint size = 32u;
 					if (NativeHid.GetRawInputDeviceInfoW(num2, 536870923u, ptr2, ref size) != uint.MaxValue && *(ushort*)(ptr2 + 20) == 13 && *(ushort*)(ptr2 + 22) == 5)

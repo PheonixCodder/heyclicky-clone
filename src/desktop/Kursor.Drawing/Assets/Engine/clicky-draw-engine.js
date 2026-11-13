@@ -39,7 +39,8 @@
   const REAL_TONES = {
     ink: '#2C2E33', white: '#E8E6E1', grey: '#8B8E93', butter: '#E0C477', sun: '#D6A83C', orange: '#C9692E',
     peach: '#D8A287', coral: '#C1604F', red: '#A8352D', pink: '#C7848F', lilac: '#9E92C0', violet: '#5D4D90',
-    sky: '#8AAFCC', blue: '#2F5689', mint: '#94BCA2', leaf: '#53794A', brown: '#6D4A2F', tan: '#B9946F', cream: '#E4D9C2'
+    sky: '#8AAFCC', blue: '#2F5689', mint: '#94BCA2', leaf: '#53794A', brown: '#6D4A2F', tan: '#B9946F', cream: '#E4D9C2',
+    cast: '#5C6268', carbon: '#23272E'
   };
   const realTone = (t, fallback) => REAL_TONES[t] || t || fallback || REAL_TONES.ink;
   // a hex colour mixed toward black by k (0..1); anything else passes through
@@ -558,7 +559,7 @@
         [y, z] = [y * Math.cos(ax) - z * Math.sin(ax), y * Math.sin(ax) + z * Math.cos(ax)];
         return [x, y, z];
       };
-      const FIGURE_MATERIALS = ['steel', 'alu', 'aluminum', 'aluminium', 'titanium', 'chrome', 'brass', 'copper', 'gold', 'iron', 'black', 'rubber', 'glass', 'water',
+      const FIGURE_MATERIALS = ['steel', 'alu', 'aluminum', 'aluminium', 'titanium', 'chrome', 'brass', 'copper', 'gold', 'iron', 'cast', 'black', 'carbon', 'rubber', 'glass', 'water',
         'wood', 'ceramic', 'paper', 'gloss', 'paint', 'plastic', 'soft', 'matte', 'metal', 'glow'];
       // A recipe as canonical JSON (sorted keys, numbers to 4 decimals, no functions): the 3D kernel's cache key, so the
       // same part (twenty bolts, a re-run of the program) is built once.
@@ -717,7 +718,7 @@
           const around = kind !== 'group' && p.around && typeof p.around === 'object' ? p.around : null;
           if (around) {
             const count = Math.max(1, Math.min(240, Math.round(fin(around.count) ? around.count : 1))), axis = axis3(around.axis, [0, 1, 0]);
-            const center = v3(around.center, [0, 0, 0]), arc = fin(around.arc) ? Math.max(-360, Math.min(360, around.arc)) : 360;
+            const center = v3(around.center !== undefined ? around.center : around.at, [0, 0, 0]), arc = fin(around.arc) ? Math.max(-360, Math.min(360, around.arc)) : 360;
             const gap = Math.abs(arc) >= 360 ? arc / count : arc / Math.max(1, count - 1);
             const row = placements.slice();
             for (let i = 1; i < count; i++) {

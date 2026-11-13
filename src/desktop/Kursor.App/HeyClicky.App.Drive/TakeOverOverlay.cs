@@ -74,7 +74,7 @@ public sealed class TakeOverOverlay
 		reduceMotion = Anim.ReduceMotion;
 		if ((object)window == null)
 		{
-			window = new OverlayWindow("HeyClicky drive", excludeFromCapture: true, clickThroughEverywhere: true, activatable: false, topmost: true, showInTaskbar: false, hiddenFromOwnCapture: true);
+			window = new OverlayWindow("Kursor drive", excludeFromCapture: true, clickThroughEverywhere: true, activatable: false, topmost: true, showInTaskbar: false, hiddenFromOwnCapture: true);
 			NonRudeWindow.Mark(window.Hwnd);
 		}
 		Native.RECT bounds = display.Bounds;
@@ -435,7 +435,7 @@ public sealed class TakeOverOverlay
 		}
 		double num3 = num2 + 28.0 + 12.0;
 		double width = pillWidth - num3 - num2 - 30.0 - 92.0 - 14.0;
-		TextBlock textBlock = Text("HeyClicky is driving", 13.0, FontWeights.SemiBold, Colors.White, width);
+		TextBlock textBlock = Text("Kursor is driving", 13.0, FontWeights.SemiBold, Colors.White, width);
 		Place(canvas, textBlock, num3, pillHeight - 28.0 - 18.0);
 		Grid grid4 = new Grid
 		{

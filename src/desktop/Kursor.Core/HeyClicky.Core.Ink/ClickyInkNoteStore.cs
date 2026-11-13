@@ -24,6 +24,8 @@ public sealed class ClickyInkNoteStore
 
 	private readonly string? baseDirectoryOverride;
 
+	private readonly object syncRoot = new object();
+
 	private readonly Dictionary<string, List<ClickyInkNoteVersion>> versionsByNoteId = new Dictionary<string, List<ClickyInkNoteVersion>>();
 
 	private readonly Dictionary<string, ClickyInkDocument> lastDocumentByNoteId = new Dictionary<string, ClickyInkDocument>();
@@ -68,7 +70,10 @@ public sealed class ClickyInkNoteStore
 
 	private void Bump()
 	{
-		Revision++;
+		lock (syncRoot)
+		{
+			Revision++;
+		}
 		this.RevisionChanged?.Invoke();
 	}
 
@@ -79,24 +84,28 @@ public sealed class ClickyInkNoteStore
 
 	public void RemoveAllForSignOut()
 	{
-		string scopeKey = ScopeKey;
-		versionsByNoteId.Clear();
-		lastDocumentByNoteId.Clear();
-		liveNotes.Clear();
-		settledNotes.Clear();
-		watched.Clear();
-		finishTimes.Clear();
-		turnsAwaitingTheirFirstEdit.Clear();
-		freshPageNoteIds.Clear();
-		lastReadStat.Clear();
-		pendingStat.Clear();
-		StopWatchTimer();
+		string? scopeKey;
+		lock (syncRoot)
+		{
+			scopeKey = ScopeKey;
+			versionsByNoteId.Clear();
+			lastDocumentByNoteId.Clear();
+			liveNotes.Clear();
+			settledNotes.Clear();
+			watched.Clear();
+			finishTimes.Clear();
+			turnsAwaitingTheirFirstEdit.Clear();
+			freshPageNoteIds.Clear();
+			lastReadStat.Clear();
+			pendingStat.Clear();
+			StopWatchTimer();
+		}
 		Bump();
 		if (scopeKey == null)
 		{
 			return;
 		}
-		string directory = ScopeDirectory(BaseDirectory, scopeKey);
+		string? directory = ScopeDirectory(BaseDirectory, scopeKey);
 		if (directory == null)
 		{
 			return;
@@ -112,7 +121,7 @@ public sealed class ClickyInkNoteStore
 
 	public IReadOnlyList<ClickyInkNoteVersion> Versions(string noteId)
 	{
-		return LoadVersions(noteId);
+		return LoadVersions(noteId).ToList();
 	}
 
 	public ClickyHomeInkNote? InkNote(string noteId)
@@ -121,24 +130,31 @@ public sealed class ClickyInkNoteStore
 		{
 			return null;
 		}
-		if (freshPageNoteIds.Contains(noteId) && LoadVersions(noteId).Count == 0)
+		bool isFresh;
+		bool isInactive;
+		lock (syncRoot)
+		{
+			isFresh = freshPageNoteIds.Contains(noteId);
+			isInactive = !liveNotes.ContainsKey(noteId) && !watched.ContainsKey(noteId) && !keptNoteIds.Contains(noteId);
+		}
+		if (isFresh && LoadVersions(noteId).Count == 0)
 		{
 			return new ClickyHomeInkNote(new ClickyInkLiveNote(), DateTimeOffset.Now);
 		}
-		if (!liveNotes.ContainsKey(noteId) && !watched.ContainsKey(noteId) && !keptNoteIds.Contains(noteId))
+		if (isInactive)
 		{
-			ClickyInkNoteVersion clickyInkNoteVersion = LoadVersions(noteId).LastOrDefault((ClickyInkNoteVersion v) => v.IsPartial != true);
-			if ((object)clickyInkNoteVersion != null && (DateTimeOffset.Now - clickyInkNoteVersion.At).TotalSeconds > 3600.0)
+			ClickyInkNoteVersion? clickyInkNoteVersion = LoadVersions(noteId).LastOrDefault((ClickyInkNoteVersion v) => v.IsPartial != true);
+			if ((object?)clickyInkNoteVersion != null && (DateTimeOffset.Now - clickyInkNoteVersion.At).TotalSeconds > 3600.0)
 			{
-				ClickyInkLiveNote clickyInkLiveNote = SettledNote(noteId);
-				if ((object)clickyInkLiveNote != null)
+				ClickyInkLiveNote? clickyInkLiveNote = SettledNote(noteId);
+				if ((object?)clickyInkLiveNote != null)
 				{
 					return new ClickyHomeInkNote(clickyInkLiveNote, DateTimeOffset.MinValue);
 				}
 			}
 		}
-		ClickyInkLiveNote clickyInkLiveNote2 = LiveNote(noteId);
-		if ((object)clickyInkLiveNote2 != null)
+		ClickyInkLiveNote? clickyInkLiveNote2 = LiveNote(noteId);
+		if ((object?)clickyInkLiveNote2 != null)
 		{
 			DateTimeOffset? dateTimeOffset = StartedAt(noteId);
 			if (dateTimeOffset.HasValue)
@@ -146,8 +162,8 @@ public sealed class ClickyInkNoteStore
 				DateTimeOffset valueOrDefault = dateTimeOffset.GetValueOrDefault();
 				if (IsSettled(noteId, clickyInkLiveNote2, valueOrDefault, DateTimeOffset.Now))
 				{
-					ClickyInkLiveNote clickyInkLiveNote3 = SettledNote(noteId);
-					if ((object)clickyInkLiveNote3 != null)
+					ClickyInkLiveNote? clickyInkLiveNote3 = SettledNote(noteId);
+					if ((object?)clickyInkLiveNote3 != null)
 					{
 						return new ClickyHomeInkNote(clickyInkLiveNote3, DateTimeOffset.MinValue);
 					}
@@ -160,9 +176,12 @@ public sealed class ClickyInkNoteStore
 
 	public ClickyInkLiveNote? LiveNote(string noteId)
 	{
-		if (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote value))
+		lock (syncRoot)
 		{
-			return value;
+			if (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote? value))
+			{
+				return value;
+			}
 		}
 		List<ClickyInkNoteVersion> list = LoadVersions(noteId);
 		if (list.Count == 0)
@@ -171,8 +190,11 @@ public sealed class ClickyInkNoteStore
 		}
 		ClickyInkNoteVersion clickyInkNoteVersion = list[0];
 		ClickyInkLiveNote clickyInkLiveNote = new ClickyInkLiveNote();
-		List<double> value2;
-		List<double> list2 = (finishTimes.TryGetValue(noteId, out value2) ? value2 : new List<double>()).OrderBy((double t) => t).ToList();
+		List<double> list2;
+		lock (syncRoot)
+		{
+			list2 = (finishTimes.TryGetValue(noteId, out List<double>? value2) ? value2.OrderBy((double t) => t).ToList() : new List<double>());
+		}
 		foreach (ClickyInkNoteVersion item in list)
 		{
 			double totalSeconds = (item.At - clickyInkNoteVersion.At).TotalSeconds;
@@ -187,34 +209,46 @@ public sealed class ClickyInkNoteStore
 		{
 			clickyInkLiveNote.Finish(item2);
 		}
-		liveNotes[noteId] = clickyInkLiveNote;
+		lock (syncRoot)
+		{
+			liveNotes[noteId] = clickyInkLiveNote;
+		}
 		return clickyInkLiveNote;
 	}
 
 	public ClickyInkLiveNote? SettledNote(string noteId)
 	{
 		List<ClickyInkNoteVersion> list = LoadVersions(noteId);
-		ClickyInkNoteVersion clickyInkNoteVersion = list.LastOrDefault((ClickyInkNoteVersion v) => v.IsPartial != true);
-		if ((object)clickyInkNoteVersion == null)
+		ClickyInkNoteVersion? clickyInkNoteVersion = list.LastOrDefault((ClickyInkNoteVersion v) => v.IsPartial != true);
+		if ((object?)clickyInkNoteVersion == null)
 		{
 			return null;
 		}
 		string text = $"{list.Count}|{InkText.DoubleDescription(InkFiles.SecondsSince1970(clickyInkNoteVersion.At))}";
-		if (settledNotes.TryGetValue(noteId, out (string, ClickyInkLiveNote) value) && value.Item1 == text)
+		lock (syncRoot)
 		{
-			return value.Item2;
+			if (settledNotes.TryGetValue(noteId, out (string, ClickyInkLiveNote) value) && value.Item1 == text)
+			{
+				return value.Item2;
+			}
 		}
 		ClickyInkLiveNote clickyInkLiveNote = new ClickyInkLiveNote();
 		clickyInkLiveNote.Apply(ClickyInkParser.Parse(clickyInkNoteVersion.Text), 0.0, isEdit: false, null);
-		settledNotes[noteId] = (text, clickyInkLiveNote);
+		lock (syncRoot)
+		{
+			settledNotes[noteId] = (text, clickyInkLiveNote);
+		}
 		return clickyInkLiveNote;
 	}
 
 	private bool IsSettled(string noteId, ClickyInkLiveNote live, DateTimeOffset startedAt, DateTimeOffset now)
 	{
-		if (watched.ContainsKey(noteId) || keptNoteIds.Contains(noteId))
+		lock (syncRoot)
 		{
-			return false;
+			if (watched.ContainsKey(noteId) || keptNoteIds.Contains(noteId))
+			{
+				return false;
+			}
 		}
 		return (now - startedAt).TotalSeconds > live.FinishedClock + 1.6;
 	}
@@ -247,55 +281,71 @@ public sealed class ClickyInkNoteStore
 
 	public void NoteTurnStarted(string noteId, bool isKept)
 	{
-		if (isKept)
+		bool flag = LoadVersions(noteId).Count > 0;
+		lock (syncRoot)
 		{
-			keptNoteIds.Add(noteId);
-		}
-		else
-		{
-			keptNoteIds.Remove(noteId);
-		}
-		if (IsEnabled && !watched.ContainsKey(noteId))
-		{
-			bool flag = LoadVersions(noteId).Count > 0;
-			watched[noteId] = new Watched(flag);
-			if (flag)
+			if (isKept)
 			{
-				turnsAwaitingTheirFirstEdit.Add(noteId);
+				keptNoteIds.Add(noteId);
 			}
-			StartWatchTimer();
+			else
+			{
+				keptNoteIds.Remove(noteId);
+			}
+			if (IsEnabled && !watched.ContainsKey(noteId))
+			{
+				watched[noteId] = new Watched(flag);
+				if (flag)
+				{
+					turnsAwaitingTheirFirstEdit.Add(noteId);
+				}
+				StartWatchTimer();
+			}
 		}
 	}
 
 	public void NoteTurnEnded(string noteId)
 	{
-		if (!watched.Remove(noteId))
+		lock (syncRoot)
 		{
-			return;
+			if (!watched.Remove(noteId))
+			{
+				return;
+			}
+			turnsAwaitingTheirFirstEdit.Remove(noteId);
+			if (watched.Count == 0)
+			{
+				StopWatchTimer();
+			}
 		}
-		turnsAwaitingTheirFirstEdit.Remove(noteId);
 		ClearLiveSteps?.Invoke(noteId);
-		if (watched.Count == 0)
-		{
-			StopWatchTimer();
-		}
 		ClickyLiveNoteStore.Shared.ReadNow(noteId);
 		if (StartedAt(noteId).HasValue)
 		{
 			double num = Clock(noteId, null);
-			if (!finishTimes.TryGetValue(noteId, out List<double> value))
+			bool shouldBump = false;
+			double finishedClock = num;
+			lock (syncRoot)
 			{
-				value = (finishTimes[noteId] = new List<double>());
+				if (!finishTimes.TryGetValue(noteId, out List<double>? value))
+				{
+					value = (finishTimes[noteId] = new List<double>());
+				}
+				value.Add(num);
+				if (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote? value2))
+				{
+					ClickyInkLiveNote clickyInkLiveNote = value2.Clone();
+					clickyInkLiveNote.Finish(num);
+					liveNotes[noteId] = clickyInkLiveNote;
+					finishedClock = clickyInkLiveNote.FinishedClock;
+					shouldBump = true;
+				}
 			}
-			value.Add(num);
-			if (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote value2))
+			if (shouldBump)
 			{
-				ClickyInkLiveNote clickyInkLiveNote = value2.Clone();
-				clickyInkLiveNote.Finish(num);
-				liveNotes[noteId] = clickyInkLiveNote;
 				Bump();
 			}
-			InkDispatch.After(Math.Max(0.0, (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote value3) ? value3.FinishedClock : num) - num) + 1.6 + 0.2, Bump);
+			InkDispatch.After(Math.Max(0.0, finishedClock - num) + 1.6 + 0.2, Bump);
 		}
 	}
 
@@ -306,26 +356,7 @@ public sealed class ClickyInkNoteStore
 
 	public void StartFreshPage(string noteId)
 	{
-		versionsByNoteId[noteId] = new List<ClickyInkNoteVersion>();
-		lastDocumentByNoteId.Remove(noteId);
-		liveNotes.Remove(noteId);
-		settledNotes.Remove(noteId);
-		finishTimes.Remove(noteId);
-		lastReadStat.Remove(noteId);
-		pendingStat.Remove(noteId);
-		turnsAwaitingTheirFirstEdit.Remove(noteId);
-		if (watched.ContainsKey(noteId))
-		{
-			watched[noteId] = new Watched(IsEdit: false);
-		}
-		freshPageNoteIds.Add(noteId);
-		Save(noteId, new List<ClickyInkNoteVersion>());
-		Bump();
-	}
-
-	public void Forget(string noteId)
-	{
-		if (LoadVersions(noteId).Count != 0 || liveNotes.ContainsKey(noteId) || settledNotes.ContainsKey(noteId))
+		lock (syncRoot)
 		{
 			versionsByNoteId[noteId] = new List<ClickyInkNoteVersion>();
 			lastDocumentByNoteId.Remove(noteId);
@@ -334,29 +365,73 @@ public sealed class ClickyInkNoteStore
 			finishTimes.Remove(noteId);
 			lastReadStat.Remove(noteId);
 			pendingStat.Remove(noteId);
-			freshPageNoteIds.Remove(noteId);
+			turnsAwaitingTheirFirstEdit.Remove(noteId);
+			if (watched.ContainsKey(noteId))
+			{
+				watched[noteId] = new Watched(IsEdit: false);
+			}
+			freshPageNoteIds.Add(noteId);
 			Save(noteId, new List<ClickyInkNoteVersion>());
+		}
+		Bump();
+	}
+
+	public void Forget(string noteId)
+	{
+		bool hasData;
+		lock (syncRoot)
+		{
+			hasData = liveNotes.ContainsKey(noteId) || settledNotes.ContainsKey(noteId);
+		}
+		if (LoadVersions(noteId).Count != 0 || hasData)
+		{
+			lock (syncRoot)
+			{
+				versionsByNoteId[noteId] = new List<ClickyInkNoteVersion>();
+				lastDocumentByNoteId.Remove(noteId);
+				liveNotes.Remove(noteId);
+				settledNotes.Remove(noteId);
+				finishTimes.Remove(noteId);
+				lastReadStat.Remove(noteId);
+				pendingStat.Remove(noteId);
+				freshPageNoteIds.Remove(noteId);
+				Save(noteId, new List<ClickyInkNoteVersion>());
+			}
 			Bump();
 		}
 	}
 
 	public bool IsTurnWriting(string noteId)
 	{
-		return watched.ContainsKey(noteId);
+		lock (syncRoot)
+		{
+			return watched.ContainsKey(noteId);
+		}
 	}
 
 	public void StreamPatch(string noteId, string kind, string diff)
 	{
-		string text = ClickyInkPatchStream.PartialText(LoadVersions(noteId).LastOrDefault((ClickyInkNoteVersion v) => v.IsPartial != true)?.Text ?? "", kind, diff);
+		string? text = ClickyInkPatchStream.PartialText(LoadVersions(noteId).LastOrDefault((ClickyInkNoteVersion v) => v.IsPartial != true)?.Text ?? "", kind, diff);
 		if (text != null)
 		{
-			RecordVersion(noteId, text, watched.TryGetValue(noteId, out Watched value) && value.IsEdit, isPartial: true, null);
+			bool isEdit;
+			lock (syncRoot)
+			{
+				isEdit = watched.TryGetValue(noteId, out Watched? value) && value.IsEdit;
+			}
+			RecordVersion(noteId, text, isEdit, isPartial: true, null);
 		}
 	}
 
 	public void RecordSaved(string noteId, string text, DateTimeOffset modifiedAt)
 	{
-		if (watched.TryGetValue(noteId, out Watched value))
+		Watched? value;
+		bool isWatched;
+		lock (syncRoot)
+		{
+			isWatched = watched.TryGetValue(noteId, out value);
+		}
+		if (isWatched && value != null)
 		{
 			if (RecordVersion(noteId, text, value.IsEdit, isPartial: false, null))
 			{
@@ -379,11 +454,14 @@ public sealed class ClickyInkNoteStore
 			(DateTimeOffset, long) valueOrDefault = tuple.GetValueOrDefault();
 			if (valueOrDefault.Item2 <= 524288)
 			{
-				string text = InkFiles.ReadUtf8(noteId);
+				string? text = InkFiles.ReadUtf8(noteId);
 				if (text != null)
 				{
-					lastReadStat[noteId] = valueOrDefault;
-					pendingStat.Remove(noteId);
+					lock (syncRoot)
+					{
+						lastReadStat[noteId] = valueOrDefault;
+						pendingStat.Remove(noteId);
+					}
 					return RecordVersion(noteId, text, isEdit, isPartial: false, at ?? DateTimeOffset.Now);
 				}
 			}
@@ -399,113 +477,69 @@ public sealed class ClickyInkNoteStore
 			return false;
 		}
 		List<ClickyInkNoteVersion> list = LoadVersions(noteId).ToList();
-		if (list.Count > 0)
+		lock (syncRoot)
 		{
-			List<ClickyInkNoteVersion> list2 = list;
-			if (list2[list2.Count - 1].Text == text)
+			if (list.Count > 0 && list[list.Count - 1].Text == text)
 			{
-				if (!isPartial)
-				{
-					List<ClickyInkNoteVersion> list3 = list;
-					if (list3[list3.Count - 1].IsPartial == true)
-					{
-						goto IL_0088;
-					}
-				}
-				return false;
-			}
-		}
-		goto IL_0088;
-		IL_0088:
-		if (isPartial && list.Count > 0)
-		{
-			List<ClickyInkNoteVersion> list4 = list;
-			if (list4[list4.Count - 1].IsPartial == true)
-			{
-				List<ClickyInkNoteVersion> list5 = list;
-				if ((dateTimeOffset - list5[list5.Count - 1].At).TotalSeconds < 0.45)
+				if (isPartial || list[list.Count - 1].IsPartial != true)
 				{
 					return false;
 				}
 			}
-		}
-		ClickyInkDocument clickyInkDocument = ClickyInkParser.Parse(text, isPartial);
-		int num;
-		if (!isPartial && list.Count > 0)
-		{
-			List<ClickyInkNoteVersion> list6 = list;
-			num = ((list6[list6.Count - 1].IsPartial == true) ? 1 : 0);
-		}
-		else
-		{
-			num = 0;
-		}
-		bool flag = (byte)num != 0;
-		if (list.Count > 0 && !flag)
-		{
-			ClickyInkDocument clickyInkDocument2;
-			if (!lastDocumentByNoteId.TryGetValue(noteId, out ClickyInkDocument value))
+			if (isPartial && list.Count > 0 && list[list.Count - 1].IsPartial == true)
 			{
-				List<ClickyInkNoteVersion> list7 = list;
-				clickyInkDocument2 = ClickyInkParser.Parse(list7[list7.Count - 1].Text);
+				if ((dateTimeOffset - list[list.Count - 1].At).TotalSeconds < 0.45)
+				{
+					return false;
+				}
 			}
-			else
+			ClickyInkDocument clickyInkDocument = ClickyInkParser.Parse(text, isPartial);
+			bool flag = !isPartial && list.Count > 0 && list[list.Count - 1].IsPartial == true;
+			if (list.Count > 0 && !flag)
 			{
-				clickyInkDocument2 = value;
+				ClickyInkDocument clickyInkDocument2 = (lastDocumentByNoteId.TryGetValue(noteId, out ClickyInkDocument? value) ? value : ClickyInkParser.Parse(list[list.Count - 1].Text));
+				if (clickyInkDocument2 == clickyInkDocument)
+				{
+					return false;
+				}
 			}
-			if (clickyInkDocument2 == clickyInkDocument)
+			bool flag2 = list.Count != 0 && isEdit;
+			bool flag3 = flag2 && turnsAwaitingTheirFirstEdit.Remove(noteId);
+			bool flag4 = false;
+			if (!isPartial && list.Count > 1)
 			{
-				return false;
+				flag4 = (from v in list.Skip(1)
+					where v.IsPartial == true
+					select v).ToList().Any((ClickyInkNoteVersion v) => v.StartsNewEdit == true);
+				List<ClickyInkNoteVersion> list8 = new List<ClickyInkNoteVersion> { list[0] };
+				list8.AddRange(from v in list.Skip(1)
+					where v.IsPartial != true
+					select v);
+				list = list8;
 			}
-		}
-		bool flag2 = list.Count != 0 && isEdit;
-		bool flag3 = flag2 && turnsAwaitingTheirFirstEdit.Remove(noteId);
-		bool flag4 = false;
-		if (!isPartial && list.Count > 1)
-		{
-			flag4 = (from v in list.Skip(1)
-				where v.IsPartial == true
-				select v).ToList().Any((ClickyInkNoteVersion v) => v.StartsNewEdit == true);
-			List<ClickyInkNoteVersion> list8 = new List<ClickyInkNoteVersion>();
-			list8.Add(list[0]);
-			list8.AddRange(from v in list.Skip(1)
-				where v.IsPartial != true
-				select v);
-			list = list8;
-		}
-		DateTimeOffset dateTimeOffset2 = ((list.Count > 0) ? list[0].At : dateTimeOffset);
-		DateTimeOffset dateTimeOffset3;
-		if (list.Count <= 0)
-		{
-			dateTimeOffset3 = dateTimeOffset;
-		}
-		else
-		{
-			List<ClickyInkNoteVersion> list9 = list;
-			dateTimeOffset3 = list9[list9.Count - 1].At;
-		}
-		DateTimeOffset dateTimeOffset4 = dateTimeOffset3;
-		ClickyInkNoteVersion clickyInkNoteVersion = new ClickyInkNoteVersion((dateTimeOffset > dateTimeOffset4) ? dateTimeOffset : dateTimeOffset4, text, flag2, isPartial ? new bool?(true) : ((bool?)null), (flag3 || flag4) ? new bool?(true) : ((bool?)null));
-		list.Add(clickyInkNoteVersion);
-		if (list.Count > 240)
-		{
-			List<ClickyInkNoteVersion> list10 = new List<ClickyInkNoteVersion>();
-			list10.Add(list[0]);
-			list10.AddRange(list.Skip(list.Count - 239));
-			list = list10;
-		}
-		versionsByNoteId[noteId] = list;
-		lastDocumentByNoteId[noteId] = clickyInkDocument;
-		freshPageNoteIds.Remove(noteId);
-		if (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote value2))
-		{
-			ClickyInkLiveNote clickyInkLiveNote = value2.Clone();
-			clickyInkLiveNote.Apply(clickyInkDocument, (clickyInkNoteVersion.At - dateTimeOffset2).TotalSeconds, clickyInkNoteVersion.IsEdit, clickyInkNoteVersion.StartsNewEdit, isPartial);
-			liveNotes[noteId] = clickyInkLiveNote;
-		}
-		if (!isPartial)
-		{
-			Save(noteId, list);
+			DateTimeOffset dateTimeOffset2 = ((list.Count > 0) ? list[0].At : dateTimeOffset);
+			DateTimeOffset dateTimeOffset4 = ((list.Count <= 0) ? dateTimeOffset : list[list.Count - 1].At);
+			ClickyInkNoteVersion clickyInkNoteVersion = new ClickyInkNoteVersion((dateTimeOffset > dateTimeOffset4) ? dateTimeOffset : dateTimeOffset4, text, flag2, isPartial ? new bool?(true) : ((bool?)null), (flag3 || flag4) ? new bool?(true) : ((bool?)null));
+			list.Add(clickyInkNoteVersion);
+			if (list.Count > 240)
+			{
+				List<ClickyInkNoteVersion> list10 = new List<ClickyInkNoteVersion> { list[0] };
+				list10.AddRange(list.Skip(list.Count - 239));
+				list = list10;
+			}
+			versionsByNoteId[noteId] = list.ToList();
+			lastDocumentByNoteId[noteId] = clickyInkDocument;
+			freshPageNoteIds.Remove(noteId);
+			if (liveNotes.TryGetValue(noteId, out ClickyInkLiveNote? value2))
+			{
+				ClickyInkLiveNote clickyInkLiveNote = value2.Clone();
+				clickyInkLiveNote.Apply(clickyInkDocument, (clickyInkNoteVersion.At - dateTimeOffset2).TotalSeconds, clickyInkNoteVersion.IsEdit, clickyInkNoteVersion.StartsNewEdit, isPartial);
+				liveNotes[noteId] = clickyInkLiveNote;
+			}
+			if (!isPartial)
+			{
+				Save(noteId, list.ToList());
+			}
 		}
 		Bump();
 		return true;
@@ -513,7 +547,7 @@ public sealed class ClickyInkNoteStore
 
 	private static void WriteProblems(string text, string notePath)
 	{
-		string problemsText = ClickyInkLint.FileText(ClickyInkLint.Problems(text));
+		string? problemsText = ClickyInkLint.FileText(ClickyInkLint.Problems(text));
 		string path = Path.Combine(Path.GetDirectoryName(notePath) ?? "", "note.problems");
 		ProblemsQueue.Async(delegate
 		{
@@ -530,36 +564,40 @@ public sealed class ClickyInkNoteStore
 
 	public bool ToggleCheckbox(string noteId, string itemText)
 	{
-		string text = InkFiles.ReadUtf8(noteId);
-		if (text != null)
+		string? text2;
+		lock (syncRoot)
 		{
-			string text2 = ToggledCheckbox(text, itemText);
-			if (text2 != null)
+			string? text = InkFiles.ReadUtf8(noteId);
+			if (text == null)
 			{
-				try
-				{
-					InkFiles.WriteUtf8Atomically(noteId, text2);
-				}
-				catch (Exception ex)
-				{
-					Log.Warn("ink", "couldn't tick the box in " + noteId + ": " + ex.Message);
-					return false;
-				}
-				(DateTimeOffset, long)? tuple = InkFiles.Stat(noteId);
-				if (tuple.HasValue)
-				{
-					(DateTimeOffset, long) valueOrDefault = tuple.GetValueOrDefault();
-					lastReadStat[noteId] = valueOrDefault;
-				}
-				else
-				{
-					lastReadStat.Remove(noteId);
-				}
-				pendingStat.Remove(noteId);
-				return RecordVersion(noteId, text2, isEdit: true, isPartial: false, null);
+				return false;
 			}
+			text2 = ToggledCheckbox(text, itemText);
+			if (text2 == null)
+			{
+				return false;
+			}
+			try
+			{
+				InkFiles.WriteUtf8Atomically(noteId, text2);
+			}
+			catch (Exception ex)
+			{
+				Log.Warn("ink", "couldn't tick the box in " + noteId + ": " + ex.Message);
+				return false;
+			}
+			(DateTimeOffset, long)? tuple = InkFiles.Stat(noteId);
+			if (tuple.HasValue)
+			{
+				lastReadStat[noteId] = tuple.GetValueOrDefault();
+			}
+			else
+			{
+				lastReadStat.Remove(noteId);
+			}
+			pendingStat.Remove(noteId);
 		}
-		return false;
+		return RecordVersion(noteId, text2, isEdit: true, isPartial: false, null);
 	}
 
 	public static string? ToggledCheckbox(string text, string itemText)
@@ -641,41 +679,58 @@ public sealed class ClickyInkNoteStore
 
 	private void WatchTick()
 	{
-		foreach (string item in watched.Keys.ToList())
+		List<string> watchedKeys;
+		lock (syncRoot)
+		{
+			watchedKeys = watched.Keys.ToList();
+		}
+		foreach (string item in watchedKeys)
 		{
 			(DateTimeOffset, long)? tuple = InkFiles.Stat(item);
-			if (tuple.HasValue)
+			bool shouldReadNow = false;
+			lock (syncRoot)
 			{
-				if (lastReadStat.TryGetValue(item, out (DateTimeOffset, long) value))
+				if (tuple.HasValue)
 				{
-					(DateTimeOffset, long) tuple2 = value;
-					(DateTimeOffset, long) value2 = tuple.Value;
-					if (tuple2.Item1 == value2.Item1 && tuple2.Item2 == value2.Item2)
+					if (lastReadStat.TryGetValue(item, out (DateTimeOffset, long) value))
 					{
-						goto IL_0074;
-					}
-				}
-				if (pendingStat.TryGetValue(item, out (DateTimeOffset, long) value3))
-				{
-					(DateTimeOffset, long) value2 = value3;
-					(DateTimeOffset, long) tuple2 = tuple.Value;
-					if (!(value2.Item1 != tuple2.Item1) && value2.Item2 == tuple2.Item2)
-					{
-						lastReadStat[item] = tuple.Value;
-						pendingStat.Remove(item);
-						if (tuple.Value.Item2 <= 524288)
+						(DateTimeOffset, long) tuple2 = value;
+						(DateTimeOffset, long) value2 = tuple.Value;
+						if (tuple2.Item1 == value2.Item1 && tuple2.Item2 == value2.Item2)
 						{
-							ClickyLiveNoteStore.Shared.ReadNow(item);
+							pendingStat.Remove(item);
+							continue;
 						}
-						continue;
+					}
+					if (pendingStat.TryGetValue(item, out (DateTimeOffset, long) value3))
+					{
+						(DateTimeOffset, long) value2 = value3;
+						(DateTimeOffset, long) tuple2 = tuple.Value;
+						if (!(value2.Item1 != tuple2.Item1) && value2.Item2 == tuple2.Item2)
+						{
+							lastReadStat[item] = tuple.Value;
+							pendingStat.Remove(item);
+							shouldReadNow = tuple.Value.Item2 <= 524288;
+						}
+						else
+						{
+							pendingStat[item] = tuple.Value;
+						}
+					}
+					else
+					{
+						pendingStat[item] = tuple.Value;
 					}
 				}
-				pendingStat[item] = tuple.Value;
-				continue;
+				else
+				{
+					pendingStat.Remove(item);
+				}
 			}
-			goto IL_0074;
-			IL_0074:
-			pendingStat.Remove(item);
+			if (shouldReadNow)
+			{
+				ClickyLiveNoteStore.Shared.ReadNow(item);
+			}
 		}
 	}
 
@@ -696,12 +751,12 @@ public sealed class ClickyInkNoteStore
 
 	public string? VersionsFilePath(string noteId)
 	{
-		string scopeKey = ScopeKey;
+		string? scopeKey = ScopeKey;
 		if (scopeKey == null)
 		{
 			return null;
 		}
-		string text = ScopeDirectory(BaseDirectory, scopeKey);
+		string? text = ScopeDirectory(BaseDirectory, scopeKey);
 		if (text == null)
 		{
 			return null;
@@ -711,44 +766,61 @@ public sealed class ClickyInkNoteStore
 
 	public async Task PreloadVersions(IEnumerable<string> noteIds)
 	{
-		string scope = ScopeKey;
+		string? scope = ScopeKey;
 		if (scope == null)
 		{
 			return;
 		}
-		List<(string Id, string Path)> files = (from id in noteIds
-			where !versionsByNoteId.ContainsKey(id)
-			select (Id: id, Path: VersionsFilePath(id)) into f
-			where f.Path != null
-			select f).ToList();
+		List<(string Id, string Path)> files;
+		lock (syncRoot)
+		{
+			files = (from id in noteIds
+				where !versionsByNoteId.ContainsKey(id)
+				select (Id: id, Path: VersionsFilePath(id)) into f
+				where f.Path != null
+				select (f.Id, f.Path!)).ToList();
+		}
 		if (files.Count == 0)
 		{
 			return;
 		}
 		List<(string, List<ClickyInkNoteVersion>)> list = await Task.Run(() => files.Select(((string Id, string Path) f) => (Id: f.Id, Versions: ReadVersionsFile(f.Path))).ToList());
-		if (ScopeKey != scope)
+		lock (syncRoot)
 		{
-			return;
-		}
-		foreach (var (key, value) in list)
-		{
-			versionsByNoteId.TryAdd(key, value);
+			if (ScopeKey != scope)
+			{
+				return;
+			}
+			foreach (var (key, value) in list)
+			{
+				versionsByNoteId.TryAdd(key, value);
+			}
 		}
 	}
 
 	private List<ClickyInkNoteVersion> LoadVersions(string noteId)
 	{
-		if (versionsByNoteId.TryGetValue(noteId, out List<ClickyInkNoteVersion> value))
+		lock (syncRoot)
 		{
-			return value;
+			if (versionsByNoteId.TryGetValue(noteId, out List<ClickyInkNoteVersion>? value))
+			{
+				return value.ToList();
+			}
 		}
-		string text = VersionsFilePath(noteId);
+		string? text = VersionsFilePath(noteId);
 		List<ClickyInkNoteVersion> list = ((text != null) ? ReadVersionsFile(text) : new List<ClickyInkNoteVersion>());
-		if (ScopeKey != null)
+		lock (syncRoot)
 		{
-			versionsByNoteId[noteId] = list;
+			if (versionsByNoteId.TryGetValue(noteId, out List<ClickyInkNoteVersion>? existing))
+			{
+				return existing.ToList();
+			}
+			if (ScopeKey != null)
+			{
+				versionsByNoteId[noteId] = list;
+			}
+			return list.ToList();
 		}
-		return list;
 	}
 
 	private static List<ClickyInkNoteVersion> ReadVersionsFile(string path)

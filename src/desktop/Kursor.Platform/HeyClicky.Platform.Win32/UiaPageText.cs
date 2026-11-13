@@ -20,13 +20,79 @@ public static class UiaPageText
 
 	private static readonly TimeSpan WallClock = TimeSpan.FromSeconds(1.5);
 
+	private static readonly string[] PasswordManagers = new string[6] { "1Password", "Bitwarden", "KeePass", "KeePassXC", "Dashlane", "LastPass" };
+
+	private static readonly string[] PrivateBrowsingTitles = new string[3] { "InPrivate", "Incognito", "Private Browsing" };
+
+	internal static bool IsSensitiveWindow(nint window)
+	{
+		if (window == 0)
+		{
+			return false;
+		}
+		try
+		{
+			ForegroundApp? app = ForegroundAppInfo.Capture(new HWND(window));
+			if (app != null)
+			{
+				foreach (string pm in PasswordManagers)
+				{
+					if (app.ProcessName.Contains(pm, StringComparison.OrdinalIgnoreCase) || app.AppName.Contains(pm, StringComparison.OrdinalIgnoreCase))
+					{
+						return true;
+					}
+				}
+				foreach (string pb in PrivateBrowsingTitles)
+				{
+					if (app.WindowTitle.Contains(pb, StringComparison.OrdinalIgnoreCase))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		catch
+		{
+		}
+		return false;
+	}
+
+	internal static bool IsPasswordElement(IUIAutomationElement? element)
+	{
+		if (element == null)
+		{
+			return false;
+		}
+		try
+		{
+			object val = element.GetCurrentPropertyValue(UIA_PROPERTY_ID.UIA_IsPasswordPropertyId);
+			if (val is bool b && b)
+			{
+				return true;
+			}
+			return (bool)element.CurrentIsPassword;
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
 	public static Task<PageText?> ReadAsync(nint window, int maximumCharacters, CancellationToken ct = default(CancellationToken))
 	{
+		if (IsSensitiveWindow(window))
+		{
+			return Task.FromResult<PageText?>(null);
+		}
 		return UIAutomationHelpers.RunAsync((IUIAutomation automation) => Read(automation, window, maximumCharacters), ct);
 	}
 
 	private static PageText? Read(IUIAutomation automation, nint window, int maximumCharacters)
 	{
+		if (IsSensitiveWindow(window))
+		{
+			return null;
+		}
 		DateTime deadline = DateTime.UtcNow + WallClock;
 		IUIAutomation2 iUIAutomation = automation as IUIAutomation2;
 		uint transactionTimeout = 0u;
@@ -92,6 +158,10 @@ public static class UiaPageText
 	{
 		try
 		{
+			if (IsPasswordElement(document))
+			{
+				return null;
+			}
 			if (!(document.GetCurrentPattern(UIA_PATTERN_ID.UIA_TextPatternId) is IUIAutomationTextPattern iUIAutomationTextPattern))
 			{
 				return null;
@@ -129,6 +199,10 @@ public static class UiaPageText
 			num++;
 			try
 			{
+				if (IsPasswordElement(iUIAutomationElement))
+				{
+					continue;
+				}
 				UIA_CONTROLTYPE_ID currentControlType = iUIAutomationElement.CurrentControlType;
 				if ((currentControlType != UIA_CONTROLTYPE_ID.UIA_HyperlinkControlTypeId && currentControlType != UIA_CONTROLTYPE_ID.UIA_TextControlTypeId) || 1 == 0)
 				{

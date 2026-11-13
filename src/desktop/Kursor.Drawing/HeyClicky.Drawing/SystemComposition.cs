@@ -146,6 +146,11 @@ internal static class SystemComposition
 		});
 	}
 
+	internal static bool IsDeviceLost(int hr)
+	{
+		return hr == unchecked((int)0x887A0005) || hr == unchecked((int)0x887A0006) || hr == unchecked((int)0x887A0007) || hr == unchecked((int)0x8899000C);
+	}
+
 	private unsafe static void CopyInto(CompositionDrawingSurface surface, CanvasRenderTarget picture)
 	{
 		SizeInt32 sizeInt = surface.SizeInt32;
@@ -153,37 +158,50 @@ internal static class SystemComposition
 		{
 			return;
 		}
-		nint num = QueryInterface(surface, ICompositionDrawingSurfaceInterop);
-		nint num2 = NativeResource(picture, IID_ID2D1Bitmap1);
 		try
 		{
-			delegate* unmanaged[Stdcall]<nint, nint, Guid*, nint*, Point32*, int> delegate_002A = (delegate* unmanaged[Stdcall]<nint, nint, Guid*, nint*, Point32*, int>)(*(IntPtr*)((nint)(*(IntPtr*)num) + (nint)3 * (nint)sizeof(nint)));
-			delegate* unmanaged[Stdcall]<nint, int> delegate_002A2 = (delegate* unmanaged[Stdcall]<nint, int>)(*(IntPtr*)((nint)(*(IntPtr*)num) + (nint)4 * (nint)sizeof(nint)));
-			Guid iID_ID2D1DeviceContext = IID_ID2D1DeviceContext;
-			nint nativePtr = default(nint);
-			Point32 point = default(Point32);
-			Marshal.ThrowExceptionForHR(delegate_002A(num, IntPtr.Zero, &iID_ID2D1DeviceContext, &nativePtr, &point));
+			nint num = QueryInterface(surface, ICompositionDrawingSurfaceInterop);
+			nint num2 = NativeResource(picture, IID_ID2D1Bitmap1);
 			try
 			{
-				using ID2D1DeviceContext iD2D1DeviceContext = new ID2D1DeviceContext(nativePtr);
-				using ID2D1Bitmap1 image = new ID2D1Bitmap1(num2);
-				Marshal.AddRef(num2);
-				iD2D1DeviceContext.Transform = Matrix3x2.CreateTranslation(point.X, point.Y);
-				iD2D1DeviceContext.PushAxisAlignedClip(new RawRectF(0f, 0f, sizeInt.Width, sizeInt.Height), AntialiasMode.Aliased);
-				iD2D1DeviceContext.Clear(new Color4(0f, 0f, 0f, 0f));
-				iD2D1DeviceContext.DrawImage(image, Vector2.Zero, null, InterpolationMode.NearestNeighbor, CompositeMode.SourceCopy);
-				iD2D1DeviceContext.PopAxisAlignedClip();
-				iD2D1DeviceContext.Transform = Matrix3x2.Identity;
+				delegate* unmanaged[Stdcall]<nint, nint, Guid*, nint*, Point32*, int> delegate_002A = (delegate* unmanaged[Stdcall]<nint, nint, Guid*, nint*, Point32*, int>)(*(IntPtr*)((nint)(*(IntPtr*)num) + (nint)3 * (nint)sizeof(nint)));
+				delegate* unmanaged[Stdcall]<nint, int> delegate_002A2 = (delegate* unmanaged[Stdcall]<nint, int>)(*(IntPtr*)((nint)(*(IntPtr*)num) + (nint)4 * (nint)sizeof(nint)));
+				Guid iID_ID2D1DeviceContext = IID_ID2D1DeviceContext;
+				nint nativePtr = default(nint);
+				Point32 point = default(Point32);
+				Marshal.ThrowExceptionForHR(delegate_002A(num, IntPtr.Zero, &iID_ID2D1DeviceContext, &nativePtr, &point));
+				try
+				{
+					using ID2D1DeviceContext iD2D1DeviceContext = new ID2D1DeviceContext(nativePtr);
+					using ID2D1Bitmap1 image = new ID2D1Bitmap1(num2);
+					Marshal.AddRef(num2);
+					iD2D1DeviceContext.Transform = Matrix3x2.CreateTranslation(point.X, point.Y);
+					iD2D1DeviceContext.PushAxisAlignedClip(new RawRectF(0f, 0f, sizeInt.Width, sizeInt.Height), AntialiasMode.Aliased);
+					iD2D1DeviceContext.Clear(new Color4(0f, 0f, 0f, 0f));
+					iD2D1DeviceContext.DrawImage(image, Vector2.Zero, null, InterpolationMode.NearestNeighbor, CompositeMode.SourceCopy);
+					iD2D1DeviceContext.PopAxisAlignedClip();
+					iD2D1DeviceContext.Transform = Matrix3x2.Identity;
+				}
+				finally
+				{
+					Marshal.ThrowExceptionForHR(delegate_002A2(num));
+				}
 			}
 			finally
 			{
-				Marshal.ThrowExceptionForHR(delegate_002A2(num));
+				Marshal.Release(num2);
+				Marshal.Release(num);
 			}
 		}
-		finally
+		catch (COMException ex) when (IsDeviceLost(ex.HResult))
 		{
-			Marshal.Release(num2);
-			Marshal.Release(num);
+			surfaceDevices.Remove(surface);
+			Log.Warn("Drawing", $"GPU device lost in SystemComposition.CopyInto (0x{ex.HResult:X8}); surface device invalidated");
+		}
+		catch (Exception ex) when (IsDeviceLost(ex.HResult))
+		{
+			surfaceDevices.Remove(surface);
+			Log.Warn("Drawing", $"GPU device lost in SystemComposition.CopyInto (0x{ex.HResult:X8}); surface device invalidated");
 		}
 	}
 

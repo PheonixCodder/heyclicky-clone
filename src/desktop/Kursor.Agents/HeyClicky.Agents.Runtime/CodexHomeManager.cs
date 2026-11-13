@@ -12,6 +12,12 @@ internal sealed class CodexHomeManager(AgentRuntimeOptions options)
 
 	private static readonly string[] HiddenBundledSkillNames = new string[1] { "nano-banana-slides" };
 
+	public const string DefaultWorkerOpenAiBaseUrl = "http://127.0.0.1:8787/agent/openai/v1";
+
+	public const string DefaultApprovalPolicy = "on-request";
+
+	public const string DefaultSandboxMode = "workspace-write";
+
 	private static readonly string[] BlockedSystemSkillNames = new string[6] { "imagegen", "openai-docs", "plugin-creator", "review-agent", "skill-creator", "skill-installer" };
 
 	private readonly object gate = new object();
@@ -45,6 +51,8 @@ internal sealed class CodexHomeManager(AgentRuntimeOptions options)
 			Directory.CreateDirectory(SkillsDirectory);
 			Directory.CreateDirectory(options.ProjectsRoot);
 			Dictionary<string, string> dictionary = SynchronizeSkills(composio?.Toolkits ?? Array.Empty<string>());
+			string configToml = BuildCodexConfigToml();
+			WriteIfChanged(Path.Combine(CodexHome, "config.toml"), configToml);
 			string text = BuildModelInstructions(composio, areConnectedAppsTemporarilyUnreachable, customConnectors);
 			bool num = text != null && WriteIfChanged(Path.Combine(CodexHome, "clicky-model-instructions.md"), text);
 			DeliveredModelInstructions = text;
@@ -53,6 +61,22 @@ internal sealed class CodexHomeManager(AgentRuntimeOptions options)
 				Log.Info("Agents", $"agent brief written: {text.Length} chars, skills=[{string.Join(',', dictionary.Keys)}]");
 			}
 		}
+	}
+
+	private string BuildCodexConfigToml()
+	{
+		string baseUrl = string.IsNullOrWhiteSpace(options.WorkerBaseUrl)
+			? DefaultWorkerOpenAiBaseUrl
+			: (options.WorkerBaseUrl.TrimEnd('/') + "/agent/openai/v1");
+		return string.Join("\n", new string[6]
+		{
+			"model_provider = \"clicky\"",
+			"approval_policy = \"on-request\"",
+			"sandbox_mode = \"workspace-write\"",
+			"",
+			"[model_providers.clicky]",
+			$"base_url = \"{baseUrl}\""
+		}) + "\n";
 	}
 
 	private string? BuildModelInstructions(ComposioMcpConfiguration? composio, bool appsUnreachable, IReadOnlyList<CustomConnectorRegistration> customConnectors)

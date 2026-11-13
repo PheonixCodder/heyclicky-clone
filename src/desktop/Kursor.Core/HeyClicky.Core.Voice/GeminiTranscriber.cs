@@ -86,6 +86,8 @@ public sealed class GeminiTranscriber : IAsyncDisposable
 
 	private bool finishRequested;
 
+	private bool finishQueued;
+
 	private bool finishSent;
 
 	private bool disposed;
@@ -240,9 +242,9 @@ public sealed class GeminiTranscriber : IAsyncDisposable
 			double num;
 			lock (gate)
 			{
-				if (!finishSent && !DidFail && !disposed)
+				if (!finishQueued && !finishSent && !DidFail && !disposed)
 				{
-					finishSent = true;
+					finishQueued = true;
 					if (!outgoing.Writer.TryWrite(new AudioFrame(null, 0)))
 					{
 						Fail("Speech end could not be queued.");
@@ -509,17 +511,31 @@ public sealed class GeminiTranscriber : IAsyncDisposable
 		return null;
 	}
 
+	public static Uri BuildWebSocketUri(string accessToken)
+	{
+		if (!string.IsNullOrEmpty(accessToken) && accessToken.StartsWith("AIza", StringComparison.Ordinal))
+		{
+			return new Uri($"wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key={Uri.EscapeDataString(accessToken)}");
+		}
+		return new Uri($"wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContentConstrained?access_token={Uri.EscapeDataString(accessToken ?? "")}");
+	}
+
 	private async Task<WebSocket> ConnectAsync(string token, CancellationToken ct)
 	{
 		ClientWebSocket ws = new ClientWebSocket();
-		ws.Options.SetRequestHeader("Authorization", "Token " + token);
+		bool isDirectApiKey = !string.IsNullOrEmpty(token) && token.StartsWith("AIza", StringComparison.Ordinal);
+		if (!isDirectApiKey)
+		{
+			ws.Options.SetRequestHeader("Authorization", "Token " + token);
+		}
 		ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(7L);
 		ws.Options.KeepAliveTimeout = TimeSpan.FromSeconds(5L);
 		try
 		{
 			using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(ct);
 			deadline.CancelAfter(TimeSpan.FromSeconds(10L));
-			await ws.ConnectAsync(ListenUrl, http.Invoker, deadline.Token).ConfigureAwait(continueOnCapturedContext: false);
+			Uri connectUri = isDirectApiKey ? BuildWebSocketUri(token) : ListenUrl;
+			await ws.ConnectAsync(connectUri, http.Invoker, deadline.Token).ConfigureAwait(continueOnCapturedContext: false);
 			return ws;
 		}
 		catch
@@ -592,6 +608,10 @@ public sealed class GeminiTranscriber : IAsyncDisposable
 							await ws.SendAsync(BuildAudioMessage(chunk.AsSpan(0, chunkLength), 16000).AsMemory(), WebSocketMessageType.Text, endOfMessage: true, ct).ConfigureAwait(continueOnCapturedContext: false);
 						}
 						chunkLength = 0;
+						lock (gate)
+						{
+							finishSent = true;
+						}
 						await ws.SendAsync(ActivityEnd.AsMemory(), WebSocketMessageType.Text, endOfMessage: true, ct).ConfigureAwait(continueOnCapturedContext: false);
 						activityEndSent.TrySetResult(result: true);
 					}

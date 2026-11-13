@@ -23,188 +23,6 @@ public sealed record ClickyInkRowMotion
 		public string Key { get; set; } = "";
 	}
 
-	[CompilerGenerated]
-	private sealed class _003CSpans_003Ed__22 : IEnumerable<InkRange>, IEnumerable, IEnumerator<InkRange>, IEnumerator, IDisposable
-	{
-		private int _003C_003E1__state;
-
-		private InkRange _003C_003E2__current;
-
-		private int _003C_003El__initialThreadId;
-
-		private ClickyInkLiveNote.Words words;
-
-		public ClickyInkLiveNote.Words _003C_003E3__words;
-
-		private IEnumerator<ClickyInkLiveNote.Segment> _003C_003E7__wrap1;
-
-		private ClickyInkLiveNote.Segment _003Csegment_003E5__3;
-
-		InkRange IEnumerator<InkRange>.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		object IEnumerator.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		[DebuggerHidden]
-		public _003CSpans_003Ed__22(int _003C_003E1__state)
-		{
-			this._003C_003E1__state = _003C_003E1__state;
-			_003C_003El__initialThreadId = Environment.CurrentManagedThreadId;
-		}
-
-		[DebuggerHidden]
-		void IDisposable.Dispose()
-		{
-			int num = _003C_003E1__state;
-			if (num == -3 || (uint)(num - 1) <= 2u)
-			{
-				try
-				{
-				}
-				finally
-				{
-					_003C_003Em__Finally1();
-				}
-			}
-			_003C_003E7__wrap1 = null;
-			_003Csegment_003E5__3 = default(ClickyInkLiveNote.Segment);
-			_003C_003E1__state = -2;
-		}
-
-		private bool MoveNext()
-		{
-			try
-			{
-				double? vanishesAt;
-				InkRange? written;
-				switch (_003C_003E1__state)
-				{
-				default:
-					return false;
-				case 0:
-					_003C_003E1__state = -1;
-					_003C_003E7__wrap1 = words.Segments.GetEnumerator();
-					_003C_003E1__state = -3;
-					goto IL_011f;
-				case 1:
-					_003C_003E1__state = -3;
-					goto IL_009a;
-				case 2:
-					_003C_003E1__state = -3;
-					goto IL_00d2;
-				case 3:
-					{
-						_003C_003E1__state = -3;
-						goto IL_0113;
-					}
-					IL_011f:
-					if (_003C_003E7__wrap1.MoveNext())
-					{
-						_003Csegment_003E5__3 = _003C_003E7__wrap1.Current;
-						written = _003Csegment_003E5__3.Written;
-						if (written.HasValue)
-						{
-							InkRange valueOrDefault = written.GetValueOrDefault();
-							_003C_003E2__current = valueOrDefault;
-							_003C_003E1__state = 1;
-							return true;
-						}
-						goto IL_009a;
-					}
-					_003C_003Em__Finally1();
-					_003C_003E7__wrap1 = null;
-					return false;
-					IL_0113:
-					_003Csegment_003E5__3 = default(ClickyInkLiveNote.Segment);
-					goto IL_011f;
-					IL_00d2:
-					vanishesAt = _003Csegment_003E5__3.VanishesAt;
-					if (vanishesAt.HasValue)
-					{
-						double valueOrDefault2 = vanishesAt.GetValueOrDefault();
-						_003C_003E2__current = new InkRange(valueOrDefault2, valueOrDefault2);
-						_003C_003E1__state = 3;
-						return true;
-					}
-					goto IL_0113;
-					IL_009a:
-					written = _003Csegment_003E5__3.Struck;
-					if (written.HasValue)
-					{
-						InkRange valueOrDefault3 = written.GetValueOrDefault();
-						_003C_003E2__current = valueOrDefault3;
-						_003C_003E1__state = 2;
-						return true;
-					}
-					goto IL_00d2;
-				}
-			}
-			catch
-			{
-				//try-fault
-				((IDisposable)this).Dispose();
-				throw;
-			}
-		}
-
-		bool IEnumerator.MoveNext()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in MoveNext
-			return this.MoveNext();
-		}
-
-		private void _003C_003Em__Finally1()
-		{
-			_003C_003E1__state = -1;
-			if (_003C_003E7__wrap1 != null)
-			{
-				_003C_003E7__wrap1.Dispose();
-			}
-		}
-
-		[DebuggerHidden]
-		void IEnumerator.Reset()
-		{
-			throw new NotSupportedException();
-		}
-
-		[DebuggerHidden]
-		IEnumerator<InkRange> IEnumerable<InkRange>.GetEnumerator()
-		{
-			_003CSpans_003Ed__22 _003CSpans_003Ed__;
-			if (_003C_003E1__state == -2 && _003C_003El__initialThreadId == Environment.CurrentManagedThreadId)
-			{
-				_003C_003E1__state = 0;
-				_003CSpans_003Ed__ = this;
-			}
-			else
-			{
-				_003CSpans_003Ed__ = new _003CSpans_003Ed__22(0);
-			}
-			_003CSpans_003Ed__.words = _003C_003E3__words;
-			return _003CSpans_003Ed__;
-		}
-
-		[DebuggerHidden]
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return ((IEnumerable<InkRange>)this).GetEnumerator();
-		}
-	}
-
 	public IReadOnlyList<InkRange> Windows { get; }
 
 	public const double LeadSeconds = 0.6;
@@ -466,14 +284,24 @@ public sealed record ClickyInkRowMotion
 		return list;
 	}
 
-	[IteratorStateMachine(typeof(_003CSpans_003Ed__22))]
 	public static IEnumerable<InkRange> Spans(ClickyInkLiveNote.Words words)
 	{
-		//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()
-		return new _003CSpans_003Ed__22(-2)
+		foreach (ClickyInkLiveNote.Segment segment in words.Segments)
 		{
-			_003C_003E3__words = words
-		};
+			if (segment.Written.HasValue)
+			{
+				yield return segment.Written.GetValueOrDefault();
+			}
+			if (segment.Struck.HasValue)
+			{
+				yield return segment.Struck.GetValueOrDefault();
+			}
+			if (segment.VanishesAt.HasValue)
+			{
+				double vanishesAt = segment.VanishesAt.GetValueOrDefault();
+				yield return new InkRange(vanishesAt, vanishesAt);
+			}
+		}
 	}
 
 	public bool Equals(ClickyInkRowMotion? other)

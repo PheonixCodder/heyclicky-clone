@@ -30,10 +30,9 @@ public static class AgentHarnessNames
 
 	public static IReadOnlyList<AgentHarnessPlace> Places(this AgentHarness harness)
 	{
-		return new global::_003C_003Ez__ReadOnlyArray<AgentHarnessPlace>(new AgentHarnessPlace[2]
+		return new global::_003C_003Ez__ReadOnlyArray<AgentHarnessPlace>(new AgentHarnessPlace[1]
 		{
-			AgentHarnessPlace.Mac,
-			AgentHarnessPlace.Cloud
+			AgentHarnessPlace.Mac
 		});
 	}
 

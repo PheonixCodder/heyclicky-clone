@@ -263,7 +263,8 @@ public sealed class PermissionService : IPermissionService, IDisposable
 
 	public static (string? Machine, string? User, string? DesktopApps, int? Policy) ReadMicrophoneToggles()
 	{
-		return (Machine: ReadValue(Registry.LocalMachine, "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone"), User: ReadValue(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone"), DesktopApps: ReadValue(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone\\NonPackaged"), Policy: Registry.LocalMachine.OpenSubKey("SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy")?.GetValue("LetAppsAccessMicrophone") as int?);
+		using RegistryKey? policyKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy");
+		return (Machine: ReadValue(Registry.LocalMachine, "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone"), User: ReadValue(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone"), DesktopApps: ReadValue(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone\\NonPackaged"), Policy: policyKey?.GetValue("LetAppsAccessMicrophone") as int?);
 	}
 
 	private static bool ReadPolicyForcesDeny()

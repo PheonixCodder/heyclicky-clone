@@ -45,9 +45,28 @@ public static class SayLines
 		int? arg = null;
 		while (index < code.Length)
 		{
-			if (StartsCall(code, "step", index))
+			if (code[index] == '/' && index + 1 < code.Length && code[index + 1] == '/')
 			{
-				index += 5;
+				index += 2;
+				while (index < code.Length && code[index] != '\n' && code[index] != '\r')
+				{
+					index++;
+				}
+				continue;
+			}
+			if (code[index] == '/' && index + 1 < code.Length && code[index + 1] == '*')
+			{
+				index += 2;
+				while (index + 1 < code.Length && !(code[index] == '*' && code[index + 1] == '/'))
+				{
+					index++;
+				}
+				index = Math.Min(code.Length, index + 2);
+				continue;
+			}
+			if (StartsCall(code, "step", index, out var stepParenIndex))
+			{
+				index = stepParenIndex + 1;
 				SkipSpaces();
 				int num = index;
 				for (; index < code.Length && char.IsDigit(code[index]); index++)
@@ -58,9 +77,9 @@ public static class SayLines
 					arg = result;
 				}
 			}
-			else if (StartsCall(code, "say", index))
+			else if (StartsCall(code, "say", index, out var sayParenIndex))
 			{
-				index += 4;
+				index = sayParenIndex + 1;
 				SkipSpaces();
 				bool flag = index >= code.Length;
 				if (!flag)
@@ -73,29 +92,18 @@ public static class SayLines
 				{
 					continue;
 				}
-				char c2 = code[index++];
-				StringBuilder stringBuilder = new StringBuilder();
-				while (index < code.Length && code[index] != c2)
-				{
-					if (code[index] == '\\' && index + 1 < code.Length)
-					{
-						char c3 = code[index + 1];
-						StringBuilder stringBuilder2 = stringBuilder;
-						flag = ((c3 == 'n' || c3 == 't') ? true : false);
-						stringBuilder2.Append(flag ? ' ' : c3);
-						index += 2;
-					}
-					else
-					{
-						stringBuilder.Append(code[index++]);
-					}
-				}
-				index++;
-				string text = stringBuilder.ToString().Trim();
+				char quote = code[index++];
+				string raw = ReadQuotedLiteral(code, ref index, quote);
+				string text = Unescape(raw).Trim();
 				if (text.Length > 0)
 				{
 					onLine(arg, text);
 				}
+			}
+			else if (code[index] == '"' || code[index] == '\'' || code[index] == '`')
+			{
+				char quote = code[index++];
+				_ = ReadQuotedLiteral(code, ref index, quote);
 			}
 			else
 			{
@@ -110,30 +118,125 @@ public static class SayLines
 		}
 	}
 
-	private static bool StartsCall(string code, string name, int position)
+	private static string ReadQuotedLiteral(string code, ref int index, char quote)
 	{
+		int start = index;
+		while (index < code.Length && code[index] != quote)
+		{
+			if (code[index] == '\\' && index + 1 < code.Length)
+			{
+				index += 2;
+			}
+			else
+			{
+				index++;
+			}
+		}
+		string raw = code.Substring(start, index - start);
+		if (index < code.Length && code[index] == quote)
+		{
+			index++;
+		}
+		return raw;
+	}
+
+	private static string Unescape(string raw)
+	{
+		StringBuilder stringBuilder = new StringBuilder(raw.Length);
+		int i = 0;
+		while (i < raw.Length)
+		{
+			if (raw[i] == '\\' && i + 1 < raw.Length)
+			{
+				char c = raw[i + 1];
+				switch (c)
+				{
+				case 'n':
+				case 't':
+					stringBuilder.Append(' ');
+					i += 2;
+					break;
+				case 'r':
+					if (i + 3 < raw.Length && raw[i + 2] == '\\' && raw[i + 3] == 'n')
+					{
+						stringBuilder.Append(' ');
+						i += 4;
+					}
+					else
+					{
+						stringBuilder.Append('\r');
+						i += 2;
+					}
+					break;
+				case 'u':
+					if (i + 5 < raw.Length && IsHexQuad(raw, i + 2))
+					{
+						string hex = raw.Substring(i + 2, 4);
+						stringBuilder.Append(char.ConvertFromUtf32(Convert.ToInt32(hex, 16)));
+						i += 6;
+					}
+					else
+					{
+						stringBuilder.Append(c);
+						i += 2;
+					}
+					break;
+				default:
+					stringBuilder.Append(c);
+					i += 2;
+					break;
+				}
+			}
+			else
+			{
+				stringBuilder.Append(raw[i++]);
+			}
+		}
+		return stringBuilder.ToString();
+	}
+
+	private static bool IsHexQuad(string s, int offset)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (!Uri.IsHexDigit(s[offset + i]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static bool StartsCall(string code, string name, int position, out int openParenIndex)
+	{
+		openParenIndex = -1;
 		if (position + name.Length + 1 > code.Length)
 		{
 			return false;
 		}
-		if (string.CompareOrdinal(code, position, name, 0, name.Length) != 0 || code[position + name.Length] != '(')
+		if (string.CompareOrdinal(code, position, name, 0, name.Length) != 0)
 		{
 			return false;
 		}
 		if (position > 0)
 		{
 			char c = code[position - 1];
-			bool flag = char.IsLetterOrDigit(c);
-			if (!flag)
-			{
-				bool flag2 = ((c == '.' || c == '_') ? true : false);
-				flag = flag2;
-			}
+			bool flag = char.IsLetterOrDigit(c) || c == '.' || c == '_' || c == '$';
 			if (flag)
 			{
 				return false;
 			}
 		}
+		int i = position + name.Length;
+		while (i < code.Length && char.IsWhiteSpace(code[i]))
+		{
+			i++;
+		}
+		if (i >= code.Length || code[i] != '(')
+		{
+			return false;
+		}
+		openParenIndex = i;
 		return true;
 	}
 }

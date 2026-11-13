@@ -365,7 +365,19 @@ public static class BrowserUploads
 	public static bool IsSecretFileName(string name)
 	{
 		string text = name.ToLowerInvariant();
-		bool flag = text.StartsWith(".env", StringComparison.Ordinal) || text.EndsWith(".pem", StringComparison.Ordinal) || text.EndsWith(".key", StringComparison.Ordinal);
+		bool flag = text.StartsWith(".env", StringComparison.Ordinal) ||
+			text.EndsWith(".pem", StringComparison.Ordinal) ||
+			text.EndsWith(".key", StringComparison.Ordinal) ||
+			text.EndsWith(".db", StringComparison.Ordinal) ||
+			text.EndsWith(".sqlite", StringComparison.Ordinal) ||
+			text.EndsWith(".sqlite3", StringComparison.Ordinal) ||
+			text.EndsWith(".db-wal", StringComparison.Ordinal) ||
+			text.EndsWith(".wal", StringComparison.Ordinal) ||
+			text.EndsWith(".pfx", StringComparison.Ordinal) ||
+			text.EndsWith(".p12", StringComparison.Ordinal) ||
+			text.EndsWith(".kdbx", StringComparison.Ordinal) ||
+			text.EndsWith(".rdp", StringComparison.Ordinal) ||
+			text.EndsWith(".ovpn", StringComparison.Ordinal);
 		if (!flag)
 		{
 			bool flag2;
@@ -377,6 +389,9 @@ public static class BrowserUploads
 			case ".npmrc":
 			case ".pypirc":
 			case ".pgpass":
+			case "id_rsa":
+			case "id_ed25519":
+			case "kursor.db":
 				flag2 = true;
 				break;
 			default:

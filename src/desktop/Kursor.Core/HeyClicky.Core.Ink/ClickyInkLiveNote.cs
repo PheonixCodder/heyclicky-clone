@@ -492,176 +492,6 @@ public sealed class ClickyInkLiveNote : IEquatable<ClickyInkLiveNote>
 		public bool IsLanding { get; set; } = false;
 	}
 
-	[CompilerGenerated]
-	private sealed class _003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed : IEnumerable<double>, IEnumerable, IEnumerator<double>, IEnumerator, IDisposable
-	{
-		private int _003C_003E1__state;
-
-		private double _003C_003E2__current;
-
-		private int _003C_003El__initialThreadId;
-
-		private Words words;
-
-		public Words _003C_003E3__words;
-
-		private IEnumerator<Segment> _003C_003E7__wrap1;
-
-		private Segment _003Csegment_003E5__3;
-
-		double IEnumerator<double>.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		object IEnumerator.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		[DebuggerHidden]
-		public _003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed(int _003C_003E1__state)
-		{
-			this._003C_003E1__state = _003C_003E1__state;
-			_003C_003El__initialThreadId = Environment.CurrentManagedThreadId;
-		}
-
-		[DebuggerHidden]
-		void IDisposable.Dispose()
-		{
-			int num = _003C_003E1__state;
-			if (num == -3 || (uint)(num - 1) <= 1u)
-			{
-				try
-				{
-				}
-				finally
-				{
-					_003C_003Em__Finally1();
-				}
-			}
-			_003C_003E7__wrap1 = null;
-			_003Csegment_003E5__3 = default(Segment);
-			_003C_003E1__state = -2;
-		}
-
-		private bool MoveNext()
-		{
-			try
-			{
-				InkRange? written;
-				switch (_003C_003E1__state)
-				{
-				default:
-					return false;
-				case 0:
-					_003C_003E1__state = -1;
-					if ((object)words == null)
-					{
-						return false;
-					}
-					_003C_003E7__wrap1 = words.Segments.GetEnumerator();
-					_003C_003E1__state = -3;
-					goto IL_00f2;
-				case 1:
-					_003C_003E1__state = -3;
-					goto IL_00a8;
-				case 2:
-					{
-						_003C_003E1__state = -3;
-						goto IL_00e6;
-					}
-					IL_00e6:
-					_003Csegment_003E5__3 = default(Segment);
-					goto IL_00f2;
-					IL_00f2:
-					if (_003C_003E7__wrap1.MoveNext())
-					{
-						_003Csegment_003E5__3 = _003C_003E7__wrap1.Current;
-						written = _003Csegment_003E5__3.Written;
-						if (written.HasValue)
-						{
-							_003C_003E2__current = written.GetValueOrDefault().LowerBound;
-							_003C_003E1__state = 1;
-							return true;
-						}
-						goto IL_00a8;
-					}
-					_003C_003Em__Finally1();
-					_003C_003E7__wrap1 = null;
-					return false;
-					IL_00a8:
-					written = _003Csegment_003E5__3.Struck;
-					if (written.HasValue)
-					{
-						_003C_003E2__current = written.GetValueOrDefault().LowerBound;
-						_003C_003E1__state = 2;
-						return true;
-					}
-					goto IL_00e6;
-				}
-			}
-			catch
-			{
-				//try-fault
-				((IDisposable)this).Dispose();
-				throw;
-			}
-		}
-
-		bool IEnumerator.MoveNext()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in MoveNext
-			return this.MoveNext();
-		}
-
-		private void _003C_003Em__Finally1()
-		{
-			_003C_003E1__state = -1;
-			if (_003C_003E7__wrap1 != null)
-			{
-				_003C_003E7__wrap1.Dispose();
-			}
-		}
-
-		[DebuggerHidden]
-		void IEnumerator.Reset()
-		{
-			throw new NotSupportedException();
-		}
-
-		[DebuggerHidden]
-		IEnumerator<double> IEnumerable<double>.GetEnumerator()
-		{
-			_003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed _003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed;
-			if (_003C_003E1__state == -2 && _003C_003El__initialThreadId == Environment.CurrentManagedThreadId)
-			{
-				_003C_003E1__state = 0;
-				_003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed = this;
-			}
-			else
-			{
-				_003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed = new _003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed(0);
-			}
-			_003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed.words = _003C_003E3__words;
-			return _003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed;
-		}
-
-		[DebuggerHidden]
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return ((IEnumerable<double>)this).GetEnumerator();
-		}
-	}
-
 	private static readonly HashSet<ClickyInkDocument.Kind> EntityKinds = new HashSet<ClickyInkDocument.Kind>
 	{
 		ClickyInkDocument.Kind.Link,
@@ -1414,14 +1244,23 @@ public sealed class ClickyInkLiveNote : IEquatable<ClickyInkLiveNote>
 			return (item.Id, item.LandsAt >= time - 0.001);
 		}
 		return null;
-		[IteratorStateMachine(typeof(_003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed))]
 		static IEnumerable<double> Starts(Words? words)
 		{
-			//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()
-			return new _003C_003CFirstChangedRow_003Eg__Starts_007C76_0_003Ed(-2)
+			if ((object?)words == null)
 			{
-				_003C_003E3__words = words
-			};
+				yield break;
+			}
+			foreach (Segment segment in words.Segments)
+			{
+				if (segment.Written.HasValue)
+				{
+					yield return segment.Written.GetValueOrDefault().LowerBound;
+				}
+				if (segment.Struck.HasValue)
+				{
+					yield return segment.Struck.GetValueOrDefault().LowerBound;
+				}
+			}
 		}
 	}
 }

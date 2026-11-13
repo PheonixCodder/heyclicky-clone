@@ -88,7 +88,7 @@ public sealed class OneBrainStatsPanel
 
 	private void Show()
 	{
-		window = new OverlayWindow("HeyClicky one brain stats", keepOutOfCapture, clickThroughEverywhere: true);
+		window = new OverlayWindow("Kursor one brain stats", keepOutOfCapture, clickThroughEverywhere: true);
 		if (keepOutOfCapture)
 		{
 			window.KeepOutOfEveryCapture();

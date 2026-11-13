@@ -137,9 +137,18 @@ internal sealed class StageSwapChain : IFigureSurface, IStageSurface, IDisposabl
 		}
 	}
 
+	private static bool IsDeviceLost(int hr)
+	{
+		return hr == unchecked((int)0x887A0005) || hr == unchecked((int)0x887A0006) || hr == unchecked((int)0x887A0007) || hr == unchecked((int)0x8899000C);
+	}
+
 	public void Present(ID3D11Texture2D frame, int frameWidth, int frameHeight)
 	{
-		if (!disposed)
+		if (disposed)
+		{
+			return;
+		}
+		try
 		{
 			waited = false;
 			if (frameWidth != width || frameHeight != height)
@@ -153,10 +162,26 @@ internal sealed class StageSwapChain : IFigureSurface, IStageSurface, IDisposabl
 				GpuDevice.Shared.Context.CopyResource(dstResource, frame);
 			}
 			Result result = swapChain.Present(1u, PresentFlags.DoNotWait);
+			if (IsDeviceLost(result.Code))
+			{
+				Log.Warn("Drawing", $"GPU device lost in StageSwapChain.Present (0x{result.Code:X8}); disposing swapChain for recreation");
+				Dispose();
+				return;
+			}
 			if (result != Vortice.DXGI.ResultCode.WasStillDrawing)
 			{
 				result.CheckError();
 			}
+		}
+		catch (COMException ex) when (IsDeviceLost(ex.HResult))
+		{
+			Log.Warn("Drawing", $"GPU device lost in StageSwapChain.Present (0x{ex.HResult:X8}); disposing swapChain for recreation");
+			Dispose();
+		}
+		catch (Exception ex) when (IsDeviceLost(ex.HResult))
+		{
+			Log.Warn("Drawing", $"GPU device lost in StageSwapChain.Present (0x{ex.HResult:X8}); disposing swapChain for recreation");
+			Dispose();
 		}
 	}
 

@@ -59,27 +59,30 @@ public static class SignInCallbackGuard
 
 	public static Verdict Decide(string? pendingState, DateTimeOffset? pendingStartedAt, string? callbackState, bool isLocalSupabaseBackend, DateTimeOffset now)
 	{
-		if (isLocalSupabaseBackend)
+		if (!string.IsNullOrWhiteSpace(pendingState))
 		{
-			return Verdict.AcceptLocalDevelopment;
-		}
-		if (!string.IsNullOrEmpty(pendingState) && pendingStartedAt.HasValue)
-		{
-			DateTimeOffset valueOrDefault = pendingStartedAt.GetValueOrDefault();
-			TimeSpan timeSpan = now - valueOrDefault;
-			if (timeSpan < -ToleratedClockRollback || timeSpan > PendingSignInLifetime)
+			if (pendingStartedAt.HasValue)
 			{
-				return Verdict.RefuseSignInExpired;
+				DateTimeOffset valueOrDefault = pendingStartedAt.GetValueOrDefault();
+				TimeSpan timeSpan = now - valueOrDefault;
+				if (timeSpan < -ToleratedClockRollback || timeSpan > PendingSignInLifetime)
+				{
+					return Verdict.RefuseSignInExpired;
+				}
 			}
 			if (string.IsNullOrEmpty(callbackState))
 			{
 				return Verdict.RefuseMissingState;
 			}
-			if (!CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(callbackState), Encoding.UTF8.GetBytes(pendingState)))
+			if (!string.Equals(pendingState, callbackState, StringComparison.Ordinal) || !CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(callbackState), Encoding.UTF8.GetBytes(pendingState)))
 			{
 				return Verdict.RefuseStateMismatch;
 			}
-			return Verdict.Accept;
+			return isLocalSupabaseBackend ? Verdict.AcceptLocalDevelopment : Verdict.Accept;
+		}
+		if (isLocalSupabaseBackend)
+		{
+			return Verdict.AcceptLocalDevelopment;
 		}
 		return Verdict.RefuseNoSignInStarted;
 	}

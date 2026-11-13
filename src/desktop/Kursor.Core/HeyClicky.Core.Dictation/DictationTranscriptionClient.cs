@@ -125,6 +125,15 @@ public sealed class DictationTranscriptionClient
 		return (Text: await PostExpectingTextAsync("/v2/dictation/transcribe", jsonObject, null, TimeSpan.FromSeconds(60L), ct).ConfigureAwait(continueOnCapturedContext: false), AudioSeconds: seconds);
 	}
 
+	public Task<string> CleanUpAsync(string transcript, DictationCleanupContext? focusContext, string? receipt = null, CancellationToken ct = default(CancellationToken))
+	{
+		if (focusContext != null)
+		{
+			Context = focusContext;
+		}
+		return CleanUpAsync(transcript, AccumulatedSeconds, receipt, useFastCleanupLane: true, null, "batch", ct);
+	}
+
 	public Task<string> CleanUpAsync(string transcript, double audioSeconds, string? receipt, bool useFastCleanupLane, int? sttMilliseconds, string? sttProvider = null, CancellationToken ct = default(CancellationToken))
 	{
 		JsonObject jsonObject = new JsonObject((JsonNodeOptions?)null)

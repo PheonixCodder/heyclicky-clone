@@ -570,7 +570,7 @@ internal sealed class LowLevelInputHub
 		long num4 = num2 - hookBaseline;
 		rawBaseline = num;
 		hookBaseline = num2;
-		if (num3 == 0L || num4 > 0)
+		if (num3 == 0L || num4 > 0 || ForegroundIntegrity.IsForegroundElevated())
 		{
 			return;
 		}
@@ -580,7 +580,11 @@ internal sealed class LowLevelInputHub
 			int num5 = (int)Math.Min(num3, Math.Min(recentRawKeys.Length, recentRawKeyCount));
 			for (int i = recentRawKeyCount - num5; i < recentRawKeyCount; i++)
 			{
-				DeliverKey(in recentRawKeys[i % recentRawKeys.Length]);
+				ref LowLevelKeyEvent keyEvent = ref recentRawKeys[i % recentRawKeys.Length];
+				if (!ClickyUserInputBlocker.ShouldHoldKey(in keyEvent))
+				{
+					DeliverKey(in keyEvent);
+				}
 			}
 		}
 		if (Environment.TickCount - lastInlineReinstallTick >= 1000)
@@ -617,7 +621,7 @@ internal sealed class LowLevelInputHub
 	{
 		long num = Interlocked.Read(in rawKeyCount);
 		long num2 = Interlocked.Read(in hookKeyCount);
-		bool flag = num > rawKeyCountAtProbe && num2 == hookKeyCountAtProbe;
+		bool flag = num > rawKeyCountAtProbe && num2 == hookKeyCountAtProbe && !ForegroundIntegrity.IsForegroundElevated();
 		rawKeyCountAtProbe = num;
 		hookKeyCountAtProbe = num2;
 		int num3 = Interlocked.Exchange(ref maxHookLatencyMs, 0);

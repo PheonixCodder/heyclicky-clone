@@ -1,10 +1,12 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace HeyClicky.Platform.Overlay;
 
-internal sealed class FramePacer
+internal sealed class FramePacer : IDisposable
 {
 	private bool compositorClockAvailable = true;
 
@@ -12,9 +14,18 @@ internal sealed class FramePacer
 
 	private long fallbackUntilTimestamp;
 
-	private readonly nint highResolutionTimer = NativeComposition.CreateWaitableTimerExW(0, null, 2u, 2031619u);
+	private nint highResolutionTimer = NativeComposition.CreateWaitableTimerExW(0, null, 2u, 2031619u);
 
 	public long FallbackWaits;
+
+	public void Dispose()
+	{
+		if (highResolutionTimer != 0)
+		{
+			PInvoke.CloseHandle(new HANDLE(highResolutionTimer));
+			highResolutionTimer = 0;
+		}
+	}
 
 	public unsafe void WaitForNextFrame()
 	{

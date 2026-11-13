@@ -40,6 +40,9 @@ public sealed class Mp4VideoWriter : IDisposable
 
 	public unsafe Mp4VideoWriter(string path, int width, int height, int framesPerSecond = 30)
 	{
+		width = Math.Max(2, width & ~1);
+		height = Math.Max(2, height & ~1);
+		framesPerSecond = Math.Max(1, framesPerSecond);
 		this.width = width;
 		this.height = height;
 		this.framesPerSecond = framesPerSecond;
@@ -54,7 +57,7 @@ public sealed class Mp4VideoWriter : IDisposable
 			MF.SetUInt32(attributes, MF.ReadWriteEnableHardwareTransforms, 1u);
 			MF.Check(MF.MFCreateSinkWriterFromURL(path, 0, attributes, out writer), "MFCreateSinkWriterFromURL");
 			num = MF.CreateType(MF.MediaTypeVideo, MF.VideoFormatH264);
-			MF.SetUInt32(num, MF.AvgBitrate, (uint)Math.Min(2147483647L, (long)width * (long)height * 6));
+			MF.SetUInt32(num, MF.AvgBitrate, (uint)Math.Min(2147483647L, (long)width * height * 6L));
 			MF.SetUInt32(num, MF.InterlaceMode, 2u);
 			MF.SetUInt32(num, MF.Mpeg2Profile, 100u);
 			SetVideoGeometry(num);

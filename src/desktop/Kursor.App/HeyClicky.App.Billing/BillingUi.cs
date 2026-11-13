@@ -143,7 +143,7 @@ public sealed class BillingUi : IPaywallCardHost
 		case BillingPlanActionKind.SwitchToYearly:
 			return await SwitchToYearlyAsync();
 		case BillingPlanActionKind.ViewTeam:
-			openUrl("https://team.heyclicky.com");
+			openUrl(Environment.GetEnvironmentVariable("KURSOR_TEAM_URL") ?? "http://127.0.0.1:8787/billing/local-portal");
 			tuckAway();
 			return null;
 		default:
@@ -500,7 +500,7 @@ public sealed class BillingUi : IPaywallCardHost
 			text2 = "you appear to be signed out, try signing in again";
 		}
 		string text4 = text2;
-		return "Couldn't start checkout — " + text4 + ". Please email hi@heyclicky.com and we'll sort it out fast.";
+		return "Couldn't start checkout — " + text4 + ". Please email support@kursor.app and we'll sort it out fast.";
 	}
 
 	private static string? ServerField(string body, string name)

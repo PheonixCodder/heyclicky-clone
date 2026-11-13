@@ -228,10 +228,10 @@ public sealed class TrayIcon : IDisposable
 		{
 			lpfnWndProc = Marshal.GetFunctionPointerForDelegate(proc),
 			hInstance = GetModuleHandleW(null),
-			lpszClassName = "HeyClickyTray"
+			lpszClassName = "KursorTray"
 		};
 		RegisterClassW(ref wc);
-		hwnd = CreateWindowExW(0u, "HeyClickyTray", "HeyClickyTray", 0u, 0, 0, 0, 0, -3, 0, wc.hInstance, 0);
+		hwnd = CreateWindowExW(0u, "KursorTray", "KursorTray", 0u, 0, 0, 0, 0, -3, 0, wc.hInstance, 0);
 		taskbarCreated = RegisterWindowMessageW("TaskbarCreated");
 		icon = MakeIcon(colorArgb);
 		data = new NOTIFYICONDATAW

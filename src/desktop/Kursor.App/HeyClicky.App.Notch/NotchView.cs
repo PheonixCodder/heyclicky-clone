@@ -187,7 +187,7 @@ public sealed class NotchView : INotchHost
 		Services = services;
 		Actions = actions;
 		dq = DispatcherQueue.GetForCurrentThread();
-		Window = new OverlayWindow("HeyClicky Notch", excludeFromCapture);
+		Window = new OverlayWindow("Kursor Notch", excludeFromCapture);
 		c = Ui.Compositor;
 		monitor = Displays.UnderCursor();
 		envH = NotchGeometry.EnvelopeHeight((double)monitor.Bounds.Height / monitor.Scale);

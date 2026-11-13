@@ -2189,48 +2189,63 @@ public sealed class AppHost : INotchCardActions, IAppActions, INotchActions
 
 	public async void SetCursorDocked(bool dock)
 	{
-		if (dock == Services.Settings.CursorDocked || cursorDockFlightInProgress)
+		try
 		{
-			return;
-		}
-		if (dock)
-		{
-			if (CursorLinesSuppressed())
+			if (dock == Services.Settings.CursorDocked || cursorDockFlightInProgress)
 			{
-				Services.Settings.CursorDocked = true;
-				await Services.Cursor.DockAsync(default(PointD));
-				Log.Info("cursor", "hidden (no goodbye: visuals suppressed)");
 				return;
 			}
-			cursorDockFlightInProgress = true;
-			Log.Info("cursor", "hiding: saying goodbye");
-			try
+			if (dock)
 			{
-				await Services.Cursor.SayGoodbyeAndDockAsync("okay see you <3");
+				if (CursorLinesSuppressed())
+				{
+					Services.Settings.CursorDocked = true;
+					try
+					{
+						await Services.Cursor.DockAsync(default(PointD));
+					}
+					catch (Exception exDock)
+					{
+						Log.Warn("cursor", "dock suppressed: " + exDock.Message);
+					}
+					Log.Info("cursor", "hidden (no goodbye: visuals suppressed)");
+					return;
+				}
+				cursorDockFlightInProgress = true;
+				Log.Info("cursor", "hiding: saying goodbye");
+				try
+				{
+					await Services.Cursor.SayGoodbyeAndDockAsync("okay see you <3");
+				}
+				catch (Exception ex)
+				{
+					Log.Warn("cursor", "goodbye: " + ex.Message);
+				}
+				Services.Settings.CursorDocked = true;
+				cursorDockFlightInProgress = false;
+				Log.Info("cursor", "hidden");
 			}
-			catch (Exception ex)
+			else
 			{
-				Log.Warn("cursor", "goodbye: " + ex.Message);
+				Services.Settings.CursorDocked = false;
+				cursorDockFlightInProgress = true;
+				Log.Info("cursor", "showing again");
+				try
+				{
+					await Services.Cursor.UndockAsync(default(PointD));
+				}
+				catch (Exception ex2)
+				{
+					Log.Warn("cursor", "show again: " + ex2.Message);
+				}
+				cursorDockFlightInProgress = false;
+				Log.Info("cursor", "shown");
 			}
-			Services.Settings.CursorDocked = true;
-			cursorDockFlightInProgress = false;
-			Log.Info("cursor", "hidden");
 		}
-		else
+		catch (Exception exOuter)
 		{
-			Services.Settings.CursorDocked = false;
-			cursorDockFlightInProgress = true;
-			Log.Info("cursor", "showing again");
-			try
-			{
-				await Services.Cursor.UndockAsync(default(PointD));
-			}
-			catch (Exception ex2)
-			{
-				Log.Warn("cursor", "show again: " + ex2.Message);
-			}
 			cursorDockFlightInProgress = false;
-			Log.Info("cursor", "shown");
+			Log.Error("cursor", "SetCursorDocked failed", exOuter);
 		}
 	}
 

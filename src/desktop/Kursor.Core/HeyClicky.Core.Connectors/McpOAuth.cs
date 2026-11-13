@@ -22,136 +22,6 @@ namespace HeyClicky.Core.Connectors;
 
 public static class McpOAuth
 {
-	[CompilerGenerated]
-	private sealed class _003CAuthorizationServerMetadataCandidates_003Ed__25 : IEnumerable<Uri>, IEnumerable, IEnumerator<Uri>, IEnumerator, IDisposable
-	{
-		private int _003C_003E1__state;
-
-		private Uri _003C_003E2__current;
-
-		private int _003C_003El__initialThreadId;
-
-		private Uri issuer;
-
-		public Uri _003C_003E3__issuer;
-
-		private HashSet<string> _003Cseen_003E5__2;
-
-		private Uri[] _003C_003E7__wrap2;
-
-		private int _003C_003E7__wrap3;
-
-		Uri IEnumerator<Uri>.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		object IEnumerator.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		[DebuggerHidden]
-		public _003CAuthorizationServerMetadataCandidates_003Ed__25(int _003C_003E1__state)
-		{
-			this._003C_003E1__state = _003C_003E1__state;
-			_003C_003El__initialThreadId = Environment.CurrentManagedThreadId;
-		}
-
-		[DebuggerHidden]
-		void IDisposable.Dispose()
-		{
-			_003Cseen_003E5__2 = null;
-			_003C_003E7__wrap2 = null;
-			_003C_003E1__state = -2;
-		}
-
-		private bool MoveNext()
-		{
-			int num = _003C_003E1__state;
-			if (num != 0)
-			{
-				if (num != 1)
-				{
-					return false;
-				}
-				_003C_003E1__state = -1;
-				goto IL_00f5;
-			}
-			_003C_003E1__state = -1;
-			_003Cseen_003E5__2 = new HashSet<string>();
-			_003C_003E7__wrap2 = new Uri[4]
-			{
-				WellKnownUrl(issuer, "oauth-authorization-server"),
-				new Uri(issuer.Scheme + "://" + issuer.Authority + "/.well-known/oauth-authorization-server"),
-				Uri.TryCreate(issuer.AbsoluteUri.TrimEnd('/') + "/.well-known/oauth-authorization-server", UriKind.Absolute, out Uri result) ? result : null,
-				WellKnownUrl(issuer, "openid-configuration")
-			};
-			_003C_003E7__wrap3 = 0;
-			goto IL_0103;
-			IL_00f5:
-			_003C_003E7__wrap3++;
-			goto IL_0103;
-			IL_0103:
-			if (_003C_003E7__wrap3 < _003C_003E7__wrap2.Length)
-			{
-				Uri uri = _003C_003E7__wrap2[_003C_003E7__wrap3];
-				if ((object)uri != null && _003Cseen_003E5__2.Add(uri.AbsoluteUri))
-				{
-					_003C_003E2__current = uri;
-					_003C_003E1__state = 1;
-					return true;
-				}
-				goto IL_00f5;
-			}
-			_003C_003E7__wrap2 = null;
-			return false;
-		}
-
-		bool IEnumerator.MoveNext()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in MoveNext
-			return this.MoveNext();
-		}
-
-		[DebuggerHidden]
-		void IEnumerator.Reset()
-		{
-			throw new NotSupportedException();
-		}
-
-		[DebuggerHidden]
-		IEnumerator<Uri> IEnumerable<Uri>.GetEnumerator()
-		{
-			_003CAuthorizationServerMetadataCandidates_003Ed__25 _003CAuthorizationServerMetadataCandidates_003Ed__;
-			if (_003C_003E1__state == -2 && _003C_003El__initialThreadId == Environment.CurrentManagedThreadId)
-			{
-				_003C_003E1__state = 0;
-				_003CAuthorizationServerMetadataCandidates_003Ed__ = this;
-			}
-			else
-			{
-				_003CAuthorizationServerMetadataCandidates_003Ed__ = new _003CAuthorizationServerMetadataCandidates_003Ed__25(0);
-			}
-			_003CAuthorizationServerMetadataCandidates_003Ed__.issuer = _003C_003E3__issuer;
-			return _003CAuthorizationServerMetadataCandidates_003Ed__;
-		}
-
-		[DebuggerHidden]
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return ((IEnumerable<Uri>)this).GetEnumerator();
-		}
-	}
-
 	public const int CallbackPort = 48611;
 
 	public const string CallbackPath = "/callback";
@@ -545,14 +415,23 @@ public static class McpOAuth
 		return result;
 	}
 
-	[IteratorStateMachine(typeof(_003CAuthorizationServerMetadataCandidates_003Ed__25))]
 	private static IEnumerable<Uri> AuthorizationServerMetadataCandidates(Uri issuer)
 	{
-		//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()
-		return new _003CAuthorizationServerMetadataCandidates_003Ed__25(-2)
+		HashSet<string> seen = new HashSet<string>();
+		Uri?[] candidates = new Uri?[4]
 		{
-			_003C_003E3__issuer = issuer
+			WellKnownUrl(issuer, "oauth-authorization-server"),
+			new Uri(issuer.Scheme + "://" + issuer.Authority + "/.well-known/oauth-authorization-server"),
+			Uri.TryCreate(issuer.AbsoluteUri.TrimEnd('/') + "/.well-known/oauth-authorization-server", UriKind.Absolute, out Uri? result) ? result : null,
+			WellKnownUrl(issuer, "openid-configuration")
 		};
+		foreach (Uri? uri in candidates)
+		{
+			if ((object?)uri != null && seen.Add(uri.AbsoluteUri))
+			{
+				yield return uri;
+			}
+		}
 	}
 
 	private static async Task<JsonObject?> FetchJsonAsync(HttpClient http, Uri url, TimeSpan timeout, CancellationToken ct)

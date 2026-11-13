@@ -1080,6 +1080,8 @@ public sealed class ThreeStage : IDisposable
 		}
 	}
 
+	private int released;
+
 	public void Dispose()
 	{
 		if (disposed)
@@ -1093,11 +1095,14 @@ public sealed class ThreeStage : IDisposable
 		{
 			ThreadPool.UnsafeQueueUserWorkItem(delegate
 			{
-				if (!running.Join(5000))
+				if (running.Join(5000))
+				{
+					Release();
+				}
+				else
 				{
 					Log.Warn("3D", "stage " + Identifier + ": the frame thread was still running 5 s after teardown");
 				}
-				Release();
 			}, null);
 		}
 		else
@@ -1108,6 +1113,10 @@ public sealed class ThreeStage : IDisposable
 
 	private void Release()
 	{
+		if (Interlocked.Exchange(ref released, 1) != 0)
+		{
+			return;
+		}
 		if (!GpuDevice.TryGetShared(out GpuDevice gpu))
 		{
 			wake.Dispose();
@@ -1293,72 +1302,82 @@ public sealed class ThreeStage : IDisposable
 
 	private void FrameLoop()
 	{
-		double num = DisplayRefreshRate();
-		double num2 = 0.0;
-		double num3 = 0.0;
-		while (!stopping)
+		try
 		{
-			if (paused)
+			double num = DisplayRefreshRate();
+			double num2 = 0.0;
+			double num3 = 0.0;
+			while (!stopping)
 			{
-				wake.WaitOne();
+				if (paused)
+				{
+					wake.WaitOne();
+					if (stopping)
+					{
+						break;
+					}
+					paused = false;
+					num2 = 0.0;
+					num3 = 0.0;
+					num = DisplayRefreshRate();
+				}
+				WaitForCompositorFrame();
 				if (stopping)
 				{
 					break;
 				}
-				paused = false;
-				num2 = 0.0;
-				num3 = 0.0;
-				num = DisplayRefreshRate();
-			}
-			WaitForCompositorFrame();
-			if (stopping)
-			{
-				break;
-			}
-			double num4 = (double)Stopwatch.GetTimestamp() / (double)Stopwatch.Frequency;
-			float val;
-			lock (sync)
-			{
-				val = WantedFramesPerSecond(num);
-			}
-			double num5 = 1.0 / (double)Math.Max(1f, val);
-			double num6 = 0.5 / Math.Max(1.0, num);
-			if (num3 > 0.0 && num4 < num3 - num6)
-			{
-				continue;
-			}
-			num3 = ((num3 > 0.0 && num4 - num3 < num5) ? (num3 + num5) : (num4 + num5));
-			Surface?.WaitUntilReady(250);
-			if (stopping)
-			{
-				break;
-			}
-			long timestamp = Stopwatch.GetTimestamp();
-			double num7 = Now();
-			bool isBackAfterLongGap = num2 > 0.0 && num7 - num2 > 1.0;
-			num2 = num7;
-			try
-			{
-				RenderFrame(num7, isBackAfterLongGap);
-			}
-			catch (Exception ex)
-			{
-				Log.Error("3D", "stage " + Identifier + " frame failed", ex);
-				paused = true;
-				continue;
-			}
-			cpuFrameMilliseconds[FramesPresented % cpuFrameMilliseconds.Length] = Stopwatch.GetElapsedTime(timestamp).TotalMilliseconds;
-			FramesPresented++;
-			lock (sync)
-			{
-				if (!IsBuilding && !IsHandActive && Scene.HasSettledMotion && ticks.Count == 0 && num7 > BuiltTime + 0.5)
+				double num4 = (double)Stopwatch.GetTimestamp() / (double)Stopwatch.Frequency;
+				float val;
+				lock (sync)
 				{
-					LabelWords? labelWords = words;
-					if (labelWords == null || !labelWords.IsWriting(num7))
+					val = WantedFramesPerSecond(num);
+				}
+				double num5 = 1.0 / (double)Math.Max(1f, val);
+				double num6 = 0.5 / Math.Max(1.0, num);
+				if (num3 > 0.0 && num4 < num3 - num6)
+				{
+					continue;
+				}
+				num3 = ((num3 > 0.0 && num4 - num3 < num5) ? (num3 + num5) : (num4 + num5));
+				Surface?.WaitUntilReady(250);
+				if (stopping)
+				{
+					break;
+				}
+				long timestamp = Stopwatch.GetTimestamp();
+				double num7 = Now();
+				bool isBackAfterLongGap = num2 > 0.0 && num7 - num2 > 1.0;
+				num2 = num7;
+				try
+				{
+					RenderFrame(num7, isBackAfterLongGap);
+				}
+				catch (Exception ex)
+				{
+					Log.Error("3D", "stage " + Identifier + " frame failed", ex);
+					paused = true;
+					continue;
+				}
+				cpuFrameMilliseconds[FramesPresented % cpuFrameMilliseconds.Length] = Stopwatch.GetElapsedTime(timestamp).TotalMilliseconds;
+				FramesPresented++;
+				lock (sync)
+				{
+					if (!IsBuilding && !IsHandActive && Scene.HasSettledMotion && ticks.Count == 0 && num7 > BuiltTime + 0.5)
 					{
-						paused = true;
+						LabelWords? labelWords = words;
+						if (labelWords == null || !labelWords.IsWriting(num7))
+						{
+							paused = true;
+						}
 					}
 				}
+			}
+		}
+		finally
+		{
+			if (disposed)
+			{
+				Release();
 			}
 		}
 	}

@@ -9,6 +9,8 @@ public sealed class ClickyLiveNoteStore
 {
 	public sealed record Note(string Text, bool IsBeingWritten, DateTimeOffset? SavedAt);
 
+	private readonly object syncRoot = new object();
+
 	private readonly Dictionary<string, Note> notes = new Dictionary<string, Note>();
 
 	private readonly Dictionary<string, string> savedTexts = new Dictionary<string, string>();
@@ -29,7 +31,16 @@ public sealed class ClickyLiveNoteStore
 
 	public static ClickyLiveNoteStore Shared { get; } = new ClickyLiveNoteStore();
 
-	public IReadOnlyDictionary<string, Note> Notes => notes;
+	public IReadOnlyDictionary<string, Note> Notes
+	{
+		get
+		{
+			lock (syncRoot)
+			{
+				return new Dictionary<string, Note>(notes);
+			}
+		}
+	}
 
 	public event Action? Changed;
 
@@ -39,36 +50,50 @@ public sealed class ClickyLiveNoteStore
 
 	private void SetNote(string path, Note note)
 	{
-		if (!notes.TryGetValue(path, out Note value) || !(value == note))
+		bool changed = false;
+		lock (syncRoot)
 		{
-			notes[path] = note;
+			if (!notes.TryGetValue(path, out Note? value) || !(value == note))
+			{
+				notes[path] = note;
+				changed = true;
+			}
+		}
+		if (changed)
+		{
 			this.Changed?.Invoke();
 		}
 	}
 
 	public void BeginShowing(string path)
 	{
-		shownCounts[path] = (shownCounts.TryGetValue(path, out var value) ? value : 0) + 1;
+		lock (syncRoot)
+		{
+			shownCounts[path] = (shownCounts.TryGetValue(path, out var value) ? value : 0) + 1;
+		}
 		ReadNow(path);
 		StartPollingIfNeeded();
 	}
 
 	public void EndShowing(string path)
 	{
-		if (shownCounts.TryGetValue(path, out var value))
+		lock (syncRoot)
 		{
-			if (value <= 1)
+			if (shownCounts.TryGetValue(path, out var value))
 			{
-				shownCounts.Remove(path);
-			}
-			else
-			{
-				shownCounts[path] = value - 1;
-			}
-			if (shownCounts.Count == 0)
-			{
-				pollTimer?.Dispose();
-				pollTimer = null;
+				if (value <= 1)
+				{
+					shownCounts.Remove(path);
+				}
+				else
+				{
+					shownCounts[path] = value - 1;
+				}
+				if (shownCounts.Count == 0)
+				{
+					pollTimer?.Dispose();
+					pollTimer = null;
+				}
 			}
 		}
 	}
@@ -76,7 +101,7 @@ public sealed class ClickyLiveNoteStore
 	public void ReadNow(string path)
 	{
 		(DateTimeOffset, long)? tuple = InkFiles.Stat(path);
-		string text = ((!tuple.HasValue) ? null : InkFiles.ReadUtf8(path));
+		string? text = ((!tuple.HasValue) ? null : InkFiles.ReadUtf8(path));
 		if (tuple.HasValue)
 		{
 			(DateTimeOffset, long) valueOrDefault = tuple.GetValueOrDefault();
@@ -84,39 +109,67 @@ public sealed class ClickyLiveNoteStore
 			{
 				if (valueOrDefault.Item2 <= 524288)
 				{
-					savedStats[path] = valueOrDefault;
-					savedTexts[path] = text;
-					pendingStreamedTexts.Remove(path);
+					lock (syncRoot)
+					{
+						savedStats[path] = valueOrDefault;
+						savedTexts[path] = text;
+						pendingStreamedTexts.Remove(path);
+					}
 					SetNote(path, new Note(text, IsBeingWritten: false, valueOrDefault.Item1));
 					ClickyInkNoteStore.Shared.RecordSaved(path, text, valueOrDefault.Item1);
 				}
 				return;
 			}
 		}
-		if (notes.ContainsKey(path) && !File.Exists(path))
+		bool removed = false;
+		lock (syncRoot)
 		{
-			notes.Remove(path);
-			savedTexts.Remove(path);
-			savedStats.Remove(path);
+			if (notes.ContainsKey(path) && !File.Exists(path))
+			{
+				notes.Remove(path);
+				savedTexts.Remove(path);
+				savedStats.Remove(path);
+				removed = true;
+			}
+		}
+		if (removed)
+		{
 			this.Changed?.Invoke();
 		}
 	}
 
 	public void StreamPatch(string path, string kind, string diff)
 	{
-		if (!savedTexts.ContainsKey(path))
+		bool hasSaved;
+		lock (syncRoot)
+		{
+			hasSaved = savedTexts.ContainsKey(path);
+		}
+		if (!hasSaved)
 		{
 			ReadNow(path);
 		}
 		ClickyInkNoteStore.Shared.StreamPatch(path, kind, diff);
-		string value;
-		string text = ClickyInkPatchStream.PartialText(savedTexts.TryGetValue(path, out value) ? value : "", kind, diff);
+		string savedText;
+		lock (syncRoot)
+		{
+			savedText = (savedTexts.TryGetValue(path, out string? value) ? value : "");
+		}
+		string? text = ClickyInkPatchStream.PartialText(savedText, kind, diff);
 		if (text != null)
 		{
-			pendingStreamedTexts[path] = text;
-			if (!streamPublishScheduled)
+			bool schedule = false;
+			lock (syncRoot)
 			{
-				streamPublishScheduled = true;
+				pendingStreamedTexts[path] = text;
+				if (!streamPublishScheduled)
+				{
+					streamPublishScheduled = true;
+					schedule = true;
+				}
+			}
+			if (schedule)
+			{
 				InkDispatch.After(0.12, PublishStreamedTexts);
 			}
 		}
@@ -124,29 +177,50 @@ public sealed class ClickyLiveNoteStore
 
 	private void PublishStreamedTexts()
 	{
-		streamPublishScheduled = false;
-		foreach (var (text3, text4) in pendingStreamedTexts.ToList())
+		List<KeyValuePair<string, string>> snapshot;
+		lock (syncRoot)
 		{
-			SetNote(text3, new Note(text4, IsBeingWritten: true, notes.TryGetValue(text3, out Note value) ? value.SavedAt : ((DateTimeOffset?)null)));
+			streamPublishScheduled = false;
+			snapshot = pendingStreamedTexts.ToList();
+			pendingStreamedTexts.Clear();
 		}
-		pendingStreamedTexts.Clear();
+		foreach (var (text3, text4) in snapshot)
+		{
+			DateTimeOffset? savedAt;
+			lock (syncRoot)
+			{
+				savedAt = (notes.TryGetValue(text3, out Note? value) ? value.SavedAt : null);
+			}
+			SetNote(text3, new Note(text4, IsBeingWritten: true, savedAt));
+		}
 	}
 
 	private void StartPollingIfNeeded()
 	{
-		if (pollTimer == null && shownCounts.Count != 0)
+		lock (syncRoot)
 		{
-			pollTimer = new InkDispatch.RepeatingTimer(0.5, PollShownNotes);
+			if (pollTimer == null && shownCounts.Count != 0)
+			{
+				pollTimer = new InkDispatch.RepeatingTimer(0.5, PollShownNotes);
+			}
 		}
 	}
 
 	private void PollShownNotes()
 	{
-		foreach (string item in shownCounts.Keys.ToList())
+		List<string> shownKeys;
+		lock (syncRoot)
+		{
+			shownKeys = shownCounts.Keys.ToList();
+		}
+		foreach (string item in shownKeys)
 		{
 			(DateTimeOffset, long)? tuple = InkFiles.Stat(item);
-			(DateTimeOffset, long) value;
-			(DateTimeOffset, long)? tuple2 = (savedStats.TryGetValue(item, out value) ? new(DateTimeOffset, long)?(value) : (((DateTimeOffset, long)?)null));
+			(DateTimeOffset, long)? tuple2;
+			lock (syncRoot)
+			{
+				tuple2 = (savedStats.TryGetValue(item, out (DateTimeOffset, long) value) ? new(DateTimeOffset, long)?(value) : null);
+			}
 			DateTimeOffset? dateTimeOffset = tuple?.Item1;
 			DateTimeOffset? dateTimeOffset2 = tuple2?.Item1;
 			if (dateTimeOffset.HasValue != dateTimeOffset2.HasValue || (dateTimeOffset.HasValue && dateTimeOffset.GetValueOrDefault() != dateTimeOffset2.GetValueOrDefault()) || tuple?.Item2 != tuple2?.Item2)
@@ -158,10 +232,13 @@ public sealed class ClickyLiveNoteStore
 
 	public void RemoveAllForSignOut()
 	{
-		notes.Clear();
-		savedTexts.Clear();
-		savedStats.Clear();
-		pendingStreamedTexts.Clear();
+		lock (syncRoot)
+		{
+			notes.Clear();
+			savedTexts.Clear();
+			savedStats.Clear();
+			pendingStreamedTexts.Clear();
+		}
 		this.Changed?.Invoke();
 		ClickyInkNoteStore.Shared.RemoveAllForSignOut();
 		ClickyInkActionsStore.Shared.RemoveAllForSignOut();

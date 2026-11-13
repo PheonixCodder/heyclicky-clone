@@ -291,9 +291,22 @@ internal sealed class EarconPlayer : WasapiRenderStream
 		{
 			uint num3 = BinaryPrimitives.ReadUInt32BigEndian(wav.AsSpan(i));
 			num4 = (int)BinaryPrimitives.ReadUInt32LittleEndian(wav.AsSpan(i + 4));
+			if (num4 < 0 || i + 8 + num4 > wav.Length)
+			{
+				if (num3 == 1684108385u && num4 >= 0)
+				{
+					dataOffset = i + 8;
+					num2 = Math.Min(num4, wav.Length - dataOffset);
+				}
+				break;
+			}
 			switch (num3)
 			{
 			case 1718449184u:
+				if (num4 < 16)
+				{
+					break;
+				}
 				formatTag = BinaryPrimitives.ReadUInt16LittleEndian(wav.AsSpan(i + 8));
 				channels = BinaryPrimitives.ReadUInt16LittleEndian(wav.AsSpan(i + 10));
 				num = (int)BinaryPrimitives.ReadUInt32LittleEndian(wav.AsSpan(i + 12));
@@ -316,8 +329,20 @@ internal sealed class EarconPlayer : WasapiRenderStream
 		{
 			throw new InvalidDataException("missing fmt/data chunk");
 		}
+		if (!((bitsPerSample == 8 || bitsPerSample == 16 || bitsPerSample == 24 || bitsPerSample == 32) && num > 0 && num2 > 0))
+		{
+			return Array.Empty<float>();
+		}
 		int bytesPerSample = bitsPerSample / 8;
+		if (bytesPerSample <= 0)
+		{
+			return Array.Empty<float>();
+		}
 		int num5 = num2 / (bytesPerSample * channels);
+		if (num5 <= 0)
+		{
+			return Array.Empty<float>();
+		}
 		int num6 = (int)((long)num5 * 48000L / num);
 		float[] array = new float[num6 * 2];
 		double num7 = (double)num / 48000.0;

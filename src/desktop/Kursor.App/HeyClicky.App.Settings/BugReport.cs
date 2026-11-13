@@ -40,8 +40,8 @@ public static class BugReport
 		Version version = typeof(BugReport).Assembly.GetName().Version;
 		bool isEnabled = CrashReporter.Current.IsEnabled;
 		StringBuilder stringBuilder = new StringBuilder().Append("Hey team,\n\n<tell us about your bug or request>\n\n--\n\n");
-		StringBuilder.AppendInterpolatedStringHandler handler = new StringBuilder.AppendInterpolatedStringHandler(18, 3, stringBuilder);
-		handler.AppendLiteral("App: HeyClicky ");
+		StringBuilder.AppendInterpolatedStringHandler handler = new StringBuilder.AppendInterpolatedStringHandler(12, 3, stringBuilder);
+		handler.AppendLiteral("App: Kursor ");
 		handler.AppendFormatted(version?.Major);
 		handler.AppendLiteral(".");
 		handler.AppendFormatted(version?.Minor);
@@ -71,12 +71,15 @@ public static class BugReport
 		StringBuilder.AppendInterpolatedStringHandler handler5 = new StringBuilder.AppendInterpolatedStringHandler(11, 1, stringBuilder6);
 		handler5.AppendLiteral("Report ID: ");
 		handler5.AppendFormatted(text);
-		string stringToEscape = stringBuilder6.Append(ref handler5).Append((text3 == null || isEnabled) ? "" : ("\nDiagnostics: please attach " + Path.GetFileName(text3))).ToString();
-		string url = "https://mail.google.com/mail/?view=cm&fs=1&to=hi%40heyclicky.com&su=" + Uri.EscapeDataString("hey clicky") + "&body=" + Uri.EscapeDataString(stringToEscape);
+		string stringToEscape = stringBuilder6.Append(ref handler5).Append((text3 == null) ? "" : ("\nDiagnostics: please attach " + Path.GetFileName(text3))).ToString();
+		string supportBaseUrl = Environment.GetEnvironmentVariable("KURSOR_BUG_REPORT_URL");
+		string url = (!string.IsNullOrWhiteSpace(supportBaseUrl)
+			? supportBaseUrl
+			: ("https://github.com/kursor-app/kursor/issues/new?title=" + Uri.EscapeDataString("Bug report: " + text) + "&body=" + Uri.EscapeDataString(stringToEscape)));
 		host.OpenUrl(url);
 		host.App?.FoldNotchForOpenedLink();
 		ClickyAnalytics.TrackBugReportSubmitted(text);
-		if (text3 != null && !isEnabled && Environment.GetEnvironmentVariable("HEYCLICKY_E2E_NO_BROWSER") != "1")
+		if (text3 != null && Environment.GetEnvironmentVariable("HEYCLICKY_E2E_NO_BROWSER") != "1" && Environment.GetEnvironmentVariable("KURSOR_E2E_NO_BROWSER") != "1")
 		{
 			try
 			{
@@ -88,7 +91,7 @@ public static class BugReport
 			}
 		}
 		host.Worker?.ReportError(new ErrorReport("bug_report", "user_report", $"Bug report {text} (diagnostics: {((text3 == null) ? "none" : "local zip")})", "", $"{version?.Major}.{version?.Minor}.{version?.Build}", 0, "bug_report", host.Services.Auth.User?.UserId, host.Services.Auth.User?.Email));
-		if (isEnabled)
+		if (isEnabled && Environment.GetEnvironmentVariable("KURSOR_ALLOW_SENTRY_UPLOAD") == "1")
 		{
 			SendToSentry(host, text, text2, $"{version?.Major}.{version?.Minor}.{version?.Build}");
 		}

@@ -412,14 +412,15 @@ public sealed class DictationController : IAsyncDisposable
 		List<string> list = customWords.Concat(readOnlyList3).Distinct<string>(StringComparer.OrdinalIgnoreCase).Take(50)
 			.ToList();
 		Log.Info("Dictation", ((object)dictationFocus2 == null) ? ("focus: no editable field (app " + (keyDownWorkAppWithoutFocus?.AppName ?? "?") + ((keyDownWorkAppWithoutFocus?.AllowsBlindPaste ?? false) ? ", blind paste allowed" : "") + ")") : $"focus: {dictationFocus2.Role} in {dictationFocus2.AppName}{(dictationFocus2.IsSecure ? " (password field)" : "")}{(dictationFocus2.IsSingleLine ? ", single line" : "")}, {dictationFocus2.BeforeText.Length} chars before, {readOnlyList3.Count} context keyterms");
+		newClient.KnownTerms = list;
 		GeminiTranscriber transcriber;
 		if (adopted != null)
 		{
-			newClient.KnownTerms = list;
 			transcriber = adopted;
 		}
 		else
 		{
+			newClient.KnownTerms = list;
 			transcriber = NewStreamingTranscriber(language, list, usageContext);
 			transcriber.Start();
 			lock (frameGate)
@@ -564,10 +565,42 @@ public sealed class DictationController : IAsyncDisposable
 		Log.Info("Dictation", "streaming unavailable (" + (why ?? "no socket") + "): batch transcription");
 		try
 		{
-			string item = (await batchClient.TranscribeAsync()).Item1;
+			string rawText = (await batchClient.TranscribeAsync()).Item1;
 			if (token == sessionToken)
 			{
-				await DeliverAsync(token, item, usedBatch: true, (int)(Environment.TickCount64 - releaseTicks), null);
+				int transcriptWaitMs = (int)(Environment.TickCount64 - releaseTicks);
+				string trimmedRaw = (rawText ?? "").Trim();
+				if (trimmedRaw.Length == 0)
+				{
+					await DeliverAsync(token, "", usedBatch: true, transcriptWaitMs, null);
+					return;
+				}
+				string finalText = trimmedRaw;
+				int? cleanupMs = null;
+				long cleanupStarted = Environment.TickCount64;
+				try
+				{
+					DictationCleanupContext focusContext = batchClient.Context;
+					string cleaned = await batchClient.CleanUpAsync(trimmedRaw, focusContext, null, default(CancellationToken));
+					if (!string.IsNullOrWhiteSpace(cleaned))
+					{
+						finalText = cleaned;
+					}
+					cleanupMs = (int)(Environment.TickCount64 - cleanupStarted);
+				}
+				catch (DictationPaywallReachedException)
+				{
+					if (token == sessionToken)
+					{
+						HandlePaywallReached();
+					}
+					return;
+				}
+				catch (Exception exClean)
+				{
+					Log.Warn("Dictation", "batch cleanup failed, inserting the raw transcript: " + exClean.Message);
+				}
+				await DeliverAsync(token, finalText, usedBatch: true, transcriptWaitMs, cleanupMs);
 			}
 		}
 		catch (DictationPaywallReachedException)
@@ -609,7 +642,10 @@ public sealed class DictationController : IAsyncDisposable
 			this.Completed?.Invoke(new DictationResult("", DictationDeliveryOutcome.Nothing, null, usedBatch, handsFree, usedWarmConnection, 0));
 			return;
 		}
-		DictationTranscriptArchive.AppendFinishedTranscript(transcript, focus?.AppName ?? workApp?.AppName);
+		if ((object)focus == null || !focus.IsSecure)
+		{
+			DictationTranscriptArchive.AppendFinishedTranscript(transcript, focus?.AppName ?? workApp?.AppName);
+		}
 		settings.Update(delegate(AppSettings s)
 		{
 			s.DictationLastCompletedAtEpochSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();

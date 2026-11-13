@@ -144,7 +144,8 @@ internal sealed class NativeEngine : IDisposable
 			}
 			engine = new V8ScriptEngine("ClickyDraw", new V8RuntimeConstraints
 			{
-				MaxOldSpaceSize = 512
+				MaxOldSpaceSize = 128,
+				MaxNewSpaceSize = 32
 			}, V8ScriptEngineFlags.None);
 			engine.AddHostObject("__hostRaw", new HostBridge
 			{
@@ -246,6 +247,45 @@ internal sealed class NativeEngine : IDisposable
 		}
 	}
 
+	private void RunWithWatchdog(Action action, int timeoutMs)
+	{
+		RunWithWatchdog<object?>(delegate
+		{
+			action();
+			return null;
+		}, timeoutMs, null);
+	}
+
+	private T RunWithWatchdog<T>(Func<T> func, int timeoutMs, T fallback)
+	{
+		if (engine == null)
+		{
+			return fallback;
+		}
+		V8ScriptEngine v8 = engine;
+		using (new System.Threading.Timer(delegate
+		{
+			try
+			{
+				v8?.Interrupt();
+			}
+			catch
+			{
+			}
+		}, null, timeoutMs, System.Threading.Timeout.Infinite))
+		{
+			try
+			{
+				return func();
+			}
+			catch (ScriptInterruptedException ex)
+			{
+				Log.Warn("Drawing", $"V8 execution interrupted by watchdog ({timeoutMs} ms): {ex.Message}");
+				return fallback;
+			}
+		}
+	}
+
 	private object? Call(string method, params object[] arguments)
 	{
 		if (engine == null || canvas == null)
@@ -281,7 +321,11 @@ internal sealed class NativeEngine : IDisposable
 				value = (flag ? ((ScriptObject)engine.Evaluate("(function () { return clickyCanvas." + method + ".apply(clickyCanvas, arguments); })")) : ((ScriptObject)engine.Evaluate("__win." + method)));
 				methods[method] = value;
 			}
-			obj = value.Invoke(asConstructor: false, arguments);
+			obj = RunWithWatchdog(() => value.Invoke(asConstructor: false, arguments), 1500, null);
+		}
+		catch (ScriptInterruptedException ex)
+		{
+			Log.Warn("Drawing", "engine " + method + " interrupted by watchdog: " + ex.Message);
 		}
 		catch (ScriptEngineException ex)
 		{
@@ -606,7 +650,7 @@ internal sealed class NativeEngine : IDisposable
 	{
 		try
 		{
-			return engine?.Evaluate(script)?.ToString();
+			return RunWithWatchdog(() => engine?.Evaluate(script)?.ToString(), 1500, null);
 		}
 		catch (Exception ex)
 		{
@@ -629,7 +673,7 @@ internal sealed class NativeEngine : IDisposable
 				{
 					value = (methods["tick3d"] = (ScriptObject)engine.Evaluate("__win.tick3d"));
 				}
-				if (!(value.Invoke(false, stageId, text, frameSeconds) is string { Length: not 0 } text2))
+				if (!(RunWithWatchdog(() => value.Invoke(false, stageId, text, frameSeconds), 100, null) is string { Length: not 0 } text2))
 				{
 					return (float[])null;
 				}
@@ -654,7 +698,11 @@ internal sealed class NativeEngine : IDisposable
 		{
 			thread.CancelTimer(value);
 		}
-		timerTokens[identifier] = thread.ScheduleTimer(DrawingThread.Now + Math.Max(0.0, seconds), delegate
+		else if (timerTokens.Count >= 64)
+		{
+			return;
+		}
+		timerTokens[identifier] = thread.ScheduleTimer(DrawingThread.Now + Math.Max(0.016, seconds), delegate
 		{
 			FireTimer(identifier);
 		});

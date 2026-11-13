@@ -371,9 +371,13 @@
       return turnTo(new T.CylinderGeometry(top, r, h, seg, 1, o.open === true, 0, arc), o.axis);
     },
     cone(o) {
-      const r = pos(o.r, 0.5), h = pos(o.h, 1), b = bevelOf(o, Math.min(r, h) * 0.45);
-      if (b > 0.0005) return turnTo(latheOf(roundOutline([[0, -h / 2], [r, -h / 2], [0, h / 2]], [1], b), o), o.axis);
-      return turnTo(new T.ConeGeometry(r, h, clamp(Math.round(num(o.seg, 48)), 3, 128)), o.axis);
+      const r = pos(o.r, 0.5), topR = Math.max(0, num(o.top, 0)), h = pos(o.h, 1), segs = clamp(Math.round(num(o.seg, 48)), 3, 128);
+      const b = bevelOf(o, Math.min(Math.min(r, topR || r), h) * 0.45);
+      if (b > 0.0005) {
+        const outline = topR > 0 ? [[0, -h / 2], [r, -h / 2], [topR, h / 2], [0, h / 2]] : [[0, -h / 2], [r, -h / 2], [0, h / 2]];
+        return turnTo(latheOf(roundOutline(outline, topR > 0 ? [1, 2] : [1], b), o), o.axis);
+      }
+      return turnTo(topR > 0 ? new T.CylinderGeometry(topR, r, h, segs) : new T.ConeGeometry(r, h, segs), o.axis);
     },
     // A hollow cylinder: a pipe section, a cylinder wall, a ring with thickness.
     tube(o) {

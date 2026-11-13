@@ -93,7 +93,7 @@ internal sealed class OverlayWindow : IDisposable
 				}
 				showInScreenRecordings = value;
 			}
-			ApplyCapturePolicyToAllAsync();
+			_ = ApplyCapturePolicyToAllAsync();
 		}
 	}
 
@@ -134,35 +134,54 @@ internal sealed class OverlayWindow : IDisposable
 		return true;
 	}
 
-	private static async Task ApplyCapturePolicyToAllAsync()
+	internal static Task SetShowInScreenRecordingsAsync(bool value)
 	{
-		List<OverlayWindow> list;
 		lock (capturePolicyGate)
 		{
-			list = live.ToList();
-		}
-		List<Task> list2 = new List<Task>();
-		foreach (OverlayWindow window in list)
-		{
-			DispatcherQueue dispatcherQueue = window.ownerQueue;
-			if ((object)dispatcherQueue == null || dispatcherQueue.HasThreadAccess)
+			if (showInScreenRecordings == value)
 			{
-				window.ApplyCapturePolicy();
-				continue;
+				return Task.CompletedTask;
 			}
-			TaskCompletionSource done = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-			if (dispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, delegate
+			showInScreenRecordings = value;
+		}
+		return ApplyCapturePolicyToAllAsync();
+	}
+
+	private static async Task ApplyCapturePolicyToAllAsync()
+	{
+		try
+		{
+			List<OverlayWindow> list;
+			lock (capturePolicyGate)
 			{
-				window.ApplyCapturePolicy();
-				done.TrySetResult();
-			}))
+				list = live.ToList();
+			}
+			List<Task> list2 = new List<Task>();
+			foreach (OverlayWindow window in list)
 			{
-				list2.Add(done.Task);
+				DispatcherQueue dispatcherQueue = window.ownerQueue;
+				if ((object)dispatcherQueue == null || dispatcherQueue.HasThreadAccess)
+				{
+					window.ApplyCapturePolicy();
+					continue;
+				}
+				TaskCompletionSource done = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+				if (dispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, delegate
+				{
+					window.ApplyCapturePolicy();
+					done.TrySetResult();
+				}))
+				{
+					list2.Add(done.Task);
+				}
+			}
+			if (list2.Count > 0)
+			{
+				await Task.WhenAny(Task.WhenAll(list2), Task.Delay(250)).ConfigureAwait(continueOnCapturedContext: false);
 			}
 		}
-		if (list2.Count > 0)
+		catch
 		{
-			await Task.WhenAny(Task.WhenAll(list2), Task.Delay(250)).ConfigureAwait(continueOnCapturedContext: false);
 		}
 	}
 
@@ -344,6 +363,12 @@ internal sealed class OverlayWindow : IDisposable
 			{
 			case 33u:
 				return 3;
+			case 736u:
+				if (value != null)
+				{
+					value.Fit(value.BoundsPx.Width, value.BoundsPx.Height);
+				}
+				return IntPtr.Zero;
 			case 132u:
 				if (value == null || !value.interactive)
 				{
@@ -463,6 +488,7 @@ internal sealed class OverlayWindow : IDisposable
 	{
 		BoundsPx = new RectInt32(x, y, BoundsPx.Width, BoundsPx.Height);
 		NativeMethods.SetWindowPos(Handle, IntPtr.Zero, x + OffscreenShift, y, 0, 0, 533u);
+		Fit(BoundsPx.Width, BoundsPx.Height);
 	}
 
 	public void Hide()

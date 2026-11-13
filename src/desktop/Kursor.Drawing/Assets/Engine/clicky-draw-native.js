@@ -15,7 +15,10 @@
 // no native bridge beyond the __host functions.
 (function (global) {
   'use strict';
-  const HOST = global.__host;
+  const __capturedHostRaw = typeof globalThis !== 'undefined' && globalThis.__hostRaw ? globalThis.__hostRaw : global.__hostRaw;
+  try { delete globalThis.__hostRaw; } catch {}
+  try { delete global.__hostRaw; } catch {}
+  const HOST = global.__host || __capturedHostRaw;
   global.window = global;
   global.self = global;
 
@@ -406,6 +409,7 @@
   global.__hostDrawsMarquee = true;
 
   function clearNow() {
+    timerCallbacks.clear();
     if (session) { try { session.stop(); } catch (_) {} session = null; }
     if (stage) { stage.remove(); stage = null; }
     lastLine = -1; lineStarts = {}; lineLengths = {}; linesStartedInEngine = {};
@@ -648,7 +652,7 @@
       showSubtitles = !!subtitles;
       ClickyDraw.setPen(SCREEN_PEN);
       session = ClickyDraw.live({ w, h, surface: 'none' }, stage,
-        Object.assign({ width, pace: 'speech', speech: 'external', onDraw: noteDrawn, codeStart: (pieces || '').length + 1 }, SCREEN_PACING));
+        Object.assign({ width, pace: 'speech', speech: 'external', budgetMs: 200, onDraw: noteDrawn, codeStart: (pieces || '').length + 1 }, SCREEN_PACING));
       return true;
     },
 

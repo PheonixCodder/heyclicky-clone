@@ -97,7 +97,7 @@ public static class ForegroundAppInfo
 		return null;
 	}
 
-	private unsafe static ForegroundApp? Capture(HWND window)
+	internal unsafe static ForegroundApp? Capture(HWND window)
 	{
 		if (window.IsNull)
 		{

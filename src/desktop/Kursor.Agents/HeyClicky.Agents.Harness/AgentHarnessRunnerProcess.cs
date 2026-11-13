@@ -72,7 +72,7 @@ public static class AgentHarnessRunnerProcess
 			{
 				return environmentVariable;
 			}
-			return Path.Combine(RepoRoot("C:\\Users\\niles\\code\\clicky-closed\\windows\\src\\HeyClicky.Agents\\Harness\\AgentHarnessRunnerRuntime.cs"), "agent-harness", "runner.mjs");
+			return Path.Combine(RepoRoot(), "agent-harness", "runner.mjs");
 		}
 	}
 

@@ -1019,116 +1019,6 @@ public sealed class SettingsContent : Grid
 	}
 
 	[CompilerGenerated]
-	private sealed class _003CDemoAgentMomentRows_003Ed__65 : IEnumerable<FrameworkElement>, IEnumerable, IEnumerator<FrameworkElement>, IEnumerator, IDisposable
-	{
-		private int _003C_003E1__state;
-
-		private FrameworkElement _003C_003E2__current;
-
-		private int _003C_003El__initialThreadId;
-
-		public SettingsContent _003C_003E4__this;
-
-		FrameworkElement IEnumerator<FrameworkElement>.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		object IEnumerator.Current
-		{
-			[DebuggerHidden]
-			get
-			{
-				return _003C_003E2__current;
-			}
-		}
-
-		[DebuggerHidden]
-		public _003CDemoAgentMomentRows_003Ed__65(int _003C_003E1__state)
-		{
-			this._003C_003E1__state = _003C_003E1__state;
-			_003C_003El__initialThreadId = Environment.CurrentManagedThreadId;
-		}
-
-		[DebuggerHidden]
-		void IDisposable.Dispose()
-		{
-			_003C_003E1__state = -2;
-		}
-
-		private bool MoveNext()
-		{
-			int num = _003C_003E1__state;
-			SettingsContent CS_0024_003C_003E8__locals2 = _003C_003E4__this;
-			switch (num)
-			{
-			default:
-				return false;
-			case 0:
-				_003C_003E1__state = -1;
-				_003C_003E2__current = SK.ActionRow("Run welcome-website agent", "Shippy builds the personalized welcome website, as at 1:25 in the intro video.", delegate
-				{
-					CS_0024_003C_003E8__locals2.host.App?.DebugLaunchOnboardingWebsiteAgent();
-				}, null, null);
-				_003C_003E1__state = 1;
-				return true;
-			case 1:
-				_003C_003E1__state = -1;
-				_003C_003E2__current = SK.ActionRow("Run SpaceX report agent", "Research Buddy writes the SpaceX competitor report, as at 1:07 in the intro video.", delegate
-				{
-					CS_0024_003C_003E8__locals2.host.App?.DebugLaunchOnboardingSpaceXReportAgent();
-				}, null, null);
-				_003C_003E1__state = 2;
-				return true;
-			case 2:
-				_003C_003E1__state = -1;
-				return false;
-			}
-		}
-
-		bool IEnumerator.MoveNext()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in MoveNext
-			return this.MoveNext();
-		}
-
-		[DebuggerHidden]
-		void IEnumerator.Reset()
-		{
-			throw new NotSupportedException();
-		}
-
-		[DebuggerHidden]
-		IEnumerator<FrameworkElement> IEnumerable<FrameworkElement>.GetEnumerator()
-		{
-			_003CDemoAgentMomentRows_003Ed__65 result;
-			if (_003C_003E1__state == -2 && _003C_003El__initialThreadId == Environment.CurrentManagedThreadId)
-			{
-				_003C_003E1__state = 0;
-				result = this;
-			}
-			else
-			{
-				result = new _003CDemoAgentMomentRows_003Ed__65(0)
-				{
-					_003C_003E4__this = _003C_003E4__this
-				};
-			}
-			return result;
-		}
-
-		[DebuggerHidden]
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return ((IEnumerable<FrameworkElement>)this).GetEnumerator();
-		}
-	}
-
-	[CompilerGenerated]
 	private sealed class _003CLinkParts_003Ed__180 : IEnumerable<FrameworkElement>, IEnumerable, IEnumerator<FrameworkElement>, IEnumerator, IDisposable
 	{
 		private int _003C_003E1__state;
@@ -2037,7 +1927,7 @@ public sealed class SettingsContent : Grid
 		(15.25, 6.37)
 	}.Select(((double, double) c) => FormattableString.Invariant($"M{c.Item1 - 2.5},{c.Item2} a2.5,2.5 0 1 0 5,0 a2.5,2.5 0 1 0 -5,0 Z ")));
 
-	private const string CommandGlyph = "⌘";
+	private const string CommandGlyph = "\ue765";
 
 	private bool billingHooked;
 
@@ -2708,7 +2598,7 @@ public sealed class SettingsContent : Grid
 		return SK.Scaffold("Agents", "Where agents work and how much rope they get.", new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[4]
 		{
 			SK.Group("Workspace", "The default is in your local app data, so OneDrive doesn't sync agents' scratch files.", list),
-			SK.Group("Autonomy", null, new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[3]
+			SK.Group("Autonomy", null, new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[2]
 			{
 				SK.ToggleRow("Auto-approve extra usage", "Let long tasks keep running without asking each time. Uses more of your plan's agent messages.", current.AgentAutoApproveExtraUsage, delegate(bool v)
 				{
@@ -2723,8 +2613,7 @@ public sealed class SettingsContent : Grid
 					{
 						x.AgentAlwaysApproveFileUploads = v;
 					});
-				}),
-				null
+				})
 			})),
 			SK.Group("Announcements", "HeyClicky stays quiet while you're on a call or sharing your screen, and in Do Not Disturb your scheduled routines finish quietly. Finished work waits in the chat and the notch shows how many jobs have something new.", new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[2]
 			{
@@ -4244,19 +4133,21 @@ public sealed class SettingsContent : Grid
 			{
 				host.OpenUrl(Log.Directory);
 			}, null, null),
-			SK.ActionRow("Relaunch HeyClicky", "Quits and opens HeyClicky again, e.g. after switching the JIT.", actions.Relaunch, null, null)
+			SK.ActionRow("Relaunch Kursor", "Quits and opens Kursor again, e.g. after switching the JIT.", actions.Relaunch, null, null)
 		})));
 		return SK.Scaffold("Developer", "Previews and debug tools.", new global::_003C_003Ez__ReadOnlyList<FrameworkElement>(list));
 	}
 
-	[IteratorStateMachine(typeof(_003CDemoAgentMomentRows_003Ed__65))]
 	private IEnumerable<FrameworkElement> DemoAgentMomentRows()
 	{
-		//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()
-		return new _003CDemoAgentMomentRows_003Ed__65(-2)
+		yield return SK.ActionRow("Run welcome-website agent", "Shippy builds the personalized welcome website, as at 1:25 in the intro video.", delegate
 		{
-			_003C_003E4__this = this
-		};
+			host.App?.DebugLaunchOnboardingWebsiteAgent();
+		}, null, null);
+		yield return SK.ActionRow("Run SpaceX report agent", "Research Buddy writes the SpaceX competitor report, as at 1:07 in the intro video.", delegate
+		{
+			host.App?.DebugLaunchOnboardingSpaceXReportAgent();
+		}, null, null);
 	}
 
 	private FrameworkElement DictationPage()
@@ -6143,29 +6034,35 @@ public sealed class SettingsContent : Grid
 	{
 		if (referral == null)
 		{
-			return ReferralFrame(new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[2]
+			return ReferralFrame(new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[3]
 			{
-				ReferralMessage("Refer a friend", "HeyClicky couldn't load your referral page."),
+				ReferralMessage("Refer a friend", "Kursor couldn't load your referral page."),
 				SK.PillButton("Try again", delegate
 				{
 					RefreshReferralAsync();
-				})
+				}),
+				FriendCodeGroup()
 			}));
 		}
 		if (!Bool(referral["enabled"]))
 		{
-			return ReferralFrame(new global::_003C_003Ez__ReadOnlySingleElementList<FrameworkElement>(ReferralMessage("Referrals are paused", "We're not taking new referrals right now. Check back soon.")));
+			return ReferralFrame(new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[2]
+			{
+				ReferralMessage("Referrals are paused", "We're not taking new referrals right now. Check back soon."),
+				FriendCodeGroup()
+			}));
 		}
 		JsonObject terms = (referral["terms"] as JsonObject) ?? new JsonObject((JsonNodeOptions?)null);
 		JsonObject jsonObject = (referral["stats"] as JsonObject) ?? new JsonObject((JsonNodeOptions?)null);
 		bool flag = Int(jsonObject["referred_count"]) > 0;
-		return ReferralFrame(new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[7]
+		return ReferralFrame(new global::_003C_003Ez__ReadOnlyArray<FrameworkElement>(new FrameworkElement[8]
 		{
 			HeldCodeCard(terms, jsonObject),
 			NegativeBalanceNote(jsonObject),
 			TermsCard(terms),
 			flag ? EarningsGroup(jsonObject, terms) : null,
 			FriendsGroup(jsonObject),
+			FriendCodeGroup(),
 			EstimatorGroup(terms),
 			PayoutGroup(jsonObject, terms)
 		}));
@@ -8766,7 +8663,7 @@ public sealed class SettingsContent : Grid
 			sidebarRowSelected.Clear();
 			sidebarItems.Children.Clear();
 			AddSidebarGroup(null, (SettingsWindow.Page.Account, "Account", "M12,2.5 A4.75,4.75 0 1 1 12,12 A4.75,4.75 0 1 1 12,2.5 Z M4,20.2 C4,16.4 7.6,13.8 12,13.8 C16.4,13.8 20,16.4 20,20.2 C20,21 19.5,21.5 18.7,21.5 L5.3,21.5 C4.5,21.5 4,21 4,20.2 Z"), (SettingsWindow.Page.General, "General", "\ue713"), (SettingsWindow.Page.Referral, "Invite & Earn", "\uf133"));
-			AddSidebarGroup("HEYCLICKY", (SettingsWindow.Page.Voice, "Voice", "M3,10 h2 v4 h-2 z M7,7 h2 v10 h-2 z M11,3 h2 v18 h-2 z M15,6 h2 v12 h-2 z M19,9 h2 v6 h-2 z"), (SettingsWindow.Page.Microphone, "Microphone", "\ue720"), (SettingsWindow.Page.Dictation, "Dictation", "M7.5,3 L16.5,3 L16.5,5 L13,5 L13,19 L16.5,19 L16.5,21 L7.5,21 L7.5,19 L11,19 L11,5 L7.5,5 Z"), (SettingsWindow.Page.Shortcuts, "Shortcuts", "⌘"), (SettingsWindow.Page.Cursor, "Cursor", "M6,2.5 L6,19.5 L10.2,15.6 L13,21.8 L15.6,20.6 L12.9,14.6 L18.6,14.6 Z"));
+			AddSidebarGroup("KURSOR", (SettingsWindow.Page.Voice, "Voice", "M3,10 h2 v4 h-2 z M7,7 h2 v10 h-2 z M11,3 h2 v18 h-2 z M15,6 h2 v12 h-2 z M19,9 h2 v6 h-2 z"), (SettingsWindow.Page.Microphone, "Microphone", "\ue720"), (SettingsWindow.Page.Dictation, "Dictation", "M7.5,3 L16.5,3 L16.5,5 L13,5 L13,19 L16.5,19 L16.5,21 L7.5,21 L7.5,19 L11,19 L11,5 L7.5,5 Z"), (SettingsWindow.Page.Shortcuts, "Shortcuts", "\ue765"), (SettingsWindow.Page.Cursor, "Cursor", "M6,2.5 L6,19.5 L10.2,15.6 L13,21.8 L15.6,20.6 L12.9,14.6 L18.6,14.6 Z"));
 			AddSidebarGroup("WORK", (SettingsWindow.Page.Integrations, "Integrations", "\uea86"), (SettingsWindow.Page.Agents, "Agents", HexGridPath), (SettingsWindow.Page.Routines, "Routines", "\ue72c"));
 			if (host.ShowsDeveloperSection)
 			{

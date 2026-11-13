@@ -44,7 +44,7 @@ public static class DictationCorrectionDetector
 			{
 				return null;
 			}
-			if (!IsDistinctiveLearnableWord(text2))
+			if (!IsDistinctiveLearnableWord(text2, valueOrDefault))
 			{
 				return null;
 			}
@@ -53,7 +53,7 @@ public static class DictationCorrectionDetector
 			{
 				return null;
 			}
-			if (NormalizedSimilarity(text.ToLowerInvariant(), text2.ToLowerInvariant()) < 0.3)
+			if (NormalizedSimilarity(text.ToLowerInvariant(), text2.ToLowerInvariant()) < 0.60)
 			{
 				return null;
 			}
@@ -67,11 +67,10 @@ public static class DictationCorrectionDetector
 		return text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
 	}
 
-	private static bool IsDistinctiveLearnableWord(string word)
+	private static bool IsDistinctiveLearnableWord(string word, int wordIndex = -1)
 	{
 		int length = word.Length;
-		bool flag = ((length < 2 || length > 40) ? true : false);
-		if (flag || !word.Any(char.IsLetter))
+		if (length < 2 || length > 40 || !word.Any(char.IsLetter))
 		{
 			return false;
 		}
@@ -79,9 +78,9 @@ public static class DictationCorrectionDetector
 		{
 			return false;
 		}
-		if (char.IsUpper(word[0]))
+		if (IsSecretLikeToken(word))
 		{
-			return true;
+			return false;
 		}
 		if (word.Contains('_'))
 		{
@@ -91,9 +90,28 @@ public static class DictationCorrectionDetector
 		{
 			return true;
 		}
-		if (char.IsLower(word[0]))
+		if (word.Skip(1).Any(char.IsUpper))
 		{
-			return word.Skip(1).Any(char.IsUpper);
+			return true;
+		}
+		if (wordIndex != 0 && char.IsUpper(word[0]))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private static bool IsSecretLikeToken(string word)
+	{
+		if (word.StartsWith("sk-", StringComparison.OrdinalIgnoreCase) ||
+			word.StartsWith("AIza", StringComparison.Ordinal) ||
+			word.StartsWith("gsk_", StringComparison.OrdinalIgnoreCase))
+		{
+			return true;
+		}
+		if (word.Length > 32 && (word.Any(char.IsDigit) || word.Any((char c) => !char.IsLetterOrDigit(c))))
+		{
+			return true;
 		}
 		return false;
 	}

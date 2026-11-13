@@ -93,6 +93,8 @@ public sealed class ShortcutMonitor : IShortcutMonitor, IDisposable, ILowLevelIn
 
 	private bool dictationHoldCancelled;
 
+	private bool pushToTalkHoldCancelled;
+
 	private uint keyDownCounter;
 
 	private uint wheelCounter;
@@ -311,6 +313,7 @@ public sealed class ShortcutMonitor : IShortcutMonitor, IDisposable, ILowLevelIn
 		isPushToTalkHeld = false;
 		isDictationHeld = false;
 		dictationHoldCancelled = false;
+		pushToTalkHoldCancelled = false;
 		ResetControlTapTracking();
 	}
 
@@ -430,6 +433,12 @@ public sealed class ShortcutMonitor : IShortcutMonitor, IDisposable, ILowLevelIn
 				{
 					dictationHoldCancelled = true;
 					Enqueue(ShortcutAction.DictationCancel);
+				}
+				if (isPushToTalkHeld)
+				{
+					isPushToTalkHeld = false;
+					pushToTalkHoldCancelled = true;
+					Enqueue(ShortcutAction.PushToTalkUp);
 				}
 			}
 			return;
@@ -644,7 +653,11 @@ public sealed class ShortcutMonitor : IShortcutMonitor, IDisposable, ILowLevelIn
 		ModifierSet modifiers4 = (ModifierSet)hotkeyBindings.Dictation.Modifiers;
 		ModifierSet modifiers5 = (ModifierSet)hotkeyBindings.HandsFreeDictation.Modifiers;
 		bool flag = modifiers == modifiers2;
-		if (flag && !isPushToTalkHeld)
+		if (!flag)
+		{
+			pushToTalkHoldCancelled = false;
+		}
+		if (flag && !isPushToTalkHeld && !pushToTalkHoldCancelled)
 		{
 			isPushToTalkHeld = true;
 			Enqueue(ShortcutAction.PushToTalkDown);
@@ -875,7 +888,15 @@ public sealed class ShortcutMonitor : IShortcutMonitor, IDisposable, ILowLevelIn
 							holdWatchdog?.Change(-1, -1);
 						}
 					}
-					if (shortcutAction == ShortcutAction.DictationDown && bindings.Dictation.Modifiers.HasFlag(HotkeyModifiers.Win))
+					bool usesWinModifier = shortcutAction switch
+					{
+						ShortcutAction.DictationDown => bindings.Dictation.Modifiers.HasFlag(HotkeyModifiers.Win),
+						ShortcutAction.PushToTalkDown => bindings.PushToTalk.Modifiers.HasFlag(HotkeyModifiers.Win),
+						ShortcutAction.TextComposerToggle => bindings.TextMode.Modifiers.HasFlag(HotkeyModifiers.Win),
+						ShortcutAction.HandsFreeDictationToggle => bindings.HandsFreeDictation.Modifiers.HasFlag(HotkeyModifiers.Win),
+						_ => false
+					};
+					if (usesWinModifier)
 					{
 						MaskStartMenu();
 					}

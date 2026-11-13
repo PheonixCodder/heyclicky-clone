@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Text.RegularExpressions.Generated;
 using System.Threading;
 using System.Threading.Tasks;
+using HeyClicky.Platform.Input;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Memory;
@@ -54,17 +55,15 @@ public static class TextInsertion
 				return false;
 			}
 			uint injectedSequence = PInvoke.GetClipboardSequenceNumber();
-			if (snapshot != null)
+			bool elevated = ForegroundIntegrity.IsForegroundElevated();
+			bool sent = SendControlV();
+			if (restoreDelay.HasValue && !elevated && sent)
 			{
-				pendingRestoreSnapshot = snapshot;
-				pendingRestoreSequence = injectedSequence;
-			}
-			SendControlV();
-			if (restoreDelay.HasValue)
-			{
-				TimeSpan valueOrDefault = restoreDelay.GetValueOrDefault();
 				if (snapshot != null)
 				{
+					pendingRestoreSnapshot = snapshot;
+					pendingRestoreSequence = injectedSequence;
+					TimeSpan valueOrDefault = restoreDelay.GetValueOrDefault();
 					Task.Delay(valueOrDefault).ContinueWith((Task _) => RunOnClipboardThreadAsync(delegate
 					{
 						if (PInvoke.GetClipboardSequenceNumber() == injectedSequence)
@@ -79,7 +78,7 @@ public static class TextInsertion
 					}), TaskScheduler.Default);
 				}
 			}
-			return true;
+			return sent;
 		});
 	}
 
@@ -87,6 +86,8 @@ public static class TextInsertion
 	{
 		uint injectedSequence = 0u;
 		List<(uint, byte[])> snapshot = null;
+		bool sendSucceeded = false;
+		bool elevated = false;
 		if (!(await RunOnClipboardThreadAsync(delegate
 		{
 			snapshot = ((pendingRestoreSnapshot != null && pendingRestoreSequence == PInvoke.GetClipboardSequenceNumber()) ? pendingRestoreSnapshot : SnapshotClipboard());
@@ -96,9 +97,13 @@ public static class TextInsertion
 				return false;
 			}
 			injectedSequence = PInvoke.GetClipboardSequenceNumber();
-			pendingRestoreSnapshot = snapshot;
-			pendingRestoreSequence = injectedSequence;
-			SendControlV();
+			elevated = ForegroundIntegrity.IsForegroundElevated();
+			sendSucceeded = SendControlV();
+			if (!elevated && sendSucceeded)
+			{
+				pendingRestoreSnapshot = snapshot;
+				pendingRestoreSequence = injectedSequence;
+			}
 			return true;
 		}).ConfigureAwait(continueOnCapturedContext: false)))
 		{
@@ -108,7 +113,11 @@ public static class TextInsertion
 		{
 			long started = Environment.TickCount64;
 			string verification = "not_observed";
-			if (landed == null)
+			if (elevated || !sendSucceeded)
+			{
+				verification = "not_observed";
+			}
+			else if (landed == null)
 			{
 				verification = "unverifiable";
 			}
@@ -139,7 +148,7 @@ public static class TextInsertion
 					}
 				}
 			}
-			if (verification != "landed")
+			if (verification != "landed" && verification != "not_observed")
 			{
 				long num = (long)minimumRestoreDelay.TotalMilliseconds - (Environment.TickCount64 - started);
 				if (num > 0)
@@ -147,9 +156,10 @@ public static class TextInsertion
 					await Task.Delay((int)num).ConfigureAwait(continueOnCapturedContext: false);
 				}
 			}
+			bool shouldRestore = !elevated && sendSucceeded && verification != "not_observed";
 			await RunOnClipboardThreadAsync(delegate
 			{
-				if (PInvoke.GetClipboardSequenceNumber() == injectedSequence)
+				if (shouldRestore && PInvoke.GetClipboardSequenceNumber() == injectedSequence)
 				{
 					RestoreClipboard(snapshot);
 				}
@@ -160,7 +170,7 @@ public static class TextInsertion
 				return true;
 			}).ConfigureAwait(continueOnCapturedContext: false);
 			int num2 = (int)(Environment.TickCount64 - started);
-			Log.Info("TextInsertion", $"paste verification: {verification} after {num2} ms; clipboard restored");
+			Log.Info("TextInsertion", $"paste verification: {verification} after {num2} ms; clipboard restored={shouldRestore}");
 			try
 			{
 				onVerification?.Invoke(verification, num2);
@@ -436,14 +446,18 @@ public static class TextInsertion
 		}
 	}
 
-	private unsafe static void SendControlV()
+	private unsafe static bool SendControlV()
 	{
+		if (ForegroundIntegrity.IsForegroundElevated())
+		{
+			return false;
+		}
 		Span<INPUT> span = stackalloc INPUT[4];
 		span[0] = KeyInput(17, keyUp: false);
 		span[1] = KeyInput(86, keyUp: false);
 		span[2] = KeyInput(86, keyUp: true);
 		span[3] = KeyInput(17, keyUp: true);
-		PInvoke.SendInput(span, sizeof(INPUT));
+		return PInvoke.SendInput(span, sizeof(INPUT)) == (uint)span.Length;
 	}
 
 	private static INPUT KeyInput(ushort virtualKey, bool keyUp)

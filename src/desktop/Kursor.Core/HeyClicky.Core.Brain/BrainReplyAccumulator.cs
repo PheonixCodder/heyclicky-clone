@@ -226,12 +226,20 @@ public sealed class BrainReplyAccumulator : IBrainStreamSink
 		}
 		else
 		{
-			string text3 = ProgramText.WithoutLinks(ProgramText.ProgramCode(text, isComplete: true) ?? "");
+			string text3 = ProgramText.WithoutLinks(ProgramText.ProgramCode(text, isComplete: true) ?? "").Trim();
 			Reply.Code = text3;
-			if (text3.Length > 0 && text3.Length > lastReportedCode.Length)
+			if (text3.Length > 0 && (text3.Length > lastReportedCode.Length || text3 != lastReportedCode))
 			{
 				lastReportedCode = text3;
 				onCodeUpdate?.Invoke(text3);
+			}
+			if (SpeechOnly && string.IsNullOrWhiteSpace(Reply.SpokenSentence) && !string.IsNullOrWhiteSpace(Reply.Code))
+			{
+				List<string> spokenLines = SayLines.InOrder(Reply.Code);
+				if (spokenLines.Count > 0)
+				{
+					Reply.SpokenSentence = string.Join(" ", spokenLines);
+				}
 			}
 			Reply.TotalMilliseconds = (int)(clock() - startedAtTicks);
 		}
@@ -240,12 +248,16 @@ public sealed class BrainReplyAccumulator : IBrainStreamSink
 	private void ReportCodeIfItGrew()
 	{
 		codeReportIsPending = false;
-		string text = ProgramText.ProgramCode(rawText.ToString(), isComplete: false);
-		if (text != null && text.Length > lastReportedCode.Length)
+		string? text = ProgramText.ProgramCode(rawText.ToString(), isComplete: false);
+		if (text != null)
 		{
-			lastReportedCode = text;
-			lastReportAtTicks = clock();
-			onCodeUpdate?.Invoke(ProgramText.WithoutLinks(text));
+			string text2 = ProgramText.WithoutLinks(text).Trim();
+			if (text2.Length > lastReportedCode.Length)
+			{
+				lastReportedCode = text2;
+				lastReportAtTicks = clock();
+				onCodeUpdate?.Invoke(text2);
+			}
 		}
 	}
 

@@ -250,6 +250,10 @@ public static class UIAutomationHelpers
 
 	internal static string? ReadBrowserAddress(IUIAutomation automation, nint hwnd, bool isFirefox)
 	{
+		if (UiaPageText.IsSensitiveWindow(hwnd))
+		{
+			return null;
+		}
 		if (!AddressBarByWindow.TryGetValue(hwnd, out IUIAutomationElement value))
 		{
 			IUIAutomationElement iUIAutomationElement = automation.ElementFromHandle(new HWND(hwnd));
@@ -287,6 +291,11 @@ public static class UIAutomationHelpers
 		}
 		try
 		{
+			object isPasswordObj = value.GetCurrentPropertyValue(UIA_PROPERTY_ID.UIA_IsPasswordPropertyId);
+			if ((isPasswordObj is bool isPassword && isPassword) || (bool)value.CurrentIsPassword)
+			{
+				return null;
+			}
 			return value.GetCurrentPropertyValue(UIA_PROPERTY_ID.UIA_ValueValuePropertyId) as string;
 		}
 		catch (COMException)

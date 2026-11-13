@@ -61,14 +61,14 @@ public sealed class SettingsHost
 
 	public AppSettings Current => Store.Current;
 
-	public bool ShowsDeveloperSection => Agents?.AllowsDeveloperModelSelection ?? false;
+	public bool ShowsDeveloperSection => (Agents?.AllowsDeveloperModelSelection ?? false) || Environment.GetEnvironmentVariable("KURSOR_DEV") == "1";
 
 	public string BuildInfoLine
 	{
 		get
 		{
 			Version version = typeof(SettingsHost).Assembly.GetName().Version ?? new Version(0, 1, 0, 0);
-			return $"HeyClicky {version.Major}.{version.Minor}.{version.Build} ({Math.Max(1, version.Revision)})";
+			return $"Kursor {version.Major}.{version.Minor}.{version.Build} ({Math.Max(1, version.Revision)})";
 		}
 	}
 

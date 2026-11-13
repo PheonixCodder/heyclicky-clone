@@ -108,7 +108,7 @@ public class App : Application, IXamlMetadataProvider
 			catch
 			{
 			}
-			MessageBoxW(0, $"HeyClicky couldn't start.\n\n{ex.GetType().Name}: {ex.Message}\n\nWe've been sent the details. If it keeps happening, email hi@heyclicky.com with a screenshot of this message.", "HeyClicky", 65552u);
+			MessageBoxW(0, $"Kursor couldn't start.\n\n{ex.GetType().Name}: {ex.Message}\n\nCheck the local logs folder in %LOCALAPPDATA%\\HeyClicky\\logs for details.", "Kursor", 65552u);
 			Exit();
 		}
 	}

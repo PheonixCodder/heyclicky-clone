@@ -7,7 +7,7 @@ namespace HeyClicky.Platform.Win32;
 
 public static class ProtocolRegistration
 {
-	public static readonly string[] Schemes = new string[2] { "clicky", "heyclicky" };
+	public static readonly string[] Schemes = new string[3] { "kursor", "clicky", "heyclicky" };
 
 	public static void Register(string? executablePath = null)
 	{

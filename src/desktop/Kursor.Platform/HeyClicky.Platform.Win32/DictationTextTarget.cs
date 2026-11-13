@@ -566,7 +566,7 @@ public sealed class DictationTextTarget : IDictationTextTarget
 		{
 			return false;
 		}
-		return await TextInsertion.PasteTextAsync(EndsInScriptWrittenWithoutSpaces(trimmed) ? trimmed : (trimmed + " "), null, restoreClipboard: false).ConfigureAwait(continueOnCapturedContext: false);
+		return await TextInsertion.PasteTextAsync(EndsInScriptWrittenWithoutSpaces(trimmed) ? trimmed : (trimmed + " "), null, restoreClipboard: true).ConfigureAwait(continueOnCapturedContext: false);
 	}
 
 	public Task<bool> CopyToClipboardAsync(string text)

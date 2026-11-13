@@ -18,7 +18,7 @@ public static class DeveloperFlags
 	{
 		get
 		{
-			return false;
+			return Read("full_agent_activity_debug");
 		}
 		set
 		{
@@ -28,7 +28,7 @@ public static class DeveloperFlags
 
 	public static event Action? Changed;
 
-	private static bool Read(string key)
+	private static bool Read(string key = "full_agent_activity_debug")
 	{
 		using (Gate.EnterScope())
 		{

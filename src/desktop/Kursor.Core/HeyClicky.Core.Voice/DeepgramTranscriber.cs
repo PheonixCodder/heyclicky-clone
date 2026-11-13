@@ -53,7 +53,7 @@ public sealed class DeepgramTranscriber : IAsyncDisposable
 
 	private readonly Channel<OutgoingFrame> outgoing = Channel.CreateBounded<OutgoingFrame>(new BoundedChannelOptions(2048)
 	{
-		FullMode = BoundedChannelFullMode.DropOldest,
+		FullMode = BoundedChannelFullMode.Wait,
 		SingleReader = true,
 		SingleWriter = false
 	});
@@ -502,6 +502,13 @@ public sealed class DeepgramTranscriber : IAsyncDisposable
 	{
 		lifetime.Cancel();
 		outgoing.Writer.TryComplete();
+		while (outgoing.Reader.TryRead(out var item))
+		{
+			if (item.Pooled && item.Buffer != null)
+			{
+				ArrayPool<byte>.Shared.Return(item.Buffer);
+			}
+		}
 		delivered.TrySetResult(null);
 		ClientWebSocket ws = socket;
 		if (ws != null)

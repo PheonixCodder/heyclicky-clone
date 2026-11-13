@@ -14,17 +14,7 @@ public static class AgentHarnessRuntimes
 	private static Dictionary<string, Func<IAgentHarnessRuntime>> BuildFactories()
 	{
 		Dictionary<string, Func<IAgentHarnessRuntime>> dictionary = new Dictionary<string, Func<IAgentHarnessRuntime>>();
-		AgentHarness[] values = Enum.GetValues<AgentHarness>();
-		foreach (AgentHarness harness in values)
-		{
-			foreach (AgentHarnessPlace place in harness.Places())
-			{
-				if (harness != 0 || place != 0)
-				{
-					dictionary[Key(harness, place)] = () => new AgentHarnessRunnerRuntime(harness, place);
-				}
-			}
-		}
+		dictionary[Key(AgentHarness.H1, AgentHarnessPlace.Mac)] = () => new AgentHarnessRunnerRuntime(AgentHarness.H1, AgentHarnessPlace.Mac);
 		return dictionary;
 	}
 

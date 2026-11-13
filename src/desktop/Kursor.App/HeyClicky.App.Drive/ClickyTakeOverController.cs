@@ -466,16 +466,6 @@ public sealed class ClickyTakeOverController : IClickyDriveTurns
 					return Result("started");
 				}
 			}
-			if (phase.Kind != PhaseKind.Driving && DateTimeOffset.Now - dateTimeOffset < TimeSpan.FromSeconds(600L) && !string.IsNullOrEmpty(text))
-			{
-				TrackDrive("consent_skipped", null, new JsonObject((JsonNodeOptions?)null) { ["reason"] = "recent_yes" });
-				lock (gate)
-				{
-					pendingAnalyticsOrigin = "recent_yes";
-				}
-				Begin(text);
-				return Result("started");
-			}
 			if (phase.Kind != PhaseKind.Driving && !string.IsNullOrEmpty(text))
 			{
 				AgentDriveBinding agentDriveBinding = MacStepBindingForBrainDrive(text);
@@ -1362,10 +1352,6 @@ public sealed class ClickyTakeOverController : IClickyDriveTurns
 				lock (gate)
 				{
 					DateTimeOffset now = DateTimeOffset.Now;
-					if (now < actuatingUntil)
-					{
-						return;
-					}
 					ClickyTakeBackWatch.Kind kind2 = kind;
 					bool flag2 = (uint)kind2 <= 1u;
 					if (flag2 && now < movesIgnoredUntil)
@@ -1396,6 +1382,11 @@ public sealed class ClickyTakeOverController : IClickyDriveTurns
 				}
 				else
 				{
+					lock (gate)
+					{
+						actuatingUntil = DateTimeOffset.MinValue;
+						loopCancellation?.Cancel();
+					}
 					OnUi(delegate
 					{
 						StopForUser(TakeBackReason(kind));
@@ -1521,7 +1512,7 @@ public sealed class ClickyTakeOverController : IClickyDriveTurns
 				consentCard.Dismiss();
 				lock (gate)
 				{
-					offerAnsweredBySpeaking = (phase.Goal, DateTimeOffset.Now);
+					offerAnsweredBySpeaking = null;
 					phase = new Phase(PhaseKind.Idle);
 					break;
 				}

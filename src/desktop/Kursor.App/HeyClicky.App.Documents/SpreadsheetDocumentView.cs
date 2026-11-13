@@ -28,14 +28,22 @@ public sealed class SpreadsheetDocumentView : Grid
 
 	private async Task LoadAsync(Func<FrameworkElement>? fallback)
 	{
-		SpreadsheetWorkbook spreadsheetWorkbook = await SpreadsheetAssetCache.LoadAsync(Path);
-		base.Children.Clear();
-		if (spreadsheetWorkbook != null)
+		try
 		{
-			Preview = new SpreadsheetPreview(spreadsheetWorkbook);
-			base.Children.Add(Preview);
-			this.PreviewReady?.Invoke(Preview);
-			return;
+			SpreadsheetWorkbook spreadsheetWorkbook = await SpreadsheetAssetCache.LoadAsync(Path);
+			base.Children.Clear();
+			if (spreadsheetWorkbook != null)
+			{
+				Preview = new SpreadsheetPreview(spreadsheetWorkbook);
+				base.Children.Add(Preview);
+				this.PreviewReady?.Invoke(Preview);
+				return;
+			}
+		}
+		catch (Exception ex)
+		{
+			Log.Warn("documents", "spreadsheet load failed for " + Path + ": " + ex.Message);
+			base.Children.Clear();
 		}
 		using (MessagesPalette.Use(look))
 		{

@@ -77,7 +77,7 @@ public static class SingleInstance
 		return appId + "-" + text;
 	}
 
-	public static bool TryClaim(string[] args, string appId = "HeyClicky", Func<int, bool>? endProcess = null, Action<string>? showMessage = null)
+	public static bool TryClaim(string[] args, string appId = "Kursor", Func<int, bool>? endProcess = null, Action<string>? showMessage = null)
 	{
 		string text = Identity(appId);
 		bool createdNew;

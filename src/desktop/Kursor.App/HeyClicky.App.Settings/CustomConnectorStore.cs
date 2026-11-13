@@ -17,8 +17,6 @@ namespace HeyClicky.App.Settings;
 
 public static class CustomConnectorStore
 {
-	[JsonSerializable(typeof(List<CustomConnector>))]
-	[JsonSerializable(typeof(Dictionary<string, string>))]
 	[GeneratedCode("System.Text.Json.SourceGeneration", "9.0.15.2218")]
 	private sealed class ConnectorJsonContext : JsonSerializerContext, IJsonTypeInfoResolver
 	{
@@ -1424,7 +1422,9 @@ public static class CustomConnectorStore
 		foreach (CustomConnector item in list.OrderBy((CustomConnector c) => c.CreatedAt))
 		{
 			Dictionary<string, string> dictionary2 = new Dictionary<string, string>();
-			string text = "HEYCLICKY_" + item.ServerKey.ToUpperInvariant();
+			string serverKeyUpper = item.ServerKey.ToUpperInvariant();
+			string text = "KURSOR_" + serverKeyUpper;
+			string legacyPrefix = "HEYCLICKY_" + serverKeyUpper;
 			CustomConnectorTransport transport;
 			if (item.IsRemote)
 			{
@@ -1445,6 +1445,7 @@ public static class CustomConnectorStore
 				{
 					text2 = text + "_TOKEN";
 					dictionary2[text2] = value;
+					dictionary2[legacyPrefix + "_TOKEN"] = value;
 				}
 				Dictionary<string, string> dictionary3 = new Dictionary<string, string>();
 				for (int i = 0; i < item.HeaderNames.Count; i++)
@@ -1454,6 +1455,7 @@ public static class CustomConnectorStore
 						string text3 = $"{text}_HEADER_{i}";
 						dictionary3[item.HeaderNames[i]] = text3;
 						dictionary2[text3] = value2;
+						dictionary2[$"{legacyPrefix}_HEADER_{i}"] = value2;
 					}
 				}
 				transport = new CustomConnectorTransport.Remote(item.Url.Trim(), text2, dictionary3);

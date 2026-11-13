@@ -7,6 +7,8 @@ internal static class ForegroundIntegrity
 {
 	private static readonly int ours = Level(-1);
 
+	public static bool IsForegroundElevated() => IsAboveOurs();
+
 	public static bool IsAboveOurs()
 	{
 		nint foregroundWindow = GetForegroundWindow();

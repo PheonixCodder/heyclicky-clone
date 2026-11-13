@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
     <NoWarn>$(NoWarn);SYSLIB1050;SYSLIB1043;CS0649;CS0169;CS0414;CS8632;CS8981;CS8500;CS9191</NoWarn>
+    <HeyClickyRuntimeDir Condition="'$(HeyClickyRuntimeDir)' == '' and Exists('$(MSBuildThisFileDirectory)..\..\dist\kursor-desktop\WinRT.Runtime.dll')">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\dist\kursor-desktop'))</HeyClickyRuntimeDir>
+    <HeyClickyRuntimeDir Condition="'$(HeyClickyRuntimeDir)' == ''">$(LOCALAPPDATA)\HeyClickyApp\current</HeyClickyRuntimeDir>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)PrivateImplementationDetailsPolyfill.cs" Link="PrivateImplementationDetailsPolyfill.cs" />

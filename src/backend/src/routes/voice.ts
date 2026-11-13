@@ -219,18 +219,118 @@ voiceRoutes.on(["HEAD", "GET"], "/agent/realtime/warmup", (c) => {
   return c.body(null, 200);
 });
 
-import { execFile } from "node:child_process";
+import { execFile, spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { createInterface } from "node:readline";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
+let groqTtsUnavailableUntil = 0;
+let groqTtsLoggedTermsHint = false;
+
+// Warm persistent Windows SpeechSynthesizer daemon (~40-80ms per sentence, zero cold start)
+let warmSynthProc: ChildProcessWithoutNullStreams | null = null;
+const warmSynthQueue: Array<{
+  b64Text: string;
+  resolve: (buf: Buffer | null) => void;
+}> = [];
+let warmSynthBusy = false;
+
+function ensureWarmSynthWorker() {
+  if (warmSynthProc && !warmSynthProc.killed) return;
+  const daemonScript = `
+Add-Type -AssemblyName System.Speech
+$synth = New-Object System.Speech.Synthesis.SpeechSynthesizer
+try { $synth.SelectVoiceByHints([System.Speech.Synthesis.VoiceGender]::Female) } catch {}
+$fmt = New-Object System.Speech.AudioFormat.SpeechAudioFormatInfo(24000, [System.Speech.AudioFormat.AudioBitsPerSample]::Sixteen, [System.Speech.AudioFormat.AudioChannel]::Mono)
+while (($line = [Console]::In.ReadLine()) -ne $null) {
+  if ([string]::IsNullOrWhiteSpace($line)) { continue }
+  try {
+    $ms = New-Object System.IO.MemoryStream
+    $synth.SetOutputToAudioStream($ms, $fmt)
+    $txt = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($line.Trim()))
+    $synth.Speak($txt)
+    $synth.SetOutputToNull()
+    [Console]::Out.WriteLine([System.Convert]::ToBase64String($ms.ToArray()))
+    [Console]::Out.Flush()
+    $ms.Dispose()
+  } catch {
+    [Console]::Out.WriteLine("")
+    [Console]::Out.Flush()
+  }
+}
+`;
+  warmSynthProc = spawn(
+    "powershell.exe",
+    ["-NoProfile", "-NonInteractive", "-Command", daemonScript],
+    { stdio: ["pipe", "pipe", "ignore"], windowsHide: true }
+  );
+  const rl = createInterface({ input: warmSynthProc.stdout });
+  rl.on("line", (outLine) => {
+    const item = warmSynthQueue.shift();
+    warmSynthBusy = false;
+    if (item) {
+      const trimmed = outLine.trim();
+      item.resolve(trimmed.length > 0 ? Buffer.from(trimmed, "base64") : null);
+    }
+    pumpWarmSynthQueue();
+  });
+  warmSynthProc.on("exit", () => {
+    warmSynthProc = null;
+    warmSynthBusy = false;
+    while (warmSynthQueue.length > 0) {
+      warmSynthQueue.shift()?.resolve(null);
+    }
+  });
+}
+
+function pumpWarmSynthQueue() {
+  if (warmSynthBusy || warmSynthQueue.length === 0) return;
+  ensureWarmSynthWorker();
+  if (!warmSynthProc || !warmSynthProc.stdin.writable) {
+    while (warmSynthQueue.length > 0) warmSynthQueue.shift()?.resolve(null);
+    return;
+  }
+  warmSynthBusy = true;
+  const next = warmSynthQueue[0];
+  warmSynthProc.stdin.write(next.b64Text + "\n");
+}
+
+function synthesizeViaWarmWindowsSapi(cleanText: string): Promise<Buffer | null> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(null), 7000);
+    warmSynthQueue.push({
+      b64Text: Buffer.from(cleanText, "utf8").toString("base64"),
+      resolve: (buf) => {
+        clearTimeout(timer);
+        resolve(buf);
+      },
+    });
+    pumpWarmSynthQueue();
+  });
+}
+
+// Pre-warm the TTS worker at module load so the very first spoken line is instant
+if (process.platform === "win32") {
+  try {
+    ensureWarmSynthWorker();
+  } catch {
+    // Ignore prewarm error
+  }
+}
+
 async function synthesizePcm24kMono(text: string): Promise<Buffer> {
+  const startMs = Date.now();
   const cleanText = text.trim();
   if (!cleanText) return Buffer.alloc(4800, 0);
 
   // 1. Try Groq TTS (`canopylabs/orpheus-v1-english`) if GROQ_API_KEY is configured
   const groqKey = process.env.GROQ_API_KEY?.trim();
-  if (groqKey && !groqKey.startsWith("your_")) {
+  if (
+    groqKey &&
+    !groqKey.startsWith("your_") &&
+    Date.now() >= groqTtsUnavailableUntil
+  ) {
     try {
       const res = await fetch("https://api.groq.com/openai/v1/audio/speech", {
         method: "POST",
@@ -249,15 +349,39 @@ async function synthesizePcm24kMono(text: string): Promise<Buffer> {
       if (res.ok) {
         const wavBuf = Buffer.from(await res.arrayBuffer());
         if (wavBuf.length > 44) {
-          return wavBuf.subarray(44);
+          const pcm = wavBuf.subarray(44);
+          console.log(
+            `[Mouth/Groq Orpheus] Synthesized ${pcm.byteLength}B (${Date.now() - startMs} ms): "${cleanText.slice(0, 60)}"`
+          );
+          return pcm;
+        }
+      } else {
+        const errBody = await res.text().catch(() => "");
+        if (errBody.includes("model_terms_required")) {
+          groqTtsUnavailableUntil = Date.now() + 60_000;
+          if (!groqTtsLoggedTermsHint) {
+            groqTtsLoggedTermsHint = true;
+            console.warn(
+              "[Mouth/Groq Orpheus] Terms acceptance required at https://console.groq.com/playground?model=canopylabs%2Forpheus-v1-english — using warm local Windows TTS fallback meanwhile."
+            );
+          }
         }
       }
     } catch {
-      // Fall through to local Windows neural/SAPI synthesizer
+      // Fall through to warm local Windows synthesizer
     }
   }
 
-  // 2. Zero-key local Windows SpeechSynthesizer outputting 24kHz 16-bit mono PCM
+  // 2. Warm persistent Windows SpeechSynthesizer outputting 24kHz 16-bit mono PCM
+  const warmBuf = await synthesizeViaWarmWindowsSapi(cleanText);
+  if (warmBuf && warmBuf.byteLength > 0) {
+    console.log(
+      `[Mouth/Windows TTS] Synthesized ${warmBuf.byteLength}B (${Date.now() - startMs} ms): "${cleanText.slice(0, 60)}"`
+    );
+    return warmBuf;
+  }
+
+  // 3. One-shot fallback if warm worker restarted
   try {
     const b64Text = Buffer.from(cleanText, "utf8").toString("base64");
     const psScript = `

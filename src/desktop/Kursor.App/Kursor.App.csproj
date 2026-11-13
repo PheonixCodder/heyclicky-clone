@@ -21,34 +21,34 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="WinRT.Runtime">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\WinRT.Runtime.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\WinRT.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WinUI">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.WinUI.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.WinUI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.InteractiveExperiences.Projection">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.InteractiveExperiences.Projection.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.InteractiveExperiences.Projection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Windows.SDK.NET">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Windows.SDK.NET.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Windows.SDK.NET.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Graphics.Canvas.Interop">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Graphics.Canvas.Interop.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Graphics.Canvas.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Sentry">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Sentry.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Sentry.dll</HintPath>
     </Reference>
     <Reference Include="Velopack">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Velopack.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Velopack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.WebView2.Core.Projection">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Web.WebView2.Core.Projection.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Web.WebView2.Core.Projection.dll</HintPath>
     </Reference>
     <Reference Include="CommunityToolkit.Mvvm">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\CommunityToolkit.Mvvm.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\CommunityToolkit.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.ProtectedData">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\System.Security.Cryptography.ProtectedData.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\System.Security.Cryptography.ProtectedData.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

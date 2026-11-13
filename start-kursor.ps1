@@ -12,48 +12,47 @@ $RepoRoot = $PSScriptRoot
 $BackendDir = Join-Path $RepoRoot "src\backend"
 $DistDir = Join-Path $RepoRoot "dist\kursor-desktop"
 $ExePath = Join-Path $DistDir "HeyClicky.exe"
+$InstalledExe = Join-Path $env:LOCALAPPDATA "HeyClickyApp\current\HeyClicky.exe"
+if (-not (Test-Path $ExePath) -and (Test-Path $InstalledExe)) {
+    $ExePath = $InstalledExe
+    $DistDir = Split-Path -Parent $InstalledExe
+}
+
+# 0. Ensure Node / npm / fnm / dotnet paths are in PATH
+$fnmExe = Get-Command fnm -ErrorAction SilentlyContinue
+if (-not $fnmExe -and (Test-Path "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe\fnm.exe")) {
+    $fnmExe = "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe\fnm.exe"
+}
+if ($fnmExe) {
+    try {
+        & $fnmExe env --shell powershell | Out-String | Invoke-Expression
+    } catch {}
+}
+if (Test-Path "$env:APPDATA\fnm\aliases\default") {
+    $env:PATH = "$env:APPDATA\fnm\aliases\default;$env:PATH"
+}
+if (Test-Path "$env:USERPROFILE\.dotnet") {
+    $env:PATH = "$env:USERPROFILE\.dotnet;$env:PATH"
+}
 
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host "  KURSOR — Self-Hosted HeyClicky v1.1.5 Desktop Suite " -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 
-# 1. Ensure AppData directories & local endpoint overrides exist (critical on new devices)
-$EndpointsJson = @"
-{
-  "WorkerBaseUrl": "http://127.0.0.1:8787",
-  "SupabaseUrl": "http://127.0.0.1:8787",
-  "SupabaseAnonKey": "kursor-local-anon-key"
-}
-"@
-
-$SessionJson = @"
-{
-  "AccessToken": "kursor-local-access-token",
-  "RefreshToken": "kursor-local-refresh-token",
-  "ExpiresAtUnixSeconds": 4102444800,
-  "User": {
-    "Id": "00000000-0000-0000-0000-000000000001",
-    "Email": "local@kursor.local"
-  }
-}
-"@
-
-foreach ($dirName in @("Kursor", "HeyClicky")) {
-    $appDataPath = Join-Path $env:LOCALAPPDATA $dirName
-    if (-not (Test-Path $appDataPath)) {
-        New-Item -ItemType Directory -Path $appDataPath -Force | Out-Null
-    }
-    Set-Content -Path (Join-Path $appDataPath "endpoints.json") -Value $EndpointsJson -Encoding UTF8
-    $sessionFile = Join-Path $appDataPath "session.json"
-    if (-not (Test-Path $sessionFile)) {
-        Set-Content -Path $sessionFile -Value $SessionJson -Encoding UTF8
-    }
+# 1. Ensure AppData directories, camelCase endpoints.json & DPAPI auth session exist
+$SeedAuthScript = Join-Path $RepoRoot "scripts\seed-local-auth.ps1"
+if (Test-Path $SeedAuthScript) {
+    & $SeedAuthScript
 }
 
 # 2. Build desktop distribution if missing
 if (-not (Test-Path $ExePath)) {
-    Write-Host "[!] Desktop distribution not built yet. Running scripts\build-dist.ps1..." -ForegroundColor Yellow
-    & (Join-Path $RepoRoot "scripts\build-dist.ps1")
+    Write-Host "[!] Desktop distribution not built yet. Attempting build via scripts\build-dist.ps1..." -ForegroundColor Yellow
+    try {
+        & (Join-Path $RepoRoot "scripts\build-dist.ps1")
+    } catch {
+        Write-Warning "Desktop build step skipped: $_"
+    }
 }
 
 # 3. Ensure backend dependencies & .env file exist
@@ -88,12 +87,19 @@ if (-not $BackendUp) {
     if (-not (Test-Path $DataDir)) {
         New-Item -ItemType Directory -Path $DataDir -Force | Out-Null
     }
+    
+    $NodeCmd = Get-Command node -ErrorAction SilentlyContinue
+    $NodeExe = if ($NodeCmd) { $NodeCmd.Source } elseif (Test-Path "$env:APPDATA\fnm\aliases\default\node.exe") { "$env:APPDATA\fnm\aliases\default\node.exe" } else { "node.exe" }
+    $TsxCli = Join-Path $BackendDir "node_modules\tsx\dist\cli.mjs"
+
     if ($Hidden) {
         $LogFile = Join-Path $DataDir "backend-autostart.log"
-        Start-Process -FilePath "cmd.exe" `
-            -ArgumentList "/c npm start >> `"$LogFile`" 2>&1" `
+        Start-Process -FilePath $NodeExe `
+            -ArgumentList "`"$TsxCli`"", "--env-file-if-exists=.env", "src/index.ts" `
             -WorkingDirectory $BackendDir `
-            -WindowStyle Hidden
+            -WindowStyle Hidden `
+            -RedirectStandardOutput $LogFile `
+            -RedirectStandardError $LogFile
     } else {
         Start-Process -FilePath "powershell.exe" `
             -ArgumentList "-NoExit", "-Command", "Set-Location '$BackendDir'; npm run dev" `
@@ -117,9 +123,28 @@ $env:HEYCLICKY_WORKER_BASE_URL = "http://127.0.0.1:8787"
 $env:HEYCLICKY_SUPABASE_URL = "http://127.0.0.1:8787"
 $env:HEYCLICKY_SUPABASE_ANON_KEY = "kursor-local-anon-key"
 
+$InstallerExe = Join-Path $RepoRoot "executable-file\HeyClicky-Setup.exe"
+
 if (-not $ExistingApp) {
-    Write-Host "[+] Launching Kursor Desktop Suite ($ExePath)..." -ForegroundColor Green
-    Start-Process -FilePath $ExePath -WorkingDirectory $DistDir
+    if (Test-Path $ExePath) {
+        Write-Host "[+] Launching Kursor Desktop Suite ($ExePath)..." -ForegroundColor Green
+        Start-Process -FilePath $ExePath -WorkingDirectory $DistDir
+    } elseif (Test-Path $InstallerExe) {
+        Write-Host "[*] Launching HeyClicky Desktop Setup ($InstallerExe)..." -ForegroundColor Cyan
+        Start-Process -FilePath $InstallerExe
+    } else {
+        Write-Host "[!] HeyClicky desktop client executable not found at $ExePath." -ForegroundColor Yellow
+        Write-Host "    Backend server is running on http://127.0.0.1:8787 and ready for the client." -ForegroundColor Green
+        if ($Hidden) {
+            Add-Type -AssemblyName System.Windows.Forms
+            [System.Windows.Forms.MessageBox]::Show(
+                "Kursor Backend Server is running at http://127.0.0.1:8787!`n`nTo open the visual desktop buddy, the HeyClicky Windows app installer is downloading/setting up.",
+                "Kursor Assistant",
+                [System.Windows.Forms.MessageBoxButtons]::OK,
+                [System.Windows.Forms.MessageBoxIcon]::Information
+            )
+        }
+    }
 } else {
     Write-Host "[+] Kursor Desktop Suite is already running (PID: $($ExistingApp.Id -join ', '))" -ForegroundColor Green
 }

@@ -13,34 +13,34 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ClearScript.V8">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\ClearScript.V8.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\ClearScript.V8.dll</HintPath>
     </Reference>
     <Reference Include="ClearScript.Core">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\ClearScript.Core.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\ClearScript.Core.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.Direct3D11">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.Direct3D11.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.DirectX">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.DirectX.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.DirectX.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.Mathematics">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.Mathematics.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.DXGI">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.DXGI.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.Direct2D1">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.Direct2D1.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpGen.Runtime">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\SharpGen.Runtime.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\SharpGen.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="SharpGen.Runtime.COM">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\SharpGen.Runtime.COM.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\SharpGen.Runtime.COM.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.D3DCompiler">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.D3DCompiler.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.D3DCompiler.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

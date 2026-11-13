@@ -47,47 +47,23 @@ if (-not (Test-Path $EnvFile) -and (Test-Path $EnvExample)) {
     Write-Host "   [+] Found existing src\backend\.env" -ForegroundColor Green
 }
 
-# 3. Initialize %LOCALAPPDATA%\HeyClicky and %LOCALAPPDATA%\Kursor
-Write-Host "`n==> 2. Initializing local AppData configuration..." -ForegroundColor Cyan
-$EndpointsJson = @"
-{
-  "WorkerBaseUrl": "http://127.0.0.1:8787",
-  "SupabaseUrl": "http://127.0.0.1:8787",
-  "SupabaseAnonKey": "kursor-local-anon-key"
+# 3. Initialize %LOCALAPPDATA%\HeyClicky and %LOCALAPPDATA%\Kursor + DPAPI Auth
+Write-Host "`n==> 2. Initializing local AppData configuration & DPAPI session..." -ForegroundColor Cyan
+$SeedAuthScript = Join-Path $RepoRoot "scripts\seed-local-auth.ps1"
+if (Test-Path $SeedAuthScript) {
+    & $SeedAuthScript -Force
 }
-"@
-
-$SessionJson = @"
-{
-  "AccessToken": "kursor-local-access-token",
-  "RefreshToken": "kursor-local-refresh-token",
-  "ExpiresAtUnixSeconds": 4102444800,
-  "User": {
-    "Id": "00000000-0000-0000-0000-000000000001",
-    "Email": "local@kursor.local"
-  }
-}
-"@
-
 foreach ($dirName in @("Kursor", "HeyClicky")) {
-    $appDataPath = Join-Path $env:LOCALAPPDATA $dirName
-    if (-not (Test-Path $appDataPath)) {
-        New-Item -ItemType Directory -Path $appDataPath -Force | Out-Null
-    }
-    Set-Content -Path (Join-Path $appDataPath "endpoints.json") -Value $EndpointsJson -Encoding UTF8
-    Set-Content -Path (Join-Path $appDataPath "session.json") -Value $SessionJson -Encoding UTF8
-    $codexHome = Join-Path $appDataPath "codex-home"
+    $codexHome = Join-Path (Join-Path $env:LOCALAPPDATA $dirName) "codex-home"
     if (-not (Test-Path $codexHome)) {
         New-Item -ItemType Directory -Path $codexHome -Force | Out-Null
     }
-    Write-Host "   [+] Initialized $appDataPath (endpoints.json + session.json)" -ForegroundColor Green
 }
 
 # 4. Verify or Build Desktop Distribution
 Write-Host "`n==> 3. Checking Kursor Desktop Binaries..." -ForegroundColor Cyan
 if (Test-Path $ExePath) {
     Write-Host "   [+] Pre-built Kursor Desktop Suite found at: $ExePath" -ForegroundColor Green
-    Set-Content -Path (Join-Path $DistDir "endpoints.json") -Value $EndpointsJson -Encoding UTF8
 } elseif (Test-Path (Join-Path $RepoRoot "src\desktop\Kursor.sln")) {
     Write-Host "   [*] Building Kursor Desktop Suite from source..." -ForegroundColor Yellow
     & (Join-Path $RepoRoot "scripts\build-dist.ps1")

@@ -1041,3 +1041,10 @@ function handleLanguageHints(c: any) {
 
 workerRoutes.get("/voice/language-hints", handleLanguageHints);
 workerRoutes.get("/onboarding/language-hints", handleLanguageHints);
+
+workerRoutes.get("/me/companion-history", (c) => {
+  return c.json({ items: [], turns: [], history: [] });
+});
+workerRoutes.post("/me/companion-history", (c) => {
+  return c.json({ ok: true });
+});

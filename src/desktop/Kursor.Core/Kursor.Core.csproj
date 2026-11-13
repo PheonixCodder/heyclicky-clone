@@ -13,16 +13,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Windows.SDK.NET">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Windows.SDK.NET.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Windows.SDK.NET.dll</HintPath>
     </Reference>
     <Reference Include="CommunityToolkit.Mvvm">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\CommunityToolkit.Mvvm.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\CommunityToolkit.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="WinRT.Runtime">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\WinRT.Runtime.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\WinRT.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.ProtectedData">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\System.Security.Cryptography.ProtectedData.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\System.Security.Cryptography.ProtectedData.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

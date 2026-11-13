@@ -1,12 +1,14 @@
 import dotenv from "dotenv";
-dotenv.config({ override: true });
+dotenv.config();
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 import { serve } from "@hono/node-server";
 import { fileURLToPath } from "node:url";
 import { DB_PATH, DEFAULT_USER_ID } from "./db/index.js";
 import { gzipMiddleware } from "./middleware/gzip.js";
-import { clientHeadersAndAuthMiddleware } from "./middleware/auth.js";
+import {
+  clientHeadersAndAuthMiddleware,
+  isAllowedLoopbackOrigin,
+} from "./middleware/auth.js";
 import { authRoutes } from "./routes/auth.js";
 import { workerRoutes } from "./routes/worker.js";
 import { voiceRoutes } from "./routes/voice.js";
@@ -15,8 +17,59 @@ import { agentRoutes } from "./routes/agents.js";
 
 export const app = new Hono();
 
-// 1. CORS & Core Middlewares
-app.use("*", cors());
+export const MAX_REQUEST_BODY_BYTES = 15 * 1024 * 1024;
+
+// 1. Strict Loopback CORS & Core Middlewares (AUD-C-001 / AUD-L-001 / AUD-C-015)
+app.use("*", async (c, next) => {
+  c.header("Vary", "Origin");
+
+  const origin = c.req.header("origin");
+  const secFetchSite = c.req.header("sec-fetch-site")?.toLowerCase();
+  const secFetchMode = c.req.header("sec-fetch-mode")?.toLowerCase();
+
+  if (
+    secFetchSite === "cross-site" ||
+    (origin !== undefined && !isAllowedLoopbackOrigin(origin, secFetchMode))
+  ) {
+    return c.json({ error: "Cross-origin requests are forbidden" }, 403);
+  }
+
+  if (origin !== undefined) {
+    c.header("Access-Control-Allow-Origin", origin);
+    c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    c.header(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization, X-Clicky-Platform, X-Clicky-Device, X-Clicky-App-Version, X-Clicky-App-Build, X-Clicky-OS-Version, X-Kursor-Client-Platform, X-Kursor-Device-Id, X-Kursor-Client-Version"
+    );
+  }
+
+  if (c.req.method === "OPTIONS") {
+    return c.body(null, 204);
+  }
+
+  const contentLength = c.req.header("content-length");
+  if (contentLength !== undefined) {
+    const parsedLength = Number(contentLength);
+    if (
+      Number.isFinite(parsedLength) &&
+      parsedLength > MAX_REQUEST_BODY_BYTES
+    ) {
+      return c.json(
+        {
+          error: "payload_too_large",
+          message: "Request body exceeds 15MB limit",
+        },
+        413
+      );
+    }
+  }
+
+  await next();
+  c.header("Vary", "Origin");
+  if (origin !== undefined && isAllowedLoopbackOrigin(origin, secFetchMode)) {
+    c.header("Access-Control-Allow-Origin", origin);
+  }
+});
 app.use("*", gzipMiddleware);
 app.use("*", clientHeadersAndAuthMiddleware);
 

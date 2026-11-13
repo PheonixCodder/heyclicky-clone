@@ -563,6 +563,7 @@ async function runPhase2Tests() {
   } finally {
     server.close();
   }
+  process.exit(0);
 }
 
 runPhase2Tests().catch((err) => {

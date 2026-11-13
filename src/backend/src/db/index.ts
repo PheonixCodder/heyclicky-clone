@@ -111,6 +111,14 @@ export function initDatabase(): void {
       created_at TEXT NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
+
+    CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
+    CREATE INDEX IF NOT EXISTS idx_sessions_access_token ON sessions(access_token);
+    CREATE INDEX IF NOT EXISTS idx_notifications_user_read ON notifications(user_id, is_read, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_proactive_cards_user_dismissed ON proactive_cards(user_id, dismissed);
+    CREATE INDEX IF NOT EXISTS idx_threads_user_id ON threads(user_id);
+
+    DELETE FROM sessions WHERE expires_at > 0 AND expires_at < unixepoch();
   `);
 
   const now = new Date().toISOString();
@@ -165,6 +173,34 @@ export function initDatabase(): void {
       now
     );
   }
+
+  runDatabaseMaintenance();
+}
+
+export function runDatabaseMaintenance(): void {
+  try {
+    db.exec(`
+      DELETE FROM sessions WHERE expires_at > 0 AND expires_at < unixepoch();
+      DELETE FROM sessions WHERE id NOT IN (SELECT id FROM sessions ORDER BY created_at DESC LIMIT 500);
+      DELETE FROM threads WHERE id NOT IN (SELECT id FROM threads ORDER BY updated_at DESC LIMIT 500);
+    `);
+  } catch {
+    // Ignore transient maintenance errors
+  }
+
+  try {
+    db.exec("PRAGMA wal_checkpoint(PASSIVE);");
+  } catch {
+    // Ignore WAL checkpoint errors
+  }
 }
 
 initDatabase();
+
+const maintenanceInterval = setInterval(
+  () => {
+    runDatabaseMaintenance();
+  },
+  60 * 60 * 1000
+);
+maintenanceInterval.unref();

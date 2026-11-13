@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { Hono } from "hono";
 import {
   db,
@@ -8,12 +9,42 @@ import {
 
 export const authRoutes = new Hono();
 
+export const JWT_SECRET =
+  process.env.KURSOR_JWT_SECRET || "kursor-local-hmac-sha256-secret-key-v1";
+
+export const revokedTokens = new Set<string>();
+const issuedTokens = new Set<string>();
+
 function base64UrlEncode(input: string): string {
   return Buffer.from(input, "utf8")
     .toString("base64")
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/g, "");
+}
+
+function recordSessionInDb(
+  userId: string,
+  accessToken: string,
+  refreshToken: string,
+  expiresAt: number
+): void {
+  issuedTokens.add(accessToken);
+  try {
+    db.prepare(
+      `INSERT INTO sessions (id, user_id, access_token, refresh_token, expires_at, created_at)
+       VALUES (?, ?, ?, ?, ?, ?)`
+    ).run(
+      crypto.randomUUID(),
+      userId,
+      accessToken,
+      refreshToken,
+      expiresAt,
+      new Date().toISOString()
+    );
+  } catch {
+    // Non-fatal if session insert fails
+  }
 }
 
 export function createLocalJwt(
@@ -35,7 +66,10 @@ export function createLocalJwt(
       exp: expSec,
     })
   );
-  const signature = base64UrlEncode("kursor-local-dev-signature");
+  const signature = crypto
+    .createHmac("sha256", JWT_SECRET)
+    .update(`${header}.${payload}`)
+    .digest("base64url");
   const accessToken = `${header}.${payload}.${signature}`;
   const refreshToken = `kursor_rt_${Buffer.from(`${userId}:${nowSec}`).toString("base64url")}`;
 
@@ -45,6 +79,85 @@ export function createLocalJwt(
     expiresIn: expiresInSeconds,
     expiresAt: expSec,
   };
+}
+
+export function verifyLocalJwt(token: string): {
+  valid: boolean;
+  payload?: Record<string, unknown>;
+} {
+  const parts = token.split(".");
+  if (parts.length !== 3) {
+    return { valid: false };
+  }
+  const [headerB64, payloadB64, sigB64] = parts;
+  if (!headerB64 || !payloadB64 || !sigB64) {
+    return { valid: false };
+  }
+
+  const expectedSig = crypto
+    .createHmac("sha256", JWT_SECRET)
+    .update(`${headerB64}.${payloadB64}`)
+    .digest("base64url");
+
+  const sigBuf = Buffer.from(sigB64, "utf8");
+  const expectedBuf = Buffer.from(expectedSig, "utf8");
+  if (
+    sigBuf.length !== expectedBuf.length ||
+    !crypto.timingSafeEqual(sigBuf, expectedBuf)
+  ) {
+    return { valid: false };
+  }
+
+  try {
+    const rawPayload = Buffer.from(payloadB64, "base64url").toString("utf8");
+    const parsed = JSON.parse(rawPayload) as Record<string, unknown>;
+    const nowSec = Math.floor(Date.now() / 1000);
+    if (typeof parsed.exp !== "number" || parsed.exp <= nowSec) {
+      return { valid: false };
+    }
+    return { valid: true, payload: parsed };
+  } catch {
+    return { valid: false };
+  }
+}
+
+export function isTokenRevoked(token: string): boolean {
+  if (revokedTokens.has(token)) {
+    return true;
+  }
+  try {
+    const row = db
+      .prepare("SELECT expires_at FROM sessions WHERE access_token = ?")
+      .get(token) as { expires_at: number } | undefined;
+    if (issuedTokens.has(token) && !row) {
+      return true;
+    }
+    if (row && row.expires_at > 0 && row.expires_at < Math.floor(Date.now() / 1000)) {
+      return true;
+    }
+  } catch {
+    // Ignore DB query error
+  }
+  return false;
+}
+
+export function isAllowedRedirectUri(rawUri: string): boolean {
+  try {
+    const parsed = new URL(rawUri);
+    const proto = parsed.protocol.toLowerCase();
+    if (proto === "heyclicky:" || proto === "kursor:") {
+      return true;
+    }
+    if (
+      proto === "http:" &&
+      (parsed.hostname === "127.0.0.1" || parsed.hostname.toLowerCase() === "localhost")
+    ) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
 }
 
 function getUserPayload() {
@@ -104,7 +217,19 @@ authRoutes.get("/auth/v1/authorize", (c) => {
     c.req.query("redirect_uri") ??
     "heyclicky://auth/callback";
 
-  const { accessToken, refreshToken, expiresIn } = createLocalJwt();
+  if (!isAllowedRedirectUri(redirectTo)) {
+    return c.json(
+      {
+        error: "invalid_redirect_uri",
+        error_description:
+          "Only loopback and kursor/heyclicky custom schemes are permitted.",
+      },
+      400
+    );
+  }
+
+  const { accessToken, refreshToken, expiresIn, expiresAt } = createLocalJwt();
+  recordSessionInDb(DEFAULT_USER_ID, accessToken, refreshToken, expiresAt);
 
   const separator = redirectTo.includes("?") ? "&" : "?";
   const location =
@@ -127,11 +252,38 @@ authRoutes.get("/auth/v1/authorize", (c) => {
  */
 authRoutes.get("/auth/start", (c) => {
   const state = c.req.query("state") ?? c.req.query("clicky_state") ?? "kursor_state";
-  const scheme = c.req.query("scheme") === "kursor" ? "kursor" : "heyclicky";
-  const { accessToken, refreshToken, expiresIn } = createLocalJwt();
+  const explicitRedirect =
+    c.req.query("redirect_to") ?? c.req.query("redirect_uri");
+  if (explicitRedirect !== undefined && !isAllowedRedirectUri(explicitRedirect)) {
+    return c.json(
+      {
+        error: "invalid_redirect_uri",
+        error_description:
+          "Only loopback and kursor/heyclicky custom schemes are permitted.",
+      },
+      400
+    );
+  }
 
+  const rawScheme = c.req.query("scheme");
+  if (rawScheme && rawScheme !== "kursor" && rawScheme !== "heyclicky") {
+    return c.json(
+      {
+        error: "invalid_redirect_uri",
+        error_description:
+          "Only loopback and kursor/heyclicky custom schemes are permitted.",
+      },
+      400
+    );
+  }
+  const scheme = rawScheme === "kursor" ? "kursor" : "heyclicky";
+  const { accessToken, refreshToken, expiresIn, expiresAt } = createLocalJwt();
+  recordSessionInDb(DEFAULT_USER_ID, accessToken, refreshToken, expiresAt);
+
+  const baseCallback = explicitRedirect ?? `${scheme}://auth-callback`;
+  const separator = baseCallback.includes("?") ? "&" : "?";
   const location =
-    `${scheme}://auth-callback?` +
+    `${baseCallback}${separator}` +
     `access_token=${encodeURIComponent(accessToken)}` +
     `&refresh_token=${encodeURIComponent(refreshToken)}` +
     `&expires_in=${expiresIn}` +
@@ -141,7 +293,12 @@ authRoutes.get("/auth/start", (c) => {
 
   const accept = c.req.header("accept") ?? "";
   if (accept.includes("text/html")) {
-    const safeHref = location.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+    const safeHref = location
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    const safeJsLocation = JSON.stringify(location).replace(/</g, "\\u003c");
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,7 +321,7 @@ authRoutes.get("/auth/start", (c) => {
     <a class="btn" id="openBtn" href="${safeHref}">Open HeyClicky</a>
   </div>
   <script>
-    window.location.replace(${JSON.stringify(location)});
+    window.location.replace(${safeJsLocation});
   </script>
 </body>
 </html>`;
@@ -180,10 +337,39 @@ authRoutes.get("/auth/start", (c) => {
  */
 authRoutes.post("/auth/v1/token", async (c) => {
   let body: Record<string, unknown> = {};
+  const contentType = (c.req.header("content-type") ?? "").toLowerCase();
+  let rawText = "";
   try {
-    body = await c.req.json();
+    rawText = await c.req.text();
   } catch {
-    // Allow empty or form body
+    rawText = "";
+  }
+
+  if (rawText.trim().length > 0) {
+    if (contentType.includes("application/json")) {
+      try {
+        const parsed = JSON.parse(rawText);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          body = parsed as Record<string, unknown>;
+        } else {
+          return c.json({ error: "Invalid JSON body" }, 400);
+        }
+      } catch {
+        return c.json({ error: "Invalid JSON body" }, 400);
+      }
+    } else if (contentType.includes("application/x-www-form-urlencoded")) {
+      const params = new URLSearchParams(rawText);
+      body = Object.fromEntries(params.entries());
+    } else {
+      try {
+        const parsed = JSON.parse(rawText);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          body = parsed as Record<string, unknown>;
+        }
+      } catch {
+        return c.json({ error: "Invalid JSON body" }, 400);
+      }
+    }
   }
 
   const grantType =
@@ -194,21 +380,7 @@ authRoutes.post("/auth/v1/token", async (c) => {
   const user = getUserPayload();
 
   // Persist session in SQLite
-  try {
-    db.prepare(
-      `INSERT INTO sessions (id, user_id, access_token, refresh_token, expires_at, created_at)
-       VALUES (?, ?, ?, ?, ?, ?)`
-    ).run(
-      crypto.randomUUID(),
-      user.id,
-      accessToken,
-      refreshToken,
-      expiresAt,
-      new Date().toISOString()
-    );
-  } catch {
-    // Non-fatal if session insert fails
-  }
+  recordSessionInDb(user.id, accessToken, refreshToken, expiresAt);
 
   return c.json({
     access_token: accessToken,
@@ -235,11 +407,15 @@ authRoutes.get("/auth/v1/user", (c) => {
  */
 authRoutes.post("/auth/v1/logout", (c) => {
   const userCtx = c.get("kursorUser");
-  if (userCtx?.token) {
+  const authHeader = c.req.header("authorization") ?? "";
+  const headerToken = authHeader.toLowerCase().startsWith("bearer ")
+    ? authHeader.slice(7).trim()
+    : null;
+  const token = userCtx?.token ?? headerToken;
+  if (token) {
+    revokedTokens.add(token);
     try {
-      db.prepare("DELETE FROM sessions WHERE access_token = ?").run(
-        userCtx.token
-      );
+      db.prepare("DELETE FROM sessions WHERE access_token = ?").run(token);
     } catch {
       // Ignore
     }

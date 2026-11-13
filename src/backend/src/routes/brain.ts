@@ -82,7 +82,7 @@ When the user asks for a **3D model**, asks to **visualize/build/model** a physi
   - \`f.blob({ balls: [[0,0,0,0.5], [0.4,0.2,0,0.4]], blend: 0.35, mat: "paint:red", name: "Core" })\`
   - \`f.arrow([[x1,y1,z1], [x2,y2,z2]], { r: 0.04, mat: "glow:orange" })\` (3D flow arrow!)
 - **Power Multipliers (use these to create realistic multi-blade/multi-stage geometry!)**:
-  - \`around: { count: 10, axis: "x"|"y"|"z", at: [0,0,0] }\` — Repeats a blade, spoke, fin, or bolt in a full circle!
+  - \`around: { count: 10, axis: "x"|"y"|"z", center: [0,0,0] }\` — Repeats a blade, spoke, fin, or bolt in a full circle!
   - \`copies: { count: 4, step: [0.3, 0, 0] }\` — Repeats a stage, disc, or rib along a vector!
   - \`mirror: "x"|"y"|"z"\` — Mirrors a part across an axis!
 - **Materials (\`mat\`)**: \`"steel"\`, \`"alu"\`, \`"titanium"\`, \`"chrome"\`, \`"brass"\`, \`"copper"\`, \`"gold"\`, \`"cast"\`, \`"rubber"\`, \`"glass"\`, \`"water"\`, \`"wood"\`, \`"ceramic"\`, \`"carbon"\`, \`"paint:red"\`, \`"paint:blue"\`, \`"paint:green"\`, \`"paint:yellow"\`, \`"glow:orange"\`, \`"glow:blue"\`.
@@ -147,6 +147,46 @@ function isUsableApiKey(val: string | undefined): val is string {
   return true;
 }
 
+function stripBase64Screenshots(val: unknown): unknown {
+  if (typeof val === "string") {
+    if (val.startsWith("data:image/")) {
+      return "[screenshot_omitted]";
+    }
+    return val.replace(
+      /data:image\/[a-zA-Z0-9.+-]+;base64,[A-Za-z0-9+/=]+/g,
+      "[screenshot_omitted]"
+    );
+  }
+  if (Array.isArray(val)) {
+    return val.map(stripBase64Screenshots);
+  }
+  if (val && typeof val === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(val as Record<string, unknown>)) {
+      if (
+        (k === "image_url" || k === "base64") &&
+        typeof v === "string" &&
+        (v.startsWith("data:image/") || v.length > 512)
+      ) {
+        out[k] = "[screenshot_omitted]";
+      } else {
+        out[k] = stripBase64Screenshots(v);
+      }
+    }
+    return out;
+  }
+  return val;
+}
+
+function sanitizeGeneratedClickyJs(code: string): string {
+  return code
+    .replace(/\b__hostRaw\b/g, "undefined")
+    .replace(/\b__host\b/g, "undefined")
+    .replace(/\bObject\s*\.\s*prototype\b/g, "({})")
+    .replace(/\bwhile\s*\(\s*(?:true|1)\s*\)/g, "if (false)")
+    .replace(/\bfor\s*\(\s*;\s*;\s*\)/g, "if (false)");
+}
+
 function ensureSessionAndThread(
   sessionId: string,
   userId: string,
@@ -169,6 +209,8 @@ function ensureSessionAndThread(
     now
   );
 
+  const sanitizedThread = stripBase64Screenshots(threadItems ?? []);
+
   db.prepare(
     `INSERT INTO threads (id, user_id, title, mode, model, messages_json, created_at, updated_at)
      VALUES (?, ?, ?, 'onebrain', ?, ?, ?, ?)
@@ -181,10 +223,57 @@ function ensureSessionAndThread(
     userId,
     "OneBrain Session",
     model,
-    JSON.stringify(threadItems ?? []),
+    JSON.stringify(sanitizedThread),
     now,
     now
   );
+}
+
+// Bounded in-memory cache of recent screenshots (`fileId -> dataUrl`, max 64 entries)
+// Matches `BrainSession.cs` / `BrainClient.cs` `clicky_file` & `screenshot_file` protocol.
+const MAX_SCREENSHOT_CACHE_ENTRIES = 64;
+const screenshotCache = new Map<string, string>();
+
+function setScreenshotCacheEntry(key: string, dataUrl: string): void {
+  if (screenshotCache.has(key)) {
+    screenshotCache.delete(key);
+  }
+  screenshotCache.set(key, dataUrl);
+  while (screenshotCache.size > MAX_SCREENSHOT_CACHE_ENTRIES) {
+    const oldestKey = screenshotCache.keys().next().value;
+    if (oldestKey !== undefined) {
+      screenshotCache.delete(oldestKey);
+    } else {
+      break;
+    }
+  }
+}
+
+function storeScreenshotInCache(
+  screenshotBase64: string,
+  mimeType: string = "image/jpeg"
+): { fileId: string; dataUrl: string } {
+  const dataUrl = screenshotBase64.startsWith("data:")
+    ? screenshotBase64
+    : `data:${mimeType};base64,${screenshotBase64}`;
+  const rawBase64 = screenshotBase64.replace(/^data:image\/[^;]+;base64,/, "");
+  const fileId =
+    "sf_" +
+    crypto.createHash("sha1").update(screenshotBase64).digest("hex").slice(0, 16);
+  setScreenshotCacheEntry(fileId, dataUrl);
+
+  // Also index by rawBase64 and dataUrl SHA-1 in case caller hashes either form
+  const rawId =
+    "sf_" + crypto.createHash("sha1").update(rawBase64).digest("hex").slice(0, 16);
+  if (rawId !== fileId) {
+    setScreenshotCacheEntry(rawId, dataUrl);
+  }
+  const urlId =
+    "sf_" + crypto.createHash("sha1").update(dataUrl).digest("hex").slice(0, 16);
+  if (urlId !== fileId && urlId !== rawId) {
+    setScreenshotCacheEntry(urlId, dataUrl);
+  }
+  return { fileId, dataUrl };
 }
 
 interface ExtractedPromptInput {
@@ -193,6 +282,8 @@ interface ExtractedPromptInput {
   hasExistingDrawingOnScreen: boolean;
   contextNotes: string;
   screenLayout: ScreenLayoutAnalysis | null;
+  screenshotFileId: string | null;
+  missingScreenshotFile: boolean;
 }
 
 function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
@@ -200,9 +291,51 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
   const imageDataUrls: string[] = [];
   const contextParts: string[] = [];
   let hasExistingDrawingOnScreen = false;
+  let screenshotFileId: string | null = null;
+  let missingScreenshotFile = false;
+
+  const tryResolveScreenshotRef = (obj: any): boolean => {
+    if (!obj || typeof obj !== "object") return false;
+    const hasInlineImage =
+      (typeof obj.image_url === "string" && obj.image_url.length > 0) ||
+      (typeof obj.base64 === "string" && obj.base64.length > 0);
+    if (hasInlineImage) return false;
+
+    const candidateId =
+      typeof obj.clicky_file === "string" && obj.clicky_file.trim()
+        ? obj.clicky_file.trim()
+        : typeof obj.screenshot_file === "string" && obj.screenshot_file.trim()
+          ? obj.screenshot_file.trim()
+          : typeof obj.file_id === "string" && obj.file_id.trim()
+            ? obj.file_id.trim()
+            : obj.type === "clicky_file" && typeof obj.id === "string" && obj.id.trim()
+              ? obj.id.trim()
+              : null;
+
+    if (!candidateId) {
+      if (obj.type === "clicky_file") {
+        missingScreenshotFile = true;
+      }
+      return false;
+    }
+
+    const cached = screenshotCache.get(candidateId);
+    if (cached) {
+      imageDataUrls.push(cached);
+      if (!screenshotFileId) screenshotFileId = candidateId;
+      return true;
+    } else {
+      missingScreenshotFile = true;
+      return false;
+    }
+  };
+
+  // Check top-level screenshot_file / clicky_file reference if present
+  tryResolveScreenshotRef(body);
 
   // 1. Check `turn` object from CompanionSession.WriteTurnBody
   if (body.turn && typeof body.turn === "object") {
+    tryResolveScreenshotRef(body.turn);
     if (typeof body.turn.words === "string" && body.turn.words.trim()) {
       texts.push(body.turn.words.trim());
     } else if (typeof body.turn.fact === "string" && body.turn.fact.trim()) {
@@ -240,26 +373,29 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
         );
       }
     }
-    if (
-      body.turn.screenshot &&
-      typeof body.turn.screenshot.base64 === "string" &&
-      body.turn.screenshot.base64.length > 0
-    ) {
-      const mime = body.turn.screenshot.mimeType || "image/jpeg";
-      const b64 = body.turn.screenshot.base64;
-      imageDataUrls.push(
-        b64.startsWith("data:") ? b64 : `data:${mime};base64,${b64}`
-      );
+    if (body.turn.screenshot && typeof body.turn.screenshot === "object") {
+      if (
+        typeof body.turn.screenshot.base64 === "string" &&
+        body.turn.screenshot.base64.length > 0
+      ) {
+        const mime = body.turn.screenshot.mimeType || "image/jpeg";
+        const b64 = body.turn.screenshot.base64;
+        const stored = storeScreenshotInCache(b64, mime);
+        screenshotFileId = stored.fileId;
+        imageDataUrls.push(stored.dataUrl);
+      } else {
+        tryResolveScreenshotRef(body.turn.screenshot);
+      }
     }
     if (Array.isArray(body.turn.attached_images)) {
       for (const img of body.turn.attached_images) {
         if (img && typeof img.base64 === "string" && img.base64.length > 0) {
           const mime = img.mimeType || "image/jpeg";
-          imageDataUrls.push(
-            img.base64.startsWith("data:")
-              ? img.base64
-              : `data:${mime};base64,${img.base64}`
-          );
+          const stored = storeScreenshotInCache(img.base64, mime);
+          if (!screenshotFileId) screenshotFileId = stored.fileId;
+          imageDataUrls.push(stored.dataUrl);
+        } else {
+          tryResolveScreenshotRef(img);
         }
       }
     }
@@ -281,7 +417,11 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
           typeof item.image_url === "string" &&
           item.image_url.length > 0
         ) {
-          imageDataUrls.push(item.image_url);
+          const stored = storeScreenshotInCache(item.image_url);
+          if (!screenshotFileId) screenshotFileId = stored.fileId;
+          imageDataUrls.push(stored.dataUrl);
+        } else {
+          tryResolveScreenshotRef(item);
         }
         if (Array.isArray(item.content)) {
           for (const block of item.content) {
@@ -291,9 +431,14 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
               }
               if (
                 block.type === "input_image" &&
-                typeof block.image_url === "string"
+                typeof block.image_url === "string" &&
+                block.image_url.length > 0
               ) {
-                imageDataUrls.push(block.image_url);
+                const stored = storeScreenshotInCache(block.image_url);
+                if (!screenshotFileId) screenshotFileId = stored.fileId;
+                imageDataUrls.push(stored.dataUrl);
+              } else {
+                tryResolveScreenshotRef(block);
               }
             }
           }
@@ -306,7 +451,18 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
   if (Array.isArray(body.turn_items)) {
     for (const item of body.turn_items) {
       if (!item || typeof item !== "object") continue;
-      if (typeof item.content === "string" && item.content.trim()) {
+      tryResolveScreenshotRef(item);
+      if (item.type === "function_call_output") {
+        const outStr =
+          typeof item.output === "string"
+            ? item.output
+            : JSON.stringify(item.output ?? "");
+        if (outStr.trim()) {
+          contextParts.push(
+            `Tool Output (${item.call_id || "tool"}): ${outStr.trim()}`
+          );
+        }
+      } else if (typeof item.content === "string" && item.content.trim()) {
         texts.push(item.content.trim());
       } else if (Array.isArray(item.content)) {
         for (const block of item.content) {
@@ -319,7 +475,11 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
               typeof block.image_url === "string" &&
               block.image_url.length > 0
             ) {
-              imageDataUrls.push(block.image_url);
+              const stored = storeScreenshotInCache(block.image_url);
+              if (!screenshotFileId) screenshotFileId = stored.fileId;
+              imageDataUrls.push(stored.dataUrl);
+            } else {
+              tryResolveScreenshotRef(block);
             }
           }
         }
@@ -331,7 +491,20 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
   if (texts.length === 0 && Array.isArray(body.thread)) {
     for (let i = body.thread.length - 1; i >= 0; i--) {
       const item = body.thread[i];
-      if (item && typeof item === "object" && item.role === "user") {
+      if (!item || typeof item !== "object") continue;
+      if (item.type === "function_call_output") {
+        const outStr =
+          typeof item.output === "string"
+            ? item.output
+            : JSON.stringify(item.output ?? "");
+        if (outStr.trim()) {
+          texts.push(
+            `Continue after tool output (${item.call_id || "tool"}): ${outStr.trim()}`
+          );
+          break;
+        }
+      }
+      if (item.role === "user") {
         if (typeof item.content === "string") {
           texts.push(item.content);
           break;
@@ -343,9 +516,14 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
               }
               if (
                 block.type === "input_image" &&
-                typeof block.image_url === "string"
+                typeof block.image_url === "string" &&
+                block.image_url.length > 0
               ) {
-                imageDataUrls.push(block.image_url);
+                const stored = storeScreenshotInCache(block.image_url);
+                if (!screenshotFileId) screenshotFileId = stored.fileId;
+                imageDataUrls.push(stored.dataUrl);
+              } else {
+                tryResolveScreenshotRef(block);
               }
             }
           }
@@ -356,24 +534,30 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
   }
 
   // 3.5 If the current turn did not re-attach a screenshot (e.g. "Solve this on a page"),
-  // recover the most recent screenshot from `body.thread` so layout & vision still work!
+  // recover the most recent screenshot (or clicky_file reference) from `body.thread` so layout & vision still work!
   if (imageDataUrls.length === 0 && Array.isArray(body.thread)) {
     for (let i = body.thread.length - 1; i >= 0; i--) {
       const item = body.thread[i];
-      if (item && typeof item === "object" && Array.isArray(item.content)) {
+      if (!item || typeof item !== "object") continue;
+      tryResolveScreenshotRef(item);
+      if (Array.isArray(item.content)) {
         for (const block of item.content) {
-          if (
-            block &&
-            typeof block === "object" &&
-            block.type === "input_image" &&
-            typeof block.image_url === "string" &&
-            block.image_url.length > 0
-          ) {
-            imageDataUrls.push(block.image_url);
+          if (block && typeof block === "object") {
+            if (
+              block.type === "input_image" &&
+              typeof block.image_url === "string" &&
+              block.image_url.length > 0
+            ) {
+              const stored = storeScreenshotInCache(block.image_url);
+              if (!screenshotFileId) screenshotFileId = stored.fileId;
+              imageDataUrls.push(stored.dataUrl);
+            } else {
+              tryResolveScreenshotRef(block);
+            }
           }
         }
-        if (imageDataUrls.length > 0) break;
       }
+      if (imageDataUrls.length > 0) break;
     }
   }
 
@@ -391,6 +575,8 @@ function extractPromptInput(body: Record<string, any>): ExtractedPromptInput {
     hasExistingDrawingOnScreen,
     contextNotes: contextParts.join("\n"),
     screenLayout,
+    screenshotFileId,
+    missingScreenshotFile: missingScreenshotFile && dedupedImages.length === 0,
   };
 }
 
@@ -474,11 +660,13 @@ async function tryCallUpstreamLlm(
   thread: any[],
   extracted: ExtractedPromptInput,
   requestedModel: string,
-  tools?: any[]
+  tools?: any[],
+  abortSignal?: AbortSignal
 ): Promise<UpstreamLlmResult | null> {
   // Stage 1: If we have a screenshot and a Groq key, run the lightweight Vision Eye first
   // so `openai/gpt-oss-120b` (120B flagship coder) gets exact OCR + calibrated pixel coordinates!
   let visionReading = "";
+  let visionEyeAttempted = false;
   const isPure3dRequest =
     /\b(3d|three[-\s]?d|figure|turbine|engine|molecule|solar system|piston)\b/i.test(
       extracted.userText
@@ -489,6 +677,7 @@ async function tryCallUpstreamLlm(
     !isPure3dRequest &&
     isUsableApiKey(process.env.GROQ_API_KEY)
   ) {
+    visionEyeAttempted = true;
     visionReading = await runGroqVisionEye(process.env.GROQ_API_KEY, extracted);
   }
 
@@ -508,10 +697,55 @@ async function tryCallUpstreamLlm(
 
   const messages: any[] = [{ role: "system", content: systemPrompt }];
 
-  // Keep only the last 4 clean turns of history so old hardcoded coordinates don't pollute new screen coordinates
+  // Keep recent turns of history, preserving function_call, function_call_output, developer, and drawing-only assistant turns
   if (Array.isArray(thread)) {
-    for (const item of thread.slice(-6)) {
+    for (const item of thread.slice(-8)) {
       if (!item || typeof item !== "object") continue;
+
+      if (item.type === "function_call") {
+        const callName = String(item.name || "tool");
+        const callArgs =
+          typeof item.arguments === "string"
+            ? item.arguments
+            : JSON.stringify(item.arguments ?? {});
+        messages.push({
+          role: "assistant",
+          content: `[Tool Call: ${callName}(${callArgs}) (call_id=${item.call_id || ""})]`,
+        });
+        continue;
+      }
+
+      if (item.type === "function_call_output") {
+        const outStr =
+          typeof item.output === "string"
+            ? item.output
+            : JSON.stringify(item.output ?? "");
+        messages.push({
+          role: "user",
+          content: `[Tool Output (call_id=${item.call_id || ""})]: ${outStr}`,
+        });
+        continue;
+      }
+
+      if (item.role === "developer") {
+        let devText = "";
+        if (typeof item.content === "string") {
+          devText = item.content;
+        } else if (Array.isArray(item.content)) {
+          devText = item.content
+            .map((c: any) => (typeof c?.text === "string" ? c.text : ""))
+            .filter(Boolean)
+            .join("\n");
+        }
+        if (devText.trim()) {
+          messages.push({
+            role: "user",
+            content: `[Developer Context]\n${devText.trim()}`,
+          });
+        }
+        continue;
+      }
+
       if (
         item.type === "message" &&
         (item.role === "user" || item.role === "assistant")
@@ -533,8 +767,9 @@ async function tryCallUpstreamLlm(
           !textContent.includes("weren't supplied") &&
           !textContent.includes("were not provided")
         ) {
-          // Always strip raw (x, y) drawing calls from older assistant turns in history
-          // so a previous turn's write() or zoom/scroll coordinates never pollute the current turn!
+          // Strip raw (x, y) drawing calls from older assistant turns in history
+          // so a previous turn's write() or zoom/scroll coordinates never pollute the current turn,
+          // while still preserving assistant turns that only drew on screen without say()!
           if (item.role === "assistant") {
             const sayMatches = Array.from(
               textContent.matchAll(/say\(\s*(["'`])([\s\S]*?)\1\s*\)/g)
@@ -545,6 +780,20 @@ async function tryCallUpstreamLlm(
               messages.push({
                 role: "assistant",
                 content: `\`\`\`js\nstep(1);\nsay(${JSON.stringify(sayMatches.join(" "))});\n\`\`\``,
+              });
+            } else {
+              const drawnOps = Array.from(
+                textContent.matchAll(
+                  /\b(check|cross|write|receipt|clipping|paper|sticky|ring|frame|point|figure|handOff)\s*\(/g
+                )
+              ).map((m) => m[1]);
+              const summaryComment =
+                drawnOps.length > 0
+                  ? `// Previous assistant turn drew: ${Array.from(new Set(drawnOps)).join(", ")}`
+                  : textContent.slice(0, 240);
+              messages.push({
+                role: "assistant",
+                content: `\`\`\`js\nstep(1);\n${summaryComment}\n\`\`\``,
               });
             }
           } else {
@@ -576,17 +825,20 @@ async function tryCallUpstreamLlm(
       name: "groq-120b",
       url: "https://api.groq.com/openai/v1/chat/completions",
       apiKey:
-        visionReading || extracted.imageDataUrls.length === 0 || isPure3dRequest
+        visionReading ||
+        Boolean(extracted.screenLayout?.layoutPromptNote) ||
+        extracted.imageDataUrls.length === 0 ||
+        isPure3dRequest
           ? process.env.GROQ_API_KEY
           : undefined,
       model: "openai/gpt-oss-120b",
       supportsVision: false,
     },
-    // Direct Vision fallback on Groq (`qwen/qwen3.8-27b`) if Stage 1 was skipped
+    // Direct Vision fallback on Groq (`qwen/qwen3.8-27b`) only if Stage 1 was NOT already attempted
     {
       name: "groq-qwen-vision",
       url: "https://api.groq.com/openai/v1/chat/completions",
-      apiKey: process.env.GROQ_API_KEY,
+      apiKey: !visionEyeAttempted ? process.env.GROQ_API_KEY : undefined,
       model: "qwen/qwen3.8-27b",
       supportsVision: true,
     },
@@ -596,6 +848,7 @@ async function tryCallUpstreamLlm(
       apiKey: process.env.OPENROUTER_API_KEY,
       model:
         process.env.KURSOR_BRAIN_MODEL ||
+        process.env.ONEBRAIN_MODEL ||
         process.env.OPENROUTER_DEFAULT_MODEL ||
         requestedModel ||
         "baidu/ernie-5.5-flash-preview:free",
@@ -623,6 +876,7 @@ async function tryCallUpstreamLlm(
 
   for (const provider of providers) {
     if (!isUsableApiKey(provider.apiKey)) continue;
+    if (abortSignal?.aborted) return null;
 
     try {
       const providerMessages = [
@@ -657,15 +911,21 @@ async function tryCallUpstreamLlm(
               : {}),
       };
 
-      // Omit tools on Groq/OpenRouter free models so the model always writes ClickyDraw JS code directly
+      // Forward tools when calling tool-capable models
       if (
         Array.isArray(tools) &&
         tools.length > 0 &&
-        !provider.name.startsWith("groq") &&
-        provider.name !== "openrouter"
+        provider.name !== "groq-qwen-vision" &&
+        !provider.model.endsWith(":free") &&
+        provider.model !== "openrouter/free"
       ) {
         payload.tools = tools;
       }
+
+      const timeoutSig = AbortSignal.timeout(18000);
+      const reqSignal = abortSignal
+        ? AbortSignal.any([abortSignal, timeoutSig])
+        : timeoutSig;
 
       const res = await fetch(provider.url, {
         method: "POST",
@@ -675,7 +935,7 @@ async function tryCallUpstreamLlm(
           ...(provider.headers ?? {}),
         },
         body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(18000),
+        signal: reqSignal,
       });
 
       let data: any = null;
@@ -697,10 +957,7 @@ async function tryCallUpstreamLlm(
               ? provider.model
               : "openrouter/free",
           models: [
-            "google/gemma-3-27b-it:free",
-            "meta-llama/llama-4-maverick:free",
-            "qwen/qwen2.5-vl-72b-instruct:free",
-            "mistralai/mistral-small-3.1-24b-instruct:free",
+            "baidu/ernie-5.5-flash-preview:free",
             "openrouter/free",
           ],
           messages: providerMessages,
@@ -708,6 +965,10 @@ async function tryCallUpstreamLlm(
           max_tokens: 4096,
           reasoning: { effort: "low" },
         };
+        const retryTimeout = AbortSignal.timeout(18000);
+        const retrySignal = abortSignal
+          ? AbortSignal.any([abortSignal, retryTimeout])
+          : retryTimeout;
         const retryRes = await fetch(provider.url, {
           method: "POST",
           headers: {
@@ -716,7 +977,7 @@ async function tryCallUpstreamLlm(
             ...(provider.headers ?? {}),
           },
           body: JSON.stringify(fallbackPayload),
-          signal: AbortSignal.timeout(18000),
+          signal: retrySignal,
         });
         if (retryRes.ok) {
           data = await retryRes.json();
@@ -806,6 +1067,9 @@ async function tryCallUpstreamLlm(
         extracted.screenLayout,
         extracted.userText
       );
+
+      // Sanitize dangerous V8 host/prototype/infinite-loop patterns
+      codeText = sanitizeGeneratedClickyJs(codeText);
 
       // If there was a previous turn's drawing still on screen, prepend startOver() so old frames/cards are wiped cleanly
       if (
@@ -957,6 +1221,7 @@ brainRoutes.post("/brain/turn", async (c) => {
 
   const defaultModel =
     process.env.KURSOR_BRAIN_MODEL ||
+    process.env.ONEBRAIN_MODEL ||
     process.env.OPENROUTER_DEFAULT_MODEL ||
     (typeof body.brain_model === "string" && body.brain_model.trim()) ||
     "anthropic/claude-sonnet-4.6";
@@ -974,24 +1239,57 @@ brainRoutes.post("/brain/turn", async (c) => {
 
   const incomingThread: any[] = Array.isArray(body.thread) ? body.thread : [];
   const extracted = extractPromptInput(body);
+  if (extracted.missingScreenshotFile) {
+    return c.json(
+      {
+        error: "screenshot_files_unavailable",
+        message:
+          "Referenced screenshot file is not in cache; retry with inline image.",
+      },
+      409
+    );
+  }
   const systemPrompt = `${loadSystemInstructions()}\n\n${userLayer}`;
 
   // Persist initial session & thread in SQLite
   ensureSessionAndThread(sessionId, userId, defaultModel, incomingThread);
 
   const encoder = new TextEncoder();
+  const reqSignal = c.req.raw.signal;
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
+      let streamClosed = false;
+      const onAbort = () => {
+        streamClosed = true;
+      };
+      if (reqSignal) {
+        if (reqSignal.aborted) {
+          streamClosed = true;
+        } else {
+          reqSignal.addEventListener("abort", onAbort, { once: true });
+        }
+      }
+
       const sendData = (payload: Record<string, unknown>) => {
-        const line = `data: ${JSON.stringify(payload)}\n\n`;
-        controller.enqueue(encoder.encode(line));
+        if (streamClosed || reqSignal?.aborted) return;
+        try {
+          const line = `data: ${JSON.stringify(payload)}\n\n`;
+          controller.enqueue(encoder.encode(line));
+        } catch {
+          streamClosed = true;
+        }
       };
 
       // Note: BrainSseParser.TryDispatchText checks `json.StartsWith("{\"type\":\"text\""u8)`
       const sendTextChunk = (text: string) => {
-        const line = `data: {"type":"text","text":${JSON.stringify(text)}}\n\n`;
-        controller.enqueue(encoder.encode(line));
+        if (streamClosed || reqSignal?.aborted) return;
+        try {
+          const line = `data: {"type":"text","text":${JSON.stringify(text)}}\n\n`;
+          controller.enqueue(encoder.encode(line));
+        } catch {
+          streamClosed = true;
+        }
       };
 
       try {
@@ -1017,14 +1315,17 @@ brainRoutes.post("/brain/turn", async (c) => {
           text: "Thinking...",
         });
 
-        // 3. Try live LLM (OpenRouter -> OpenAI -> Gemini -> Groq) or use local fallback
-        const upstream = await tryCallUpstreamLlm(
-          systemPrompt,
-          incomingThread,
-          extracted,
-          defaultModel,
-          Array.isArray(body.tools) ? body.tools : undefined
-        );
+        // 3. Check `force_local_fallback` BEFORE calling live upstream LLMs
+        const upstream = body.force_local_fallback
+          ? null
+          : await tryCallUpstreamLlm(
+              systemPrompt,
+              incomingThread,
+              extracted,
+              defaultModel,
+              Array.isArray(body.tools) ? body.tools : undefined,
+              reqSignal
+            );
 
         let finalCodeText = "";
         let modelUsed = defaultModel;
@@ -1043,7 +1344,7 @@ brainRoutes.post("/brain/turn", async (c) => {
         }> = [];
 
         if (upstream && !body.force_local_fallback) {
-          finalCodeText = upstream.codeText;
+          finalCodeText = sanitizeGeneratedClickyJs(upstream.codeText);
           modelUsed = upstream.modelUsed;
           inputTokens = upstream.inputTokens;
           outputTokens = upstream.outputTokens;
@@ -1052,16 +1353,18 @@ brainRoutes.post("/brain/turn", async (c) => {
           // Stream in realistic chunks
           const chunkSize = 48;
           for (let i = 0; i < finalCodeText.length; i += chunkSize) {
+            if (streamClosed || reqSignal?.aborted) break;
             sendTextChunk(finalCodeText.slice(i, i + chunkSize));
           }
         } else {
           const fallback = buildLocalFallbackProgram(body, extracted);
-          finalCodeText = fallback.fullCode;
+          finalCodeText = sanitizeGeneratedClickyJs(fallback.fullCode);
           toolCalls = fallback.toolCalls;
           computerCalls = fallback.computerCalls;
 
           for (const chunk of fallback.codeChunks) {
-            sendTextChunk(chunk);
+            if (streamClosed || reqSignal?.aborted) break;
+            sendTextChunk(sanitizeGeneratedClickyJs(chunk));
           }
         }
 
@@ -1128,7 +1431,7 @@ brainRoutes.post("/brain/turn", async (c) => {
         ensureSessionAndThread(sessionId, userId, modelUsed, updatedThread);
 
         // 7. Emit `done` event
-        sendData({
+        const donePayload: Record<string, unknown> = {
           type: "done",
           input: inputTokens,
           last_input: inputTokens,
@@ -1144,7 +1447,11 @@ brainRoutes.post("/brain/turn", async (c) => {
           message_recorded: true,
           message_refunded: false,
           drive_messages_refunded: 0,
-        });
+        };
+        if (extracted.screenshotFileId) {
+          donePayload.screenshot_file = extracted.screenshotFileId;
+        }
+        sendData(donePayload);
       } catch (err) {
         sendData({
           type: "error",
@@ -1153,8 +1460,19 @@ brainRoutes.post("/brain/turn", async (c) => {
             err instanceof Error ? err.message : "Unexpected OneBrain error",
         });
       } finally {
-        controller.close();
+        reqSignal?.removeEventListener("abort", onAbort);
+        if (!streamClosed) {
+          streamClosed = true;
+          try {
+            controller.close();
+          } catch {
+            // Controller already closed
+          }
+        }
       }
+    },
+    cancel() {
+      // Client disconnected mid-stream
     },
   });
 
@@ -1182,11 +1500,23 @@ brainRoutes.post("/brain/compact", async (c) => {
     // Allow empty JSON
   }
 
-  const sessionId =
+  const userCtx = c.get("kursorUser" as never) as
+    | { userId?: string }
+    | undefined;
+  const userId = userCtx?.userId || DEFAULT_USER_ID;
+
+  const explicitSessionId =
     typeof body.session_id === "string" && body.session_id.trim()
       ? body.session_id.trim()
-      : "default-session";
-  const thread: any[] = Array.isArray(body.thread) ? body.thread : [];
+      : typeof body.thread_id === "string" && body.thread_id.trim()
+        ? body.thread_id.trim()
+        : null;
+  const sessionId = explicitSessionId || "default-session";
+  const thread: any[] = Array.isArray(body.thread)
+    ? body.thread
+    : Array.isArray(body.items)
+      ? body.items
+      : [];
 
   // Summarize leading items
   const keepFromIndex =
@@ -1230,11 +1560,29 @@ brainRoutes.post("/brain/compact", async (c) => {
     ],
   };
 
+  const compactedItems = [
+    ...thread.slice(dropLeadingItems, keepLeadingItems),
+    noteItem,
+    ...thread.slice(keepFromIndex),
+  ];
+
+  if (explicitSessionId) {
+    ensureSessionAndThread(
+      explicitSessionId,
+      userId,
+      typeof body.model === "string" && body.model.trim()
+        ? body.model.trim()
+        : "compacted",
+      compactedItems
+    );
+  }
+
   const compacted = {
     note_item: noteItem,
     keep_from_index: keepFromIndex,
     keep_leading_items: keepLeadingItems,
     drop_leading_items: dropLeadingItems,
+    items: compactedItems,
   };
 
   return c.json({
@@ -1243,6 +1591,7 @@ brainRoutes.post("/brain/compact", async (c) => {
     keep_from_index: keepFromIndex,
     keep_leading_items: keepLeadingItems,
     drop_leading_items: dropLeadingItems,
+    items: compactedItems,
     // Nested `compacted` property matching `BrainCompactReply` record structure
     compacted,
     tokens_until_fold: 45000,

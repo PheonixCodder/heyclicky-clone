@@ -80,9 +80,44 @@ interface StoredProactiveJob {
   }>;
 }
 
+const MAX_BOUNDED_MAP_ENTRIES = 500;
 const proactiveJobs = new Map<string, StoredProactiveJob>();
 const proactiveCardStatuses = new Map<string, string>();
-let nextSuggestionNumericId = 101;
+
+function setBoundedMapEntry<K, V>(
+  map: Map<K, V>,
+  key: K,
+  value: V,
+  maxEntries: number = MAX_BOUNDED_MAP_ENTRIES
+): void {
+  if (map.has(key)) {
+    map.delete(key);
+  }
+  map.set(key, value);
+  while (map.size > maxEntries) {
+    const oldestKey = map.keys().next().value;
+    if (oldestKey !== undefined) {
+      map.delete(oldestKey);
+    } else {
+      break;
+    }
+  }
+}
+
+function seedNextSuggestionNumericId(): number {
+  try {
+    const row = db
+      .prepare(
+        "SELECT MAX(CAST(id AS INTEGER)) AS max_id FROM proactive_cards"
+      )
+      .get() as { max_id?: number | null } | undefined;
+    return Math.max(101, (Number(row?.max_id) || 100) + 1);
+  } catch {
+    return 101;
+  }
+}
+
+let nextSuggestionNumericId = seedNextSuggestionNumericId();
 
 function createProactiveJob(body: Record<string, any>): StoredProactiveJob {
   const jobId = `proactive_job_${crypto.randomUUID().slice(0, 12)}`;
@@ -152,7 +187,9 @@ function createProactiveJob(body: Record<string, any>): StoredProactiveJob {
 
   const now = new Date().toISOString();
   for (const card of cards) {
-    proactiveCardStatuses.set(card.id, "presented");
+    if (!proactiveCardStatuses.has(card.id)) {
+      setBoundedMapEntry(proactiveCardStatuses, card.id, "presented");
+    }
     db.prepare(
       `INSERT INTO proactive_cards (
         id, user_id, card_type, title, subtitle, prompt, payload_json, dismissed, created_at
@@ -161,8 +198,7 @@ function createProactiveJob(body: Record<string, any>): StoredProactiveJob {
         title = excluded.title,
         subtitle = excluded.subtitle,
         prompt = excluded.prompt,
-        payload_json = excluded.payload_json,
-        dismissed = 0`
+        payload_json = CASE WHEN proactive_cards.dismissed = 1 THEN proactive_cards.payload_json ELSE excluded.payload_json END`
     ).run(
       card.id,
       DEFAULT_USER_ID,
@@ -187,7 +223,7 @@ function createProactiveJob(body: Record<string, any>): StoredProactiveJob {
     cards,
   };
 
-  proactiveJobs.set(jobId, job);
+  setBoundedMapEntry(proactiveJobs, jobId, job);
   return job;
 }
 
@@ -208,7 +244,7 @@ function handleGetProactiveJob(c: any) {
   if (!job) {
     job = createProactiveJob({ reason: "poll_fallback" });
     job.job_id = jobId;
-    proactiveJobs.set(jobId, job);
+    setBoundedMapEntry(proactiveJobs, jobId, job);
   }
   return c.json(job);
 }
@@ -250,7 +286,7 @@ async function handleResolveProactiveCards(c: any) {
 
   for (const rawId of rawIds) {
     const idStr = String(rawId);
-    proactiveCardStatuses.set(idStr, resolution);
+    setBoundedMapEntry(proactiveCardStatuses, idStr, resolution);
 
     const existing = db
       .prepare("SELECT payload_json FROM proactive_cards WHERE id = ?")
@@ -506,8 +542,10 @@ agentRoutes.get("/agent/cron/:id", handleGetCronDetail);
 // Agent Session Token (`POST /agent/session-token`)
 agentRoutes.post("/agent/session-token", (c) => {
   const expiresAtUnixSeconds = Math.floor(Date.now() / 1000) + 3600;
+  const token = `kursor_agent_tok_${crypto.randomUUID().replace(/-/g, "")}`;
   return c.json({
-    token: `kursor_agent_tok_${crypto.randomUUID().replace(/-/g, "")}`,
+    token,
+    session_token: token,
     expires_at: expiresAtUnixSeconds,
     capabilities: {
       developer_model_selection: true,
@@ -568,7 +606,7 @@ agentRoutes.post("/agent/record-agent-launch", async (c) => {
     requires_extra_effort: false,
   };
 
-  turnLeases.set(leaseId, lease);
+  setBoundedMapEntry(turnLeases, leaseId, lease);
   return c.json(lease);
 });
 
@@ -615,7 +653,7 @@ agentRoutes.post("/agent/turn-lease/:id/continue", (c) => {
         cost_limit_usd: 100.0,
         requires_extra_effort: false,
       };
-  turnLeases.set(leaseId, updated);
+  setBoundedMapEntry(turnLeases, leaseId, updated);
   return c.json({ ...updated, continued: true });
 });
 
@@ -685,6 +723,8 @@ agentRoutes.post("/agent-messages", (c) => {
 // ============================================================================
 interface IntegrationEntry {
   id: string;
+  toolkit: string;
+  name: string;
   display_name: string;
   description: string;
   use_cases: string[];
@@ -698,6 +738,7 @@ interface IntegrationEntry {
     is_connected: boolean;
   }>;
   accounts: Array<{
+    id: string;
     connected_account_id: string;
     account_name: string;
     label: string;
@@ -711,6 +752,8 @@ interface IntegrationEntry {
 const integrationsCatalog: IntegrationEntry[] = [
   {
     id: "gmail",
+    toolkit: "gmail",
+    name: "Gmail",
     display_name: "Gmail",
     description: "Read, search, draft, and send emails with Gmail.",
     use_cases: ["Triage unread emails", "Draft replies", "Search threads"],
@@ -729,6 +772,8 @@ const integrationsCatalog: IntegrationEntry[] = [
   },
   {
     id: "googlecalendar",
+    toolkit: "googlecalendar",
+    name: "Google Calendar",
     display_name: "Google Calendar",
     description: "Check upcoming meetings, schedule events, and manage invites.",
     use_cases: [
@@ -749,6 +794,7 @@ const integrationsCatalog: IntegrationEntry[] = [
     ],
     accounts: [
       {
+        id: "conn_gcal_default",
         connected_account_id: "conn_gcal_default",
         account_name: "local@kursor.dev",
         label: "Primary",
@@ -761,6 +807,8 @@ const integrationsCatalog: IntegrationEntry[] = [
   },
   {
     id: "notion",
+    toolkit: "notion",
+    name: "Notion",
     display_name: "Notion",
     description: "Search pages, update databases, and write workspace docs.",
     use_cases: ["Search workspace pages", "Create notes", "Update databases"],
@@ -779,6 +827,8 @@ const integrationsCatalog: IntegrationEntry[] = [
   },
   {
     id: "linear",
+    toolkit: "linear",
+    name: "Linear",
     display_name: "Linear",
     description: "Manage engineering issues, cycles, and project roadmaps.",
     use_cases: ["Create and triage issues", "Update sprint status"],
@@ -797,6 +847,8 @@ const integrationsCatalog: IntegrationEntry[] = [
   },
   {
     id: "obsidian",
+    toolkit: "obsidian",
+    name: "Obsidian",
     display_name: "Obsidian",
     description: "Read and write markdown notes in your local Obsidian vault.",
     use_cases: ["Search local markdown notes", "Append daily notes"],
@@ -811,10 +863,23 @@ const integrationsCatalog: IntegrationEntry[] = [
         is_connected: true,
       },
     ],
-    accounts: [],
+    accounts: [
+      {
+        id: "conn_obsidian_default",
+        connected_account_id: "conn_obsidian_default",
+        account_name: "local-vault",
+        label: "Vault",
+        avatar_url: null,
+        account_name_kind: "vault",
+        status: "connected",
+        connected_at: "2026-01-01T00:00:00.000Z",
+      },
+    ],
   },
   {
     id: "spotify",
+    toolkit: "spotify",
+    name: "Spotify",
     display_name: "Spotify",
     description: "Search tracks, artists, and control music playback.",
     use_cases: ["Play songs by voice", "Search tracks and artists"],
@@ -829,10 +894,23 @@ const integrationsCatalog: IntegrationEntry[] = [
         is_connected: true,
       },
     ],
-    accounts: [],
+    accounts: [
+      {
+        id: "conn_spotify_default",
+        connected_account_id: "conn_spotify_default",
+        account_name: "kursor-audio",
+        label: "Default",
+        avatar_url: null,
+        account_name_kind: "username",
+        status: "connected",
+        connected_at: "2026-01-01T00:00:00.000Z",
+      },
+    ],
   },
   {
     id: "github",
+    toolkit: "github",
+    name: "GitHub",
     display_name: "GitHub",
     description: "Inspect pull requests, issues, commits, and actions.",
     use_cases: ["Review PRs", "Manage issues", "Check CI status"],
@@ -849,6 +927,7 @@ const integrationsCatalog: IntegrationEntry[] = [
     ],
     accounts: [
       {
+        id: "conn_gh_default",
         connected_account_id: "conn_gh_default",
         account_name: "kursor-dev",
         label: "Work",
@@ -895,13 +974,27 @@ async function handleConnectIntegration(c: any) {
     for (const tk of entry.toolkits) {
       tk.is_connected = true;
     }
+    if (entry.accounts.length === 0) {
+      const connId = `conn_${entry.id}_default`;
+      entry.accounts.push({
+        id: connId,
+        connected_account_id: connId,
+        account_name: "local@kursor.dev",
+        label: "Primary",
+        avatar_url: null,
+        account_name_kind: "email",
+        status: "connected",
+        connected_at: new Date().toISOString(),
+      });
+    }
   }
 
-  const redirectUrl = `https://platform.composio.dev/oauth/connect/${encodeURIComponent(toolkit)}?session=kursor_local`;
+  const redirectUrl = `http://127.0.0.1:8787/auth/start?toolkit=${encodeURIComponent(toolkit)}`;
 
   return c.json({
     url: redirectUrl,
     redirect_url: redirectUrl,
+    connect_url: redirectUrl,
     toolkit,
     connected: true,
   });
@@ -926,11 +1019,76 @@ agentRoutes.post("/agent/integrations/:toolkit/disconnect", (c) => {
   }
   return c.json({ ok: true, toolkit, disconnected: true });
 });
-agentRoutes.post(
-  "/agent/integrations/:toolkit/accounts/:connectionId/label",
-  async (c) => {
-    return c.json({ ok: true });
+async function handleUpdateIntegrationAccountLabel(c: any) {
+  let body: Record<string, any> = {};
+  try {
+    body = await c.req.json();
+  } catch {
+    // Allow empty JSON
   }
+
+  const toolkit = (c.req.param("toolkit") || "").trim();
+  const accountId = (
+    c.req.param("accountId") ||
+    c.req.param("connectionId") ||
+    ""
+  ).trim();
+  const newLabel =
+    typeof body.label === "string" ? body.label.trim() : "";
+
+  const entry = integrationsCatalog.find(
+    (i) =>
+      i.id.toLowerCase() === toolkit.toLowerCase() ||
+      i.toolkit.toLowerCase() === toolkit.toLowerCase() ||
+      i.toolkits.some((t) => t.slug.toLowerCase() === toolkit.toLowerCase())
+  );
+
+  if (entry) {
+    let account = entry.accounts.find(
+      (a) =>
+        a.id === accountId ||
+        a.connected_account_id === accountId
+    );
+    if (!account && entry.accounts.length > 0 && !accountId) {
+      account = entry.accounts[0];
+    }
+    if (!account && accountId) {
+      account = {
+        id: accountId,
+        connected_account_id: accountId,
+        account_name: "local@kursor.dev",
+        label: newLabel || "Primary",
+        avatar_url: null,
+        account_name_kind: "email",
+        status: "connected",
+        connected_at: new Date().toISOString(),
+      };
+      entry.accounts.push(account);
+    }
+    if (account) {
+      account.label = newLabel;
+      return c.json({
+        ok: true,
+        toolkit: entry.id,
+        account_id: account.id,
+        connected_account_id: account.connected_account_id,
+        label: account.label,
+        account,
+      });
+    }
+  }
+
+  return c.json({
+    ok: true,
+    toolkit,
+    account_id: accountId,
+    label: newLabel,
+  });
+}
+
+agentRoutes.post(
+  "/agent/integrations/:toolkit/accounts/:accountId/label",
+  handleUpdateIntegrationAccountLabel
 );
 
 agentRoutes.post("/agent/composio/session", (c) => {
@@ -940,7 +1098,8 @@ agentRoutes.post("/agent/composio/session", (c) => {
 
   return c.json({
     enabled: true,
-    proxy_url: "http://127.0.0.1:8787/mcp/composio",
+    mcp_url: "http://127.0.0.1:8787/agent/mcp/composio",
+    proxy_url: "http://127.0.0.1:8787/agent/mcp/composio",
     session_id: `composio_sess_${crypto.randomUUID().slice(0, 12)}`,
     toolkits:
       connectedToolkits.length > 0
@@ -1171,3 +1330,546 @@ async function handleSpotifySearch(c: any) {
 
 agentRoutes.post("/tools/spotify/search", handleSpotifySearch);
 agentRoutes.post("/agent/realtime/spotify/search", handleSpotifySearch);
+
+// ============================================================================
+// 5. AUTONOMOUS AGENT HARNESS PROXY ROUTES (`AUD-J-001`)
+// Matches `clicky-harness.exe` (`h1`, `pi`, `codex`) & `AgentWorkerApi.cs`:
+// - POST `/agent/openai/v1/responses`
+// - POST `/agent/anthropic/v1/messages`
+// - GET & POST `/agent/web-search`
+// - POST `/agent/harness/lab/h1/jobs` & GET `/agent/harness/lab/h1/probe`
+// - GET & POST `/agent/mcp/composio` & `/mcp/composio`
+// ============================================================================
+async function generateAgentReplyText(
+  systemInstructions: string,
+  userPrompt: string
+): Promise<string> {
+  const groqKey = process.env.GROQ_API_KEY?.trim();
+  const openRouterKey = process.env.OPENROUTER_API_KEY?.trim();
+  const openAiKey = process.env.OPENAI_API_KEY?.trim();
+
+  const messages: Array<{ role: string; content: string }> = [];
+  if (systemInstructions) {
+    messages.push({ role: "system", content: systemInstructions });
+  }
+  messages.push({
+    role: "user",
+    content: userPrompt || "Hello",
+  });
+
+  if (groqKey) {
+    try {
+      const resp = await fetch(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${groqKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "openai/gpt-oss-120b",
+            messages,
+            temperature: 0.2,
+            max_tokens: 512,
+          }),
+          signal: AbortSignal.timeout(8000),
+        }
+      );
+      if (resp.ok) {
+        const data = (await resp.json()) as any;
+        const text = data?.choices?.[0]?.message?.content;
+        if (typeof text === "string" && text.trim()) return text.trim();
+      }
+    } catch {
+      // Fall through
+    }
+  }
+
+  if (openRouterKey) {
+    try {
+      const resp = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${openRouterKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model:
+              process.env.KURSOR_BRAIN_MODEL ||
+              process.env.ONEBRAIN_MODEL ||
+              process.env.OPENROUTER_DEFAULT_MODEL ||
+              "openrouter/free",
+            messages,
+            temperature: 0.2,
+            max_tokens: 512,
+          }),
+          signal: AbortSignal.timeout(8000),
+        }
+      );
+      if (resp.ok) {
+        const data = (await resp.json()) as any;
+        const text = data?.choices?.[0]?.message?.content;
+        if (typeof text === "string" && text.trim()) return text.trim();
+      }
+    } catch {
+      // Fall through
+    }
+  }
+
+  if (openAiKey) {
+    try {
+      const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${openAiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages,
+          temperature: 0.2,
+          max_tokens: 512,
+        }),
+        signal: AbortSignal.timeout(8000),
+      });
+      if (resp.ok) {
+        const data = (await resp.json()) as any;
+        const text = data?.choices?.[0]?.message?.content;
+        if (typeof text === "string" && text.trim()) return text.trim();
+      }
+    } catch {
+      // Fall through
+    }
+  }
+
+  return `Kursor local agent processed: ${userPrompt ? userPrompt.slice(0, 200) : "ready"}.`;
+}
+
+function extractInputText(input: unknown): string {
+  if (typeof input === "string") return input;
+  if (Array.isArray(input)) {
+    const parts: string[] = [];
+    for (const item of input) {
+      if (typeof item === "string") {
+        parts.push(item);
+      } else if (item && typeof item === "object") {
+        const obj = item as Record<string, any>;
+        if (typeof obj.content === "string") {
+          parts.push(obj.content);
+        } else if (Array.isArray(obj.content)) {
+          for (const c of obj.content) {
+            if (typeof c?.text === "string") parts.push(c.text);
+          }
+        } else if (typeof obj.text === "string") {
+          parts.push(obj.text);
+        }
+      }
+    }
+    return parts.join("\n").trim();
+  }
+  return "";
+}
+
+agentRoutes.post("/agent/openai/v1/responses", async (c) => {
+  let body: Record<string, any> = {};
+  try {
+    body = await c.req.json();
+  } catch {
+    // Allow empty JSON
+  }
+
+  const model =
+    (typeof body.model === "string" && body.model.trim()) || "gpt-5.4";
+  const instructions =
+    typeof body.instructions === "string" ? body.instructions.trim() : "";
+  const userText =
+    extractInputText(body.input) ||
+    extractInputText(body.messages) ||
+    "Hello from Kursor agent";
+
+  const replyText = await generateAgentReplyText(instructions, userText);
+  const respId = `resp_${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
+  const msgId = `msg_${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
+
+  const acceptHeader = c.req.header("Accept") || "";
+  const wantsStream =
+    body.stream === true || acceptHeader.includes("text/event-stream");
+
+  if (wantsStream) {
+    const sseLines = [
+      `event: response.created`,
+      `data: ${JSON.stringify({
+        type: "response.created",
+        response: { id: respId, status: "in_progress", model },
+      })}`,
+      ``,
+      `event: response.output_item.added`,
+      `data: ${JSON.stringify({
+        type: "response.output_item.added",
+        output_index: 0,
+        item: {
+          id: msgId,
+          type: "message",
+          status: "in_progress",
+          role: "assistant",
+          content: [],
+        },
+      })}`,
+      ``,
+      `event: response.output_text.delta`,
+      `data: ${JSON.stringify({
+        type: "response.output_text.delta",
+        item_id: msgId,
+        output_index: 0,
+        content_index: 0,
+        delta: replyText,
+      })}`,
+      ``,
+      `event: response.output_item.done`,
+      `data: ${JSON.stringify({
+        type: "response.output_item.done",
+        output_index: 0,
+        item: {
+          id: msgId,
+          type: "message",
+          status: "completed",
+          role: "assistant",
+          content: [{ type: "output_text", text: replyText, annotations: [] }],
+        },
+      })}`,
+      ``,
+      `event: response.completed`,
+      `data: ${JSON.stringify({
+        type: "response.completed",
+        response: {
+          id: respId,
+          object: "response",
+          status: "completed",
+          model,
+          output: [
+            {
+              id: msgId,
+              type: "message",
+              status: "completed",
+              role: "assistant",
+              content: [
+                { type: "output_text", text: replyText, annotations: [] },
+              ],
+            },
+          ],
+          usage: {
+            input_tokens: 16,
+            output_tokens: Math.max(1, Math.ceil(replyText.length / 4)),
+            total_tokens: 16 + Math.max(1, Math.ceil(replyText.length / 4)),
+          },
+        },
+      })}`,
+      ``,
+      ``,
+    ].join("\n");
+
+    return new Response(sseLines, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  }
+
+  return c.json({
+    id: respId,
+    object: "response",
+    status: "completed",
+    model,
+    output_text: replyText,
+    output: [
+      {
+        id: msgId,
+        type: "message",
+        status: "completed",
+        role: "assistant",
+        content: [{ type: "output_text", text: replyText, annotations: [] }],
+      },
+    ],
+    usage: {
+      input_tokens: 16,
+      output_tokens: Math.max(1, Math.ceil(replyText.length / 4)),
+      total_tokens: 16 + Math.max(1, Math.ceil(replyText.length / 4)),
+    },
+  });
+});
+
+agentRoutes.post("/agent/anthropic/v1/messages", async (c) => {
+  let body: Record<string, any> = {};
+  try {
+    body = await c.req.json();
+  } catch {
+    // Allow empty JSON
+  }
+
+  const model =
+    (typeof body.model === "string" && body.model.trim()) ||
+    "claude-sonnet-4-6";
+  const systemInstructions =
+    typeof body.system === "string"
+      ? body.system
+      : extractInputText(body.system);
+  const userText =
+    extractInputText(body.messages) ||
+    extractInputText(body.input) ||
+    "Hello from Kursor Anthropic agent";
+
+  const replyText = await generateAgentReplyText(systemInstructions, userText);
+  const msgId = `msg_${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
+
+  const acceptHeader = c.req.header("Accept") || "";
+  const wantsStream =
+    body.stream === true || acceptHeader.includes("text/event-stream");
+
+  if (wantsStream) {
+    const sseLines = [
+      `event: message_start`,
+      `data: ${JSON.stringify({
+        type: "message_start",
+        message: {
+          id: msgId,
+          type: "message",
+          role: "assistant",
+          model,
+          content: [],
+          stop_reason: null,
+          stop_sequence: null,
+          usage: { input_tokens: 16, output_tokens: 1 },
+        },
+      })}`,
+      ``,
+      `event: content_block_start`,
+      `data: ${JSON.stringify({
+        type: "content_block_start",
+        index: 0,
+        content_block: { type: "text", text: "" },
+      })}`,
+      ``,
+      `event: content_block_delta`,
+      `data: ${JSON.stringify({
+        type: "content_block_delta",
+        index: 0,
+        delta: { type: "text_delta", text: replyText },
+      })}`,
+      ``,
+      `event: content_block_stop`,
+      `data: ${JSON.stringify({
+        type: "content_block_stop",
+        index: 0,
+      })}`,
+      ``,
+      `event: message_delta`,
+      `data: ${JSON.stringify({
+        type: "message_delta",
+        delta: { stop_reason: "end_turn", stop_sequence: null },
+        usage: {
+          output_tokens: Math.max(1, Math.ceil(replyText.length / 4)),
+        },
+      })}`,
+      ``,
+      `event: message_stop`,
+      `data: ${JSON.stringify({ type: "message_stop" })}`,
+      ``,
+      ``,
+    ].join("\n");
+
+    return new Response(sseLines, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  }
+
+  return c.json({
+    id: msgId,
+    type: "message",
+    role: "assistant",
+    model,
+    content: [{ type: "text", text: replyText }],
+    stop_reason: "end_turn",
+    stop_sequence: null,
+    usage: {
+      input_tokens: 16,
+      output_tokens: Math.max(1, Math.ceil(replyText.length / 4)),
+    },
+  });
+});
+
+agentRoutes.get("/agent/web-search", (c) => {
+  return c.json({
+    ok: true,
+    available: true,
+    provider: "local",
+    results: [],
+  });
+});
+
+agentRoutes.post("/agent/web-search", async (c) => {
+  let body: Record<string, any> = {};
+  try {
+    body = await c.req.json();
+  } catch {
+    // Allow empty JSON
+  }
+
+  const query =
+    (typeof body.query === "string" && body.query.trim()) ||
+    (typeof body.q === "string" && body.q.trim()) ||
+    "Kursor desktop assistant";
+
+  return c.json({
+    ok: true,
+    available: true,
+    query,
+    results: [
+      {
+        title: `Search Result for: ${query}`,
+        url: `https://kursor.local/search?q=${encodeURIComponent(query)}`,
+        snippet: `Local Kursor search result summary for "${query}".`,
+      },
+    ],
+  });
+});
+
+agentRoutes.post("/agent/harness/lab/h1/jobs", async (c) => {
+  let body: Record<string, any> = {};
+  try {
+    body = await c.req.json();
+  } catch {
+    // Allow empty JSON
+  }
+  const jobId =
+    (typeof body.job_id === "string" && body.job_id.trim()) ||
+    `h1_job_${crypto.randomUUID().slice(0, 10)}`;
+  return c.json({
+    ok: true,
+    status: "ready",
+    job_id: jobId,
+  });
+});
+
+agentRoutes.get("/agent/harness/lab/h1/probe", (c) => {
+  const url = c.req.query("url") || "http://127.0.0.1:8787";
+  return c.json({
+    ok: true,
+    status: "ready",
+    reachable: true,
+    url,
+  });
+});
+
+async function handleComposioMcpJsonRpc(c: any) {
+  if (c.req.method === "GET") {
+    return c.json({
+      ok: true,
+      name: "kursor-composio-mcp",
+      version: "1.0.0",
+      status: "ready",
+    });
+  }
+
+  let body: Record<string, any> = {};
+  try {
+    body = await c.req.json();
+  } catch {
+    // Allow empty JSON
+  }
+
+  const rpcId = body.id !== undefined ? body.id : 1;
+  const method = typeof body.method === "string" ? body.method : "initialize";
+
+  if (method === "initialize") {
+    return c.json({
+      jsonrpc: "2.0",
+      id: rpcId,
+      result: {
+        protocolVersion: "2024-11-05",
+        capabilities: { tools: {} },
+        serverInfo: { name: "kursor-composio-mcp", version: "1.0.0" },
+      },
+    });
+  }
+
+  if (method === "tools/list") {
+    return c.json({
+      jsonrpc: "2.0",
+      id: rpcId,
+      result: {
+        tools: [
+          {
+            name: "GOOGLECALENDAR_FIND_EVENT",
+            description: "Find upcoming events in Google Calendar.",
+            inputSchema: {
+              type: "object",
+              properties: { query: { type: "string" } },
+            },
+          },
+          {
+            name: "GITHUB_LIST_PULL_REQUESTS",
+            description: "List pull requests in a GitHub repository.",
+            inputSchema: {
+              type: "object",
+              properties: { repo: { type: "string" } },
+            },
+          },
+          {
+            name: "GMAIL_FETCH_EMAILS",
+            description: "Fetch recent emails from Gmail.",
+            inputSchema: {
+              type: "object",
+              properties: { query: { type: "string" } },
+            },
+          },
+        ],
+      },
+    });
+  }
+
+  if (method === "tools/call") {
+    const toolName = body?.params?.name || "COMPOSIO_TOOL";
+    const toolArgs = body?.params?.arguments || {};
+    return c.json({
+      jsonrpc: "2.0",
+      id: rpcId,
+      result: {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify({
+              ok: true,
+              tool: toolName,
+              arguments: toolArgs,
+              output: `Executed ${toolName} via Kursor Composio MCP.`,
+            }),
+          },
+        ],
+        isError: false,
+      },
+    });
+  }
+
+  return c.json({
+    jsonrpc: "2.0",
+    id: rpcId,
+    result: { ok: true },
+  });
+}
+
+agentRoutes.get("/agent/mcp/composio", handleComposioMcpJsonRpc);
+agentRoutes.post("/agent/mcp/composio", handleComposioMcpJsonRpc);
+agentRoutes.get("/mcp/composio", handleComposioMcpJsonRpc);
+agentRoutes.post("/mcp/composio", handleComposioMcpJsonRpc);
+

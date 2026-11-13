@@ -1,19 +1,70 @@
 import { Hono } from "hono";
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { db, DEFAULT_USER_ID } from "../db/index.js";
 
 export const workerRoutes = new Hono();
 
-const LOCAL_APP_CONFIG_PATH =
-  "C:\\Users\\ubaid\\AppData\\Local\\HeyClicky\\app-config.json";
+const LOCAL_APP_CONFIG_PATH = path.join(
+  process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local"),
+  "HeyClicky",
+  "app-config.json"
+);
 
 const DEFAULT_APP_CONFIG_LINKS = {
-  featureRequest: "https://heyclicky.canny.io/feature-requests",
-  communityReddit: "https://www.reddit.com/r/heyclicky_",
-  communityWhatsApp:
-    "https://chat.whatsapp.com/Cx8EliSb8xz9uLgq2ryZ17?mode=gi_t",
-  changelog: "https://heyclicky.com/changelog?p=windows",
+  featureRequest: "https://github.com/kursor-app/kursor/issues",
+  communityReddit: "https://github.com/kursor-app/kursor/discussions",
+  communityWhatsApp: "https://github.com/kursor-app/kursor/discussions",
+  changelog: "https://github.com/kursor-app/kursor/releases",
 };
+
+export const MAX_MEMORY_MARKDOWN_CHARS = 512 * 1024;
+
+async function parseJsonBody(
+  c: any,
+  extraErrorFields?: Record<string, unknown>
+): Promise<
+  | { ok: true; body: Record<string, unknown> }
+  | { ok: false; response: Response }
+> {
+  const contentType = (c.req.header("content-type") ?? "").toLowerCase();
+  let rawText = "";
+  try {
+    rawText = await c.req.text();
+  } catch {
+    rawText = "";
+  }
+
+  if (rawText.trim().length === 0) {
+    return { ok: true, body: {} };
+  }
+
+  try {
+    const parsed = JSON.parse(rawText);
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      return { ok: true, body: parsed as Record<string, unknown> };
+    }
+    if (contentType.includes("application/json")) {
+      return {
+        ok: false,
+        response: c.json(
+          { ...extraErrorFields, error: "Invalid JSON body" },
+          400
+        ),
+      };
+    }
+    return { ok: true, body: {} };
+  } catch {
+    return {
+      ok: false,
+      response: c.json(
+        { ...extraErrorFields, error: "Invalid JSON body" },
+        400
+      ),
+    };
+  }
+}
 
 function loadAppConfigLinks() {
   try {
@@ -205,18 +256,20 @@ workerRoutes.get("/runtime/model-policy", (c) =>
 // ============================================================================
 async function handleRegisterDevice(c: any) {
   const userCtx = c.get("kursorUser");
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    // Allow empty body and fall back to headers
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const deviceId =
     (typeof body.device_id === "string" && body.device_id.trim()) ||
+    (typeof body.id === "string" && body.id.trim()) ||
     userCtx?.deviceId ||
     "local-win-device-01";
   const deviceName =
+    (typeof body.display_name === "string" && body.display_name.trim()) ||
+    (typeof body.name === "string" && body.name.trim()) ||
     (typeof body.device_name === "string" && body.device_name.trim()) ||
     userCtx?.deviceName ||
     "KURSOR-PC";
@@ -228,6 +281,19 @@ async function handleRegisterDevice(c: any) {
     (typeof body.app_version === "string" && body.app_version.trim()) ||
     userCtx?.clientVersion ||
     "1.1.5";
+  const osVersion =
+    (typeof body.os_version === "string" && body.os_version.trim()) ||
+    userCtx?.osVersion ||
+    "10.0.26200";
+  const appBuild =
+    (typeof body.app_build === "string" && body.app_build.trim()) ||
+    userCtx?.appBuild ||
+    "1150";
+  const model =
+    (typeof body.model === "string" && body.model.trim()) || "PC";
+  const capabilities = Array.isArray(body.capabilities)
+    ? body.capabilities.map((cap) => String(cap))
+    : ["voice", "drawing", "dictation", "agents"];
 
   const now = new Date().toISOString();
 
@@ -263,16 +329,29 @@ async function handleRegisterDevice(c: any) {
   );
 
   const device = {
+    id: deviceId,
     device_id: deviceId,
+    user_id: DEFAULT_USER_ID,
+    name: deviceName,
+    display_name: deviceName,
     device_name: deviceName,
     platform,
+    os_version: osVersion,
     app_version: appVersion,
+    app_build: appBuild,
+    model,
+    is_this_device: true,
+    is_current: true,
+    capabilities,
     first_seen_at: firstSeenAt,
     last_seen_at: now,
-    is_current: true,
+    updated_at: now,
   };
 
-  return c.json({ device });
+  return c.json({
+    ...device,
+    device,
+  });
 }
 
 function handleGetDevices(c: any) {
@@ -326,14 +405,27 @@ function handleGetDevices(c: any) {
     ];
   }
 
+  const osVersion = userCtx?.osVersion || "10.0.26200";
+  const appBuild = userCtx?.appBuild || "1150";
+
   const devices = rows.map((r) => ({
+    id: r.device_id,
     device_id: r.device_id,
+    user_id: DEFAULT_USER_ID,
+    name: r.device_name,
+    display_name: r.device_name,
     device_name: r.device_name,
     platform: r.platform,
+    os_version: osVersion,
     app_version: r.app_version,
+    app_build: appBuild,
+    model: "PC",
+    is_this_device: Boolean(r.is_current),
+    is_current: Boolean(r.is_current),
+    capabilities: ["voice", "drawing", "dictation", "agents"],
     first_seen_at: r.first_seen_at,
     last_seen_at: r.last_seen_at,
-    is_current: Boolean(r.is_current),
+    updated_at: r.last_seen_at,
   }));
 
   return c.json({ devices });
@@ -368,12 +460,11 @@ function handleGetDiscoveryChannel(c: any) {
 }
 
 async function handleSaveDiscoveryChannel(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    // Ignore
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const channel =
     typeof body.discovery_channel === "string"
@@ -403,13 +494,100 @@ workerRoutes.get("/me/discovery-channel", handleGetDiscoveryChannel);
 workerRoutes.post("/onboarding/discovery-channel", handleSaveDiscoveryChannel);
 workerRoutes.post("/me/discovery-channel", handleSaveDiscoveryChannel);
 
+function buildStarterPlanResponse(role: string, agentFamiliarity: string) {
+  const clickys = [
+    {
+      id: "explain-annotate-screen",
+      title: "Explain & Annotate Screen",
+      tagline: `Tailored for ${role} workflows to visually inspect UI and code on screen.`,
+      initial_prompt:
+        "Look at my screen and highlight the most important areas with 2D annotations.",
+      schedule_hint: "On demand",
+    },
+    {
+      id: "voice-pair-programmer",
+      title: "Voice Pair Programmer",
+      tagline: "Combines low-latency Ears + Mouth with screen awareness.",
+      initial_prompt:
+        "Start a live voice session and walk me through fixing the issue on my screen.",
+      schedule_hint: "Every weekday at 9:00 AM",
+    },
+    {
+      id: "summarize-active-window",
+      title: "Summarize Active Window",
+      tagline: "Fast context extraction from any active window.",
+      initial_prompt:
+        "Summarize what is currently open on my desktop and capture key action items.",
+      schedule_hint: "Every weekday at 5:00 PM",
+    },
+  ].map((c) => ({
+    id: c.id,
+    key: c.id,
+    title: c.title,
+    name: c.title,
+    tagline: c.tagline,
+    role: c.tagline,
+    description: c.tagline,
+    prompt: c.initial_prompt,
+    why: c.tagline,
+    initial_prompt: c.initial_prompt,
+    schedule_hint: c.schedule_hint,
+    intro_messages: [c.tagline],
+    reveal_line: c.tagline,
+    first_asks: [c.initial_prompt],
+    routine: {
+      schedule_hint: c.schedule_hint,
+      prompt: c.initial_prompt,
+    },
+  }));
+
+  const suggestions = [
+    {
+      id: "daily-standup-brief",
+      title: "Daily Standup & PR Digest",
+      prompt:
+        "Check my active repositories and prepare a concise standup summary.",
+      why: "Summarizes your recent git commits, active tasks, and open PRs.",
+      schedule_hint: "Every weekday at 9:00 AM",
+    },
+    {
+      id: "proactive-code-reviewer",
+      title: "Proactive Screen Assistant",
+      prompt:
+        "Monitor my active development windows for errors and suggest fixes.",
+      why: "Watches for build errors or stack traces and offers instant fixes.",
+      schedule_hint: "On screen context trigger",
+    },
+  ].map((s) => ({
+    id: s.id,
+    title: s.title,
+    prompt: s.prompt,
+    why: s.why,
+    description: s.why,
+    agent_prompt: s.prompt,
+    deliverable: s.title,
+    tagline: s.why,
+    initial_prompt: s.prompt,
+    schedule_hint: s.schedule_hint,
+    clicky_slug: s.id,
+    clicky_key: s.id,
+  }));
+
+  return {
+    clickys,
+    suggestions,
+    suggested_agents: suggestions,
+    agent_familiarity: agentFamiliarity,
+    goal_line: `Supercharge your ${role} workflow with Kursor's screen-aware voice, ink, and autonomous agents.`,
+  };
+}
+
 workerRoutes.post("/onboarding/starter-plan", async (c) => {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    // Ignore
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const role =
     (typeof body.role === "string" && body.role) || "Software Engineer";
@@ -417,43 +595,7 @@ workerRoutes.post("/onboarding/starter-plan", async (c) => {
     (typeof body.agent_familiarity === "string" && body.agent_familiarity) ||
     "experienced";
 
-  return c.json({
-    clickys: [
-      {
-        title: "Explain & Annotate Screen",
-        prompt: "Look at my screen and highlight the most important areas with 2D annotations.",
-        why: `Tailored for ${role} workflows to visually inspect UI and code on screen.`,
-      },
-      {
-        title: "Voice Pair Programmer",
-        prompt: "Start a live voice session and walk me through fixing the issue on my screen.",
-        why: "Combines low-latency Ears + Mouth with screen awareness.",
-      },
-      {
-        title: "Summarize Active Window",
-        prompt: "Summarize what is currently open on my desktop and capture key action items.",
-        why: "Fast context extraction from any active window.",
-      },
-    ],
-    suggested_agents: [
-      {
-        id: "daily-standup-brief",
-        title: "Daily Standup & PR Digest",
-        tagline: "Summarizes your recent git commits, active tasks, and open PRs.",
-        initial_prompt: "Check my active repositories and prepare a concise standup summary.",
-        schedule_hint: "Every weekday at 9:00 AM",
-      },
-      {
-        id: "proactive-code-reviewer",
-        title: "Proactive Screen Assistant",
-        tagline: "Watches for build errors or stack traces and offers instant fixes.",
-        initial_prompt: "Monitor my active development windows for errors and suggest fixes.",
-        schedule_hint: "On screen context trigger",
-      },
-    ],
-    agent_familiarity: agentFamiliarity,
-    goal_line: `Supercharge your ${role} workflow with Kursor's screen-aware voice, ink, and autonomous agents.`,
-  });
+  return c.json(buildStarterPlanResponse(role, agentFamiliarity));
 });
 
 // ============================================================================
@@ -487,12 +629,11 @@ function handleGetMemory(c: any) {
 }
 
 async function handleSaveMemory(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    return c.json({ saved: false, error: "Invalid JSON body" }, 400);
+  const parsedBody = await parseJsonBody(c, { saved: false });
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const existing = db
     .prepare(
@@ -524,6 +665,21 @@ async function handleSaveMemory(c: any) {
     typeof body.context_markdown === "string"
       ? body.context_markdown
       : existing?.context_markdown ?? "";
+
+  if (
+    incomingMarkdown.length > MAX_MEMORY_MARKDOWN_CHARS ||
+    profileMarkdown.length > MAX_MEMORY_MARKDOWN_CHARS ||
+    contextMarkdown.length > MAX_MEMORY_MARKDOWN_CHARS
+  ) {
+    return c.json(
+      {
+        saved: false,
+        error: "payload_too_large",
+        message: "Memory markdown exceeds 512KB limit",
+      },
+      413
+    );
+  }
 
   const now = new Date().toISOString();
 
@@ -570,13 +726,14 @@ workerRoutes.post("/me/memory/save", handleSaveMemory);
 // ============================================================================
 function decodeHtmlEntities(input: string): string {
   return input
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/<[^>]+>/g, "")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&#x27;/g, "'")
     .replace(/&nbsp;/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
     .replace(/<[^>]+>/g, "")
     .trim();
 }
@@ -658,12 +815,11 @@ async function searchDuckDuckGoHtml(
 }
 
 async function handleWebSearch(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    return c.json({ error: "Invalid JSON body" }, 400);
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const query =
     typeof body.query === "string" && body.query.trim()
@@ -840,12 +996,11 @@ async function searchWikimediaImages(
 }
 
 async function handleImageSearch(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    return c.json({ error: "Invalid JSON body" }, 400);
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const query =
     typeof body.query === "string" && body.query.trim()
@@ -898,8 +1053,8 @@ function handleGetReferral(c: any) {
   const code = row?.referral_code || "KURSOR-MAX";
   return c.json({
     code,
-    share_url: `https://heyclicky.com/r/${code}`,
-    share_display_text: `heyclicky.com/r/${code}`,
+    share_url: `https://github.com/kursor-app/kursor?ref=${code}`,
+    share_display_text: `github.com/kursor-app/kursor?ref=${code}`,
     claimed_code: row?.referral_claimed_code ?? null,
     discount_percent: 20,
     referrals_count: 0,
@@ -907,12 +1062,11 @@ function handleGetReferral(c: any) {
 }
 
 async function handleClaimReferral(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    // Ignore
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const code =
     typeof body.code === "string" && body.code.trim()
@@ -932,12 +1086,11 @@ async function handleClaimReferral(c: any) {
 }
 
 async function handleUpdateReferralCode(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    // Ignore
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
 
   const code =
     typeof body.code === "string" && body.code.trim()
@@ -952,8 +1105,8 @@ async function handleUpdateReferralCode(c: any) {
     outcome: "updated",
     message: "Your referral code has been updated.",
     code,
-    share_url: `https://heyclicky.com/r/${code}`,
-    share_display_text: `heyclicky.com/r/${code}`,
+    share_url: `https://github.com/kursor-app/kursor?ref=${code}`,
+    share_display_text: `github.com/kursor-app/kursor?ref=${code}`,
   });
 }
 
@@ -968,31 +1121,72 @@ workerRoutes.post("/me/referral/code", handleUpdateReferralCode);
 // 10. BILLING, ACCOUNT DELETE, TELEMETRY, & VOICE LANGUAGE HINTS
 // Matches `BillingUrlResponse`, `CheckoutRequest`, `ClientErrorReport`
 // ============================================================================
-workerRoutes.post("/billing/checkout", async (c) => {
-  let body: Record<string, unknown> = {};
+function resolveLocalOrigin(c: any): string {
   try {
-    body = await c.req.json();
+    return new URL(c.req.url).origin;
   } catch {
-    // Ignore
+    return "http://127.0.0.1:8787";
   }
+}
+
+workerRoutes.post("/billing/checkout", async (c) => {
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
+  }
+  const body = parsedBody.body;
 
   const discountCode =
     typeof body.discount_code === "string" ? body.discount_code : null;
 
   return c.json({
-    url: "http://127.0.0.1:8787/billing/local-max-active",
+    url: `${resolveLocalOrigin(c)}/billing/local-max-active`,
     discount_code_applied: discountCode,
   });
 });
 
-workerRoutes.post("/billing/portal", (c) => {
+workerRoutes.post("/billing/portal", async (c) => {
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
+  }
+
   return c.json({
-    url: "http://127.0.0.1:8787/billing/local-portal",
+    url: `${resolveLocalOrigin(c)}/billing/local-portal`,
     discount_code_applied: null,
   });
 });
 
+function handleLocalBillingStatus(c: any) {
+  return c.json({
+    status: "active",
+    plan: "max",
+    message: "Kursor Local Pro/Max Unlimited is active.",
+  });
+}
+
+workerRoutes.get("/billing/local-max-active", handleLocalBillingStatus);
+workerRoutes.get("/billing/local-portal", handleLocalBillingStatus);
+
 function handleDeleteAccount(c: any) {
+  const userCtx = c.get("kursorUser");
+  const userId = userCtx?.userId || DEFAULT_USER_ID;
+  const now = new Date().toISOString();
+
+  try {
+    db.prepare("DELETE FROM sessions WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM threads WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM notifications WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM proactive_cards WHERE user_id = ?").run(userId);
+    db.prepare(
+      `UPDATE memory
+       SET markdown = '', profile_markdown = '', context_markdown = '', has_profile = 0, updated_at = ?
+       WHERE user_id = ?`
+    ).run(now, userId);
+  } catch {
+    // Ignore DB cleanup errors
+  }
+
   return c.json({
     ok: true,
     deleted: true,
@@ -1001,18 +1195,44 @@ function handleDeleteAccount(c: any) {
 
 workerRoutes.post("/account/delete", handleDeleteAccount);
 workerRoutes.post("/me/account/delete", handleDeleteAccount);
+workerRoutes.delete("/me", handleDeleteAccount);
+workerRoutes.delete("/account", handleDeleteAccount);
+
+function sanitizeSecrets(input: unknown): string {
+  const raw = typeof input === "string" ? input : JSON.stringify(input ?? "");
+  return raw
+    .replace(/Bearer\s+[A-Za-z0-9._\-]+/gi, "Bearer [REDACTED]")
+    .replace(
+      /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/g,
+      "[REDACTED_JWT]"
+    )
+    .replace(
+      /\b(sk-[A-Za-z0-9_-]{12,}|gsk_[A-Za-z0-9_-]{12,}|AIza[A-Za-z0-9_-]{20,}|ek_[A-Za-z0-9_-]{12,})\b/g,
+      "[REDACTED_KEY]"
+    )
+    .replace(
+      /((?:access_token|refresh_token|api_key|apikey|key)=)[^&\s"']+/gi,
+      "$1[REDACTED]"
+    );
+}
 
 async function handleClientError(c: any) {
-  let body: Record<string, unknown> = {};
-  try {
-    body = await c.req.json();
-  } catch {
-    // Ignore
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
   }
+  const body = parsedBody.body;
+
+  const sanitizedCategory = sanitizeSecrets(body.category ?? "unknown");
+  const sanitizedMessage = body.message
+    ? sanitizeSecrets(body.message)
+    : undefined;
 
   return c.json({
     ok: true,
-    received_category: body.category ?? "unknown",
+    recorded: true,
+    received_category: sanitizedCategory,
+    ...(sanitizedMessage !== undefined ? { message: sanitizedMessage } : {}),
   });
 }
 
@@ -1043,8 +1263,25 @@ workerRoutes.get("/voice/language-hints", handleLanguageHints);
 workerRoutes.get("/onboarding/language-hints", handleLanguageHints);
 
 workerRoutes.get("/me/companion-history", (c) => {
-  return c.json({ items: [], turns: [], history: [] });
+  const userCtx = c.get("kursorUser");
+  const userId = userCtx?.userId || DEFAULT_USER_ID;
+  let rows: Array<{ id: string; title: string; updated_at: string }> = [];
+  try {
+    rows = db
+      .prepare(
+        "SELECT id, title, updated_at FROM threads WHERE user_id = ? ORDER BY updated_at DESC LIMIT 50"
+      )
+      .all(userId) as Array<{ id: string; title: string; updated_at: string }>;
+  } catch {
+    rows = [];
+  }
+  return c.json({ items: rows, turns: rows, history: rows });
 });
-workerRoutes.post("/me/companion-history", (c) => {
+
+workerRoutes.post("/me/companion-history", async (c) => {
+  const parsedBody = await parseJsonBody(c);
+  if (!parsedBody.ok) {
+    return parsedBody.response;
+  }
   return c.json({ ok: true });
 });

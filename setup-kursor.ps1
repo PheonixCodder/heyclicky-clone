@@ -26,9 +26,13 @@ Write-Host "==========================================================" -Foregro
 # 1. Verify Node.js is installed
 $NodeCmd = Get-Command node -ErrorAction SilentlyContinue
 if (-not $NodeCmd) {
-    throw "Node.js (v22+ recommended) is required to run the local Kursor Backend (`node:sqlite`). Install from https://nodejs.org/"
+    throw "Node.js (v24+ recommended) is required to run the local Kursor Backend (`node:sqlite`). Install from https://nodejs.org/"
 }
 $NodeVersion = (& node -v)
+$NodeMajor = [int](($NodeVersion -replace '^v', '').Split('.')[0])
+if ($NodeMajor -lt 22) {
+    throw "Node.js $NodeVersion is too old; Node.js v24+ is required for `node:sqlite`. Install from https://nodejs.org/"
+}
 Write-Host "[+] Detected Node.js $NodeVersion" -ForegroundColor Green
 
 # 2. Install Backend Dependencies & Create .env

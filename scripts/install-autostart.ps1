@@ -1,7 +1,8 @@
 ﻿# ==============================================================================
 # Kursor Windows Autostart & Shortcut Installer (scripts/install-autostart.ps1)
-# Registers Kursor to launch automatically when Windows starts (HKCU\...\Run +
-# Startup folder shortcut) and creates a Desktop shortcut.
+# Registers Kursor to launch automatically when Windows starts
+# (HKCU\Software\Microsoft\Windows\CurrentVersion\Run -> Kursor)
+# and creates a Desktop shortcut.
 # ==============================================================================
 param(
     [switch]$SkipDesktopShortcut
@@ -17,28 +18,28 @@ if (-not (Test-Path $VbsPath)) {
     throw "Missing autostart launcher script: $VbsPath"
 }
 
-Write-Host "==> Registering Kursor in Windows Startup Apps (HKCU Run Registry)..." -ForegroundColor Cyan
+Write-Host "==> Registering Kursor in Windows Run Registry..." -ForegroundColor Cyan
 $RunKeyPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
 $WscriptCmd = "wscript.exe //B //Nologo `"$VbsPath`""
 Set-ItemProperty -Path $RunKeyPath -Name "Kursor" -Value $WscriptCmd
 Write-Host "   [+] Registry key added: HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Kursor" -ForegroundColor Green
 
-Write-Host "==> Creating Windows Startup Folder Shortcut..." -ForegroundColor Cyan
-$StartupFolder = [Environment]::GetFolderPath("Startup")
-$StartupShortcutPath = Join-Path $StartupFolder "Kursor.lnk"
+# Remove any legacy HKCU\...\Run\HeyClicky entry so only one instance launches at login
+if (Get-ItemProperty -Path $RunKeyPath -Name "HeyClicky" -ErrorAction SilentlyContinue) {
+    Remove-ItemProperty -Path $RunKeyPath -Name "HeyClicky" -Force -ErrorAction SilentlyContinue
+    Write-Host "   [-] Removed legacy HKCU\Software\Microsoft\Windows\CurrentVersion\Run\HeyClicky" -ForegroundColor Yellow
+}
 
-$WshShell = New-Object -ComObject WScript.Shell
-$StartupShortcut = $WshShell.CreateShortcut($StartupShortcutPath)
-$StartupShortcut.TargetPath = "wscript.exe"
-$StartupShortcut.Arguments = "//B //Nologo `"$VbsPath`""
-$StartupShortcut.WorkingDirectory = $RepoRoot
-$StartupShortcut.Description = "Kursor — Self-Hosted AI Screen Companion & Backend"
-$StartupShortcut.IconLocation = $IconPath
-$StartupShortcut.Save()
-Write-Host "   [+] Startup shortcut created: $StartupShortcutPath" -ForegroundColor Green
+# Remove any duplicate Startup\Kursor.lnk shortcut if present from older installs
+$LegacyStartupShortcut = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::Startup)) "Kursor.lnk"
+if (Test-Path $LegacyStartupShortcut) {
+    Remove-Item -Path $LegacyStartupShortcut -Force -ErrorAction SilentlyContinue
+    Write-Host "   [-] Removed duplicate shortcut: $LegacyStartupShortcut" -ForegroundColor Yellow
+}
 
 if (-not $SkipDesktopShortcut) {
     Write-Host "==> Creating Desktop Shortcut..." -ForegroundColor Cyan
+    $WshShell = New-Object -ComObject WScript.Shell
     $DesktopFolder = [Environment]::GetFolderPath("Desktop")
     $DesktopShortcutPath = Join-Path $DesktopFolder "Kursor.lnk"
     $DesktopShortcut = $WshShell.CreateShortcut($DesktopShortcutPath)
@@ -52,5 +53,5 @@ if (-not $SkipDesktopShortcut) {
 }
 
 Write-Host "`n[SUCCESS] Kursor is now configured to start automatically when your computer starts!" -ForegroundColor Green
-Write-Host "  - Task Manager -> Startup apps -> 'Kursor' (wscript.exe)" -ForegroundColor Gray
+Write-Host "  - Registry -> HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Kursor" -ForegroundColor Gray
 Write-Host "  - To disable autostart later, run: .\scripts\uninstall-autostart.ps1" -ForegroundColor Gray

@@ -15,23 +15,34 @@
 | **04** | [`04-drawing-2d-3d-and-ink-engine.md`](file:///C:/dev/heyclicky-clone/docs/04-drawing-2d-3d-and-ink-engine.md) | **2D/3D Screen Drawing & Persistent Ink Engine**: `HeyClicky.Drawing.dll` (`DrawingThread`, `ScreenDrawingCanvas`, `SystemComposition` D3D11/D2D1/DirectComposition interop, `NativeEngine` ClearScript V8 host bridge, `ScreenshotSampler` luminance/contrast placement, `ScreenPainter`, `SoundPlayer` XAudio2, `LessonVideoRecorder`); `HeyClicky.Drawing3D.dll` (`ClickyThreeKernel` V8 `clicky-three.js` r186 + 14 procedural 3D part recipes, Surface Nets metaballs, `Scene3D`, `FigureRenderer` HLSL shaders for `StageLook.Illustrated` & `StageLook.Studio`); and `HeyClicky.Core.Ink` / `HeyClicky.App.Ink` interactive notebook & widgets. |
 | **05** | [`05-platform-win32-and-ui-shell.md`](file:///C:/dev/heyclicky-clone/docs/05-platform-win32-and-ui-shell.md) | **Win32 Platform Layer & WinUI 3 Shell**: `HeyClicky.Platform.dll` (`OverlayHost` click-through virtual-screen window, `CursorOverlay` spring physics & flight paths, `LowLevelInputHub`, `ClickyScreenActuator`, `DesktopDuplicationSource` + `GraphicsCaptureSource` GPU screen capture, pure WASAPI COM audio engine, `UIAutomationHelpers` + `PageContext`, `QuietContext`, `CaptureExclusion`); `HeyClicky.dll` (`NotchView`, `ArcDock` top-arc card fan, `HeyClickyWindow`, `Onboarding`, `TutorialWindow`, 12-page `SettingsWindow`, `ClickyTakeOverController`, `BillingUi`). |
 | **06** | [`06-agents-proactive-and-memory.md`](file:///C:/dev/heyclicky-clone/docs/06-agents-proactive-and-memory.md) | **Autonomous Agents, Proactive Intelligence & Memory**: `HeyClicky.Agents.dll` (`AgentService`, `AgentHarnessRunnerProcess` driving `HarnessRuntime\clicky-harness.exe`, `CodexSession`, `CodexHomeManager`, `WindowsInstructionAdapter`, 16 `AgentTools`, `ClickyJobStore`, `RoutineScheduler`); Composio MCP OAuth (`AgentIntegrationsApi`, RFC PKCE `McpOAuth`, Gmail/Calendar/Notion/Linear/Obsidian/Spotify); `ProactiveAgentsClient` & `ProactiveCoordinator`; and `OneBrain` local + cloud memory (`UserMemoryCache`, `AGENTS.md`, `<LEARNED>`). |
-| **07** | [`07-kursor-roadmap.md`](file:///C:/dev/heyclicky-clone/docs/07-kursor-roadmap.md) | **Kursor Master Engineering Roadmap**: Recommended two-track strategy (Track A: Self-hosted TypeScript `kursor-worker` backend + Track B: Reconstructed `.NET 9.0 + WinUI 3` `Kursor.sln` desktop suite) and 7-phase implementation plan. |
+| **07** | [`07-kursor-roadmap.md`](file:///C:/dev/heyclicky-clone/docs/07-kursor-roadmap.md) | **Kursor Master Engineering Roadmap**: Recommended two-track strategy (Track A: Self-hosted TypeScript `kursor-worker` backend + Track B: Reconstructed `.NET 9.0 + WinUI 3` `Kursor.sln` desktop suite), 7-phase implementation plan, and Full-Spectrum Audit & Wave 1/2 Remediation status. |
+
+### 1B. Full-Spectrum Audit & Remediation Deliverables (`C:\dev\heyclicky-clone\docs\audit\`)
+
+| Deliverable | File | Summary |
+| :--- | :--- | :--- |
+| **Executive Summary** | [`docs/audit/EXECUTIVE_SUMMARY.md`](file:///C:/dev/heyclicky-clone/docs/audit/EXECUTIVE_SUMMARY.md) | High-level audit synthesis, risk scorecard, and Wave 1/2 remediation overview across backend, desktop `.NET 9.0` projects, V8 engines, and scripts. |
+| **Coverage Matrix** | [`docs/audit/COVERAGE.md`](file:///C:/dev/heyclicky-clone/docs/audit/COVERAGE.md) | 100% file-by-file and workstream coverage ledger across `src/backend/`, `src/desktop/` (2,097 `.cs` files), `reference/decompiled/` (2,096 `.cs` files), `scripts/`, and `docs/`. |
+| **Master Findings Ledger** | [`docs/audit/FINDINGS.md`](file:///C:/dev/heyclicky-clone/docs/audit/FINDINGS.md) | Deduplicated catalog of 121 findings (`AUD-*` / `NEW-*`) with exact file:line citations, severity ratings, and root-cause analysis. |
+| **Performance Report** | [`docs/audit/PERF_REPORT.md`](file:///C:/dev/heyclicky-clone/docs/audit/PERF_REPORT.md) | Latency, memory, SQLite WAL, gzip streaming, V8/D3D11 rendering, and WASAPI audio performance analysis. |
+| **Test Matrix** | [`docs/audit/TEST_MATRIX.md`](file:///C:/dev/heyclicky-clone/docs/audit/TEST_MATRIX.md) | End-to-end backend route test suites, contract parity verification, and `.NET 9.0` Release build verification matrix. |
+| **Remediation Fix Plan** | [`docs/audit/FIX_PLAN.md`](file:///C:/dev/heyclicky-clone/docs/audit/FIX_PLAN.md) | Tiered engineering fix plan (Tier 1, Tier 2, Tier 3A, Tier 3B) executed across Wave 1 and Wave 2 remediation. |
 
 ---
 
 ## 2. Decompiled Reference Source Code (`C:\dev\heyclicky-clone\reference\decompiled\`)
 
-All 7 managed `.NET 9.0` assemblies from `HeyClicky v1.1.5` have been decompiled via `ilspycmd -p` into structured C# projects (**2,098 `.cs` files total**):
+All 7 managed `.NET 9.0` assemblies from `HeyClicky v1.1.5` have been decompiled via `ilspycmd -p` into structured C# projects (**2,096 `.cs` files total**):
 
 | Assembly | Decompiled Project Directory | File Count | Purpose |
 | :--- | :--- | :---: | :--- |
-| `HeyClicky.Contracts.dll` | [`reference/decompiled/HeyClicky.Contracts`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Contracts) | 56 | Shared DTO records, enums, `ClickyEndpoints`, `IScreenDrawingCanvas`, IPC contracts |
-| `HeyClicky.Core.dll` | [`reference/decompiled/HeyClicky.Core`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core) | 565 | `WorkerClient`, `BrainClient`, `SupabaseAuthService`, `RealtimeMouth`, `GeminiTranscriber`, `DeepgramTranscriber`, `DictationTranscriptionClient`, `ProactiveAgentsClient`, `ClickyInkNoteStore`, `OneBrain` |
-| `HeyClicky.Agents.dll` | [`reference/decompiled/HeyClicky.Agents`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents) | 123 | `AgentService`, `AgentHarnessRunnerProcess`, `CodexSession`, `RoutineScheduler`, `McpOAuth`, 16 `AgentTools` |
-| `HeyClicky.Drawing.dll` | [`reference/decompiled/HeyClicky.Drawing`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing) | 86 | ClearScript V8 2D drawing engine, `ScreenPainter`, `NativeEngine`, `HostBridge`, `ScreenshotSampler`, `SoundPlayer`, `LessonVideoRecorder` |
-| `HeyClicky.Drawing3D.dll` | [`reference/decompiled/HeyClicky.Drawing3D`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing3D) | 42 | ClearScript V8 `ClickyThreeKernel`, 14 procedural 3D primitives, Surface Nets metaballs, `Scene3D`, D3D11 `FigureRenderer` |
-| `HeyClicky.Platform.dll` | [`reference/decompiled/HeyClicky.Platform`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Platform) | 346 | Win32 P/Invoke & CsWin32 bindings, `OverlayHost`, `CursorOverlay`, `LowLevelInputHub`, DXGI/WGC screen capture, WASAPI audio, UIA |
-| `HeyClicky.dll` | [`reference/decompiled/HeyClicky.App`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.App) | 880 | WinUI 3 desktop frontend (`NotchView`, `ArcDock`, `HeyClickyWindow`, `Ink` views, `DictationController`, `SettingsWindow`, `Onboarding`, `TakeOverOverlay`) |
+| `HeyClicky.Contracts.dll` | [`reference/decompiled/HeyClicky.Contracts`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Contracts) | 55 | Shared DTO records, enums, `ClickyEndpoints`, `IScreenDrawingCanvas`, IPC contracts |
+| `HeyClicky.Core.dll` | [`reference/decompiled/HeyClicky.Core`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core) | 564 | `WorkerClient`, `BrainClient`, `SupabaseAuthService`, `RealtimeMouth`, `GeminiTranscriber`, `DeepgramTranscriber`, `DictationTranscriptionClient`, `ProactiveAgentsClient`, `ClickyInkNoteStore`, `OneBrain` |
+| `HeyClicky.Agents.dll` | [`reference/decompiled/HeyClicky.Agents`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents) | 122 | `AgentService`, `AgentHarnessRunnerProcess`, `CodexSession`, `RoutineScheduler`, `McpOAuth`, 16 `AgentTools` |
+| `HeyClicky.Drawing.dll` | [`reference/decompiled/HeyClicky.Drawing`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing) | 85 | ClearScript V8 2D drawing engine, `ScreenPainter`, `NativeEngine`, `HostBridge`, `ScreenshotSampler`, `SoundPlayer`, `LessonVideoRecorder` |
+| `HeyClicky.Drawing3D.dll` | [`reference/decompiled/HeyClicky.Drawing3D`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing3D) | 41 | ClearScript V8 `ClickyThreeKernel`, 14 procedural 3D primitives, Surface Nets metaballs, `Scene3D`, D3D11 `FigureRenderer` |
+| `HeyClicky.Platform.dll` | [`reference/decompiled/HeyClicky.Platform`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Platform) | 345 | Win32 P/Invoke & CsWin32 bindings, `OverlayHost`, `CursorOverlay`, `LowLevelInputHub`, DXGI/WGC screen capture, WASAPI audio, UIA |
+| `HeyClicky.dll` | [`reference/decompiled/HeyClicky.App`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.App) | 884 | WinUI 3 desktop frontend (`NotchView`, `ArcDock`, `HeyClickyWindow`, `Ink` views, `DictationController`, `SettingsWindow`, `Onboarding`, `TakeOverOverlay`) |
 
 ---
 
@@ -50,16 +61,18 @@ All 7 managed `.NET 9.0` assemblies from `HeyClicky v1.1.5` have been decompiled
   - [`src/backend/src/routes/agents.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/routes/agents.ts) (`/proactive/*`, `/agents/*`, `/agent/*` turn leases & notifications, `/connectors/*`, `/calendar/upcoming`, `/tools/*`)
 - **Test Suites**: [`src/backend/src/test-phase1.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/test-phase1.ts) (18/18 passing) & [`src/backend/src/test-phase2.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/test-phase2.ts) (7/7 passing)
 
-### B. Kursor `.NET 9.0` Desktop Solution (`src/desktop/Kursor.sln`) — All 7 Projects Compiling (0 Warnings, 0 Errors)
-- **Solution**: [`src/desktop/Kursor.sln`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.sln) & [`src/desktop/Directory.Build.props`](file:///C:/dev/heyclicky-clone/src/desktop/Directory.Build.props)
-- **Compiled Projects (2,102 C# files, 0 Errors)**:
-  1. [`src/desktop/Kursor.Contracts/Kursor.Contracts.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Contracts/Kursor.Contracts.csproj) (56 files)
-  2. [`src/desktop/Kursor.Drawing3D/Kursor.Drawing3D.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Drawing3D/Kursor.Drawing3D.csproj) (42 files)
-  3. [`src/desktop/Kursor.Drawing/Kursor.Drawing.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Drawing/Kursor.Drawing.csproj) (86 files)
-  4. [`src/desktop/Kursor.Platform/Kursor.Platform.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Platform/Kursor.Platform.csproj) (346 files)
-  5. [`src/desktop/Kursor.Core/Kursor.Core.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Core/Kursor.Core.csproj) (565 files)
-  6. [`src/desktop/Kursor.Agents/Kursor.Agents.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/Kursor.Agents.csproj) (123 files)
+### B. Kursor `.NET 9.0` Desktop Solution (`src/desktop/Kursor.sln`) — All 9 Projects Compiling (0 Warnings, 0 Errors)
+- **Solution**: [`src/desktop/Kursor.sln`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.sln), [`src/desktop/Directory.Build.props`](file:///C:/dev/heyclicky-clone/src/desktop/Directory.Build.props), & [`src/desktop/PrivateImplementationDetailsPolyfill.cs`](file:///C:/dev/heyclicky-clone/src/desktop/PrivateImplementationDetailsPolyfill.cs) (1 shared root polyfill)
+- **Compiled Projects (2,096 core project `.cs` files + 2 sidecar `.cs` files + 1 root polyfill = 2,099 `.cs` files total, 0 Errors)**:
+  1. [`src/desktop/Kursor.Contracts/Kursor.Contracts.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Contracts/Kursor.Contracts.csproj) (55 files)
+  2. [`src/desktop/Kursor.Drawing3D/Kursor.Drawing3D.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Drawing3D/Kursor.Drawing3D.csproj) (41 files)
+  3. [`src/desktop/Kursor.Drawing/Kursor.Drawing.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Drawing/Kursor.Drawing.csproj) (85 files)
+  4. [`src/desktop/Kursor.Platform/Kursor.Platform.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Platform/Kursor.Platform.csproj) (345 files)
+  5. [`src/desktop/Kursor.Core/Kursor.Core.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Core/Kursor.Core.csproj) (564 files)
+  6. [`src/desktop/Kursor.Agents/Kursor.Agents.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/Kursor.Agents.csproj) (122 files)
   7. [`src/desktop/Kursor.App/Kursor.App.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.App/Kursor.App.csproj) (884 files)
+  8. [`src/desktop/Kursor.BrowserHost/Kursor.BrowserHost.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.BrowserHost/Kursor.BrowserHost.csproj) (1 file — `ClickyBrowserHost.exe` Chrome Native Messaging sidecar)
+  9. [`src/desktop/Kursor.Harness/Kursor.Harness.csproj`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Harness/Kursor.Harness.csproj) (1 file — `clicky-harness.exe` JSON-RPC 2.0 & HTTP Runner sidecar)
 
 ### C. Packaged Distribution, Multi-Device Setup & Autostart Scripts
 - **Project Documentation & Git Ignore**: [`README.md`](file:///C:/dev/heyclicky-clone/README.md) & [`.gitignore`](file:///C:/dev/heyclicky-clone/.gitignore)

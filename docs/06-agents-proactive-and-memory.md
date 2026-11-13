@@ -6,17 +6,30 @@ This document covers the architecture and implementation details of HeyClicky v1
 
 ## 1. Decompiled Reference Map
 
-All 7 managed `.NET 9.0` assemblies from `%LOCALAPPDATA%\HeyClickyApp\current\` have been decompiled via `ilspycmd -p` into structured C# projects under `C:\dev\heyclicky-clone\reference\decompiled\`:
+All 7 managed `.NET 9.0` assemblies from `%LOCALAPPDATA%\HeyClickyApp\current\` have been decompiled via `ilspycmd -p` into structured C# projects under `C:\dev\heyclicky-clone\reference\decompiled\` (**2,096 `.cs` files total**, mirrored in `src/desktop/` with **2,096 project `.cs` files + 1 root polyfill = 2,097 `.cs` files**):
 
 | Assembly | Decompiled Project Directory | File Count | Role |
 |---|---|---|---|
-| `HeyClicky.Contracts.dll` | [HeyClicky.Contracts](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Contracts) | 56 | Shared DTOs, IPC contracts, and protocol models |
-| `HeyClicky.Core.dll` | [HeyClicky.Core](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core) | 565 | `OneBrain` client/session, `ProactiveAgentsClient`, `McpOAuth`, `AgentTools`, `WorkerTools` |
-| `HeyClicky.Agents.dll` | [HeyClicky.Agents](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents) | 123 | `AgentService`, `AgentHarnessRunnerRuntime`, `CodexHomeManager`, `ClickyJobStore`, `RoutineScheduler` |
-| `HeyClicky.Drawing.dll` | [HeyClicky.Drawing](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing) | 86 | 2D screen annotation & drawing primitives |
-| `HeyClicky.Drawing3D.dll` | [HeyClicky.Drawing3D](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing3D) | 42 | 3D mascot/overlay rendering |
-| `HeyClicky.Platform.dll` | [HeyClicky.Platform](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Platform) | 346 | Win32 hooks, `ForegroundAppInfo`, `QuietContext`, UI Automation browser URL reader |
-| `HeyClicky.dll` | [HeyClicky.App](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.App) | 880 | WPF/Win32 application shell, `ProactiveCoordinator`, `ConnectorAuth`, `BrainContext`, UI |
+| `HeyClicky.Contracts.dll` | [HeyClicky.Contracts](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Contracts) | 55 | Shared DTOs, IPC contracts, and protocol models |
+| `HeyClicky.Core.dll` | [HeyClicky.Core](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core) | 564 | `OneBrain` client/session, `ProactiveAgentsClient`, `McpOAuth`, `AgentTools`, `WorkerTools` |
+| `HeyClicky.Agents.dll` | [HeyClicky.Agents](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents) | 122 | `AgentService`, `AgentHarnessRunnerRuntime`, `CodexHomeManager`, `ClickyJobStore`, `RoutineScheduler` |
+| `HeyClicky.Drawing.dll` | [HeyClicky.Drawing](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing) | 85 | 2D screen annotation & drawing primitives |
+| `HeyClicky.Drawing3D.dll` | [HeyClicky.Drawing3D](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Drawing3D) | 41 | 3D mascot/overlay rendering |
+| `HeyClicky.Platform.dll` | [HeyClicky.Platform](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Platform) | 345 | Win32 hooks, `ForegroundAppInfo`, `QuietContext`, UI Automation browser URL reader |
+| `HeyClicky.dll` | [HeyClicky.App](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.App) | 884 | WinUI 3 application shell, `ProactiveCoordinator`, `ConnectorAuth`, `BrainContext`, UI |
+
+### 1.1 Namespace Inventory in `Kursor.Agents` (`HeyClicky.Agents.dll` — 8 Namespaces, 122 Files)
+
+| Namespace / Directory | Key Classes |
+|---|---|
+| [`HeyClicky.Agents`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents) | `AgentService`, `AgentSessionSummary`, `AgentTurnOutcome` |
+| [`HeyClicky.Agents.Backend`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Backend) | `AgentWorkerApi`, `AgentIntegrationsApi`, `UserMemoryCache`, `AgentSessionTokenManager` |
+| [`HeyClicky.Agents.Clickys`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Clickys) | `ClickyRoster`, `ClickyPersona`, `ClickyLearnedHowTos` |
+| [`HeyClicky.Agents.Harness`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Harness) | `AgentHarness`, `AgentHarnessModel`, `AgentHarnessPlace`, `AgentHarnessPreferences`, `AgentHarnessRunnerProcess`, `AgentHarnessRunnerRuntime` |
+| [`HeyClicky.Agents.Jobs`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs) | `ClickyJob`, `ClickyJobStore`, `ClickyWorkFolderFiles`, `ClickyJobStepWatcher` |
+| [`HeyClicky.Agents.Routines`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Routines) | `RoutineScheduler`, `ClickyRoutine`, `RoutinesTool`, `RoutineWakeGate`, `RoutineKeepAwake` |
+| [`HeyClicky.Agents.Runtime`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime) | `CodexSession`, `CodexRolloutHistory`, `CodexHomeManager`, `WindowsInstructionAdapter`, `ComposioMcpConfiguration` |
+| [`HeyClicky.Agents.Turns`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Agents/HeyClicky.Agents.Turns) | `TurnPromptBuilder`, `StructuredFinalReply`, `TurnExecutionState` |
 
 ---
 
@@ -24,36 +37,37 @@ All 7 managed `.NET 9.0` assemblies from `%LOCALAPPDATA%\HeyClickyApp\current\` 
 
 ### 2.1 Architecture Overview
 
-HeyClicky's background agent runtime is orchestrated by [`AgentService`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents/AgentService.cs), which supports two runtime backends under [`HeyClicky.Agents.Harness`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarness.cs):
+HeyClicky's background agent runtime is orchestrated by [`AgentService`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents/AgentService.cs), which supports runtime backends configured via [`AgentHarness`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarness.cs) (**3 enum values**: `Codex`, `Pi`, `H1`):
 
 1. **H1 / Multi-Harness Runner (`clicky-harness.exe` — Default)**:
    - Managed by [`AgentHarnessRunnerRuntime`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerRuntime.cs) and [`AgentHarnessRunnerProcess`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs).
-   - Default harness is `AgentHarness.H1` (`"h1"`), with support for 26 additional harness types (`Pi`, `ClaudeCode`, `Hermes`, `OpenCode`, `OpenHands`, `Goose`, `Cline`, `Aider`, `Crush`, `QwenCode`, `GeminiCli`, `Droid`, `Kilroy`, `NanoClaudeCode`, `OpenDev`, `Plandex`, `Forge`, `Sweep`, `ContinueCli`, `ClawCode`, `Omp`, `Amp`, `KimiCli`, `Autohand`, `Kiwi`, and legacy `Codex`).
+   - The C# `AgentHarness` enum defines `Codex`, `Pi`, and `H1` (default `AgentHarness.H1`, wire value `"h1"`), while the external `clicky-harness.exe` sidecar binary additionally bundles adapters for CLI harnesses (`ClaudeCode`, `Hermes`, `OpenCode`, `OpenHands`, `Goose`, `Cline`, `Aider`, etc.).
    - Supports two execution places ([`AgentHarnessPlace`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarnessPlace.cs)):
      - `Mac` (wire value `"mac"`, displayed on Windows as `"On this PC"`) — executes tools locally on the user's machine.
      - `Cloud` (wire value `"cloud"`, displayed as `"In the cloud"`) — executes inside a cloud sandbox while still able to invoke a local `deviceHelper` callback.
    - Thread ID prefixes ([`AgentHarnessPreferences.ThreadIdPrefix`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarnessPreferences.cs)):
      - `"h1:"` for `H1` + `Mac` (`On this PC`)
      - `"h1-cloud:"` for `H1` + `Cloud`
-     - `"harness:<name>:"` or `"harness:<name>-cloud:"` for non-H1 harnesses
+     - `"pi:"` / `"pi-cloud:"` for `Pi`
 2. **Legacy Codex App-Server (`codex.exe app-server`)**:
-   - Managed by [`CodexSession`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Codex/CodexSession.cs) and [`CodexServerProcess`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Codex/CodexServerProcess.cs).
-   - Spawns `codex.exe app-server` with `CODEX_HOME=%LOCALAPPDATA%\HeyClicky\codex-home` and communicates over newline-delimited JSON-RPC 2.0 on `stdin`/`stdout`.
+   - Managed by [`CodexSession`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Runtime/CodexSession.cs) and [`CodexRolloutHistory`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Runtime/CodexRolloutHistory.cs).
+   - Spawns `codex.exe app-server` with `CODEX_HOME=%LOCALAPPDATA%\HeyClicky\codex-home` (or `%LOCALAPPDATA%\Kursor\codex-home`) and communicates over newline-delimited JSON-RPC 2.0 on `stdin`/`stdout`.
 
 ### 2.2 Harness Models
 
-[`AgentHarnessModel`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarnessModel.cs) defines the model catalog exposed to the harness runner and proxied by the Worker (`https://api.heyclicky.com`):
+[`AgentHarnessModel`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Harness/AgentHarnessModel.cs) defines the **9 model variants** exposed to the harness runner (`Standard`, `Astra`, `Sol`, `Terra`, `Luna`, `Fable`, `Opus`, `Sonnet`, `Haiku`):
 
 | Enum Variant | Wire Model ID | Display Title | Subtitle |
 |---|---|---|---|
-| `Standard` | `gpt-6-luna` | **Luna 6** | Balanced speed and reasoning |
+| `Standard` | `default` | **Standard** | Default balanced model |
 | `Astra` | `gpt-6-astra` | **Astra 6** | Deep reasoning for complex tasks |
 | `Sol` | `gpt-6.1-sol` | **Sol 6.1** | Fast, everyday tasks |
 | `Terra` | `gpt-6.1-terra` | **Terra 6.1** | Heavy multi-step workflows |
+| `Luna` | `gpt-6-luna` | **Luna 6** | Balanced speed and reasoning |
 | `Fable` | `claude-fable-5-1` | **Fable 5.1** | Writing and synthesis |
-| `ClaudeOpus` | `claude-opus-5-5` | **Claude Opus 5.5** | Anthropic's flagship model |
-| `ClaudeSonnet` | `claude-sonnet-5-5` | **Claude Sonnet 5.5** | Fast coding & agentic tool use |
-| `ClaudeHaiku` | `claude-haiku-5-5` | **Claude Haiku 5.5** | Lightweight, low-latency |
+| `Opus` | `claude-opus-5-5` | **Claude Opus 5.5** | Anthropic's flagship model |
+| `Sonnet` | `claude-sonnet-5-5` | **Claude Sonnet 5.5** | Fast coding & agentic tool use |
+| `Haiku` | `claude-haiku-5-5` | **Claude Haiku 5.5** | Lightweight, low-latency |
 
 ### 2.3 `clicky-harness.exe` Subprocess & Loopback HTTP Protocol
 
@@ -93,10 +107,10 @@ HeyClicky's background agent runtime is orchestrated by [`AgentService`](file://
 
 ### 2.4 `CodexHomeManager`, `clicky-model-instructions.md` & Skills Sync
 
-Before each turn, [`CodexHomeManager.SyncInstructionsAndSkills`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Codex/CodexHomeManager.cs) synchronizes `%LOCALAPPDATA%\HeyClicky\codex-home\`:
+Before each turn, [`CodexHomeManager.PrepareRuntimeConfiguration`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs) synchronizes `%LOCALAPPDATA%\HeyClicky\codex-home\` (or `%LOCALAPPDATA%\Kursor\codex-home\`):
 
 1. **System Instructions (`clicky-model-instructions.md`)**:
-   - Reads `BundledResources\clicky-model-instructions.md` and runs [`WindowsInstructionAdapter.Adapt()`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Codex/WindowsInstructionAdapter.cs) to convert macOS assumptions into Windows equivalents:
+   - Reads `BundledResources\clicky-model-instructions.md` and runs [`WindowsInstructionAdapter.Adapt()`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Runtime/WindowsInstructionAdapter.cs) to convert macOS assumptions into Windows equivalents:
      - Replaces `"user's Mac"` -> `"user's Windows PC"`, `"AppleScript"` -> `"PowerShell / COM automation"`, `mdfind` -> `Get-ChildItem -Recurse` / `Select-String`, `~/Library/Application Support/Google/Chrome` -> `%LOCALAPPDATA%\Google\Chrome\User Data`.
      - Appends a **Windows environment notes** block instructing the agent to use PowerShell or Git Bash, `Start-Process` instead of `open`, and `%USERPROFILE%` / `%LOCALAPPDATA%`.
    - Dynamically appends a `## Connected apps` section containing:
@@ -109,13 +123,13 @@ Before each turn, [`CodexHomeManager.SyncInstructionsAndSkills`](file:///C:/dev/
    - Removes blocked default Codex skills (`imagegen`, `openai-docs`, `plugin-creator`, `review-agent`, `skill-creator`, `skill-installer`, `nano-banana-slides`).
    - Copies integration-specific skills from `BundledResources\integration-skills\{clickup,dropbox,gmail,googledocs,googletasks,hubspot,jira,linear,microsoft_teams,outlook,salesforce}` into `%LOCALAPPDATA%\HeyClicky\codex-home\power-up-skills\` **only** when that Composio toolkit is currently connected.
 3. **Config Generation (`codex-home\config.toml`)**:
-   - Configures `model_provider = "clicky"`, `base_url = "https://api.heyclicky.com/agent/codex"`, `approval_policy = "never"`, `sandbox_mode = "danger-full-access"`, and registers `[mcp_servers.composio]` plus any user-defined `[mcp_servers.<custom>]` entries.
+   - Configures `model_provider = "clicky"`, `base_url = "<WorkerBaseUrl>/agent/codex"`, `approval_policy = "on-request"`, `sandbox_mode = "workspace-write"`, and registers `[mcp_servers.composio]` plus any user-defined `[mcp_servers.<custom>]` entries.
 
 ### 2.5 Turn Lifecycle, Leases & Structured Final Reply Tags
 
 When [`AgentService.RunTurnAsync`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents/AgentService.cs) runs a turn:
 
-1. **Session Token & Lease Acquisition ([`AgentWorkerApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Worker/AgentWorkerApi.cs))**:
+1. **Session Token & Lease Acquisition ([`AgentWorkerApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs))**:
    - Calls `POST /agent/session-token` (`AgentSessionToken`, 15-minute TTL, refreshed 2 minutes before expiry).
    - Calls `POST /agent/record-agent-launch` with `{ session_id, source, client_turn_id }` to obtain an `AgentTurnLease` (`lease_id`, `turn_id`).
 2. **Mid-Turn Lease Polling & Extra-Usage Approval**:
@@ -123,7 +137,7 @@ When [`AgentService.RunTurnAsync`](file:///C:/dev/heyclicky-clone/reference/deco
    - If the server sets `requires_extra_effort = true` (long-running or high-cost turn), `AgentService` pauses the turn with `TurnOutcome.ExtraEffortRequired` and transitions the session to `SessionPhase.NeedsExtraUsageApproval`.
    - If the user approves (via UI or voice tool `sessions_answer_request`), calls `POST /agent/turn-lease/{leaseId}/continue` and resumes the turn.
    - If the user stops a turn within 6 seconds (`EarlyStopRefundWindow`), calls `POST /agent/turn-lease/{leaseId}/refund-early-stop`.
-3. **Structured Output Parsing ([`StructuredFinalReply.Parse`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Prompt/StructuredFinalReply.cs))**:
+3. **Structured Output Parsing ([`StructuredFinalReply.Parse`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Turns/StructuredFinalReply.cs))**:
    - Extracts structured XML tags from the agent's final reply:
      - `<ANSWER>{"spoken_summary": "...", "markdown": "..."}</ANSWER>`
      - `<SUMMARY>...</SUMMARY>` and `<DONE_TITLE>...</DONE_TITLE>`
@@ -142,9 +156,9 @@ When [`AgentService.RunTurnAsync`](file:///C:/dev/heyclicky-clone/reference/deco
 
 ### 3.1 Jobs Storage & Work Folders (`ClickyJobStore`, `ClickyWorkFolderFiles`)
 
-[`ClickyJobStore`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Clickys/ClickyJobStore.cs) manages up to 80 background [`ClickyJob`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Clickys/ClickyJob.cs) records persisted in `%LOCALAPPDATA%\HeyClicky\agents\defaults.json` under the key `"clicky.jobs.v1"`.
+[`ClickyJobStore`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Jobs/ClickyJobStore.cs) manages up to 80 background [`ClickyJob`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Jobs/ClickyJob.cs) records persisted in `%LOCALAPPDATA%\HeyClicky\agents\defaults.json` under the key `"clicky.jobs.v1"`.
 
-Each Job has an isolated workspace directory on disk managed by [`ClickyWorkFolderFiles`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Clickys/ClickyWorkFolderFiles.cs):
+Each Job has an isolated workspace directory on disk managed by [`ClickyWorkFolderFiles`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Jobs/ClickyWorkFolderFiles.cs):
 - **Root folder**: `%LOCALAPPDATA%\HeyClicky\Clickys\jobs\<slug>-<10charJobId>\`
   - `output\` — User-facing deliverables and generated files
   - `tmp\` — Scratch files for intermediate scripts/downloads
@@ -157,7 +171,7 @@ Each Job has an isolated workspace directory on disk managed by [`ClickyWorkFold
 ### 3.2 Browser URL Step Watcher (`ClickyJobStepWatcher`)
 
 When a job needs the user to complete an interactive browser step (such as logging into a site or completing 2FA) and emits `<WAIT_FOR>{"step": "Log in to Jira", "done_when_url_contains": "atlassian.net/jira"}</WAIT_FOR>`:
-- [`ClickyJobStepWatcher`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Clickys/ClickyJobStepWatcher.cs) enters `WaitingForUserStep` and polls the frontmost browser's active tab URL every **2.5 seconds** (`CheckInterval = 2.5s`, up to `MaximumWait = 6 hours`).
+- [`ClickyJobStepWatcher`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Jobs/ClickyJobStepWatcher.cs) enters `WaitingForUserStep` and polls the frontmost browser's active tab URL every **2.5 seconds** (`CheckInterval = 2.5s`, up to `MaximumWait = 6 hours`).
 - As soon as the foreground browser URL matches `done_when_url_contains`, `ClickyJobStepWatcher` automatically resumes the paused job turn.
 
 ### 3.3 Companion Agent Tools (`HeyClicky.Core.Tools.AgentTools`)
@@ -214,7 +228,7 @@ In addition to local routines, HeyClicky supports cloud-hosted scheduled TypeScr
 
 ### 4.1 Composio Managed Integrations (`AgentIntegrationsApi`, `ComposioMcpConfiguration`)
 
-HeyClicky integrates with 100+ SaaS tools through Composio's managed MCP proxy, orchestrated via [`AgentWorkerApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Worker/AgentWorkerApi.cs) and [`AgentIntegrationsApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Integrations/AgentIntegrationsApi.cs):
+HeyClicky integrates with 100+ SaaS tools through Composio's managed MCP proxy, orchestrated via [`AgentWorkerApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs) and [`AgentIntegrationsApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Backend/AgentIntegrationsApi.cs):
 
 1. **Catalog & Connection Lifecycle**:
    - `GET /agent/integrations?limit=1000` returns the user's integration catalog (`connected`, `available`, `connected_accounts` for multi-account support).
@@ -223,12 +237,12 @@ HeyClicky integrates with 100+ SaaS tools through Composio's managed MCP proxy, 
    - `POST /agent/integrations/{toolkit}/accounts/{connectionId}/label` assigns a human-readable label (e.g., `"Work"`, `"Personal"`) to a specific account in a multi-account toolkit.
 2. **Per-Turn Composio MCP Session (`ComposioMcpConfiguration`)**:
    - Before starting an agent turn, `AgentService.PrepareRuntimeLockedAsync` calls `POST /agent/composio/session`.
-   - Returns [`ComposioMcpConfiguration`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Integrations/ComposioMcpConfiguration.cs): `{ enabled, proxy_url, toolkits, multi_account_toolkits }`.
+   - Returns [`ComposioMcpConfiguration`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Runtime/ComposioMcpConfiguration.cs): `{ enabled, proxy_url, toolkits, multi_account_toolkits }`.
    - `AgentHarnessRunnerRuntime` passes `proxy_url` + Bearer `sessionToken` to `clicky-harness.exe` under `mcp.composio`.
 
 ### 4.2 Custom MCP Connectors & RFC-Compliant OAuth PKCE (`McpOAuth`, `ConnectorAuth`)
 
-Users can register custom `stdio` or `remote` (HTTP/SSE) MCP servers stored in `%LOCALAPPDATA%\HeyClicky\custom-connectors.json` via [`CustomConnectorStore`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.App/HeyClicky.App.Settings/CustomConnectorStore.cs) (with tokens/secrets encrypted at rest using Windows DPAPI `ProtectedData`).
+Users can register custom `stdio` or `remote` (HTTP/SSE) MCP servers stored in `%LOCALAPPDATA%\HeyClicky\connectors.json` (and `%LOCALAPPDATA%\Kursor\connectors.json`) via [`CustomConnectorStore`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.App/HeyClicky.App.Settings/CustomConnectorStore.cs) (with tokens/secrets encrypted at rest in `connectors.secrets` using Windows DPAPI `ProtectedData`).
 
 For remote MCP servers requiring OAuth, [`McpOAuth`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core/HeyClicky.Core.Connectors/McpOAuth.cs) and [`McpOAuthDiscovery`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core/HeyClicky.Core.Connectors/McpOAuthDiscovery.cs) implement the full **MCP `2025-06-18` Authorization Specification**:
 
@@ -337,14 +351,14 @@ Every **2.5 seconds** (`PollInterval = 2.5s`), `ProactiveCoordinator.SampleForeg
 
 HeyClicky maintains a two-tier user memory architecture combining a cloud markdown profile with a local fault-tolerant disk cache and per-job/per-Clicky markdown files:
 
-1. **Cloud Memory Endpoints ([`WorkerClient`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core/HeyClicky.Core.Services/WorkerClient.cs) & [`AgentWorkerApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Worker/AgentWorkerApi.cs))**:
+1. **Cloud Memory Endpoints ([`WorkerClient`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Core/HeyClicky.Core.Worker/WorkerClient.cs) & [`AgentWorkerApi`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs))**:
    - `GET /me/memory` — Fetches `{ has_profile: bool, markdown: string }` containing the user's consolidated profile, preferences, people, and recurring workflows.
    - `POST /me/memory/save` — Invoked by the companion's `save_memory` tool (`WorkerTools.SaveMemoryAsync`) with `{ memory: "..." }` whenever the user states a durable preference or personal fact.
    - `POST /me/memory/import` — Imports external memory/context into the user's cloud profile.
-2. **Local Disk Cache ([`UserMemoryCache`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Prompt/UserMemoryCache.cs))**:
+2. **Local Disk Cache ([`UserMemoryCache`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Backend/UserMemoryCache.cs))**:
    - Located at `%LOCALAPPDATA%\HeyClicky\agents\user-memory\<userId>.md`.
    - Every time `AgentService` fetches a non-empty profile from `GET /me/memory` (4-second timeout), `UserMemoryCache.Resolve` atomically writes `<userId>.md.tmp` and moves it to `<userId>.md`.
-   - If the cloud request times out or fails offline, `UserMemoryCache.Resolve` transparently falls back to the cached local `<userId>.md` and [`TurnPromptBuilder`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Prompt/TurnPromptBuilder.cs) injects it into the agent turn inside `<user_memory>...</user_memory>`.
+   - If the cloud request times out or fails offline, `UserMemoryCache.Resolve` transparently falls back to the cached local `<userId>.md` and [`TurnPromptBuilder`](file:///C:/dev/heyclicky-clone/reference/decompiled/HeyClicky.Agents/HeyClicky.Agents.Turns/TurnPromptBuilder.cs) injects it into the agent turn inside `<user_memory>...</user_memory>`.
 3. **Per-Clicky & Per-Job Memory (`AGENTS.md`, `.clicky\memory.md`, `LearnedHowTos`)**:
    - **Clicky `AGENTS.md`**: Each persistent Clicky persona stores durable instructions and learned context in `%LOCALAPPDATA%\HeyClicky\Clickys\<slug>\AGENTS.md`.
    - **Job `.clicky\memory.md`**: Each background Job stores run-to-run state in `%LOCALAPPDATA%\HeyClicky\Clickys\jobs\<folder>\.clicky\memory.md`.

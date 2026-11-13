@@ -11,12 +11,8 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = $PSScriptRoot
 $BackendDir = Join-Path $RepoRoot "src\backend"
 $DistDir = Join-Path $RepoRoot "dist\kursor-desktop"
-$ExePath = Join-Path $DistDir "HeyClicky.exe"
-$InstalledExe = Join-Path $env:LOCALAPPDATA "HeyClickyApp\current\HeyClicky.exe"
-if (-not (Test-Path $ExePath) -and (Test-Path $InstalledExe)) {
-    $ExePath = $InstalledExe
-    $DistDir = Split-Path -Parent $InstalledExe
-}
+$DesktopExe = Join-Path $DistDir "HeyClicky.exe"
+$ExePath = $DesktopExe
 
 # 0. Ensure Node / npm / fnm / dotnet paths are in PATH
 $fnmExe = Get-Command fnm -ErrorAction SilentlyContinue
@@ -39,20 +35,33 @@ Write-Host "=====================================================" -ForegroundCo
 Write-Host "  KURSOR — Self-Hosted HeyClicky v1.1.5 Desktop Suite " -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 
-# 1. Ensure AppData directories, camelCase endpoints.json & DPAPI auth session exist
+# 0b. Handle -Restart: stop HeyClicky, sidecars, and any process listening on TCP port 8787
+if ($Restart) {
+    Write-Host "[*] Restarting Kursor: stopping HeyClicky, clicky-harness, ClickyBrowserHost, and port 8787 listener..." -ForegroundColor Yellow
+    foreach ($procName in @("HeyClicky", "clicky-harness", "ClickyBrowserHost", "RestartAgent")) {
+        Get-Process -Name $procName -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    }
+    $Port8787Listeners = Get-NetTCPConnection -LocalPort 8787 -State Listen -ErrorAction SilentlyContinue
+    if ($Port8787Listeners) {
+        foreach ($conn in $Port8787Listeners) {
+            if ($conn.OwningProcess -gt 0) {
+                Stop-Process -Id $conn.OwningProcess -Force -ErrorAction SilentlyContinue
+            }
+        }
+    }
+    Start-Sleep -Seconds 1
+}
+
+# 1. Ensure AppData directories, camelCase/PascalCase endpoints.json & DPAPI auth session exist
 $SeedAuthScript = Join-Path $RepoRoot "scripts\seed-local-auth.ps1"
 if (Test-Path $SeedAuthScript) {
     & $SeedAuthScript
 }
 
 # 2. Build desktop distribution if missing
-if (-not (Test-Path $ExePath)) {
-    Write-Host "[!] Desktop distribution not built yet. Attempting build via scripts\build-dist.ps1..." -ForegroundColor Yellow
-    try {
-        & (Join-Path $RepoRoot "scripts\build-dist.ps1")
-    } catch {
-        Write-Warning "Desktop build step skipped: $_"
-    }
+if (-not (Test-Path $DesktopExe)) {
+    Write-Host "[!] Desktop distribution not built yet. Building via scripts\build-dist.ps1..." -ForegroundColor Yellow
+    & (Join-Path $RepoRoot "scripts\build-dist.ps1")
 }
 
 # 3. Ensure backend dependencies & .env file exist
@@ -71,15 +80,16 @@ if (-not (Test-Path (Join-Path $BackendDir "node_modules"))) {
 }
 
 # 4. Check if backend is already listening on 127.0.0.1:8787
-$BackendUp = $false
-try {
-    $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8787/health" -TimeoutSec 2 -ErrorAction Stop
-    if ($resp.status -eq "ok") {
-        $BackendUp = $true
+function Test-BackendRunning {
+    try {
+        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8787/health" -TimeoutSec 2 -ErrorAction Stop
+        return ($resp.status -eq "ok")
+    } catch {
+        return $false
     }
-} catch {
-    $BackendUp = $false
 }
+
+$BackendUp = Test-BackendRunning
 
 if (-not $BackendUp) {
     Write-Host "[*] Starting Kursor Backend Server on http://127.0.0.1:8787..." -ForegroundColor Yellow
@@ -102,7 +112,7 @@ if (-not $BackendUp) {
             -RedirectStandardError $LogFile
     } else {
         Start-Process -FilePath "powershell.exe" `
-            -ArgumentList "-NoExit", "-Command", "Set-Location '$BackendDir'; npm run dev" `
+            -ArgumentList "-NoExit", "-Command", "npm run dev" `
             -WorkingDirectory $BackendDir
     }
     Start-Sleep -Seconds 3
@@ -110,41 +120,34 @@ if (-not $BackendUp) {
     Write-Host "[+] Kursor Backend Server is already running on http://127.0.0.1:8787" -ForegroundColor Green
 }
 
-# 5. Launch Kursor Desktop Suite (HeyClicky.exe)
-$ExistingApp = Get-Process -Name "HeyClicky" -ErrorAction SilentlyContinue
-if ($ExistingApp -and $Restart) {
-    Write-Host "[*] Restarting existing HeyClicky.exe process..." -ForegroundColor Yellow
-    Stop-Process -Name "HeyClicky" -Force -ErrorAction SilentlyContinue
+# 5. Launch Kursor Desktop Suite (dist\kursor-desktop\HeyClicky.exe)
+$RunningHeyClicky = @(Get-Process -Name "HeyClicky" -ErrorAction SilentlyContinue)
+$ForeignHeyClicky = @($RunningHeyClicky | Where-Object { $_.Path -and ($_.Path -ne $DesktopExe) })
+if ($ForeignHeyClicky.Count -gt 0) {
+    Write-Host "[!] Stopping foreign HeyClicky.exe instance ($($ForeignHeyClicky.Path -join ', ')) to prevent mutex/protocol collision..." -ForegroundColor Yellow
+    $ForeignHeyClicky | Stop-Process -Force -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 1
-    $ExistingApp = $null
+    if (Test-Path $SeedAuthScript) {
+        & $SeedAuthScript
+    }
 }
+
+$ExistingApp = @(Get-Process -Name "HeyClicky" -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $DesktopExe })
 
 $env:HEYCLICKY_WORKER_BASE_URL = "http://127.0.0.1:8787"
 $env:HEYCLICKY_SUPABASE_URL = "http://127.0.0.1:8787"
 $env:HEYCLICKY_SUPABASE_ANON_KEY = "kursor-local-anon-key"
 
-$InstallerExe = Join-Path $RepoRoot "executable-file\HeyClicky-Setup.exe"
-
 if (-not $ExistingApp) {
-    if (Test-Path $ExePath) {
-        Write-Host "[+] Launching Kursor Desktop Suite ($ExePath)..." -ForegroundColor Green
-        Start-Process -FilePath $ExePath -WorkingDirectory $DistDir
-    } elseif (Test-Path $InstallerExe) {
-        Write-Host "[*] Launching HeyClicky Desktop Setup ($InstallerExe)..." -ForegroundColor Cyan
-        Start-Process -FilePath $InstallerExe
-    } else {
-        Write-Host "[!] HeyClicky desktop client executable not found at $ExePath." -ForegroundColor Yellow
-        Write-Host "    Backend server is running on http://127.0.0.1:8787 and ready for the client." -ForegroundColor Green
-        if ($Hidden) {
-            Add-Type -AssemblyName System.Windows.Forms
-            [System.Windows.Forms.MessageBox]::Show(
-                "Kursor Backend Server is running at http://127.0.0.1:8787!`n`nTo open the visual desktop buddy, the HeyClicky Windows app installer is downloading/setting up.",
-                "Kursor Assistant",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Information
-            )
-        }
+    if (-not (Test-Path $DesktopExe)) {
+        Write-Host "[*] Desktop executable still missing at $DesktopExe; running scripts\build-dist.ps1..." -ForegroundColor Yellow
+        & (Join-Path $RepoRoot "scripts\build-dist.ps1")
     }
+    if (-not (Test-Path $DesktopExe)) {
+        throw "Kursor Desktop executable not found at $DesktopExe after running scripts\build-dist.ps1."
+    }
+    Write-Host "[+] Launching Kursor Desktop Suite ($DesktopExe)..." -ForegroundColor Green
+    Start-Process -FilePath $DesktopExe -WorkingDirectory $DistDir
 } else {
     Write-Host "[+] Kursor Desktop Suite is already running (PID: $($ExistingApp.Id -join ', '))" -ForegroundColor Green
 }

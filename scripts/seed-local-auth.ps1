@@ -7,7 +7,8 @@ Add-Type -AssemblyName System.Security
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $DistDir = Join-Path $RepoRoot "dist\kursor-desktop"
-$ExePath = Join-Path $DistDir "HeyClicky.exe"
+$DesktopExe = Join-Path $DistDir "HeyClicky.exe"
+$ExePath = $DesktopExe
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
 # 1. Write camelCase (+ PascalCase) endpoints.json everywhere
@@ -89,17 +90,17 @@ foreach ($appDirName in @("HeyClicky", "Kursor")) {
     }
 }
 
-# 4. Register heyclicky:// and clicky:// custom URL schemes in HKCU
-if (Test-Path $ExePath) {
-    foreach ($scheme in @("heyclicky", "clicky")) {
+# 4. Register heyclicky://, kursor://, and clicky:// custom URL schemes in HKCU
+if (Test-Path $DesktopExe) {
+    foreach ($scheme in @("heyclicky", "kursor", "clicky")) {
         $baseKey = "HKCU:\Software\Classes\$scheme"
         $cmdKey  = "$baseKey\shell\open\command"
         New-Item -Path $cmdKey -Force | Out-Null
-        Set-ItemProperty -Path $baseKey -Name "(Default)" -Value "URL:HeyClicky ($scheme)"
+        Set-ItemProperty -Path $baseKey -Name "(Default)" -Value "URL:Kursor ($scheme)"
         Set-ItemProperty -Path $baseKey -Name "URL Protocol" -Value ""
-        Set-ItemProperty -Path $cmdKey  -Name "(Default)" -Value "`"$ExePath`" `"%1`""
+        Set-ItemProperty -Path $cmdKey  -Name "(Default)" -Value "`"$DesktopExe`" `"%1`""
     }
-    Write-Host "[+] Registered heyclicky:// and clicky:// URI schemes -> $ExePath" -ForegroundColor Green
+    Write-Host "[+] Registered heyclicky://, kursor://, and clicky:// URI schemes -> $DesktopExe" -ForegroundColor Green
 }
 
 Write-Host "[+] Local Kursor endpoints & authentication session ready!" -ForegroundColor Cyan

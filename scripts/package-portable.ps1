@@ -25,11 +25,14 @@ if (Test-Path $StageDir) {
 }
 New-Item -ItemType Directory -Path $StageDir -Force | Out-Null
 
-# Copy root launcher & setup scripts + docs
+# Copy root launcher & setup scripts + docs + licensing notices
 $RootFiles = @(
     "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.txt",
     "AGENTS.md",
     ".gitignore",
+    ".gitattributes",
     "setup-kursor.ps1",
     "setup-kursor.cmd",
     "start-kursor.ps1",
@@ -42,12 +45,25 @@ foreach ($f in $RootFiles) {
     }
 }
 
-# Copy scripts/
+# Copy scripts/ (excluding source-only build-dist.ps1)
 Copy-Item -Path (Join-Path $RepoRoot "scripts") -Destination (Join-Path $StageDir "scripts") -Recurse -Force
+$StageBuildDist = Join-Path $StageDir "scripts\build-dist.ps1"
+if (Test-Path $StageBuildDist) {
+    Remove-Item -Path $StageBuildDist -Force -ErrorAction SilentlyContinue
+}
 
-# Copy docs/
+# Copy docs/ (excluding docs\audit)
 if (Test-Path (Join-Path $RepoRoot "docs")) {
     Copy-Item -Path (Join-Path $RepoRoot "docs") -Destination (Join-Path $StageDir "docs") -Recurse -Force
+    $StageAuditDocs = Join-Path $StageDir "docs\audit"
+    if (Test-Path $StageAuditDocs) {
+        Remove-Item -Path $StageAuditDocs -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+# Ensure tests\audit is never included in the portable staging directory
+$StageAuditTests = Join-Path $StageDir "tests\audit"
+if (Test-Path $StageAuditTests) {
+    Remove-Item -Path $StageAuditTests -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # Copy src/backend (excluding node_modules, data, and .env unless -IncludeEnv is specified)
@@ -71,6 +87,11 @@ Write-Host "==> 3. Staging Kursor Desktop Suite (dist\kursor-desktop)..." -Foreg
 $DistStage = Join-Path $StageDir "dist\kursor-desktop"
 New-Item -ItemType Directory -Path $DistStage -Force | Out-Null
 $null = robocopy $DistDir $DistStage /E /NFL /NDL /NJH /NJS /NC /NS
+if ($LASTEXITCODE -ge 8) {
+    throw "robocopy failed with exit code $LASTEXITCODE"
+} else {
+    $global:LASTEXITCODE = 0
+}
 
 # Compress into zip
 Write-Host "==> 4. Compressing portable archive to $ZipPath..." -ForegroundColor Cyan

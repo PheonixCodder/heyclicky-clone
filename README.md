@@ -17,8 +17,8 @@ Zero cloud subscriptions or proprietary HeyClicky servers are required—everyth
 3. **2D Screen Drawing & Deterministic Exam/Table Solver (`Kursor.Drawing` + `screenLayout.ts`)**
    - Hardware-accelerated click-through overlay across all monitors using Direct2D1, DirectComposition, and an embedded **ClearScript V8** JavaScript engine (`clicky-draw-pieces.js`).
    - Built-in deterministic **1280×720 pixel table/grid detector & blank-line detector** (`src/backend/src/utils/screenLayout.ts`) that snaps checkmarks (`✓`), crosses (`✗`), labels, and handwritten answers directly into table cells and onto dotted worksheet lines.
-4. **Interactive Sticky Notes & Screen Ink Notebook (`openPage` / `ScreenPainter`)**
-   - Spawns draggable, expandable on-screen study cards (`openPage` + `writeOnPage`) with markdown headings, bullet lists, and math steps.
+4. **Interactive Sticky Notes, Study Cards & Screen Ink Notebook (`receipt` / `paper` / `clipping` / `sticky` / `ScreenPainter`)**
+   - Spawns draggable, expandable on-screen study cards (`receipt()`, `paper()`, `clipping()`, and `sticky()` in `clicky-draw-pieces.js`, plus `openPage()` for browser URLs) with markdown headings, bullet lists, and math steps.
    - Supports live cursor dragging, full-screen expansion (`□`), and dismissal (`✕`).
 5. **Procedural 3D Models on Your Screen (`Kursor.Drawing3D`)**
    - Embedded Three.js r186 kernel (`clicky-three.js`) + custom HLSL Direct3D11 shaders (`FigureRenderer`) capable of building and animating 3D diagrams and interactive figures directly over your desktop.
@@ -81,7 +81,7 @@ Edit [`src/backend/.env`](file:///C:/dev/heyclicky-clone/src/backend/.env) (copi
 | Variable | Purpose | Recommended Provider |
 | :--- | :--- | :--- |
 | `OPENROUTER_API_KEY` | Primary OneBrain LLM (`google/gemini-2.5-flash` or `anthropic/claude-sonnet-4`) | [OpenRouter](https://openrouter.ai) |
-| `ONEBRAIN_MODEL` | Model ID for `/brain/turn` reasoning, screen drawing & actions | `google/gemini-2.5-flash` |
+| `KURSOR_BRAIN_MODEL` | Model ID for `/brain/turn` reasoning, screen drawing & actions (`ONEBRAIN_MODEL` is also supported as an alias) | `google/gemini-2.5-flash` |
 | `GEMINI_API_KEY` | Gemini Live STT ("Ears"), Gemini TTS, or direct Gemini Brain fallback | [Google AI Studio](https://aistudio.google.com) |
 | `OPENAI_API_KEY` | OpenAI Realtime TTS ("Mouth" verbatim voice reader) | [OpenAI Platform](https://platform.openai.com) |
 | `DEEPGRAM_API_KEY` | Ultra-low-latency Nova-3 streaming STT ("Ears") | [Deepgram](https://deepgram.com) |
@@ -99,8 +99,7 @@ Kursor includes a windowless background autostart launcher ([`scripts/start-kurs
 ```
 This registers Kursor in:
 1. **Windows Registry Startup**: `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Kursor` (visible in **Task Manager → Startup apps**).
-2. **Windows Startup Folder**: `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Kursor.lnk`.
-3. **Desktop Shortcut**: Creates `Kursor.lnk` on your Desktop.
+2. **Desktop Shortcut**: Creates `Kursor.lnk` on your Desktop.
 
 ### Disable Autostart
 ```powershell
@@ -124,20 +123,20 @@ You can deploy Kursor to another Windows 10/11 PC in two ways:
    .\scripts\package-portable.ps1 -IncludeEnv
    ```
 2. **On the New Windows 10/11 PC**:
-   - Install **[Node.js v22+](https://nodejs.org/)** (the only prerequisite needed on the target PC).
+   - Install **[Node.js v24+](https://nodejs.org/)** (the only prerequisite needed on the target PC).
    - Extract **`release\Kursor-Portable-win-x64.zip`** to any folder (e.g., `C:\Kursor`).
    - Double-click **`setup-kursor.cmd`** (or run `.\setup-kursor.ps1` in PowerShell).
    - `setup-kursor.cmd` will automatically:
      - Install backend npm packages (`src\backend\node_modules`)
      - Create `src\backend\.env` (if not bundled)
-     - Configure `%LOCALAPPDATA%\HeyClicky\endpoints.json` & `session.json` so the client connects to `http://127.0.0.1:8787` with an active local session
+     - Configure `%LOCALAPPDATA%\HeyClicky\endpoints.json` & DPAPI `auth.localdev.bin` / `auth.bin` so the client connects to `http://127.0.0.1:8787` with an active local session
      - Register Windows Autostart & create a Desktop shortcut
      - Launch Kursor!
 
 ### Option B: Clone Git Repository & Build from Source on Target PC
 
 1. **Prerequisites on Target PC**:
-   - [Node.js v22+](https://nodejs.org/)
+   - [Node.js v24+](https://nodejs.org/)
    - [.NET 9.0 SDK (x64)](https://dotnet.microsoft.com/download/dotnet/9.0) & Windows App SDK runtime
 2. **Clone & Run One-Step Setup**:
    ```powershell

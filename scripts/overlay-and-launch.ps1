@@ -1,3 +1,8 @@
+param(
+    [ValidateSet("Debug", "Release")]
+    [string]$Configuration = "Release"
+)
+
 $ErrorActionPreference = "Stop"
 
 # 1. Stop HeyClicky + sidecar processes so no DLLs in dist\kursor-desktop are locked
@@ -6,36 +11,28 @@ foreach ($procName in @("HeyClicky", "ClickyBrowserHost", "clicky-harness", "Res
 }
 Start-Sleep -Seconds 2
 
-# 2. Overlay all 7 compiled Kursor DLLs + PDBs
+# 2. Overlay all 7 compiled Kursor assemblies
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $DistDir = Join-Path $RepoRoot "dist\kursor-desktop"
-$AppBinDir = Join-Path $RepoRoot "src\desktop\Kursor.App\bin\Debug\net9.0"
-
-$Assemblies = @(
-    "HeyClicky.Contracts.dll",
-    "HeyClicky.Contracts.pdb",
-    "HeyClicky.Drawing3D.dll",
-    "HeyClicky.Drawing3D.pdb",
-    "HeyClicky.Drawing.dll",
-    "HeyClicky.Drawing.pdb",
-    "HeyClicky.Platform.dll",
-    "HeyClicky.Platform.pdb",
-    "HeyClicky.Core.dll",
-    "HeyClicky.Core.pdb",
-    "HeyClicky.Agents.dll",
-    "HeyClicky.Agents.pdb",
-    "HeyClicky.dll",
-    "HeyClicky.pdb"
+$CandidateBinDirs = @(
+    (Join-Path $RepoRoot "src\desktop\Kursor.App\bin\$Configuration\net9.0"),
+    (Join-Path $RepoRoot "src\desktop\Kursor.App\bin\Debug\net9.0")
 )
+$AppBinDir = $CandidateBinDirs | Where-Object { Test-Path (Join-Path $_ "HeyClicky.Core.dll") } | Select-Object -First 1
+if (-not $AppBinDir) {
+    $AppBinDir = $CandidateBinDirs[0]
+}
 
-foreach ($file in $Assemblies) {
-    $src = Join-Path $AppBinDir $file
-    if (Test-Path $src) {
-        Copy-Item -Path $src -Destination (Join-Path $DistDir $file) -Force
-        Write-Host "[+] Overlaid $file" -ForegroundColor Green
-    } else {
-        Write-Warning "[!] Missing: $src"
-    }
+$BuiltExe = Join-Path $AppBinDir "HeyClicky.exe"
+if (Test-Path $BuiltExe) {
+    Copy-Item -Path $BuiltExe -Destination (Join-Path $DistDir "HeyClicky.exe") -Force
+    Write-Host "[+] Overlaid HeyClicky.exe" -ForegroundColor Green
+}
+
+$BuiltDlls = Get-ChildItem -Path $AppBinDir -Include "HeyClicky*.dll", "Kursor*.dll" -File -ErrorAction SilentlyContinue
+foreach ($dll in $BuiltDlls) {
+    Copy-Item -Path $dll.FullName -Destination (Join-Path $DistDir $dll.Name) -Force
+    Write-Host "[+] Overlaid $($dll.Name)" -ForegroundColor Green
 }
 
 # 3. Overlay patched V8 2D/3D engine scripts
@@ -45,6 +42,14 @@ $DrawingEngineAssets = Join-Path $RepoRoot "src\desktop\Kursor.Drawing\Assets\En
 if (Test-Path $DrawingEngineAssets) {
     Copy-Item -Path $DrawingEngineAssets -Destination $DistEngineDir -Force
     Write-Host "[+] Overlaid patched V8 Engine scripts" -ForegroundColor Green
+}
+$AppEngineDir = Join-Path $RepoRoot "src\desktop\Kursor.App\Assets\Engine"
+foreach ($threeAsset in @("clicky-three.js", "clicky-three-parts.js")) {
+    $threeSrc = Join-Path $AppEngineDir $threeAsset
+    if (Test-Path $threeSrc) {
+        Copy-Item -Path $threeSrc -Destination (Join-Path $DistEngineDir $threeAsset) -Force
+        Write-Host "[+] Overlaid 3D V8 Engine script ($threeAsset)" -ForegroundColor Green
+    }
 }
 
 # 4. Ensure endpoints.json & DPAPI auth session are intact

@@ -153,28 +153,34 @@ All core application binaries reside in `C:\Users\ubaid\AppData\Local\HeyClickyA
 ### 3.3 Bundled Assets (`Assets\` and `BundledResources\`)
 
 #### `C:\Users\ubaid\AppData\Local\HeyClickyApp\current\BundledResources\`
+| File / Subfolder | Size (Bytes) | Description |
+| :--- | ---: | :--- |
+| `clicky-model-instructions.md` | `3,962` | Ground-truth system prompt injected into background Codex/H1 agents (`clicky-harness.exe`). |
+| `skills\` & `integration-skills\` | `Directories` | Bundled core skills (`clicky-browser`, `vercel-deploy`) and Composio integration skills (`gmail`, `linear`, `jira`, `hubspot`, `salesforce`, `clickup`, `dropbox`, `googledocs`, `googletasks`, `microsoft_teams`, `outlook`). |
+
+#### `C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Assets\Engine\` (V8 2D & 3D JavaScript Runtime)
 | File Name | Size (Bytes) | Description |
 | :--- | ---: | :--- |
-| `clicky-three.js` | `781,132` | Bundled Three.js + custom 3D scene runtime loaded into ClearScript V8 by `HeyClicky.Drawing3D.dll`. |
-| `clicky-three-parts.js` | `64,849` | Reusable 3D procedural primitives and figure parts (`figure()`, `scene3d()`) for V8 3D drawing. |
-| `clicky-draw-engine.js` | `110,937` | Core 2D screen drawing engine (`spot`, `box`, `arrow`, `label`, `badge`, `say`, animations, layout solver) executed in ClearScript V8. |
-| `clicky-draw-pieces.js` | `84,965` | Pre-built 2D visual components, callouts, diagrams, and comparison cards for `clicky-draw-engine.js`. |
-| `clicky-draw-native.js` | `23,372` | JS-to-.NET bridge bindings connecting `clicky-draw-engine.js` to `HeyClicky.Drawing.dll` native Direct2D/Win2D primitives. |
-| `clicky-model-instructions.md` | `3,962` | Ground-truth system prompt injected into background Codex agents (`clicky-harness.exe`). |
-| `ClickyBrowserExtensionID.txt` | `34` | Chrome Web Store extension ID (`32` chars + CRLF) allowed to connect to `ClickyBrowserHost.exe`. |
+| `clicky-three.js` | `429,525` | Bundled Three.js (r186) + custom 3D scene runtime loaded into ClearScript V8 by `HeyClicky.Drawing3D.dll`. |
+| `clicky-three-parts.js` | `41,390` | Reusable 3D procedural primitives and 14 figure part recipes (`figure()`, `scene3d()`, `Assets\Engine\parts\*.js`) for V8 3D drawing. |
+| `clicky-draw-engine.js` | `259,913` | Core 2D screen drawing engine (`point`/`spot`, `box`, `arrow`, `label`, `badge`, `paper`, `sticky`, `receipt`, `clipping`, `legend`, `graph`, `timeline`, `say`, animations, layout solver) executed in ClearScript V8. |
+| `clicky-draw-pieces.js` | `66,086` (`66,985` with Kursor custom pieces) | Pre-built 2D visual components, diagrams, and icon recipes for `clicky-draw-engine.js`. |
+| `clicky-draw-native.js` | `50,405` | Headless SVG DOM shim and JS-to-.NET bridge bindings connecting `clicky-draw-engine.js` to `HeyClicky.Drawing.dll` native Direct2D/Win2D primitives. |
 
-#### `C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Assets\`
+#### `C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Assets\` (9 Subfolders)
 | Subfolder / Files | Count / Size | Description |
 | :--- | :--- | :--- |
 | `AppIcon.ico` / `AppIcon.png` | `151,575 B` / `23,774 B` | Application icon resources. |
 | `TrayIcon.ico` / `TrayIcon.png` / `TrayIcon@2x.png` | `15,826 B` total | System tray icon assets. |
-| `OnboardingHero.png` | `46,356 B` | Hero illustration for the onboarding flow. |
-| `Assets\Clicky\*.png` | `68 files` (~700 KB) | Modular 2D layered avatar sprites for custom "Clickys": bodies (`body-coral.png`, `body-honey.png`, `body-lavender.png`, `body-mint.png`, `body-periwinkle.png`, `body-rose.png`, `body-sage.png`, `body-sky.png`), eyes (`eyes-*.png`), skins (`skin-amber.png`, `skin-cocoa.png`, `skin-espresso.png`, `skin-ivory.png`, `skin-peach.png`, `skin-sand.png`), outfits (`outfit-classic-*.png`, `outfit- cozy-*.png`, `outfit-sporty-*.png`), and hairstyles (`hair-*.png`). |
-| `Assets\Squad\*.png` | `16 files` (~280 KB) | Pre-rendered squad member avatars (`ava`, `blaze`, `cleo`, `dash`, `echo`, `finn`, `gus`, `halo`, `iris`, `jade`, `kai`, `luna`, `milo`, `nova`, `otto`, `pip`). |
-| `Assets\Fonts\*.ttf` | `4 files` (~760 KB) | Custom typography: `PlusJakartaSans-Medium.ttf`, `PlusJakartaSans-SemiBold.ttf`, `PlusJakartaSans-Bold.ttf`, `JetBrainsMono-Medium.ttf`. |
-| `Assets\Sounds\*.wav` | `6 files` (~220 KB) | UI & voice audio cues (`ptt-start.wav`, `ptt-end.wav`, `dictation-start.wav`, `dictation-end.wav`, `notch-chime.wav`, `clear-canvas.wav`). |
-| `Assets\StarterCards\*.png` | `12 files` (~450 KB) | Visual thumbnails for onboarding and starter agent cards. |
-| `Assets\ToolkitLogos\*.png` | `15 files` (~120 KB) | Official icons for integrations (`gmail`, `googlecalendar`, `notion`, `linear`, `github`, `slack`, `spotify`, `discord`, `youtube`, etc.). |
+| `Assets\Audio\*.wav` | `1 file` | Ambient/onboarding audio asset. |
+| `Assets\Earcons\*.wav` | `17 files` | UI & voice interaction earcons (`hatching.wav`, PTT cues, dictation cues, notification chimes). |
+| `Assets\Engine\*.js` | `5 files` (+ `parts\` dir) | V8 2D/3D procedural drawing engines detailed above. |
+| `Assets\Fonts\*.ttf` | `4 files` | Custom drawing typography (`ClickyDraw-PatrickHand.ttf`, `ClickyDraw-Barlow-Regular.ttf`, `ClickyDraw-Barlow-Medium.ttf`, `ClickyDraw-Barlow-SemiBold.ttf`). |
+| `Assets\Logos\*.png` | `34 files` | Official brand & integration logos (`gmail`, `googlecalendar`, `notion`, `linear`, `github`, `slack`, `spotify`, `discord`, etc.). |
+| `Assets\Referral\*.png` | `3 files` | Sample avatar assets (`referral-sample-*.png`) for the referral estimator card. |
+| `Assets\Sounds\*.wav` | `63 files` | Procedural drawing sound effects (pen strokes, paper rustles, pops, swooshes, chimes) played by `SoundPlayer` via XAudio2. |
+| `Assets\Video\*.mp4` | `3 files` | Onboarding and paywall video headers (`onboarding-intro-v2-windows.mp4`, `paywall-intro-v2.mp4`). |
+| `Assets\VoicePreviews\*.mp3` | `40 files` | Instant local voice preview clips (`gemini-voice-preview-*.mp3` and `realtime-voice-preview-*.mp3`). |
 
 ---
 

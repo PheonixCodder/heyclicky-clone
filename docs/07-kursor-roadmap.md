@@ -7,10 +7,10 @@
 ## 1. Strategic Architectural Recommendation: How We Should Build Kursor
 
 Because we now have:
-1. **All 7 `.NET 9.0` assemblies decompiled into 2,098 clean C# files** under [`reference/decompiled/`](file:///C:/dev/heyclicky-clone/reference/decompiled/),
+1. **All 7 `.NET 9.0` assemblies decompiled into 2,096 clean C# files** under [`reference/decompiled/`](file:///C:/dev/heyclicky-clone/reference/decompiled/) (and reconstructed into **2,096 project `.cs` files + 1 shared root polyfill = 2,097 `.cs` files** in [`src/desktop/`](file:///C:/dev/heyclicky-clone/src/desktop/)),
 2. **All bundled JavaScript engines & shaders** (`Assets/Engine/clicky-draw-*.js`, `clicky-three*.js`, fonts, audio earcons, and sidecars) in [`C:/Users/ubaid/AppData/Local/HeyClickyApp/current/`](file:///C:/Users/ubaid/AppData/Local/HeyClickyApp/current/),
 3. **All runtime prompts, schemas, and skills** in [`C:/Users/ubaid/AppData/Local/HeyClicky/`](file:///C:/Users/ubaid/AppData/Local/HeyClicky/), and
-4. **Complete ground-truth specifications** in [`docs/01`](file:///C:/dev/heyclicky-clone/docs/01-architecture-overview.md) through [`docs/06`](file:///C:/dev/heyclicky-clone/docs/06-agents-proactive-and-memory.md),
+4. **Complete ground-truth specifications** in [`docs/01`](file:///C:/dev/heyclicky-clone/docs/01-architecture-overview.md) through [`docs/06`](file:///C:/dev/heyclicky-clone/docs/06-agents-proactive-and-memory.md) plus the **Full-Spectrum Audit & Remediation suite** in [`docs/audit/`](file:///C:/dev/heyclicky-clone/docs/audit/),
 
 there are **two ways** to approach the desktop frontend, plus **one clear path** for the backend:
 
@@ -96,32 +96,32 @@ flowchart TD
 ---
 
 ### Phase 4: Reconstruct Compilable `.NET 9.0` Core & Engine Libraries (`src/desktop/`) — ✅ COMPLETED
-**Objective**: Turn the decompiled C# projects in [`reference/decompiled/`](file:///C:/dev/heyclicky-clone/reference/decompiled/) into a clean, compilable `.NET 9.0` solution (`Kursor.sln`).
+**Objective**: Turn the decompiled C# projects in [`reference/decompiled/`](file:///C:/dev/heyclicky-clone/reference/decompiled/) into a clean, compilable `.NET 9.0` solution (`Kursor.sln`, 2,096 project `.cs` files + 1 root polyfill = 2,097 `.cs` files).
 
-- [x] **4.1 `Kursor.Contracts`** (`src/desktop/Kursor.Contracts/` — 56 files):
-  - Cleaned up `InlineArray` and `ReadOnly*` polyfills; updated `AppPaths.cs` and `ClickyEndpoints.cs` to default to `http://127.0.0.1:8787`. Compiles with **0 Errors**.
-- [x] **4.2 `Kursor.Drawing` & `Kursor.Drawing3D`** (`src/desktop/Kursor.Drawing/` [86 files] & `src/desktop/Kursor.Drawing3D/` [42 files]):
+- [x] **4.1 `Kursor.Contracts`** (`src/desktop/Kursor.Contracts/` — 55 files):
+  - Cleaned up `InlineArray` and `ReadOnly*` polyfills; updated `AppPaths.cs` and `ClickyEndpoints.cs` to default to `http://127.0.0.1:8787` and `%LOCALAPPDATA%\Kursor`. Compiles with **0 Errors**.
+- [x] **4.2 `Kursor.Drawing` & `Kursor.Drawing3D`** (`src/desktop/Kursor.Drawing/` [85 files] & `src/desktop/Kursor.Drawing3D/` [41 files]):
   - Wired `Microsoft.ClearScript.V8`, `Vortice.*`, `Microsoft.Graphics.Win2D`, and bundled `Assets/Engine/clicky-three.js` + `Assets/Engine/parts/*.js`. Both compile with **0 Errors**.
-- [x] **4.3 `Kursor.Platform`** (`src/desktop/Kursor.Platform/` — 346 files):
+- [x] **4.3 `Kursor.Platform`** (`src/desktop/Kursor.Platform/` — 345 files):
   - Fixed `[UnmanagedCallersOnly]` Win32 hook pointers, CsWin32 handle formatting, and raw input spans. Compiles with **0 Errors**.
-- [x] **4.4 `Kursor.Core`** (`src/desktop/Kursor.Core/` — 565 files):
-  - Reconstructed all 565 files (`BrainClient`, `WorkerClient`, `RealtimeMouth`, `GeminiTranscriber`, `DeepgramTranscriber`, `ClickyInkNoteStore`, `ProactiveAgentsClient`, `AppBundleConfiguration`). Compiles with **0 Errors**.
+- [x] **4.4 `Kursor.Core`** (`src/desktop/Kursor.Core/` — 564 files):
+  - Reconstructed all 564 files (`BrainClient`, `WorkerClient`, `RealtimeMouth`, `GeminiTranscriber`, `DeepgramTranscriber`, `ClickyInkNoteStore`, `ProactiveAgentsClient`, `AppBundleConfiguration`, and [`TrayTooltip.cs`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Core/HeyClicky.Core.Notch/TrayTooltip.cs) in `src/desktop/Kursor.Core/HeyClicky.Core.Notch/TrayTooltip.cs`). Compiles with **0 Errors**.
 
 ---
 
 ### Phase 5: Reconstruct `Kursor.Agents` & `Kursor.App` (WinUI 3 Frontend) — ✅ COMPLETED
 **Objective**: Reconstruct the local agent engine and the WinUI 3 shell (`NotchView`, `ArcDock`, `Ink` interactive sheets, `Dictation` HUD, `Settings`, `Onboarding`).
 
-- [x] **5.1 `Kursor.Agents`** (`src/desktop/Kursor.Agents/` — 123 files):
+- [x] **5.1 `Kursor.Agents`** (`src/desktop/Kursor.Agents/` — 122 files):
   - Reconstructed `AgentService`, `AgentHarnessRunnerProcess`, `CodexSession`, `ClickyJobStore`, `RoutineScheduler`, `McpOAuth`, and the 16 `AgentTools`. Compiles with **0 Errors**.
 - [x] **5.2 `Kursor.App` (WinUI 3 Shell — 884 files)** (`src/desktop/Kursor.App/`):
-  - Reconstructed all 884 files (`NotchView`, `ArcDock`, `HeyClickyWindow`, `ClickyInkInteractiveSheetView`, `SettingsWindow`, `Onboarding`, `TakeOverOverlay`).
-  - Configured automatic local Kursor Pro/Max session seeding (`SupabaseAuthService.cs`), billing enforcement bypass (`BillingStateService.cs`), onboarding bypass (`OnboardingProgress.cs` & `JsonAppSettings.cs`), and **Kursor** branding (`TrayTooltip.cs`, `TrayIcon.cs`, `AppHost.cs`, window titles). Compiles with **0 Errors**.
+  - Reconstructed all 884 files (`NotchView`, `ArcDock`, `HeyClickyWindow`, `ClickyInkSheetView` / `ClickyInkInteractiveSheetView`, `SettingsWindow`, `Onboarding`, `TakeOverOverlay`).
+  - Configured automatic local Kursor Pro/Max session seeding (`SupabaseAuthService.cs`), billing enforcement bypass (`BillingStateService.cs`), onboarding bypass (`OnboardingProgress.cs` & `JsonAppSettings.cs`), and **Kursor** runtime/UI branding ([`TrayTooltip.cs`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.Core/HeyClicky.Core.Notch/TrayTooltip.cs) in `Kursor.Core`, [`TrayIcon.cs`](file:///C:/dev/heyclicky-clone/src/desktop/Kursor.App/HeyClicky.App.Shell/TrayIcon.cs), `AppHost.cs`, `NotchView.cs`, `PaywallWindow.cs`, `TakeOverOverlay.cs`, `OneBrainStatsPanel.cs`, `SettingsHost.cs`, `SettingsContent.cs`). Note: internal C# `namespace HeyClicky.*` identifiers are retained for binary/serialization compatibility (`Tier 3B`). Compiles with **0 Errors, 0 `SYSLIB1032` Warnings**.
 
 ---
 
-### Phase 6 & 7: Proactive Agents, MCP Connectors, Packaging & Launcher — ✅ COMPLETED
-**Objective**: Wire backend routes for proactive suggestions, Composio/MCP OAuth, and background routines, and package a self-contained runnable distribution.
+### Phase 6 & 7: Proactive Agents, MCP Connectors, Packaging & Full-Spectrum Audit Remediation — ✅ COMPLETED
+**Objective**: Wire backend routes for proactive suggestions, Composio/MCP OAuth, and background routines, package a self-contained runnable distribution, and complete the Full-Spectrum Audit & Wave 1/2 Remediation.
 
 - [x] **6.1 Backend Agent, Proactive, Calendar & Tool Routes** (`src/backend/src/routes/agents.ts`):
   - Implemented `/proactive/jobs` (`/proactive-agents/jobs`), `/proactive/cards/*`, `/agents/notifications/*`, `/agents/crons/*`, `/agent/record-agent-launch`, `/agent/turn-lease/*`, `/connectors/*` (`/agent/integrations`), `/agent/composio/session`, `/calendar/upcoming`, and `/tools/*` (`/tools/spotify/search`).
@@ -129,6 +129,9 @@ flowchart TD
 - [x] **7.1 Distribution Packaging & One-Command Launcher**:
   - Created [`scripts/build-dist.ps1`](file:///C:/dev/heyclicky-clone/scripts/build-dist.ps1) to build all 7 `.NET 9.0` projects in `Kursor.sln`, stage all native/WinUI/V8/shader/sidecar dependencies into [`dist/kursor-desktop/`](file:///C:/dev/heyclicky-clone/dist/kursor-desktop/), and write `%LOCALAPPDATA%\Kursor\endpoints.json`.
   - Created [`start-kursor.ps1`](file:///C:/dev/heyclicky-clone/start-kursor.ps1) to start the Kursor Backend (`http://127.0.0.1:8787`) and launch the unlocked Kursor Desktop application.
+- [x] **7.2 Full-Spectrum Audit & Wave 1/2 Remediation (`docs/audit/`)**:
+  - Executed 11-workstream audit across all 2,097 desktop `.cs` files, backend routes, V8 scripts, and PowerShell packaging scripts ([`docs/audit/FINDINGS.md`](file:///C:/dev/heyclicky-clone/docs/audit/FINDINGS.md), [`docs/audit/FIX_PLAN.md`](file:///C:/dev/heyclicky-clone/docs/audit/FIX_PLAN.md)).
+  - Completed **Wave 1 (Tier 1 & Tier 2)** and **Wave 2 (Tier 2 & Tier 3A/3B)** remediations: zero `api.heyclicky.com` production leaks, unified `%LOCALAPPDATA%\Kursor` (`AppPaths.Root`) and `kursor://` + `heyclicky://` URI scheme support, eliminated all `SYSLIB1032` source-generator warnings, separated `legacy-ui-settings.json` from `settings.json`, hardened `async void` UI paths, and aligned all documentation in `docs/01..07` and `docs/INDEX.md`.
 
 ---
 

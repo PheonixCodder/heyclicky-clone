@@ -6,6 +6,7 @@
 .env
 .env.*
 !.env.example
+!**/.env.example
 src/backend/.env
 src/backend/.env.*
 !src/backend/.env.example
@@ -32,14 +33,18 @@ src/backend/dist/
 *.tsbuildinfo
 
 # 4. .NET 9.0 / Visual Studio / WinUI 3 Build Artifacts
-[Bb]in/
-[Oo]bj/
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
+src/desktop/**/bin/
+src/desktop/**/obj/
+tests/**/bin/
+tests/**/obj/
+/Release/
+/Debug/
+/bin/
+/obj/
+/x64/
+/x86/
+/ARM/
+/ARM64/
 .vs/
 *.user
 *.userosscache
@@ -60,7 +65,8 @@ release/
 *.7z
 *.tar.gz
 
-# 6. Original Installer & Reverse-Engineering Tool Caches
+# 6. Original Installer, Reference Decompilation & Reverse-Engineering Tool Caches
+reference/decompiled/
 executable-file/
 services/
 

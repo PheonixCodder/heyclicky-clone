@@ -1,0 +1,12 @@
+﻿
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `Kursor.Contracts` has no vulnerable packages given the current sources.
+The given project `Kursor.Drawing3D` has no vulnerable packages given the current sources.
+The given project `Kursor.Drawing` has no vulnerable packages given the current sources.
+The given project `Kursor.Platform` has no vulnerable packages given the current sources.
+The given project `Kursor.Core` has no vulnerable packages given the current sources.
+The given project `Kursor.Agents` has no vulnerable packages given the current sources.
+The given project `Kursor.App` has no vulnerable packages given the current sources.
+

@@ -1,0 +1,99 @@
+[
+  {
+    "category": "backend_endpoint",
+    "item": "POST /brain/turn",
+    "location": "src/backend/src/routes/brain.ts:932-1170",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "docs/audit/evidence/ws-d/model-provider-verification.json",
+      "tests/audit/ws-d/test-brain-prompts.ts"
+    ],
+    "notes": "SSE event ordering (meta -> status -> text -> tool_call/tool_calls -> computer_calls -> items -> done) verified across 105 prompts. Fails due to: (1) AUD-D-001 (OpenRouter :free fallback list contains 4 retired 404 model IDs; baidu/ernie-5.5-flash-preview:free at line 601 is unreachable dead code; ONEBRAIN_MODEL env var in README is ignored; tools are omitted on all Groq & OpenRouter calls; runGroqVisionEye failure skips groq-120b and retries qwen/qwen3.8-27b 3x); (2) AUD-D-002 (synchronous analyzeScreenLayout blocks Node.js event loop up to 6.94s on 12MP / 4.21s on 64MP JPEGs); (3) AUD-D-008 (history filter drops compacted developer note_item, untyped messages, and assistant turns without say(); upstream LLM path never populates computer_calls)."
+  },
+  {
+    "category": "backend_endpoint",
+    "item": "POST /brain/compact",
+    "location": "src/backend/src/routes/brain.ts:1177-1251",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "tests/audit/ws-d/test-brain-prompts.ts"
+    ],
+    "notes": "AUD-D-008: (1) Never updates SQLite threads.messages_json after computing compaction; (2) Emits note_item with role='developer' (line 1224), which POST /brain/turn (line 517) explicitly filters out (only role==='user' || role==='assistant' is kept); (3) Swallows malformed JSON bodies and returns HTTP 200 instead of HTTP 400."
+  },
+  {
+    "category": "backend_endpoint",
+    "item": "POST /brain/session-end",
+    "location": "src/backend/src/routes/brain.ts:1257-1295",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "tests/audit/ws-d/test-brain-prompts.ts"
+    ],
+    "notes": "AUD-D-008: Swallows malformed JSON bodies (returns HTTP 200 instead of HTTP 400) and performs zero memory extraction/consolidation into user_memory despite the 'Session End & Memory Consolidation' specification."
+  },
+  {
+    "category": "backend_endpoint",
+    "item": "POST /brain/prewarm",
+    "location": "src/backend/src/routes/brain.ts:1301-1303",
+    "owner": "ws-d-brain-vision",
+    "status": "PASS",
+    "evidence": [
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "tests/audit/ws-d/test-brain-prompts.ts"
+    ],
+    "notes": "Returns HTTP 200 { ok: true } as expected by BrainSession.NoteKeyDown."
+  },
+  {
+    "category": "vision_layout_analyzer",
+    "item": "analyzeScreenLayout (Table Detection, Worksheet Answer-Line Detection & Calm Spot Finder)",
+    "location": "src/backend/src/utils/screenLayout.ts:68-589",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/screen-layout-benchmark.json",
+      "tests/audit/ws-d/test-screen-layout.ts",
+      "tests/audit/ws-d/corpus/"
+    ],
+    "notes": "Benchmarked across 66 corpus images. AUD-D-002: Synchronous main-thread JPEG decode + pixel loops block event loop for 423ms p50 / 750ms p95 on 1280x720, 2.18s on 2560x1440, 6.94s on 4000x3000 (12MP), and 4.21s on 8000x8000 (64MP). AUD-D-006: Table strict recall is 35.48% (11/31) and any-detection recall is 51.61% (16/31), missing borderless, horizontal-only, dark-mode, cream-shaded, skewed, tall-row (>115px), and multi-table layouts, while falsely detecting IDE split panes and bar charts as tables (2 FP). Answer-line strict recall is 37.50% (6/16), with 0% recall on solid underline blanks and dashed lines (>8px), and off-screen calmCardSpot (x=860) on 640x480 resolutions."
+  },
+  {
+    "category": "vision_layout_snapping",
+    "item": "snapProgramToScreenLayout (Generated-JS Coordinate Snapping & Card Conversion)",
+    "location": "src/backend/src/utils/screenLayout.ts:596-881",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/snap-program-adversarial.json",
+      "tests/audit/ws-d/test-screen-layout.ts"
+    ],
+    "notes": "Tested against 35 adversarial/edge JS programs (16 PASS, 19 FAIL). AUD-D-003: Case B greedy multiline regex /^[ \\t]*(?:receipt|clipping)\\s*\\([\\s\\S]*?\\)\\s*;?[ \\t]*$/gm wipes out intermediate beats/check() calls when a receipt() line has a trailing comment, or leaves dangling SyntaxErrors on multiline calls. AUD-D-007: Case A produces 'const w2 = ;' SyntaxError when write() is assigned to a variable, fails on escaped quotes or ')' in options, matches check()/paper() inside comments and say() strings, hardcodes RISC->Col 2 / CISC->Col 3, corrupts Y coords via ViT 720/565 rescaling, and erases answer lines above tables."
+  },
+  {
+    "category": "v8_sandbox_2d",
+    "item": "NativeEngine & HostBridge (2D ClearScript V8 Engine & Watchdog)",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:141-948",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json",
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json"
+    ],
+    "notes": "AUD-D-004: Zero execution timeout or v8.Interrupt() watchdog on NativeEngine.Feed, RenderWhole, Evaluate, or RunFigureTicks; sink.deadline in clicky-draw-engine.js is 0 (disabled) because budgetMs is never passed by clicky-draw-native.js:650, and DrawingThread.Invoke waits indefinitely on done.Wait(). AUD-D-005: LLM code runs via with(__api){eval(__c)} in the global V8 context with unrestricted access to globalThis.__hostRaw (HostBridge), __host, timer flood vectors (setTimeout/setInterval with no cap and not cleared on NativeEngine.Clear()), and persistent global state."
+  },
+  {
+    "category": "v8_sandbox_3d",
+    "item": "ClickyThreeKernel (3D ClearScript V8 Geometry Kernel)",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:288-358",
+    "owner": "ws-d-brain-vision",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json"
+    ],
+    "notes": "AUD-D-004: ClickyThreeKernel creates V8ScriptEngine without V8RuntimeConstraints (no MaxOldSpaceSize heap cap) and invokes buildFunction.Invoke(false, recipeJson) inside lock(gate) with no execution timeout or interrupt."
+  }
+]

@@ -1,0 +1,244 @@
+{
+  "crossAuditId": "PASS2-CROSS-AUDIT-WS-HI",
+  "auditor": "ws-d-brain-vision",
+  "targetWorkstream": "WS-H (Win32 Platform: Capture, Audio, Input, UIA, Overlays, Permissions) & WS-I (Core Library, Ink Engine, Analytics & Interop)",
+  "originalAuthor": "ws-hi-platform-core",
+  "timestamp": "2026-11-13T12:50:00Z",
+  "summary": {
+    "totalOriginalFindingsReviewed": 15,
+    "confirmedExact": 7,
+    "confirmedWithRefinement": 8,
+    "disputed": 0,
+    "newFindingsDiscovered": 4,
+    "testRunnerIssuesFound": 2
+  },
+  "originalFindingsReview": [
+    {
+      "id": "AUD-H-001",
+      "originalTitle": "Unfiltered UIAutomation Page & URL Scraping Captures Incognito/InPrivate Sessions and Sensitive Windows",
+      "originalSeverity": "High",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UiaPageText.cs:19-174",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UIAutomationHelpers.cs:251-297",
+        "src/desktop/Kursor.App/HeyClicky.App.Wiring/WindowsPageReader.cs:13-107"
+      ],
+      "notes": "Core privacy finding is 100% confirmed: UiaPageText.Read and UIAutomationHelpers.ReadBrowserAddress scrape up to 60,000 chars and URLs without checking InPrivate/Incognito titles or password managers. Three technical refinements: (1) WindowsPageReader.cs is at src/desktop/Kursor.App/HeyClicky.App.Wiring/WindowsPageReader.cs (not Kursor.Core/HeyClicky.Core.Tools/WindowsPageReader.cs); (2) UiaPageText.cs:19-21 uses NodeCap = 3000 and WallClock = 1.5s (and reads CurrentName on Text/Hyperlink controls plus UIA_TextPatternId rather than UIA_ValueValuePropertyId); (3) UIAutomationHelpers.ReadBrowserAddress (lines 269, 290) falls back to FindFirst(TreeScope_Descendants, editCondition) — the FIRST Edit control anywhere in the browser window when OmniboxViewViews is absent — and reads UIA_ValueValuePropertyId (30045) without checking UIA_IsPasswordPropertyId (30009)."
+    },
+    {
+      "id": "AUD-H-002",
+      "originalTitle": "OverlayHost Direct3D11/Direct2D/DirectComposition Render Loop Lacks GPU Device-Loss (TDR) Recovery",
+      "originalSeverity": "High",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:354-371",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:419-447",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:567-611"
+      ],
+      "notes": "Confirmed that EndDraw(), SwapChain.Present(0u, 0u), and DCompDevice.Commit() do not handle DXGI_ERROR_DEVICE_REMOVED (0x887A0005) or DXGI_ERROR_DEVICE_RESET (0x887A0007), terminating the overlay thread while leaving OverlayHost.shared non-null. Minor refinement: ThreadMain's finally block (line 369) calls CaptureExclusion.UnregisterCursorChrome(WindowHandle)."
+    },
+    {
+      "id": "AUD-H-003",
+      "originalTitle": "OverlayHost & FramePacer Leak Win32 WaitableTimer Handle, ManualResetEvents, and ScreenCaptureYield Registration",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:96-100",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:367-371",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:528",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:578-604",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/FramePacer.cs:15"
+      ],
+      "notes": "All three reported leaks confirmed. Additional COM leak identified in same lifecycle: OverlayHost.CreateGraphics() (line 578) acquires gpuFenceDevice = D3DDevice.QueryInterfaceOrNull<IDXGIDevice2>(), and DestroyGraphics() (lines 594-604) never disposes gpuFenceDevice."
+    },
+    {
+      "id": "AUD-H-004",
+      "originalTitle": "OverlayHost WindowProcedure Ignores WM_DPICHANGED (0x02E0), Causing Misaligned Multi-DPI Overlays",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:535-549"
+      ],
+      "notes": "Confirmed that case 736u (WM_DPICHANGED, lines 539-540) returns LRESULT(0) without triggering a display/bounds refresh. Minor refinement: case 126u (WM_DISPLAYCHANGE, lines 541-546) schedules overlayHost?.Post(overlayHost.RefreshDisplays) rather than setting a displaysDirty boolean."
+    },
+    {
+      "id": "AUD-H-005",
+      "originalTitle": "GraphicsCaptureSource Frame-Race Leak and Hardcoded Primary GPU Adapter (gpus[0]) on Hybrid Graphics",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs:25-115",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureService.cs:393-408"
+      ],
+      "notes": "Confirmed: pool.TryGetNextFrame() at GraphicsCaptureSource.cs:89 is evaluated eagerly and leaked whenever firstFrame.TrySetResult(...) returns false; ScreenCaptureService.cs:396 hardcodes gpu = gpus[0]; and winrtDevice/winrtDeviceOwner are static fields. Also noted that CaptureFrameAsync returns a shared cached sourceCopyTexture whose lock (gpu.Gate) is released at line 110 before TryCaptureWithGraphicsCaptureAsync re-locks gpu.Gate at line 399."
+    },
+    {
+      "id": "AUD-H-006",
+      "originalTitle": "LowLevelInputHub & ClickyUserInputBlocker Aggressive Hook Reinstallation and Duplicate Key Replay Race",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:166-176",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:465-478",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:565-593",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyUserInputBlocker.cs:328-353"
+      ],
+      "notes": "Confirmed. Additional security/correctness refinement: in LowLevelInputHub.CheckHookAlive() (lines 581-584), replayed raw keys call DeliverKey(in recentRawKeys[i % recentRawKeys.Length]) WITHOUT checking ClickyUserInputBlocker.ShouldHoldKey(in keyEvent) (unlike HookCallback at line 465), bypassing input blocking during hook stalls or UIPI focus on elevated windows."
+    },
+    {
+      "id": "AUD-H-007",
+      "originalTitle": "ShortcutMonitor.MaskStartMenu Only Guards DictationDown, Allowing Win-Key Shortcuts for PTT/TextMode to Pop Start Menu",
+      "originalSeverity": "Low",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:878-884"
+      ],
+      "notes": "Confirmed at ShortcutMonitor.cs:878-881."
+    },
+    {
+      "id": "AUD-H-008",
+      "originalTitle": "DictationTextTarget & TextInsertion Overwrite User Clipboard Without Restoring Non-HGLOBAL Formats",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:569",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/TextInsertion.cs:341-395"
+      ],
+      "notes": "Confirmed at DictationTextTarget.cs:569 (restoreClipboard: false) and TextInsertion.cs:341-395 (IsHandleFormat skips CF_BITMAP/CF_ENHMETAFILE/etc. and payloads > 64 MB before EmptyClipboard() wipes all formats)."
+    },
+    {
+      "id": "AUD-H-009",
+      "originalTitle": "EarconPlayer.DecodeWavToStereo48k DivideByZeroException on Malformed WAV & PermissionService RegistryKey Leak",
+      "originalSeverity": "Low",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/EarconPlayer.cs:279-330",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions/PermissionService.cs:266"
+      ],
+      "notes": "Confirmed both bugs and dynamically verified DivideByZeroException in Suite 6. Additional bug in EarconPlayer.DecodeWavToStereo48k (lines 290-304): a malformed WAV chunk with chunk size num4 = -8 (0xFFFFFFF8) causes i += 8 + num4 + (num4 & 1) to evaluate to i += 0, hanging in an infinite loop."
+    },
+    {
+      "id": "AUD-H-010",
+      "originalTitle": "ClickyTakeOverController 10-Minute Silent Consent Bypass and Unbounded Actuation Window",
+      "originalSeverity": "High",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.App/HeyClicky.App.Drive/ClickyTakeOverController.cs:445-478",
+        "src/desktop/Kursor.App/HeyClicky.App.Drive/ClickyTakeOverController.cs:961-993",
+        "src/desktop/Kursor.App/HeyClicky.App.Drive/ClickyTakeOverController.cs:1363-1368",
+        "src/desktop/Kursor.App/HeyClicky.App.Drive/ClickyTakeOverController.cs:1519-1527"
+      ],
+      "notes": "All three safety flaws confirmed: (1) 600-second recent_yes silent consent bypass (line 469); (2) actuatingUntil = Now + 30s (line 963) causes ClickyTakeBackWatch (lines 1365-1367) to ignore all user mouse/keyboard take-back events during action execution; (3) StopBecauseUserSpoke in PhaseKind.Offered (lines 1519-1525) logs dismissed_by_voice and dismisses the consent card yet records offerAnsweredBySpeaking = (phase.Goal, DateTimeOffset.Now), which lines 445-467 treat as yes_spoken within SpokenAnswerWindow. File path refinement: ClickyTakeOverController.cs resides in src/desktop/Kursor.App/HeyClicky.App.Drive/ClickyTakeOverController.cs (not Kursor.Core/HeyClicky.Core.Drive/)."
+    },
+    {
+      "id": "AUD-I-001",
+      "originalTitle": "WindowsDesktopActions.TypeIntoFocusedFieldAsync Spawns Ephemeral Threads, Drops Clipboard Formats, and Synthesizes Unconditional Keystrokes",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Platform/WindowsDesktopActions.cs:86-251"
+      ],
+      "notes": "Confirmed all four issues in WindowsDesktopActions.cs:91-251 (3 STA threads per call, CF_UNICODETEXT-only backup/restore, unconditional VK_MENU/VK_CONTROL/VK_V SendInput with fixed 400ms delay, and no elevation/password-field check). File path refinement: WindowsDesktopActions.cs resides in src/desktop/Kursor.Core/HeyClicky.Core.Platform/WindowsDesktopActions.cs (not HeyClicky.Core.Tools/)."
+    },
+    {
+      "id": "AUD-I-002",
+      "originalTitle": "SayLines Hand-Rolled JS Scanner Extracts Phantom Speech from Comments/Literals and Corrupts Escape Sequences",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Brain/SayLines.cs:42-138"
+      ],
+      "notes": "Confirmed in SayLines.cs:42-138. Note on test runner: in tests/audit/ws-hi/Program.cs:115, bugConfirmed checked extracted3[0].StartsWith(\"Firstr\\nSecondu0021\") instead of \"Firstr Secondu0021\" (because SayLines.Clean replaces '\\n' with ' ' at line 133), causing Suite 2 to print 'AUD-I-002 REPRODUCED: False' even though lines 20-29 of test-runner-output.txt show all 3 bug cases reproduced."
+    },
+    {
+      "id": "AUD-I-003",
+      "originalTitle": "ClickyInkParser PUA Character Interpolation Bug Corrupts Bold (**), Highlight (==), and Markdown Links Into Literal Digits",
+      "originalSeverity": "High",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1593-1594",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1619"
+      ],
+      "notes": "Confirmed in source and dynamically reproduced in Suite 1."
+    },
+    {
+      "id": "AUD-I-004",
+      "originalTitle": "ClickyInkNoteStore & ClickyLiveNoteStore Unsynchronized Concurrent Mutation and Non-Atomic File Persistence",
+      "originalSeverity": "Medium",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:27-50",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:712-737",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyLiveNoteStore.cs:27-105"
+      ],
+      "notes": "Confirmed in source and dynamically reproduced in Suite 4 (50/600 concurrent operations threw InvalidOperationException)."
+    },
+    {
+      "id": "AUD-I-005",
+      "originalTitle": "System.Random Shared Instance Used Without Synchronization Across UI and Animation Threads",
+      "originalSeverity": "Low",
+      "verdict": "CONFIRMED",
+      "verifiedFiles": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkLiveNote.cs:1420",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkRowMotion.cs:472",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Browser/ClickyBrowserBridge.cs:849",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Mcp/McpOAuth.cs:551"
+      ],
+      "notes": "Confirmed across all 4 static Random instances."
+    }
+  ],
+  "newFindings": [
+    {
+      "id": "AUD-H-011",
+      "workstream": "WS-H",
+      "title": "RecentFiles.Target Binary .lnk Parser Lacks Bounds Checks and Enables Silent Arbitrary File Exfiltration via Window Titles",
+      "severity": "Medium",
+      "status": "FAIL",
+      "files": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/RecentFiles.cs:12-143",
+        "src/desktop/Kursor.App/HeyClicky.App.Wiring/WindowsPageReader.cs:33-40",
+        "src/desktop/Kursor.App/HeyClicky.App.Wiring/WindowsPageReader.cs:86-94",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Documents/DocumentText.cs:24-35"
+      ],
+      "description": "RecentFiles.Target(shortcutPath) manually parses raw .lnk binary bytes without sufficient bounds validation: line 78 reads BitConverter.ToUInt16(array, num2) when array.Length == 76 and (num & 1) != 0 (throwing ArgumentOutOfRangeException); lines 94-95 read 32-bit offsets at num3 + 28 and num3 + 32 after only checking num2 + 28 <= array.Length at line 80; and ReadUnicode(array, num3 + num5) (line 130) does not validate that at >= 0 or at < data.Length. Furthermore, WindowsPageReader.CaptureReferenceAsync extracts any filename token from the active window title (e.g., '.env - Visual Studio Code' or 'secrets.json - Notepad'), resolves it via RecentFiles.Resolve against %APPDATA%\\Microsoft\\Windows\\Recent\\*.lnk, and DocumentText.Extract reads up to 60,000 chars of the resolved local file (including .env, .conf, .json, .yaml, .sql, .ps1, and extensionless files) straight into the cloud Brain prompt.",
+      "remediation": "Validate all offsets in RecentFiles.Target against array.Length (including num2 + 2 <= array.Length before reading IDListSize, num3 + 36 <= array.Length before reading Unicode offsets, and at >= 0 && at < data.Length in ReadUnicode). Exclude sensitive secret/config file extensions (.env, .pem, .key, .kdbx, .pfx, credentials/secrets files) from automatic DocumentText extraction."
+    },
+    {
+      "id": "AUD-H-012",
+      "workstream": "WS-H",
+      "title": "LowLevelInputHub.CheckHookAlive Raw-Input Replay Bypasses ClickyUserInputBlocker.ShouldHoldKey",
+      "severity": "Medium",
+      "status": "FAIL",
+      "files": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:465-468",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:581-584"
+      ],
+      "description": "In LowLevelInputHub.HookCallback (line 465), keyboard events pass through 'if (!ClickyUserInputBlocker.ShouldHoldKey(in keyEvent)) DeliverKey(in keyEvent);'. However, when CheckHookAlive() (lines 581-584) replays buffered WM_INPUT keys from recentRawKeys (triggered after 80ms whenever WH_KEYBOARD_LL does not observe a key, such as when an elevated window has focus under UIPI or during hook stalls), it calls DeliverKey(in recentRawKeys[i % recentRawKeys.Length]) directly without consulting ClickyUserInputBlocker.ShouldHoldKey, bypassing input blocking.",
+      "remediation": "Check '!ClickyUserInputBlocker.ShouldHoldKey(in keyEvent)' inside CheckHookAlive() before calling DeliverKey()."
+    },
+    {
+      "id": "AUD-I-006",
+      "workstream": "WS-I",
+      "title": "DocumentText.ReadSystemDocument Decompresses ZIP-Based Office Documents (DOCX/XLSX/PPTX/ODT) Without Uncompressed Size Limits (Zip Bomb / OOM)",
+      "severity": "Medium",
+      "status": "FAIL",
+      "files": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Documents/DocumentText.cs:182-247"
+      ],
+      "description": "DocumentText.ReadSystemDocument (line 188) checks only the compressed archive file size on disk (new FileInfo(path).Length > 67108864, 64 MB), and ReadEntry(ZipArchiveEntry) (lines 242-247) calls streamReader.ReadToEnd() without checking entry.Length or capping the number of characters read from the deflate stream, followed by full-document regex matches (WordXmlToText, SharedStringItem, DrawingTextRun) before Cap(text, 60000) is ever invoked. A small compressed .docx/.xlsx/.odt with a multi-hundred-MB XML entry causes massive LOH allocations or OutOfMemoryException.",
+      "remediation": "Check entry.Length <= MaximumTextFileBytes (or wrap the entry Stream in a bounded reader that stops after reading a safe byte/char ceiling) before running XML regex extraction."
+    },
+    {
+      "id": "AUD-I-007",
+      "workstream": "WS-I",
+      "title": "ClickyInkPatchStream.PartialText Rejects Unified Diff Hunk Headers (@@ ... @@) and Strips First Character of Unprefixed Context Lines",
+      "severity": "Low",
+      "status": "FAIL",
+      "files": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkPatchStream.cs:49-81"
+      ],
+      "description": "ClickyInkPatchStream.PartialText (lines 49-67) extracts text3 = text2.Substring(2).TrimWs() from every '@@' header and searches for a document line literally matching text3 via Same(list[k], text3). If an LLM emits a standard unified diff header ('@@ -2,1 +2,2 @@') or a V4A header with a trailing '@@' ('@@ Heading @@'), text3 never matches any line in list and PartialText returns null (as observed in WsHiAuditRunner Suite 3 where 'patched length=-1'). Additionally, line 80 strips the first character of every non-'+' line via l.Substring(1) without checking whether the line starts with ' ' or '-'.",
+      "remediation": "Strip trailing '@@' and ignore standard unified-diff line-range headers ('@@ -l,s +l,s @@') when resolving hunk anchors, and only strip leading ' ' or '-' prefixes on context/deletion lines."
+    }
+  ]
+}

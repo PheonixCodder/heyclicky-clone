@@ -1,0 +1,1086 @@
+﻿{
+    "timestampUtc":  "2026-11-13T18:40:30.3523548Z",
+    "windowCount":  27,
+    "trees":  [
+                  {
+                      "hwnd":  "0x7E079A",
+                      "title":  "HeyClicky Agents",
+                      "className":  "WinUIDesktopWin32WindowClass",
+                      "isVisible":  true,
+                      "uiaRoot":  {
+                                      "name":  "HeyClicky Agents",
+                                      "automationId":  "",
+                                      "className":  "WinUIDesktopWin32WindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  1920,
+                                                           "h":  1080
+                                                       },
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+                                                       {
+                                                           "name":  "",
+                                                           "automationId":  "",
+                                                           "className":  "Microsoft.UI.Content.DesktopChildSiteBridge",
+                                                           "controlType":  "ControlType.Pane",
+                                                           "isEnabled":  true,
+                                                           "isKeyboardFocusable":  false,
+                                                           "isOffscreen":  false,
+                                                           "boundingRect":  {
+                                                                                "x":  0,
+                                                                                "y":  0,
+                                                                                "w":  1920,
+                                                                                "h":  1080
+                                                                            },
+                                                           "supportedPatterns":  [
+
+                                                                                 ],
+                                                           "children":  [
+                                                                            {
+                                                                                "name":  "",
+                                                                                "automationId":  "",
+                                                                                "className":  "InputSiteWindowClass",
+                                                                                "controlType":  "ControlType.Pane",
+                                                                                "isEnabled":  true,
+                                                                                "isKeyboardFocusable":  false,
+                                                                                "isOffscreen":  false,
+                                                                                "boundingRect":  {
+                                                                                                     "x":  0,
+                                                                                                     "y":  0,
+                                                                                                     "w":  1920,
+                                                                                                     "h":  1080
+                                                                                                 },
+                                                                                "supportedPatterns":  [
+
+                                                                                                      ],
+                                                                                "children":  [
+                                                                                                 {
+                                                                                                     "name":  "HeyClicky Agents",
+                                                                                                     "automationId":  "",
+                                                                                                     "className":  "Group",
+                                                                                                     "controlType":  "ControlType.Pane",
+                                                                                                     "isEnabled":  true,
+                                                                                                     "isKeyboardFocusable":  false,
+                                                                                                     "isOffscreen":  false,
+                                                                                                     "boundingRect":  {
+                                                                                                                          "x":  912,
+                                                                                                                          "y":  0,
+                                                                                                                          "w":  94,
+                                                                                                                          "h":  32
+                                                                                                                      },
+                                                                                                     "supportedPatterns":  [
+                                                                                                                               "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                           ],
+                                                                                                     "children":  [
+                                                                                                                      {
+                                                                                                                          "name":  "",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "Image",
+                                                                                                                          "controlType":  "ControlType.Image",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  false,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  917,
+                                                                                                                                               "y":  0,
+                                                                                                                                               "w":  83,
+                                                                                                                                               "h":  31
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "Welcome Builder, New",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "NamedContainerAutomationPeer",
+                                                                                                                          "controlType":  "ControlType.Group",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  false,
+                                                                                                                          "isOffscreen":  true,
+                                                                                                                          "boundingRect":  null,
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "Welcome Builder A no-scroll welcome page for Ubaid features five installed apps and real icons. welcome.html Open page",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "Button",
+                                                                                                                          "controlType":  "ControlType.Button",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  true,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  917,
+                                                                                                                                               "y":  0,
+                                                                                                                                               "w":  89,
+                                                                                                                                               "h":  22
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "InvokePatternIdentifiers.Pattern",
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "Open page",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "Button",
+                                                                                                                          "controlType":  "ControlType.Button",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  true,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  912,
+                                                                                                                                               "y":  23,
+                                                                                                                                               "w":  15,
+                                                                                                                                               "h":  5
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "InvokePatternIdentifiers.Pattern",
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "Image",
+                                                                                                                          "controlType":  "ControlType.Image",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  false,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  943,
+                                                                                                                                               "y":  0,
+                                                                                                                                               "w":  32,
+                                                                                                                                               "h":  15
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "Rocket Sleuth, New",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "NamedContainerAutomationPeer",
+                                                                                                                          "controlType":  "ControlType.Group",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  false,
+                                                                                                                          "isOffscreen":  true,
+                                                                                                                          "boundingRect":  null,
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "Rocket Sleuth A two-page SpaceX competitor brief with an Artemis III SLS photo is saved. SpaceX_Competitor_Brief_Nov_202",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "Button",
+                                                                                                                          "controlType":  "ControlType.Button",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  true,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  943,
+                                                                                                                                               "y":  0,
+                                                                                                                                               "w":  34,
+                                                                                                                                               "h":  13
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "InvokePatternIdentifiers.Pattern",
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "name":  "Ready to view. Rocket Sleuth",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "NamedContainerAutomationPeer",
+                                                                                                                          "controlType":  "ControlType.Group",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  false,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  943,
+                                                                                                                                               "y":  0,
+                                                                                                                                               "w":  32,
+                                                                                                                                               "h":  15
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+                                                                                                                                                    "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      }
+                                                                                                                  ]
+                                                                                                 }
+                                                                                             ]
+                                                                            }
+                                                                        ]
+                                                       }
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x5B09CA",
+                      "title":  "HeyClicky Overlay",
+                      "className":  "HeyClickyOverlayWindow",
+                      "isVisible":  true,
+                      "uiaRoot":  {
+                                      "name":  "HeyClicky Overlay",
+                                      "automationId":  "",
+                                      "className":  "HeyClickyOverlayWindow",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  1920,
+                                                           "h":  1080
+                                                       },
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x170574",
+                      "title":  "Clicky drawing",
+                      "className":  "HeyClickyDrawingWindow",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "Clicky drawing",
+                                      "automationId":  "",
+                                      "className":  "HeyClickyDrawingWindow",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  16,
+                                                           "h":  16
+                                                       },
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x360600",
+                      "title":  "Kursor Notch",
+                      "className":  "WinUIDesktopWin32WindowClass",
+                      "isVisible":  true,
+                      "uiaRoot":  {
+                                      "name":  "Kursor Notch",
+                                      "automationId":  "",
+                                      "className":  "WinUIDesktopWin32WindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  447,
+                                                           "y":  0,
+                                                           "w":  1025,
+                                                           "h":  980
+                                                       },
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+                                                       {
+                                                           "name":  "",
+                                                           "automationId":  "",
+                                                           "className":  "Microsoft.UI.Content.DesktopChildSiteBridge",
+                                                           "controlType":  "ControlType.Pane",
+                                                           "isEnabled":  true,
+                                                           "isKeyboardFocusable":  false,
+                                                           "isOffscreen":  false,
+                                                           "boundingRect":  {
+                                                                                "x":  447,
+                                                                                "y":  0,
+                                                                                "w":  1025,
+                                                                                "h":  980
+                                                                            },
+                                                           "supportedPatterns":  [
+
+                                                                                 ],
+                                                           "children":  [
+                                                                            {
+                                                                                "name":  "",
+                                                                                "automationId":  "",
+                                                                                "className":  "InputSiteWindowClass",
+                                                                                "controlType":  "ControlType.Pane",
+                                                                                "isEnabled":  true,
+                                                                                "isKeyboardFocusable":  false,
+                                                                                "isOffscreen":  false,
+                                                                                "boundingRect":  {
+                                                                                                     "x":  447,
+                                                                                                     "y":  0,
+                                                                                                     "w":  1025,
+                                                                                                     "h":  980
+                                                                                                 },
+                                                                                "supportedPatterns":  [
+
+                                                                                                      ],
+                                                                                "children":  [
+                                                                                                 {
+                                                                                                     "name":  "HeyClicky",
+                                                                                                     "automationId":  "",
+                                                                                                     "className":  "Group",
+                                                                                                     "controlType":  "ControlType.Pane",
+                                                                                                     "isEnabled":  true,
+                                                                                                     "isKeyboardFocusable":  false,
+                                                                                                     "isOffscreen":  false,
+                                                                                                     "boundingRect":  {
+                                                                                                                          "x":  447,
+                                                                                                                          "y":  0,
+                                                                                                                          "w":  1025,
+                                                                                                                          "h":  980
+                                                                                                                      },
+                                                                                                     "supportedPatterns":  [
+                                                                                                                               "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                           ],
+                                                                                                     "children":  [
+
+                                                                                                                  ]
+                                                                                                 }
+                                                                                             ]
+                                                                            }
+                                                                        ]
+                                                       }
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x320862",
+                      "title":  "HeyClicky Agents Arc",
+                      "className":  "WinUIDesktopWin32WindowClass",
+                      "isVisible":  true,
+                      "uiaRoot":  {
+                                      "name":  "HeyClicky Agents Arc",
+                                      "automationId":  "",
+                                      "className":  "WinUIDesktopWin32WindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  1920,
+                                                           "h":  1080
+                                                       },
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+                                                       {
+                                                           "name":  "",
+                                                           "automationId":  "",
+                                                           "className":  "Microsoft.UI.Content.DesktopChildSiteBridge",
+                                                           "controlType":  "ControlType.Pane",
+                                                           "isEnabled":  true,
+                                                           "isKeyboardFocusable":  false,
+                                                           "isOffscreen":  false,
+                                                           "boundingRect":  {
+                                                                                "x":  0,
+                                                                                "y":  0,
+                                                                                "w":  1920,
+                                                                                "h":  1080
+                                                                            },
+                                                           "supportedPatterns":  [
+
+                                                                                 ],
+                                                           "children":  [
+                                                                            {
+                                                                                "name":  "",
+                                                                                "automationId":  "",
+                                                                                "className":  "InputSiteWindowClass",
+                                                                                "controlType":  "ControlType.Pane",
+                                                                                "isEnabled":  true,
+                                                                                "isKeyboardFocusable":  false,
+                                                                                "isOffscreen":  false,
+                                                                                "boundingRect":  {
+                                                                                                     "x":  0,
+                                                                                                     "y":  0,
+                                                                                                     "w":  1920,
+                                                                                                     "h":  1080
+                                                                                                 },
+                                                                                "supportedPatterns":  [
+
+                                                                                                      ],
+                                                                                "children":  [
+                                                                                                 {
+                                                                                                     "name":  "HeyClicky Agents Arc",
+                                                                                                     "automationId":  "",
+                                                                                                     "className":  "Group",
+                                                                                                     "controlType":  "ControlType.Pane",
+                                                                                                     "isEnabled":  true,
+                                                                                                     "isKeyboardFocusable":  false,
+                                                                                                     "isOffscreen":  true,
+                                                                                                     "boundingRect":  null,
+                                                                                                     "supportedPatterns":  [
+                                                                                                                               "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                           ],
+                                                                                                     "children":  [
+
+                                                                                                                  ]
+                                                                                                 }
+                                                                                             ]
+                                                                            }
+                                                                        ]
+                                                       }
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x28065C",
+                      "title":  "HeyClicky page preview",
+                      "className":  "WinUIDesktopWin32WindowClass",
+                      "isVisible":  true,
+                      "uiaRoot":  {
+                                      "name":  "HeyClicky page preview",
+                                      "automationId":  "",
+                                      "className":  "WinUIDesktopWin32WindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  -2000,
+                                                           "y":  0,
+                                                           "w":  1600,
+                                                           "h":  1000
+                                                       },
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+                                                       {
+                                                           "name":  "",
+                                                           "automationId":  "",
+                                                           "className":  "Microsoft.UI.Content.DesktopChildSiteBridge",
+                                                           "controlType":  "ControlType.Pane",
+                                                           "isEnabled":  true,
+                                                           "isKeyboardFocusable":  false,
+                                                           "isOffscreen":  false,
+                                                           "boundingRect":  {
+                                                                                "x":  -2000,
+                                                                                "y":  0,
+                                                                                "w":  1600,
+                                                                                "h":  1000
+                                                                            },
+                                                           "supportedPatterns":  [
+
+                                                                                 ],
+                                                           "children":  [
+                                                                            {
+                                                                                "name":  "",
+                                                                                "automationId":  "",
+                                                                                "className":  "InputSiteWindowClass",
+                                                                                "controlType":  "ControlType.Pane",
+                                                                                "isEnabled":  true,
+                                                                                "isKeyboardFocusable":  false,
+                                                                                "isOffscreen":  false,
+                                                                                "boundingRect":  {
+                                                                                                     "x":  -2000,
+                                                                                                     "y":  0,
+                                                                                                     "w":  1600,
+                                                                                                     "h":  1000
+                                                                                                 },
+                                                                                "supportedPatterns":  [
+
+                                                                                                      ],
+                                                                                "children":  [
+                                                                                                 {
+                                                                                                     "name":  "HeyClicky page preview",
+                                                                                                     "automationId":  "",
+                                                                                                     "className":  "Group",
+                                                                                                     "controlType":  "ControlType.Pane",
+                                                                                                     "isEnabled":  true,
+                                                                                                     "isKeyboardFocusable":  false,
+                                                                                                     "isOffscreen":  false,
+                                                                                                     "boundingRect":  {
+                                                                                                                          "x":  -2000,
+                                                                                                                          "y":  0,
+                                                                                                                          "w":  1600,
+                                                                                                                          "h":  1000
+                                                                                                                      },
+                                                                                                     "supportedPatterns":  [
+                                                                                                                               "ScrollItemPatternIdentifiers.Pattern"
+                                                                                                                           ],
+                                                                                                     "children":  [
+                                                                                                                      {
+                                                                                                                          "name":  "",
+                                                                                                                          "automationId":  "",
+                                                                                                                          "className":  "Microsoft.UI.Xaml.Controls.WebView2",
+                                                                                                                          "controlType":  "ControlType.Pane",
+                                                                                                                          "isEnabled":  true,
+                                                                                                                          "isKeyboardFocusable":  false,
+                                                                                                                          "isOffscreen":  false,
+                                                                                                                          "boundingRect":  {
+                                                                                                                                               "x":  -2000,
+                                                                                                                                               "y":  0,
+                                                                                                                                               "w":  1600,
+                                                                                                                                               "h":  1000
+                                                                                                                                           },
+                                                                                                                          "supportedPatterns":  [
+
+                                                                                                                                                ],
+                                                                                                                          "children":  [
+
+                                                                                                                                       ]
+                                                                                                                      }
+                                                                                                                  ]
+                                                                                                 }
+                                                                                             ]
+                                                                            }
+                                                                        ]
+                                                       }
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x1E06A8",
+                      "title":  "Kursor",
+                      "className":  "HeyClickyTaskbarButton",
+                      "isVisible":  true,
+                      "uiaRoot":  {
+                                      "name":  "Kursor",
+                                      "automationId":  "",
+                                      "className":  "HeyClickyTaskbarButton",
+                                      "controlType":  "ControlType.Window",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+                                                                "WindowPatternIdentifiers.Pattern",
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x220910",
+                      "title":  "Default IME",
+                      "className":  "IME",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "Default IME",
+                                      "automationId":  "",
+                                      "className":  "IME",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x404A0",
+                      "title":  "Default IME",
+                      "className":  "IME",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "Default IME",
+                                      "automationId":  "",
+                                      "className":  "IME",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x230628",
+                      "title":  "Default IME",
+                      "className":  "IME",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "Default IME",
+                                      "automationId":  "",
+                                      "className":  "IME",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x570656",
+                      "title":  "OLEChannelWnd",
+                      "className":  "OleMainThreadWndClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "OLEChannelWnd",
+                                      "automationId":  "",
+                                      "className":  "OleMainThreadWndClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x5082E",
+                      "title":  "KursorTray",
+                      "className":  "KursorTray",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "KursorTray",
+                                      "automationId":  "",
+                                      "className":  "KursorTray",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x2406C8",
+                      "title":  "CicMarshalWnd",
+                      "className":  "CicMarshalWndClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "CicMarshalWnd",
+                                      "automationId":  "",
+                                      "className":  "CicMarshalWndClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0xD066E",
+                      "title":  "",
+                      "className":  "Chrome_MessageWindow",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "",
+                                      "automationId":  "",
+                                      "className":  "Chrome_MessageWindow",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x5C0990",
+                      "title":  "MIT Message Only Window",
+                      "className":  "MITMessageOnlyWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "MIT Message Only Window",
+                                      "automationId":  "",
+                                      "className":  "MITMessageOnlyWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x3C0560",
+                      "title":  "HeyClicky raw input",
+                      "className":  "Message",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "HeyClicky raw input",
+                                      "automationId":  "",
+                                      "className":  "Message",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x1406B0",
+                      "title":  "MIT Message Only Window",
+                      "className":  "MITMessageOnlyWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "MIT Message Only Window",
+                                      "automationId":  "",
+                                      "className":  "MITMessageOnlyWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x2A0682",
+                      "title":  "MIT Message Only Window",
+                      "className":  "MITMessageOnlyWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "MIT Message Only Window",
+                                      "automationId":  "",
+                                      "className":  "MITMessageOnlyWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x804A2",
+                      "title":  "OLEChannelWnd",
+                      "className":  "OleMainThreadWndClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "OLEChannelWnd",
+                                      "automationId":  "",
+                                      "className":  "OleMainThreadWndClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x83096E",
+                      "title":  "",
+                      "className":  "SystemUserAdapterWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "",
+                                      "automationId":  "",
+                                      "className":  "SystemUserAdapterWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0xF0686",
+                      "title":  "",
+                      "className":  "SystemUserAdapterWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "",
+                                      "automationId":  "",
+                                      "className":  "SystemUserAdapterWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x120670",
+                      "title":  "LiftedDMITCursorRecalculateWindow",
+                      "className":  "LiftedDMITCursorRecalculateClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "LiftedDMITCursorRecalculateWindow",
+                                      "automationId":  "",
+                                      "className":  "LiftedDMITCursorRecalculateClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x140602",
+                      "title":  "MIT Message Only Window",
+                      "className":  "MITMessageOnlyWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "MIT Message Only Window",
+                                      "automationId":  "",
+                                      "className":  "MITMessageOnlyWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x1B060C",
+                      "title":  "",
+                      "className":  "DcppUserAdapterWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "",
+                                      "automationId":  "",
+                                      "className":  "DcppUserAdapterWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0xB043E",
+                      "title":  "",
+                      "className":  "SystemUserAdapterWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "",
+                                      "automationId":  "",
+                                      "className":  "SystemUserAdapterWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x130490",
+                      "title":  "",
+                      "className":  "DcppUserAdapterWindowClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "",
+                                      "automationId":  "",
+                                      "className":  "DcppUserAdapterWindowClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  true,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  {
+                                                           "x":  0,
+                                                           "y":  0,
+                                                           "w":  166,
+                                                           "h":  47
+                                                       },
+                                      "supportedPatterns":  [
+                                                                "TransformPatternIdentifiers.Pattern"
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  },
+                  {
+                      "hwnd":  "0x1200846",
+                      "title":  "OleMainThreadWndName",
+                      "className":  "OleMainThreadWndClass",
+                      "isVisible":  false,
+                      "uiaRoot":  {
+                                      "name":  "OleMainThreadWndName",
+                                      "automationId":  "",
+                                      "className":  "OleMainThreadWndClass",
+                                      "controlType":  "ControlType.Pane",
+                                      "isEnabled":  false,
+                                      "isKeyboardFocusable":  false,
+                                      "isOffscreen":  false,
+                                      "boundingRect":  null,
+                                      "supportedPatterns":  [
+
+                                                            ],
+                                      "children":  [
+
+                                                   ]
+                                  }
+                  }
+              ]
+}

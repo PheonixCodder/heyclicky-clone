@@ -1,0 +1,366 @@
+[
+  {
+    "id": "AUD-C-001",
+    "workstream": "WS-C",
+    "severity": "Critical",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Wildcard CORS + Auto-Authentication Middleware + Raw Master API Key Endpoints Enable Cross-Origin Browser Exfiltration of Cloud API Keys and User Memory",
+    "component": "Backend CORS / Auth Middleware / Voice Key-Minting & Memory Routes",
+    "location": "src/backend/src/index.ts:19, src/backend/src/middleware/auth.ts:34-88, src/backend/src/routes/voice.ts:18-31, src/backend/src/routes/voice.ts:53-83, src/backend/src/routes/voice.ts:169-211, src/backend/src/routes/worker.ts:887-965",
+    "description": "The backend mounts Hono's default cors() middleware globally (`app.use('*', cors())` at index.ts:19), which responds with `Access-Control-Allow-Origin: *` to all origins and preflight requests. Simultaneously, `clientHeadersAndAuthMiddleware` (middleware/auth.ts:34-88) unconditionally authenticates every incoming HTTP request as `DEFAULT_USER_ID` (`00000000-0000-0000-0000-000000000001`), even when no `Authorization` header is present. Furthermore, key-minting routes (`POST /deepgram/token`, `POST /v2/dictation/deepgram-token`, `POST /v2/dictation/gemini-token`, `POST /brain/ears/token`, `POST /realtime/token`, `POST /agent/realtime/session`) return the raw master environment keys (`process.env.DEEPGRAM_API_KEY`, `process.env.GEMINI_API_KEY`, and `process.env.OPENAI_API_KEY` on fallback) directly in JSON responses.",
+    "reproductionSteps": [
+      "Start the backend server on 127.0.0.1:8787.",
+      "Send an unauthenticated cross-origin POST request with header `Origin: https://untrusted-webpage.example` to `/deepgram/token`, `/v2/dictation/gemini-token`, `/realtime/token`, and `GET /memory`.",
+      "Inspect the `Access-Control-Allow-Origin` response header and JSON response payloads."
+    ],
+    "observedResult": "All four endpoints return HTTP 200 with `Access-Control-Allow-Origin: *` (and OPTIONS preflight returns 204 with `Access-Control-Allow-Origin: *`). `/deepgram/token` returns the raw `DEEPGRAM_API_KEY` in `key`/`token`; `/v2/dictation/gemini-token` returns the raw `GEMINI_API_KEY` in `api_key`/`token`; `/realtime/token` returns the raw `OPENAI_API_KEY` in `value` and `client_secret.value` when OpenAI ephemeral minting fails; `/memory` returns the user's complete OneBrain markdown memory.",
+    "expectedResult": "Local loopback services must reject cross-origin browser requests (`Origin` header allowlist restricted to trusted app origins or no CORS headers at all), require a valid cryptographic bearer token on every non-public endpoint, and never return raw master API keys when ephemeral key minting fails.",
+    "impact": "Any malicious or compromised website visited in the user's browser while Kursor is running can silently issue `fetch('http://127.0.0.1:8787/...')` calls to steal the user's master Deepgram, Gemini, and OpenAI API keys, read private OneBrain memories (`GET /memory`), or inject malicious instructions into persistent memory (`POST /memory`).",
+    "remediation": "1. Remove wildcard `cors()` in `src/backend/src/index.ts:19` or explicitly reject requests bearing browser `Origin` or `Sec-Fetch-Site: cross-site` headers. 2. Enforce real bearer token verification in `src/backend/src/middleware/auth.ts` for all routes except `/health` and `/auth/*`. 3. In `src/backend/src/routes/voice.ts`, mint scoped short-lived tokens (e.g., Deepgram `/v1/keys` with TTL, Gemini `authTokens.create`) and return HTTP 502 instead of falling back to raw master API keys.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-002",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unbounded Synchronous gunzipSync in gzipMiddleware Enables Decompression Magnification DoS / OOM",
+    "component": "Backend Gzip Decompression Middleware",
+    "location": "src/backend/src/middleware/gzip.ts:15-21",
+    "description": "`gzipMiddleware` buffers the entire compressed request body (`await c.req.raw.arrayBuffer()`) without checking compressed byte length, and then synchronously decompresses it on the main Node.js event loop via `gunzipSync(compressedBuffer)` without passing a `maxOutputLength` option.",
+    "reproductionSteps": [
+      "Compress a 15 MB repetitive JSON payload with `gzipSync` (~15 KB compressed, >990x expansion ratio).",
+      "POST the compressed payload with `Content-Encoding: gzip` to any endpoint (e.g., `/brain/interrupt`).",
+      "Observe that `gunzipSync` expands the entire 15 MB buffer synchronously in memory without any limit."
+    ],
+    "observedResult": "A 15,204-byte gzipped payload expands synchronously to 15,728,654 bytes (1034.5x magnification ratio) with HTTP 200 and `hasMaxOutputLengthLimit: false`. Larger gzip bombs (e.g., 1 MB -> 1 GB) block the main thread and exhaust V8/Buffer memory.",
+    "expectedResult": "`gzipMiddleware` must enforce both a maximum compressed payload size (e.g., 10 MB) and a `maxOutputLength` option in `gunzipSync(compressedBuffer, { maxOutputLength: 25 * 1024 * 1024 })`, returning `413 Payload Too Large` when exceeded.",
+    "impact": "A small crafted `Content-Encoding: gzip` request can freeze the Node.js event loop and crash the backend process via out-of-memory (OOM).",
+    "remediation": "Check `rawBuffer.byteLength <= MAX_COMPRESSED_BYTES` before decompression and pass `{ maxOutputLength: MAX_UNCOMPRESSED_BYTES }` to `gunzipSync`, returning HTTP 413 when exceeded.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-003",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unvalidated Open Redirect with Minted Access Token on GET /auth/v1/authorize and Unsafe href Scheme in GET /auth/start",
+    "component": "Backend Auth Routes",
+    "location": "src/backend/src/routes/auth.ts:74-121",
+    "description": "`GET /auth/v1/authorize` reads `redirect_to` or `redirect_uri` from query parameters (`auth.ts:101-103`) without validating the destination scheme or host, immediately mints a 1-year JWT (`createLocalJwt()`), appends `access_token` and `refresh_token` to the URL query string, and responds with HTTP 302 to the unvalidated URL. Additionally, `GET /auth/start` (`auth.ts:76-85`) interpolates `redirect_to` into `<a class=\"btn\" href=\"${escapeHtml(callbackUrl)}\">`, which escapes HTML characters but does not restrict `javascript:` or external schemes.",
+    "reproductionSteps": [
+      "Request `GET /auth/v1/authorize?redirect_to=https%3A%2F%2Fexternal-attacker.example%2Fcapture` with `redirect: 'manual'`.",
+      "Inspect the HTTP status code and `Location` header.",
+      "Request `GET /auth/start?redirect_to=javascript%3Aalert(1)` with `Accept: text/html` and inspect the rendered anchor tag."
+    ],
+    "observedResult": "`GET /auth/v1/authorize` returns HTTP 302 with `Location: https://external-attacker.example/capture?code=...&access_token=eyJ...&refresh_token=ref_...&token_type=bearer&expires_in=31536000`. `GET /auth/start` renders `href=\"javascript:alert(1)?code=...\"` in the HTML page.",
+    "expectedResult": "`redirect_to` / `redirect_uri` must be strictly validated against an allowlist of local loopback callback URLs (`http://127.0.0.1:<port>/...`, `http://localhost:<port>/...`) or the registered custom URI scheme (`heyclicky://` / `kursor://`).",
+    "impact": "Phishing or open-redirect links pointing to `http://127.0.0.1:8787/auth/v1/authorize?redirect_to=https://evil.example` automatically mint a session token and redirect the user's browser with the token in the URL, or allow `javascript:` execution if the user clicks the button on `/auth/start`.",
+    "remediation": "Parse `redirect_to` with `new URL()` and reject any URL whose protocol/hostname is not `http://127.0.0.1`, `http://localhost`, `heyclicky:`, or `kursor:` with HTTP 400 `invalid_redirect_uri`.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-004",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Fake Static JWT Signature ('kursor-local-dev-signature'), Zero Token Verification, and Ineffective Session Logout",
+    "component": "Backend Auth & Session Management",
+    "location": "src/backend/src/routes/auth.ts:27-39, src/backend/src/routes/auth.ts:236-248, src/backend/src/middleware/auth.ts:34-88",
+    "description": "`createLocalJwt()` (`auth.ts:27-39`) creates a JWT with header `{\"alg\":\"HS256\",\"typ\":\"JWT\"}` and a 1-year expiration (`31536000` seconds), but instead of computing an HMAC-SHA256 signature, it hardcodes `base64UrlEncode('kursor-local-dev-signature')` as the signature segment. Furthermore, `clientHeadersAndAuthMiddleware` (`middleware/auth.ts:34-88`) never verifies the JWT signature, never checks `exp`, and never checks whether the token exists in the SQLite `sessions` table. Consequently, `POST /auth/v1/logout` (`auth.ts:236-248`) deletes the row from `sessions`, but the logged-out token (and any forged token) remains 100% valid on all routes.",
+    "reproductionSteps": [
+      "Mint a token via `POST /auth/v1/token?grant_type=password` and base64url-decode its third JWT segment.",
+      "Revoke the token via `POST /auth/v1/logout` with `Authorization: Bearer <token>`.",
+      "Call `GET /me/plan` using the revoked token and using a token with signature `.COMPLETELY_UNSIGNED_FORGED_SIG`."
+    ],
+    "observedResult": "The decoded JWT signature is literally the ASCII string `kursor-local-dev-signature`. After `POST /auth/v1/logout` returns 200, both the revoked token and the forged-signature JWT still return HTTP 200 on `/me/plan`.",
+    "expectedResult": "JWTs must be signed with a per-installation cryptographic secret using HMAC-SHA256 (`node:crypto.createHmac`), and `clientHeadersAndAuthMiddleware` must verify both the signature/expiration and active session state in SQLite.",
+    "impact": "Session revocation (`POST /auth/v1/logout`) has no security effect, and any arbitrary string passed as a Bearer token is accepted as authenticated.",
+    "remediation": "Generate and persist a 256-bit random HMAC secret on first boot, sign JWTs with `crypto.createHmac('sha256', secret)`, and validate the signature, `exp`, and `sessions` table lookup in `clientHeadersAndAuthMiddleware`.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-005",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "POST /brain/turn Unconditionally Calls Live Upstream LLMs Before Checking force_local_fallback",
+    "component": "OneBrain Turn Orchestrator",
+    "location": "src/backend/src/routes/brain.ts:1021-1045",
+    "description": "In `POST /brain/turn` (`src/backend/src/routes/brain.ts:1021-1027`), `const upstream = await tryCallUpstreamLlm(...)` is awaited unconditionally before checking `if (upstream && !body.force_local_fallback)` on line 1045. When `force_local_fallback: true` is sent in the request body (such as in `test-phase2.ts` or offline fallback requests) while API keys exist in `.env`, the server still executes live network requests to Groq (`qwen/qwen3.8-27b`, `openai/gpt-oss-120b`), OpenRouter, OpenAI, or Gemini, waits for the full completion, and then discards the upstream response at line 1045.",
+    "reproductionSteps": [
+      "Run `npx tsx src/test-phase2.ts` in `src/backend` with `.env` configured.",
+      "Observe stderr and latency during Test 1 (`force_local_fallback: true`)."
+    ],
+    "observedResult": "`test-phase2.ts` logs `[Brain] Groq primary failed (404): ...model 'qwen/qwen3.8-27b' does not exist...` and calls Groq `openai/gpt-oss-120b` over the network, taking ~3-4 seconds per fallback turn before discarding the result.",
+    "expectedResult": "`tryCallUpstreamLlm` must only be called when `!body.force_local_fallback` is true (`const upstream = body.force_local_fallback ? null : await tryCallUpstreamLlm(...)`). Also, the invalid default model ID `qwen/qwen3.8-27b` at `brain.ts:830` should be updated to a valid Groq model ID.",
+    "impact": "Unnecessary external API billing/quota burn, 3-5 second latency penalty on local fallback turns, and leaking test/offline prompts to external LLM providers even when `force_local_fallback: true` is explicitly set.",
+    "remediation": "Change `src/backend/src/routes/brain.ts:1021` to `const upstream = body.force_local_fallback ? null : await tryCallUpstreamLlm(mode, systemPrompt, userText, screenshotBase64, incomingThread, body.tools);`.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/test-phase2-stderr.txt",
+      "docs/audit/evidence/ws-c/test-phase2-output.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-006",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Existing Backend Test Suite (npm test) Fails on test-phase1.ts:155 and Hangs Indefinitely Due to Unreferenced PowerShell TTS Child Process",
+    "component": "Backend Test Suites & Voice Warm SAPI Worker",
+    "location": "src/backend/src/test-phase1.ts:155, src/backend/src/routes/voice.ts:263-320",
+    "description": "Two separate defects break the existing backend test suite (`npm test` / `test-phase1.ts` and `test-phase2.ts`): (1) `test-phase1.ts:155` hardcodes `assert.equal(data.mouth.primary_provider, 'openai-realtime')`, which fails whenever `.env` sets `MOUTH_PRIMARY_PROVIDER=gemini-tts` (`voice.ts:9` reads `process.env.MOUTH_PRIMARY_PROVIDER`). (2) Importing `src/routes/voice.ts` executes `ensureWarmSynthWorker()` at module load time (`voice.ts:314-320`), spawning a persistent `powershell.exe` child process (`warmSynthProc`) attached to a `readline.createInterface` on `stdout` without calling `.unref()`. When `server.close()` is called at the end of `test-phase1.ts` or `test-phase2.ts`, the open child process pipes keep the Node.js event loop alive indefinitely.",
+    "reproductionSteps": [
+      "Run `npm test` in `C:\\dev\\heyclicky-clone\\src\\backend` and observe `AssertionError` at `src/test-phase1.ts:155`.",
+      "Run `npx tsx src/test-phase2.ts` in `C:\\dev\\heyclicky-clone\\src\\backend` and observe that after printing `ALL 7 PHASE 2 & PHASE 6 TEST SUITES PASSED SUCCESSFULLY!`, the process never terminates."
+    ],
+    "observedResult": "`test-phase1.ts` fails at Test 6 (`Expected values to be strictly equal: + 'gemini-tts' - 'openai-realtime'`), and `test-phase2.ts` hangs forever after completing all assertions (`Process exited within 6000ms: False`).",
+    "expectedResult": "`test-phase1.ts` should assert against `process.env.MOUTH_PRIMARY_PROVIDER || 'openai-realtime'` (or a known list of valid providers), and `voice.ts` should call `warmSynthProc.unref()` (and `warmSynthRl` should not block process exit) or initialize the worker lazily.",
+    "impact": "CI/CD and local `npm test` runs either fail immediately or hang indefinitely in zombie `node.exe` + `powershell.exe` processes.",
+    "remediation": "In `src/backend/src/routes/voice.ts:263-310`, call `warmSynthProc.unref()`, `warmSynthProc.stdin?.unref?.()`, and `warmSynthProc.stdout?.unref?.()`, or spawn lazily. In `src/backend/src/test-phase1.ts:155`, assert against `process.env.MOUTH_PRIMARY_PROVIDER || 'openai-realtime'`.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/existing-tests-output.txt",
+      "docs/audit/evidence/ws-c/test-phase2-output.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-007",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "C# Desktop Client Header Names and Device Registration DTOs (POST/GET /me/devices) Mismatch Backend Implementation",
+    "component": "Backend Auth Middleware & Worker Device Routes vs Kursor.Core",
+    "location": "src/backend/src/middleware/auth.ts:44-60, src/backend/src/routes/worker.ts:209-340, src/desktop/Kursor.Core/HeyClicky.Core.Net/ClickyClientHeadersHandler.cs:54-58, src/desktop/Kursor.Core/HeyClicky.Core.Worker/RegisteredDevice.cs:1-51",
+    "description": "There is a two-layer contract mismatch between the C# desktop client (`Kursor.Core`) and the backend worker: (1) `ClickyClientHeadersHandler.cs:54-58` sends HTTP headers `X-Clicky-Platform`, `X-Clicky-Device`, `X-Clicky-App-Version`, `X-Clicky-App-Build`, and `X-Clicky-OS-Version`. However, `src/backend/src/middleware/auth.ts:44-60` reads `x-clicky-client-platform`, `x-clicky-client-version`, `x-clicky-device-id`, and `x-clicky-device-name` — completely ignoring `X-Clicky-Platform`, `X-Clicky-Device`, and `X-Clicky-App-Version` and falling back to hardcoded `'local-win-device-01'`. (2) `WorkerClient.RegisterDeviceAsync` (`WorkerClient.cs:61`) sends `DeviceRegistrationRequest` (`{ capabilities, display_name, model }`) and deserializes `DeviceResponse.Device` as `RegisteredDevice` expecting JSON fields `id`, `is_this_device`, `display_name`, `os_version`, `app_build`, `capabilities`, `first_seen_at`, `last_seen_at`. However, `worker.ts:209-340` reads `body.device_name` (ignoring `display_name`) and returns `{ device_id, device_name, platform, app_version, is_current }`.",
+    "reproductionSteps": [
+      "Send `POST /me/devices` with C# client headers (`X-Clicky-Device: CSHARP-DEVICE-GUID-999`, `X-Clicky-Platform: windows`, `X-Clicky-App-Version: 1.1.5`) and C# body `{\"capabilities\":[\"screen\",\"voice\"],\"display_name\":\"CSharp-Desktop-Host\",\"model\":\"Surface-Studio\"}`.",
+      "Inspect the returned `device` object in the JSON response."
+    ],
+    "observedResult": "The backend ignores `X-Clicky-Device` and `display_name`, recording `device_id: 'local-win-device-01'` and `device_name: 'KURSOR-PC'`. The response object has `hasCSharpRequiredIdField: false`, `hasCSharpRequiredDisplayNameField: false`, `hasCSharpRequiredIsThisDeviceField: false`, and `hasCSharpRequiredCapabilitiesField: false`.",
+    "expectedResult": "`middleware/auth.ts` must recognize `x-clicky-platform`, `x-clicky-device`, `x-clicky-app-version`, `x-clicky-app-build`, and `x-clicky-os-version`. `POST /me/devices` and `GET /me/devices` must accept `display_name`, `capabilities`, `model` and return `id`, `is_this_device`, `display_name`, `model`, `os_version`, `app_version`, `app_build`, `capabilities` alongside legacy fields.",
+    "impact": "When the C# desktop app calls `WorkerClient.RegisterDeviceAsync` or `ListDevicesAsync`, the deserialized `RegisteredDevice` has `Id = null`, `DisplayName = null`, `IsThisDevice = false`, and `Capabilities = null`.",
+    "remediation": "Update `src/backend/src/middleware/auth.ts:44-60` to read `x-clicky-device`, `x-clicky-platform`, and `x-clicky-app-version`, and update `src/backend/src/routes/worker.ts:209-340` to read `body.display_name` and include `id`, `display_name`, `is_this_device`, `model`, `os_version`, `app_build`, and `capabilities` in the response.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-008",
+    "workstream": "WS-C",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "POST /onboarding/starter-plan Response Schema Mismatches C# StarterPlanClicky and StarterPlanSuggestion DTOs",
+    "component": "Backend Onboarding Starter Plan Route vs Kursor.Core",
+    "location": "src/backend/src/routes/worker.ts:407-501, src/desktop/Kursor.Core/HeyClicky.Core.Worker/StarterPlanClicky.cs:1-36, src/desktop/Kursor.Core/HeyClicky.Core.Worker/StarterPlanSuggestion.cs:1-36",
+    "description": "The C# desktop client (`CoreJsonContext` / `StarterPlanResponse.cs`) deserializes `clickys` items as `StarterPlanClicky` (requiring `key`, `name`, `role`, `description`, `intro_messages`, `reveal_line`, `first_asks`, `routine`) and `suggested_agents` items as `StarterPlanSuggestion` (requiring `title`, `description`, `agent_prompt`, `deliverable`, `clicky_slug`, `clicky_key`, `routine`, `suggestion_id`). However, `src/backend/src/routes/worker.ts:420-456` returns `{ title, prompt, why }` for `clickys` and `{ id, title, tagline, initial_prompt, schedule_hint }` for `suggested_agents`.",
+    "reproductionSteps": [
+      "Send `POST /onboarding/starter-plan` with `{\"role\":\"Founder\",\"goals\":[\"Ship fast\"],\"tools\":[\"Linear\"]}`.",
+      "Compare the keys in `clickys[0]` and `suggested_agents[0]` against `StarterPlanClicky.cs` and `StarterPlanSuggestion.cs`."
+    ],
+    "observedResult": "`clickys[0]` contains only `[\"title\", \"prompt\", \"why\"]` (`clickyHasCSharpRequiredFields: false`), and `suggested_agents[0]` contains only `[\"id\", \"title\", \"tagline\", \"initial_prompt\", \"schedule_hint\"]` (`suggestionHasCSharpRequiredFields: false`).",
+    "expectedResult": "`POST /onboarding/starter-plan` must include all fields expected by `StarterPlanClicky` (`key`, `name`, `role`, `description`, `intro_messages`, `reveal_line`, `first_asks`, `routine`) and `StarterPlanSuggestion` (`title`, `description`, `agent_prompt`, `deliverable`, `clicky_slug`, `clicky_key`, `routine`, `suggestion_id`).",
+    "impact": "During desktop onboarding, `StarterPlanClicky` items deserialize with blank names, descriptions, and intro messages, and `StarterPlanSuggestion` items deserialize with null `AgentPrompt` and `Description`.",
+    "remediation": "Include the full C# DTO property sets in `buildStarterPlanResponse` in `src/backend/src/routes/worker.ts:407-485`.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-009",
+    "workstream": "WS-C",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Hardcoded Developer Machine Path C:\\Users\\ubaid\\AppData\\Local\\HeyClicky\\app-config.json in worker.ts",
+    "component": "Backend Worker Config Sync",
+    "location": "src/backend/src/routes/worker.ts:7-38",
+    "description": "`src/backend/src/routes/worker.ts:8` hardcodes `const LOCAL_APP_CONFIG_PATH = \"C:\\\\Users\\\\ubaid\\\\AppData\\\\Local\\\\HeyClicky\\\\app-config.json\";` and writes user onboarding preferences to that path whenever `syncOnboardingToLocalAppConfig()` is called by `POST /onboarding/complete` (`worker.ts:520`).",
+    "reproductionSteps": [
+      "Inspect `src/backend/src/routes/worker.ts` lines 7-38.",
+      "Call `POST /onboarding/complete` on any machine where the Windows username is not `ubaid`."
+    ],
+    "observedResult": "`LOCAL_APP_CONFIG_PATH` is hardcoded to `C:\\Users\\ubaid\\AppData\\Local\\HeyClicky\\app-config.json`. On any other user profile or OS, `fs.existsSync(LOCAL_APP_CONFIG_PATH)` returns false and onboarding state is silently not synced to `app-config.json`.",
+    "expectedResult": "Resolve the path dynamically via `process.env.HEYCLICKY_APP_CONFIG_PATH || path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'HeyClicky', 'app-config.json')`.",
+    "impact": "Breaks local `app-config.json` synchronization on every Windows user account other than `ubaid`.",
+    "remediation": "Replace the hardcoded string at `src/backend/src/routes/worker.ts:8` with dynamic path resolution using `process.env.LOCALAPPDATA` and `os.homedir()`.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ]
+  },
+  {
+    "id": "AUD-C-010",
+    "workstream": "WS-C",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "SQLite Schema Lacks Secondary Indexes, Never Prunes Expired Sessions, and Bloats threads.messages_json With Raw Base64 Screenshots",
+    "component": "SQLite Persistence Layer (db/index.ts & brain.ts)",
+    "location": "src/backend/src/db/index.ts:30-114, src/backend/src/routes/auth.ts:198-207, src/backend/src/routes/brain.ts:155-189",
+    "description": "Inspection of `src/backend/src/db/index.ts` and `data/kursor.db` reveals three database scalability defects: (1) Zero secondary indexes (`CREATE INDEX`) exist on any of the 7 tables (`users`, `devices`, `memory`, `sessions`, `threads`, `notifications`, `proactive_cards`); `EXPLAIN QUERY PLAN` confirms full table scans (`SCAN sessions`, `SCAN notifications`) on `DELETE FROM sessions WHERE access_token = ?` and `SELECT * FROM notifications WHERE user_id = ?`. (2) Every `POST /auth/v1/token` and every `POST /brain/turn` with a new `session_id` inserts a row into `sessions` that is never deleted (`POST /brain/session-end` at `brain.ts:1284` only sets `expires_at = 0`). (3) `ensureSessionAndThread` (`brain.ts:172-187`) serializes the full `incomingThread` array—including raw base64-encoded screenshot images—into `threads.messages_json`, causing just 9 thread rows to bloat `kursor.db` to 4.0 MB and `kursor.db-wal` to 5.8 MB (~9.8 MB total).",
+    "reproductionSteps": [
+      "Run `PRAGMA index_list(<table>)` across all 7 tables in `kursor.db`.",
+      "Run `EXPLAIN QUERY PLAN DELETE FROM sessions WHERE access_token = ?` and `EXPLAIN QUERY PLAN SELECT * FROM notifications WHERE user_id = ? AND dismissed = 0 ORDER BY created_at DESC LIMIT 50`.",
+      "Check `sessions` row count before and after `POST /brain/turn` and `POST /brain/session-end`."
+    ],
+    "observedResult": "Only SQLite autoindexes for PRIMARY KEY/UNIQUE exist; `EXPLAIN QUERY PLAN` outputs `SCAN sessions` and `SCAN notifications` + `USE TEMP B-TREE FOR ORDER BY`. `sessions` grows monotonically on every new turn/auth request and is never pruned.",
+    "expectedResult": "Add secondary indexes on `sessions(access_token)`, `sessions(user_id, expires_at)`, `devices(user_id)`, `threads(user_id, session_id)`, `notifications(user_id, dismissed, created_at DESC)`, and `proactive_cards(user_id, status)`; strip or externalize base64 image payloads before persisting `threads.messages_json`; and prune expired sessions periodically.",
+    "impact": "Progressive database file bloat (~1 MB per screenshot turn) and degrading query performance over time.",
+    "remediation": "Add `CREATE INDEX IF NOT EXISTS` statements in `src/backend/src/db/index.ts`, strip `image_url` base64 blobs in `ensureSessionAndThread` (`src/backend/src/routes/brain.ts:169`), and delete expired sessions (`DELETE FROM sessions WHERE expires_at > 0 AND expires_at < unixepoch()`).",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/sqlite-db-inspection.txt",
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ]
+  },
+  {
+    "id": "AUD-C-011",
+    "workstream": "WS-C",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Endpoints Return Dead 404 Local URLs for Composio MCP Proxy (/mcp/composio) and Billing (/billing/local-max-active, /billing/local-portal)",
+    "component": "Backend Composio Session & Billing Routes",
+    "location": "src/backend/src/routes/agents.ts:936-951, src/backend/src/routes/worker.ts:971-993",
+    "description": "Three endpoints return local loopback URLs pointing to routes that are never registered anywhere in `src/backend/src/`: (1) `POST /agent/composio/session` and `POST /me/composio/session` (`agents.ts:936-951`) return `proxy_url: 'http://127.0.0.1:8787/mcp/composio'`, which the C# agent runtime (`CodexHomeManager.cs:204`) writes into Codex `config.toml` as the MCP server URL. (2) `POST /billing/checkout` and `POST /me/billing/checkout` (`worker.ts:971-983`) return `url: 'http://127.0.0.1:8787/billing/local-max-active'`. (3) `POST /billing/portal` and `POST /me/billing/portal` (`worker.ts:985-993`) return `url: 'http://127.0.0.1:8787/billing/local-portal'`. Fetching any of these three URLs returns HTTP 404 Not Found.",
+    "reproductionSteps": [
+      "Call `POST /agent/composio/session`, extract `proxy_url`, and send a request to it.",
+      "Call `POST /billing/checkout` and `POST /billing/portal`, extract `url`, and send GET requests to them."
+    ],
+    "observedResult": "`http://127.0.0.1:8787/mcp/composio`, `http://127.0.0.1:8787/billing/local-max-active`, and `http://127.0.0.1:8787/billing/local-portal` all return HTTP 404 Not Found.",
+    "expectedResult": "Implement the `/mcp/composio` JSON-RPC proxy route (or point `proxy_url` to a working MCP endpoint) and implement GET routes for `/billing/local-max-active` and `/billing/local-portal` so browser redirects do not land on a 404 page.",
+    "impact": "Codex MCP tool calls configured via `CodexHomeManager.cs` fail with HTTP 404 against `/mcp/composio`, and clicking Billing Checkout/Portal in the desktop UI opens a 404 error page in the browser.",
+    "remediation": "Register `/mcp/composio` in `src/backend/src/routes/agents.ts` and register HTML/JSON handlers for `GET /billing/local-max-active` and `GET /billing/local-portal` in `src/backend/src/routes/worker.ts`.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-012",
+    "workstream": "WS-C",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Non-Functional Stubs in Account Deletion, Companion History, Telemetry Error Reporting, Spotify Search, Connector Execution, and Account Labeling",
+    "component": "Backend Worker & Agents Stub Routes",
+    "location": "src/backend/src/routes/worker.ts:995-1050, src/backend/src/routes/agents.ts:929-934, src/backend/src/routes/agents.ts:1112-1173",
+    "description": "Multiple endpoints across `worker.ts` and `agents.ts` are no-op or hardcoded stubs: (1) `POST /account/delete` and `POST /me/account/delete` (`worker.ts:995-1003`) return `{ ok: true, deleted: true }` without deleting a single row from SQLite (`users`, `memory`, `threads`, `sessions`, `devices`, `notifications`, `proactive_cards`). (2) `GET /me/companion-history` and `POST /me/companion-history` (`worker.ts:1045-1050`) always return empty arrays `{ items: [], turns: [], history: [] }` instead of reading/writing `threads`. (3) `POST /telemetry/client-error` and `POST /report-error` (`worker.ts:1005-1020`) discard error reports without logging or persisting them and read `body.category` instead of `ErrorReport.cs` fields (`stage`, `error_kind`, `message`). (4) `POST /tools/spotify/search` and `POST /agent/realtime/spotify/search` (`agents.ts:1142-1173`) always return hardcoded Daft Punk track ID `4uLU6hMCjMI75M1A2tKUQC`. (5) `POST /tools/execute-connector` (`agents.ts:1112-1138`) returns `{ status: 'ok', executed: true }` without invoking any integration. (6) `POST /agent/integrations/:toolkit/accounts/:connectionId/label` (`agents.ts:929-934`) returns `{ ok: true }` without updating `account.label` in `integrationsCatalog`.",
+    "reproductionSteps": [
+      "Check row counts in `users` and `memory`, call `POST /account/delete`, and re-check row counts.",
+      "Call `GET /me/companion-history` after running `/brain/turn` turns.",
+      "Call `POST /tools/spotify/search` with any query and inspect `tracks[0].id`.",
+      "Call `POST /agent/integrations/gmail/accounts/conn_gmail_local_01/label` with `{\"label\":\"Work\"}` and then `GET /agent/integrations`."
+    ],
+    "observedResult": "`POST /account/delete` leaves 100% of SQLite rows intact (`actuallyDeletedAnything: false`). `GET /me/companion-history` returns `items: []`. Spotify search always returns `4uLU6hMCjMI75M1A2tKUQC`. Integration account label remains `'Local Default Account'`.",
+    "expectedResult": "`/account/delete` should purge user data from SQLite; `/me/companion-history` should query/persist `threads`; `/telemetry/client-error` should persist or log `ErrorReport` fields; `/agent/integrations/.../label` should mutate the account label.",
+    "impact": "Users cannot delete their local account data, companion history never loads across app restarts, client error reports are silently lost, and Spotify/connector tools return fake static data.",
+    "remediation": "Wire `/account/delete` and `/me/companion-history` to SQLite in `worker.ts`, update `account.label` in `agents.ts:929-934`, and log/store telemetry error reports.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  },
+  {
+    "id": "AUD-C-013",
+    "workstream": "WS-C",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Proactive Jobs, Card Statuses, Turn Leases, Integrations, and Calendar Events Use Unbounded Volatile In-Memory State Lost on Restart",
+    "component": "Backend Agents & Proactive State Management",
+    "location": "src/backend/src/routes/agents.ts:14-184",
+    "description": "Although `db/index.ts` defines a `proactive_cards` table in SQLite (`db/index.ts:86-97`), `src/backend/src/routes/agents.ts` never reads or writes `proactive_cards` in SQLite for job management. Instead, `proactiveJobs` (`agents.ts:47`), `proactiveCardStatuses` (`agents.ts:81`), `turnLeases` (`agents.ts:106`), `integrationsCatalog` (`agents.ts:127`), and `calendarEvents` (`agents.ts:163`) are kept purely in volatile JavaScript `Map` and `Array` objects in RAM, with no eviction/pruning of expired `turnLeases` or created `proactiveJobs`.",
+    "reproductionSteps": [
+      "Create a proactive job via `POST /proactive/jobs`, connect an integration via `POST /agent/integrations/slack/connect`, or create a calendar event via `POST /calendar/create`.",
+      "Restart the backend server process and query `GET /proactive/jobs`, `GET /agent/integrations`, and `GET /calendar/events`."
+    ],
+    "observedResult": "All user-created proactive jobs, connected integrations, card dismissals, and calendar events are lost upon backend restart, resetting to hardcoded seed values.",
+    "expectedResult": "Persist proactive jobs, card statuses, integration connections, and calendar events in SQLite (`data/kursor.db`), and periodically prune expired entries from `turnLeases`.",
+    "impact": "Every backend restart wipes out the user's scheduled proactive routines, connected integration states, and local calendar items.",
+    "remediation": "Back `proactiveJobs`, `proactiveCardStatuses`, `integrationsCatalog`, and `calendarEvents` with SQLite tables in `src/backend/src/db/index.ts` and add TTL cleanup for `turnLeases`.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ]
+  },
+  {
+    "id": "AUD-C-014",
+    "workstream": "WS-C",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Fragile Regex HTML Scraping in /search/web and HTML Tag Stripping Before Entity Decoding in decodeHtmlEntities",
+    "component": "Backend Web Search Scraper",
+    "location": "src/backend/src/routes/worker.ts:571-582, src/backend/src/routes/worker.ts:610-655, src/backend/src/routes/worker.ts:753-768",
+    "description": "`searchDuckDuckGoHtml` (`worker.ts:620-621`) scrapes `https://html.duckduckgo.com/html/` using a single attribute-order-dependent regex (`/<a[^>]+class=\"[^\"]*result__a[^\"]*\"[^>]+href=\"([^\"]+)\"[^>]*>([\\s\\S]*?)<\\/a>/gi`). When DuckDuckGo rate-limits or serves an anomaly/challenge page (which returns HTTP 200 with 0 regex matches), `/search/web` silently falls back to Wikipedia OpenSearch or returns a hardcoded dummy link to `https://duckduckgo.com/?q=...` with HTTP 200 (`worker.ts:755-764`). Furthermore, `decodeHtmlEntities` (`worker.ts:571-582`) strips `<[^>]+>` tags *before* decoding `&lt;` and `&gt;`, so HTML-encoded tags (`&lt;script&gt;` or `&lt;system&gt;`) in scraped snippets are decoded into raw tags and returned unescaped to LLM/agent consumers.",
+    "reproductionSteps": [
+      "Inspect `decodeHtmlEntities` at `src/backend/src/routes/worker.ts:571-582`: `.replace(/<[^>]+>/g, '')` runs on line 573 before `.replace(/&lt;/g, '<').replace(/&gt;/g, '>')` on lines 576-577.",
+      "Inspect `searchDuckDuckGoHtml` fallback behavior at `src/backend/src/routes/worker.ts:744-768`."
+    ],
+    "observedResult": "HTML-encoded angle brackets in search snippets survive tag stripping and become raw `<...>` markup after `decodeHtmlEntities()`, and upstream search failures silently return HTTP 200 with synthetic fallback results.",
+    "expectedResult": "Strip HTML tags *after* decoding HTML entities (or return plain text without re-introducing raw `<`/`>`), and surface upstream search provider degradation clearly in response metadata.",
+    "impact": "Brittle web search results and potential indirect prompt/markup injection into agent/OneBrain contexts consuming `/search/web` snippets.",
+    "remediation": "In `decodeHtmlEntities` (`worker.ts:571-582`), decode entities first and strip `<[^>]+>` tags last (or keep `<`/`>` escaped).",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ]
+  },
+  {
+    "id": "AUD-C-015",
+    "workstream": "WS-C",
+    "severity": "Low",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Missing Request Body Size Limits and Silent Swallowing of Malformed JSON Across 25+ POST/PUT Endpoints",
+    "component": "Backend Request Parsing & Validation",
+    "location": "src/backend/src/index.ts:19-20, src/backend/src/routes/auth.ts:184, src/backend/src/routes/worker.ts:210, src/backend/src/routes/voice.ts:13, src/backend/src/routes/brain.ts:1180, src/backend/src/routes/agents.ts:197",
+    "description": "The Hono server does not mount a `bodyLimit` middleware (`src/backend/src/index.ts:19-20`), allowing arbitrarily large request bodies on endpoints like `POST /memory`, `PUT /memory`, and `POST /brain/turn`. In addition, 25+ POST/PUT handlers wrap `await c.req.json()` in `try { ... } catch { // Ignore }` and proceed with an empty `{}` object instead of returning `400 Bad Request` when the client sends malformed JSON (`{\"broken_json\": true, `) with `Content-Type: application/json`.",
+    "reproductionSteps": [
+      "Send `POST` or `PUT` requests with `Content-Type: application/json` and invalid JSON body `'{\"broken_json\": true, '` to all POST/PUT routes.",
+      "Inspect the HTTP status codes in `docs/audit/evidence/ws-c/route-test-matrix.json`."
+    ],
+    "observedResult": "Almost all POST/PUT routes return `200 OK` (or `201 Created` on `/proactive/jobs`) when sent syntactically invalid JSON with `Content-Type: application/json`, silently applying default/fallback values.",
+    "expectedResult": "Mount Hono's `bodyLimit` middleware (e.g., 20 MB max for screenshot turns, 1 MB for standard JSON routes) and return `400 Bad Request` (`{ error: 'invalid_json' }`) when a non-empty `application/json` body fails JSON parsing.",
+    "impact": "Masks client serialization bugs by returning `200 OK` on corrupt JSON requests, and permits memory/disk exhaustion via oversized `PUT /memory` payloads.",
+    "remediation": "Add Hono `bodyLimit` middleware in `src/backend/src/index.ts` and distinguish between an intentionally empty body (`Content-Length: 0`) and malformed JSON (`SyntaxError` -> HTTP 400).",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ]
+  }
+]

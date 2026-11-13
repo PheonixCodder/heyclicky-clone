@@ -1,0 +1,110 @@
+[
+  {
+    "category": "WS-L: Local Attack Surface — Custom Protocol Handler (heyclicky://)",
+    "item": "Registry command registration (`\"...\\HeyClicky.exe\" \"%1\"`), CLI argument parsing (`AppOptions.Parse`), and deep-link parsing (`AuthDeepLink.TryParse`)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/ProtocolRegistration.cs:11-57; scripts/seed-local-auth.ps1:83-94; src/desktop/Kursor.App/HeyClicky.App/AppOptions.cs:23-71; src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthDeepLink.cs:11-118",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/env-and-surface-inventory.json; docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json",
+    "notes": "While `ProtocolRegistration.EnsureRegistered` quotes `\"%1\"` and `AppOptions.Parse` only recognizes `--background`/`--autostart`/`--launched-at-login`/`--reset-all` (preventing arbitrary CLI flag injection from a `heyclicky://` URL), `ProtocolRegistration.EnsureRegistered` overwrites `HKCU\\Software\\Classes\\heyclicky\\shell\\open\\command` with `Environment.ProcessPath` on every startup. Because the vendor `HeyClickyApp\\current\\HeyClicky.exe` also runs via `HKCU\\...\\Run\\HeyClicky`, it overwrote the protocol handler away from `dist\\kursor-desktop\\HeyClicky.exe` (AUD-L-004)."
+  },
+  {
+    "category": "WS-L: Local Attack Surface — Custom Protocol Handler (heyclicky://)",
+    "item": "OAuth callback CSRF state guard (`SignInCallbackGuard.Evaluate`) and deep-link session overwrite (`SupabaseAuthService.TryCompleteSignInFromUrlAsync`)",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Auth/SignInCallbackGuard.cs:54-83; src/desktop/Kursor.Core/HeyClicky.Core.Auth/SupabaseAuthService.cs:204-281",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/security-pocs.json",
+    "notes": "`SignInCallbackGuard.Evaluate` (`lines 60-65`) checks `if (isLocalSupabaseBackend) return Verdict.AcceptLocalDevelopment;` BEFORE verifying `pendingState` or `callbackState`. Any webpage triggering `heyclicky://auth-callback?access_token=...&referral_code=...` bypasses CSRF state validation, overwrites the local auth session (`AuthTokenStore`), and fires `ReferralCodeReceived` without an active sign-in flow (AUD-L-003)."
+  },
+  {
+    "category": "WS-L: Local Attack Surface — Named Pipes, Shared Memory & Loopback Bridges",
+    "item": "Single-instance mutex (`Local\\HeyClicky-<SID>-primary-mutex`), 4096-byte Memory-Mapped File (`Local\\HeyClicky-<SID>-primary`), and Named Pipe (`HeyClicky-<SID>-<PID>-<Guid>`) ACLs and argument deserialization",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:23-418",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json",
+    "notes": "`SingleInstance.cs:213-229` creates the MMF and `NamedPipeServerStream` with default ACLs (writable by any same-user local process) and shares the exact same mutex/MMF name with the vendor `HeyClicky.exe` binary (`AUD-L-004`). Additionally, `ReadActivationPayloadAsync` (`lines 368-408`) accepts up to 1 MB of newline-delimited arguments from any local process and forwards them to `ArgumentsReceived` without filtering internal flags (AUD-L-007)."
+  },
+  {
+    "category": "WS-L: Local Attack Surface — Named Pipes, Shared Memory & Loopback Bridges",
+    "item": "BrowserBridge Native Messaging Host (`ClickyBrowserBridge`) and Loopback MCP Server (`LoopbackMcpServer` / `LoopbackHttpServer`)",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:56-299; src/desktop/Kursor.Core/HeyClicky.Core.Browser/LoopbackMcpServer.cs:40-177; src/desktop/Kursor.Core/HeyClicky.Core.Browser/LoopbackHttpServer.cs:23-189",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json; docs/audit/evidence/ws-lm/privacy-data-inventory.json",
+    "notes": "`LoopbackHttpServer` binds strictly to `IPAddress.Loopback` (`127.0.0.1`) with a 1 MB header/body cap and `LoopbackMcpServer` enforces `CryptographicOperations.FixedTimeEquals` on `Authorization: Bearer <token>`. However, `ClickyBrowserBridge.WriteConnectionFile` (`lines 256-267`) writes `{\"port\":...,\"token\":\"...\"}` in plaintext to `%LOCALAPPDATA%\\HeyClicky\\BrowserBridge\\connection.json` (verified live on port 51635: `200 OK` on `tools/list` using the disk token, AUD-L-006), and overwrites `HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com.heyclicky.browser` with `BrowserHost\\com.heyclicky.browser.json` pointing to whichever `HeyClicky.exe` started last (AUD-L-004)."
+  },
+  {
+    "category": "WS-L: Local Attack Surface — Localhost Backend (:8787), OAuth Loopback (:48611) & Custom Connectors",
+    "item": "Backend TCP binding address (`127.0.0.1:8787`), wildcard CORS (`Access-Control-Allow-Origin: *`), and zero-auth middleware (`clientHeadersAndAuthMiddleware`)",
+    "location": "src/backend/src/index.ts:19-21, 48-71; src/backend/src/middleware/auth.ts:34-88; src/backend/src/routes/voice.ts:34-216; src/backend/src/routes/auth.ts:100-126",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/security-pocs.json; docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+    "notes": "While the backend binds to `127.0.0.1:8787`, `app.use(\"*\", cors())` (`Access-Control-Allow-Origin: *`) combined with `clientHeadersAndAuthMiddleware` (which auto-authenticates unauthenticated requests as `DEFAULT_USER_ID`) allows any website visited in a browser to make cross-origin `fetch` calls to `http://127.0.0.1:8787` and exfiltrate master API keys (`GEMINI_API_KEY`, `DEEPGRAM_API_KEY`, `OPENAI_API_KEY` from `/v2/dictation/gemini-token`, `/deepgram/token`, `/realtime/token`), read/modify `/memory`, and read `/agent/integrations` (AUD-L-001). Additionally, `GET /auth/v1/authorize` (`auth.ts:100-121`) has an open redirect (`redirect_to`) that appends `access_token` and `refresh_token` to arbitrary external URLs (AUD-L-003)."
+  },
+  {
+    "category": "WS-L: Local Attack Surface — Localhost Backend (:8787), OAuth Loopback (:48611) & Custom Connectors",
+    "item": "Gzip request decompression middleware (`gzipMiddleware`)",
+    "location": "src/backend/src/middleware/gzip.ts:12-35",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/security-pocs.json",
+    "notes": "`gzipMiddleware` buffers the full compressed body and calls `gunzipSync(compressedBuffer)` synchronously on the main thread without `maxOutputLength` or compressed input size limits, enabling a single gzip decompression bomb request to freeze the event loop or crash the backend with OOM (AUD-L-002)."
+  },
+  {
+    "category": "WS-L: Local Attack Surface — Localhost Backend (:8787), OAuth Loopback (:48611) & Custom Connectors",
+    "item": "MCP OAuth PKCE loopback server (`McpOAuth.cs` / `LoopbackCallbackServer.cs` on `127.0.0.1:48611`) and `CustomConnectorStore` stdio command execution (`CommandResolver.cs`)",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/McpOAuth.cs:19-410; src/desktop/Kursor.Core/HeyClicky.Core.Connectors/LoopbackCallbackServer.cs:14-149; src/desktop/Kursor.App/HeyClicky.App.Settings/CustomConnectorStore.cs:1-1450; src/desktop/Kursor.App/HeyClicky.App.Settings/CommandResolver.cs:11-118",
+    "owner": "ws-lm-sec-perf",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+    "notes": "`McpOAuth.AuthorizeAsync` generates a 32-byte CSPRNG `verifier` (S256 PKCE) and 16-byte CSPRNG `state`, validates `https://` endpoints (allowing `http://` only for loopback), binds `LoopbackCallbackServer` strictly to `IPAddress.Loopback` (`127.0.0.1:48611` with fallback to ephemeral loopback port) for the duration of the OAuth flow, and verifies `callback.State == text2`. `CustomConnectorStore` encrypts connector secrets via DPAPI (`ProtectedData.Protect` with `DataProtectionScope.CurrentUser` and entropy `HeyClicky.Connectors.v1`) and spawns user-configured stdio MCP commands with `UseShellExecute = false` and `ArgumentList`."
+  },
+  {
+    "category": "WS-L: Binary Signing, DLL Search-Order & Autostart Hygiene",
+    "item": "Authenticode signatures in `dist/kursor-desktop/`, DLL search-order hygiene, and autostart scripts (`start-kursor-hidden.vbs`, `install-autostart.ps1`, `seed-local-auth.ps1`)",
+    "location": "dist/kursor-desktop/HeyClicky.exe; scripts/start-kursor-hidden.vbs:1-21; scripts/install-autostart.ps1:1-42; scripts/seed-local-auth.ps1:1-97; start-kursor.ps1:1-177",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+    "notes": "In `dist/kursor-desktop/`, `HeyClicky.exe` retains a `Valid` Authenticode signature while all 7 rebuilt managed assemblies (`HeyClicky.dll`, `HeyClicky.Core.dll`, `HeyClicky.Platform.dll`, `HeyClicky.Agents.dll`, `HeyClicky.Drawing.dll`, `HeyClicky.Drawing3D.dll`, `HeyClicky.Contracts.dll`) are `NotSigned` (AUD-L-007). `install-autostart.ps1` registers BOTH `HKCU\\...\\Run\\Kursor` AND `Startup\\Kursor.lnk` alongside the vendor `HKCU\\...\\Run\\HeyClicky` entry (AUD-L-004, AUD-M-003). `seed-local-auth.ps1` writes PascalCase keys to `endpoints.json` (ignored by case-sensitive `AppBundleConfiguration.ReadConfigured`) and writes plaintext tokens to `session.json` (AUD-L-005)."
+  },
+  {
+    "category": "WS-L: Complete Data & Privacy Inventory",
+    "item": "Full-screen JPEGs (`ScreenCaptureService`), microphone PCM/WAV (`WasapiMicrophoneCapture`), UIA page text & browser URLs (`UiaPageText`), clipboard contents (`TextInsertion`), dictated text (`DictationTranscriptArchive`), OneBrain threads, SQLite `kursor.db`, and telemetry/Sentry (`ClickyAnalytics`, `CrashReporting`)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureService.cs:25-179; src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:925-985; src/backend/src/routes/brain.ts:171-186, 980, 1128; src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationTranscriptArchive.cs:15-69; src/desktop/Kursor.App/HeyClicky.App.Telemetry/CrashReporting.cs:235-265",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/privacy-data-inventory.json; docs/audit/evidence/ws-lm/security-pocs.json",
+    "notes": "While `BrainSession.cs:931` strips screenshots (`WithoutScreenshots(thread)`) before saving `%LOCALAPPDATA%\\HeyClicky\\OneBrain\\<userId>\\threads\\<id>.json`, the backend `ensureSessionAndThread` (`brain.ts:171-186`) persists the raw `incomingThread`—including full `data:image/jpeg;base64,...` screenshots—into SQLite `threads.messages_json` without stripping images or pruning rows (verified by PoC 4 in `security-pocs.json`: 50,605-byte base64 JPEG persisted in `threads.messages_json`, AUD-L-006). Dictated text and target app names are stored in plaintext JSONL under `%LOCALAPPDATA%\\HeyClicky\\DictationTranscripts\\*.jsonl` for 14 days, and `Properties/AssemblyInfo.cs:15-17` retains production `HeyClicky.SentryDsn` (`SendDefaultPii = true`) and `HeyClicky.PostHogApiKey` (AUD-L-006)."
+  },
+  {
+    "category": "WS-M: Performance Baselines & Resource Footprint",
+    "item": "Backend cold-start latency, idle/active memory/CPU/handle/thread baselines (`node.exe`, warm TTS `powershell.exe`, `HeyClicky.exe`), and endpoint latency percentiles (`/health`, `/plan`, `/brain/turn` live vs local fallback, `/v2/dictation/cleanup`, `/agent/realtime/speak`, `analyzeScreenLayout` 1280x720 JPEG)",
+    "location": "src/backend/src/index.ts:1-85; src/backend/src/routes/brain.ts:932-1175; src/backend/src/routes/voice.ts:413-530; src/backend/src/utils/screenLayout.ts:1-225",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-lm/PERF_DATA.json",
+    "notes": "All latency baselines and process metrics were measured and recorded in `docs/audit/ws-lm/PERF_DATA.json`. While `/health`, `/plan`, `analyzeScreenLayout` (1280x720 JPEG), warm SAPI TTS (`/agent/realtime/speak`), and pure local-fallback `/brain/turn` meet latency targets, `/brain/turn` with `force_local_fallback: true` on a configured backend still awaits `tryCallUpstreamLlm` (1–3s) before checking `!body.force_local_fallback` (`brain.ts:1021-1045`, AUD-M-001), and `src/backend/src/index.ts:2` calls `dotenv.config({ override: true })` which overrides caller-supplied environment variables when `.env` is present in `cwd`."
+  },
+  {
+    "category": "WS-M: Sustained Stress, Soak & Resource Leak Testing",
+    "item": "215-turn `/brain/turn` stress/soak test (including 20 screenshot turns and 15 mid-stream SSE client disconnects), 40 `/v2/dictation/cleanup` calls, 10 `/agent/realtime/speak` calls, 30 proactive job polls, SQLite DB/WAL growth, and Node heap/handle tracking",
+    "location": "src/backend/src/routes/brain.ts:150-188, 932-1175; src/backend/src/routes/agents.ts:83-84, 360-534, 972; tests/audit/ws-lm/test-perf-reliability.ts:745-845",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/soak-and-recovery-log.json; docs/audit/ws-lm/PERF_DATA.json",
+    "notes": "The backend survived 215 `/brain/turn` requests, 40 dictation cleanups, 10 TTS syntheses, and 30 proactive polls with 0 HTTP 500s. However, SQLite `sessions` and `threads` grow monotonically on every turn without any retention limit or scheduled WAL checkpoint (`kursor.db` + `-wal` reached ~10 MB on the live instance), `agents.ts` accumulates `proactiveJobs`, `proactiveCardStatuses`, `turnLeases`, and `calendarEvents` in unbounded in-memory `Map`s/arrays (AUD-M-002), and client SSE disconnects do not abort in-flight upstream LLM requests or guard `ReadableStreamDefaultController.enqueue`/`close` (AUD-M-001)."
+  },
+  {
+    "category": "WS-M: Crash & Kill Recovery",
+    "item": "Killing warm PowerShell SAPI TTS daemon (`warmSynthProc`) mid-request and verifying automatic respawn on next `/agent/realtime/speak` call; backend unavailability handling; and `start-kursor.ps1` / autostart process management",
+    "location": "src/backend/src/routes/voice.ts:299-483; start-kursor.ps1:25-177; scripts/install-autostart.ps1:20-38; src/backend/src/routes/worker.ts:7-8; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:75",
+    "owner": "ws-lm-sec-perf",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-lm/soak-and-recovery-log.json; docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+    "notes": "Killing the warm PowerShell TTS daemon (`warmSynthProc`) mid-request is handled gracefully by `voice.ts:345-410`: the in-flight request falls back to `synthesizeWinRtWav`/`generateSilenceWav` (`200 OK`, `audio/wav`) and the next `/agent/realtime/speak` call automatically spawns a new `powershell.exe` daemon PID. However, `install-autostart.ps1` registers duplicate startup triggers (`HKCU\\...\\Run\\Kursor` + `Startup\\Kursor.lnk`, AUD-M-003), `start-kursor.ps1:113` checks `Get-Process -Name \"HeyClicky\"` without checking `.Path` (colliding with vendor `HeyClickyApp`, AUD-L-004), and `worker.ts:7-8` and `AgentHarnessRunnerProcess.cs:75` hardcode developer paths (`C:\\Users\\ubaid\\...` and `C:\\Users\\niles\\...`, AUD-M-004)."
+  }
+]

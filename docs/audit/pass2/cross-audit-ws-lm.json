@@ -1,0 +1,220 @@
+{
+  "pass": 2,
+  "auditor": "ws-ab-build-brand",
+  "reviewed_workstreams": [
+    "WS-L (Security, Privacy & Data Handling)",
+    "WS-M (Performance, Reliability, Resources & Crash Recovery)"
+  ],
+  "reviewed_reports": [
+    "docs/audit/ws-lm/REPORT.md",
+    "docs/audit/ws-lm/findings.json",
+    "docs/audit/ws-lm/coverage.json",
+    "docs/audit/ws-lm/PERF_DATA.json"
+  ],
+  "reviewed_evidence_and_tests": [
+    "tests/audit/ws-lm/test-perf-reliability.ts",
+    "docs/audit/evidence/ws-lm/security-pocs.json",
+    "docs/audit/evidence/ws-lm/privacy-data-inventory.json",
+    "docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+    "docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json",
+    "docs/audit/evidence/ws-lm/soak-and-recovery-log.json"
+  ],
+  "summary": {
+    "total_pass1_findings_reviewed": 11,
+    "confirmed": 11,
+    "disputed": 0,
+    "precision_notes_added": 4,
+    "new_findings_discovered": 3
+  },
+  "verdicts": [
+    {
+      "id": "AUD-L-001",
+      "workstream": "WS-L",
+      "severity": "CRITICAL",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/index.ts:19-21",
+        "src/backend/src/middleware/auth.ts:34-88",
+        "src/backend/src/routes/voice.ts:34-216",
+        "src/backend/src/routes/worker.ts:555-605",
+        "src/backend/src/routes/agents.ts:910-917"
+      ],
+      "verification_notes": "Critical verification: Confirmed in source and security-pocs.json (poc1_corsAndZeroAuthExfiltration) that app.use('*', cors()) + clientHeadersAndAuthMiddleware (defaulting unauthenticated requests to DEFAULT_USER_ID) exposes live GEMINI_API_KEY, DEEPGRAM_API_KEY, OPENAI_API_KEY, /memory, and /agent/integrations to any cross-origin webpage."
+    },
+    {
+      "id": "AUD-L-002",
+      "workstream": "WS-L",
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/middleware/gzip.ts:12-35"
+      ],
+      "verification_notes": "High verification: Confirmed gzipMiddleware reads full c.req.raw.arrayBuffer() without a compressed size cap and calls gunzipSync(compressedBuffer) synchronously on the main event loop thread without maxOutputLength."
+    },
+    {
+      "id": "AUD-L-003",
+      "workstream": "WS-L",
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/auth.ts:100-126",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Auth/SignInCallbackGuard.cs:60-85",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Auth/SupabaseAuthService.cs:204-281"
+      ],
+      "verification_notes": "High verification (with method-name precision note): Confirmed GET /auth/v1/authorize redirects (302) to arbitrary external redirect_to URLs with access_token and refresh_token in the query string (poc2_openRedirectTokenLeak), and SignInCallbackGuard.cs:60-65 checks if (isLocalSupabaseBackend) return Verdict.AcceptLocalDevelopment; BEFORE checking pendingState or callbackState. Precision note: the method in SignInCallbackGuard.cs:60 is named Decide(...) rather than Evaluate(...)."
+    },
+    {
+      "id": "AUD-L-004",
+      "workstream": "WS-L",
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "start-kursor.ps1:113-138",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:37-44",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/ProtocolRegistration.cs:11-39"
+      ],
+      "verification_notes": "High verification: Confirmed vendor HeyClickyApp\\current\\HeyClicky.exe (PID 20080) holds Local\\HeyClicky-<SID>-primary, overwrites heyclicky:// registry handler, and causes start-kursor.ps1:113 (Get-Process -Name 'HeyClicky' without .Path check) to skip launching dist\\kursor-desktop\\HeyClicky.exe."
+    },
+    {
+      "id": "AUD-L-005",
+      "workstream": "WS-L",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "scripts/seed-local-auth.ps1:54-75",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:73-91,147-159",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthTokenStore.cs:20-85"
+      ],
+      "verification_notes": "Confirmed: seed-local-auth.ps1 writes PascalCase keys to endpoints.json (ignored by case-sensitive camelCase TryGetProperty in AppBundleConfiguration.ReadConfigured) and writes unused plaintext tokens to %LOCALAPPDATA%\\HeyClicky\\session.json."
+    },
+    {
+      "id": "AUD-L-006",
+      "workstream": "WS-L",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/brain.ts:171-186,980,1128",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationTranscriptArchive.cs:36-75",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:2100-2123,2185-2201",
+        "src/desktop/Kursor.App/Properties/AssemblyInfo.cs:15-17"
+      ],
+      "verification_notes": "Confirmed with 2 precision refinements: (1) ensureSessionAndThread in brain.ts:171-186 persists raw base64 JPEGs in SQLite threads.messages_json (50,605 bytes in poc4); DictationTranscriptArchive.AppendFinishedTranscript (lines 36-75, not AppendAsync) writes 14 days of plaintext JSONL transcripts; ClickyBrowserBridge.StartTransport (lines 2116-2123, not WriteConnectionFile at 256-267) writes plaintext BrowserBridge\\connection.json; and AssemblyInfo.cs:15-17 retains vendor PostHog/Sentry keys. (2) Precision correction on BrowserBridge\\connection.json: while REPORT.md:36,147 states that using the token from connection.json against port 51635 returned 200 OK on tools/list to control Chrome tabs, security-pocs.json:73-80 shows port 51635 timed out during the probe, and ClickyBrowserBridge.cs:2102 shows connection.json is for the internal clicky_browser_host transport (exposing only browser_poll and browser_reply, gated by profile/session GUIDs at lines 2569-2578), whereas the 24-operation browser agent MCP server runs on a separate ephemeral agentServer (EnsureAgentEndpoint at lines 870-900) whose token is passed via CLICKY_BROWSER_MCP_TOKEN env var. However, plaintext connection.json still allows any same-user process to spoof browser_reply({'type':'stop'}) or DoS the native host bridge."
+    },
+    {
+      "id": "AUD-L-007",
+      "workstream": "WS-L",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "dist/kursor-desktop/HeyClicky.exe",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:213-229,368-408"
+      ],
+      "verification_notes": "Confirmed: HeyClicky.exe is Authenticode Valid while all 7 rebuilt HeyClicky*.dll files are NotSigned; SingleInstance creates MMF and NamedPipeServerStream with default ACLs and accepts up to 1 MB of unfiltered arguments."
+    },
+    {
+      "id": "AUD-M-001",
+      "workstream": "WS-M",
+      "severity": "CRITICAL",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/brain.ts:984-1161"
+      ],
+      "verification_notes": "Critical verification (with stream-lifecycle refinement): Confirmed brain.ts:1021 awaits tryCallUpstreamLlm unconditionally BEFORE checking !body.force_local_fallback at line 1045 (wasting 1-3.6s and upstream tokens), and tryCallUpstreamLlm never receives c.req.raw.signal. Refinement: brain.ts:1053-1065 emits chunks in a synchronous loop (no sleep(12)); when a client disconnects while await tryCallUpstreamLlm is in flight, sendTextChunk (line 994) throws ERR_INVALID_STATE: Controller is already closed as soon as tryCallUpstreamLlm resolves, which then throws again inside catch (sendData at line 1149) and finally (controller.close() at line 1156)."
+    },
+    {
+      "id": "AUD-M-002",
+      "workstream": "WS-M",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/db/index.ts:15-120",
+        "src/backend/src/routes/brain.ts:150-188",
+        "src/backend/src/routes/agents.ts:83-84,534,972"
+      ],
+      "verification_notes": "Confirmed: SQLite sessions/threads and WAL grow monotonically without pruning/checkpointing (+5.08 MB in 215 turns in PERF_DATA.json:238-242; 10.06 MB on live kursor.db), and proactiveJobs, proactiveCardStatuses, turnLeases, and calendarEvents in agents.ts have no eviction or size cap."
+    },
+    {
+      "id": "AUD-M-003",
+      "workstream": "WS-M",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "scripts/install-autostart.ps1:20-38",
+        "scripts/start-kursor-hidden.vbs:1-21",
+        "start-kursor.ps1:42-138"
+      ],
+      "verification_notes": "Confirmed: install-autostart.ps1 registers both HKCU\\...\\Run\\Kursor and Startup\\Kursor.lnk without a startup mutex in start-kursor.ps1."
+    },
+    {
+      "id": "AUD-M-004",
+      "workstream": "WS-M",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/worker.ts:7-8",
+        "src/backend/src/index.ts:1-2",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:75"
+      ],
+      "verification_notes": "Confirmed: worker.ts:7-8 hardcodes C:\\Users\\ubaid\\..., AgentHarnessRunnerProcess.cs:75 hardcodes C:\\Users\\niles\\..., dist/kursor-desktop lacks CodexRuntime\\codex.exe, and index.ts:2 calls dotenv.config({ override: true })."
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "NEW-LM-001",
+      "workstream": "WS-L",
+      "title": "ClickyBrowserBridge Turn-Wide uploadAnswers[task] Cache Allows Bait-and-Switch File & Site Exfiltration After Single Approval, Strips Directory Paths from Approval Cards, and BrowserUploads.IsSecretFileName Misses .db/.sqlite/.pfx/.kdbx Files",
+      "severity": "HIGH",
+      "priority": "P1",
+      "category": "Security / Privacy / Arbitrary Local File Upload Bypass",
+      "component": "Kursor.Core.Browser / ClickyBrowserBridge & BrowserUploads",
+      "locations": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:1088,1173-1300",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Browser/BrowserUploads.cs:13-21,137-141,365-468"
+      ],
+      "description": "Four compounding security flaws exist in the Chrome browser file-upload permission boundary: (1) Turn-wide approval cache ignores approved files and site: In ClickyBrowserBridge.UploadAnswerAsync (lines 1173-1193), once the user approves upload_approval for a benign file (e.g., files: ['notes.txt'] on trusted.com, or even an empty files array), uploadAnswers[task] = UploadApprovalAnswer.Allowed is cached keyed solely by task (thread + '/' + turn). Any subsequent upload or batch call in the same turn immediately receives UploadApprovalAnswer.Allowed (lines 1175-1180) without verifying whether the actual file paths (usersFiles) or target website (Site) match what the user approved—allowing a prompt-injected agent to bait-and-switch and exfiltrate up to 10 arbitrary files (100 MB) to an attacker tab. (2) Multi-site batch spoofing & path stripping: PrepareUploadsAsync (lines 1286-1287) strips directory paths via Path.GetFileName(f.Path) (so C:\\Users\\ubaid\\Documents\\payroll.csv displays only as 'payroll.csv') and passes only usersFiles[0].Site to the approval prompt even if later steps in a batch upload to a different domain. (3) Default-allow when customApprove is unset: PerformAsync (line 1088) evaluates bool flag5 = customApprove?.Invoke(title) ?? true;, defaulting browser access to true if customApprove is not wired. (4) Incomplete secret file blocklist: BrowserUploads.IsSecretFileName (BrowserUploads.cs:365-389) only blocks .env*, .pem, .key, .netrc, _netrc, .git-credentials, .npmrc, .pypirc, and .pgpass. It does NOT block .db, .sqlite, .db-wal (allowing upload of C:\\dev\\heyclicky-clone\\src\\backend\\data\\kursor.db, which stores unencrypted base64 screenshots, OneBrain memory, and session tokens!), .pfx, .p12, .kdbx, .rdp, .ovpn, or SSH private keys (id_rsa, id_ed25519) outside .ssh.",
+      "reproduction": "1. Inspect ClickyBrowserBridge.cs lines 1173-1300 and BrowserUploads.cs lines 365-468.\n2. Trace AskForUploadsUpFrontAsync with files: ['harmless.txt'] on tabId 1 (trusted.com): UploadAnswerAsync caches uploadAnswers[task] = UploadApprovalAnswer.Allowed.\n3. Trace PrepareUploadsAsync on a subsequent upload call in the same turn with paths: ['C:\\dev\\heyclicky-clone\\src\\backend\\data\\kursor.db'] on tabId 2 (evil.com): UploadAnswerAsync returns the cached Allowed value without re-prompting, and BrowserUploads.ValidatedPaths allows kursor.db.",
+      "expected": "Upload approval must bind to the exact canonical resolved file paths and target origin (or re-prompt whenever an unapproved file path or different site is requested); approval cards must show full or parent-qualified paths; customApprove must default to false; and IsSecretFileName must block .db, .sqlite, .db-wal, .pfx, .p12, .kdbx, .rdp, .ovpn, id_rsa, and id_ed25519.",
+      "observed": "uploadAnswers[task] grants a turn-wide blanket approval for all files and sites; directory paths are stripped from approval prompts; customApprove defaults to true; and kursor.db / .pfx / .kdbx files pass ValidatedPaths.",
+      "remediation": "Key uploadAnswers by (task, normalizedSite, canonicalFilePathSet) in ClickyBrowserBridge.cs:1173-1299, verify every PlannedUpload.Site matches the approved site, change customApprove?.Invoke(title) ?? true to ?? false at line 1088, and expand BrowserUploads.IsSecretFileName to reject .db, .sqlite, .wal, .pfx, .p12, .kdbx, .rdp, .ovpn, id_rsa, and id_ed25519."
+    },
+    {
+      "id": "NEW-LM-002",
+      "workstream": "WS-M",
+      "title": "LoopbackHttpServer.HandleAsync Lacks Per-Connection Read Timeouts and Concurrency Limits, and ClickyBrowserBridge Leaks denied Tasks, Disconnected Profile commands, and Decompiler-Broken SplitWords Iterator",
+      "severity": "MEDIUM",
+      "priority": "P2",
+      "category": "Resource Leak / DoS / Decompilation Hygiene",
+      "component": "Kursor.Core.Browser / LoopbackHttpServer & ClickyBrowserBridge",
+      "locations": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Browser/LoopbackHttpServer.cs:173,188-257",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:356,360,846-854,2497-2546,2782-2806"
+      ],
+      "description": "1) Unbounded slowloris connections on LoopbackHttpServer: In LoopbackHttpServer.cs:173, AcceptLoopAsync spawns Task.Run(() => HandleAsync(client, ct)) for every accepted socket with no maximum concurrent connection limit and no read timeout on stream.ReadAsync(chunk, ct) (lines 202, 240). Any local process opening connections to 127.0.0.1:<port> without sending '\\r\\n\\r\\n' (or sending a large Content-Length without body bytes) holds a 64 KB buffer + MemoryStream + Task open indefinitely. 2) Unbounded collection leaks in ClickyBrowserBridge: In ClickyBrowserBridge.Finish(string thread, string turn) (lines 2506, 2511-2528), every completed turn adds task to HashSet<string> denied (which is never pruned) and appends an 'operation': 'end' command object to commands[item] for every key in commands.Keys. Meanwhile, ExpirePeers() (lines 2782-2806) removes stale profiles from peers, peerBrowsers, and peerExtensions, but NEVER removes stale profiles from commands—causing commands[disconnectedProfile] to accumulate 'end' commands across every turn for the lifetime of the app. 3) Decompiler-broken iterator: ClickyBrowserBridge.SplitWords (lines 846-854) contains '//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()' and instantiates raw compiler state machine _003CSplitWords_003Ed__30.",
+      "reproduction": "1. Inspect LoopbackHttpServer.cs lines 173 and 188-257.\n2. Inspect ClickyBrowserBridge.cs lines 846-854, 2497-2546, and 2782-2806.\n3. Observe that ExpirePeers() removes expired keys from peers/peerBrowsers/peerExtensions (lines 2792-2794) but not from commands, while Finish() appends to commands[item] for every key in commands.Keys (line 2519).",
+      "expected": "LoopbackHttpServer.HandleAsync should enforce a 10-second CancellationTokenSource timeout per request and a SemaphoreSlim concurrency cap; ClickyBrowserBridge.ExpirePeers() should remove expired profiles from commands; denied should be bounded; and SplitWords should be a clean C# iterator.",
+      "observed": "No read timeout or connection cap in LoopbackHttpServer; commands and denied grow without bound in ClickyBrowserBridge; and SplitWords uses raw _003CSplitWords_003Ed__30.",
+      "remediation": "Add a linked CancellationTokenSource.CreateLinkedTokenSource(ct) with CancelAfter(TimeSpan.FromSeconds(10)) inside LoopbackHttpServer.HandleAsync; add commands.Remove(item) in ClickyBrowserBridge.ExpirePeers() at line 2794; cap denied with FIFO eviction; and replace _003CSplitWords_003Ed__30 with a standard yield return loop."
+    },
+    {
+      "id": "NEW-LM-003",
+      "workstream": "WS-M",
+      "title": "Synchronous analyzeScreenLayout (1280x720 JPEG Decode + Grid Scan) Blocks the Node.js Event Loop for 1.4–5.5 Seconds per Image Turn, Causing 6 Soak Test Turn Failures, Missing Answer-Line Detection, and Report-vs-PERF_DATA Drift",
+      "severity": "MEDIUM",
+      "priority": "P2",
+      "category": "Performance / Event-Loop Starvation & Benchmark Accuracy",
+      "component": "Backend Screen Layout Analyzer & WS-M Benchmark Suite (`screenLayout.ts`, `brain.ts`, `PERF_DATA.json`, `REPORT.md`)",
+      "locations": [
+        "src/backend/src/utils/screenLayout.ts:1-225",
+        "src/backend/src/routes/brain.ts:346",
+        "tests/audit/ws-lm/test-perf-reliability.ts:111-116,932-966,1112-1114",
+        "docs/audit/ws-lm/PERF_DATA.json:3-18,140-170,265",
+        "docs/audit/ws-lm/REPORT.md:86-113"
+      ],
+      "description": "Cross-auditing docs/audit/ws-lm/PERF_DATA.json against docs/audit/ws-lm/REPORT.md and src/backend/src/utils/screenLayout.ts revealed three important performance and measurement issues: (1) Main-thread event-loop starvation: analyzeScreenLayout (called synchronously on the main Node.js thread in brain.ts:346 on every turn containing a screenshot) decodes the 1280x720 JPEG via pure-JS jpeg-js and runs multi-pass pixel scans synchronously, blocking the entire Node.js event loop for 1,441.30 ms to 5,497.43 ms (p50 = 3,131.54 ms, p95 = 5,497.43 ms in PERF_DATA.json:140-152). During the 215-turn soak test (concurrency = 10, with 1280x720 screenshots on every 10th turn), this synchronous event-loop block caused 6 turn failures (turnErrors: 6 in PERF_DATA.json:160, p95 = 5,552.44 ms, max = 7,678.57 ms). (2) Answer-line detector misses 1px horizontal lines: Although buildSynthetic1280x720JpegDataUrl (test-perf-reliability.ts:111-116) draws three 400px-wide horizontal answer lines at y = 480, 530, 580, analyzeScreenLayout returned detectedAnswerLines: 0 (PERF_DATA.json:151) because JPEG 80% chroma/luma ringing softens 1px single-row strokes below the detector's contrast threshold. (3) Report-vs-PERF_DATA drift & PCM check bug: REPORT.md (§3.2-3.4) cites numbers from an earlier run (coldStart p50 = 556.98 ms, analyzeScreenLayout p50 = 651.12 ms, soak turnErrors = 0, SQLite growth ~49 KB -> >1.35 MB, and 'returned valid RIFF WAV speech audio'), whereas the final committed PERF_DATA.json recorded coldStart p50 = 826.28 ms (max 10,993.96 ms), analyzeScreenLayout p50 = 3,131.54 ms, soak turnErrors = 6, SQLite growth 457 KB -> 5.54 MB (+5.08 MB), and recoveredWithRealSpeechWav: false (because test-perf-reliability.ts:1114 checks for a 'RIFF' WAV header on /agent/realtime/speak, which actually returns raw headerless 24 kHz 16-bit mono PCM).",
+      "reproduction": "1. Compare docs/audit/ws-lm/PERF_DATA.json lines 3-18, 140-170, 238-242, and 265 against docs/audit/ws-lm/REPORT.md lines 86-113.\n2. Inspect tests/audit/ws-lm/test-perf-reliability.ts lines 111-116 and 1112-1114.",
+      "expected": "analyzeScreenLayout should run off the main event loop (e.g., in a Node worker_threads pool) or downsample/short-circuit so image turns do not stall concurrent HTTP requests for 1.4–5.5s; PERF_REPORT.md should report both the unloaded and loaded numbers from PERF_DATA.json; and test-perf-reliability.ts:1114 should validate raw 24 kHz PCM byte length and non-zero sample variance rather than a 'RIFF' header.",
+      "observed": "Synchronous analyzeScreenLayout blocks the event loop for 1.4–5.5s per 1280x720 screenshot turn (causing 6 soak errors under concurrency=10), misses 1px JPEG-compressed answer lines (detectedAnswerLines: 0), and PERF_DATA.json:265 reports recoveredWithRealSpeechWav: false due to checking for 'RIFF' on a raw PCM endpoint.",
+      "remediation": "Offload analyzeScreenLayout to a worker_threads worker with a 500 ms timeout; relax vertical stroke thickness tolerance in screenLayout.ts for JPEG-compressed 1px lines; and reconcile both unloaded and loaded PERF_DATA.json metrics in docs/audit/PERF_REPORT.md."
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+﻿u!H?HTTP/1.0H?
+H?HTTP/1.1H?C
+9z?}%~"ClickyBrowserHost
+*ClickyBrowserHost.dllg??
+>System.IO.MemoryMappedFiles.dll&System.IO.Pipelines?QW
+.System.IO.Pipelines.dllgc
+System.Net.Http?
+&System.Net.Http.dll$System.Private.Uri??u
+RepositoryUrlBhttps://github.com/dotnet/runtime+!
+System.IO.Pipelines.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001004b86c4cb78549b34bab61a3b1800e23bfeb5b3ec390074041536a7e3cbd97f5f04cf0f857155a8928eaa29ebfd11cfbbad3ba70efea7bda3226c6a8d370a4cd303f714486b6ebc225985a638471e6ef571cc92a4613c00b8fa65d61ccee0cbe5f36330c9a01f4183559f1bef24cc2917c6d913e3a541333a1d05d9bed22b38cb?
+System.IO.Pipelines.Pipe
+System.IO.Pipelines.PipeWriter
+System.IO.Pipelines.PipeReader
+BrowserHostw?(
+$ExtensionAttributeg#x
+?mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+?System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089g?.
+endFunctionn"cancellationTokenp&continuationOptionsr
+EventWaitHandle"CancellationToken?#?
+:CancellationTokenRegistration???
+.CancellationTokenSource
+"SafeWinHttpHandle?!
+?System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089$RelativeOrAbsolute?C?
+HttpRequestUrl
+HttpStatusCode?
+CookieTokenizer[
+InvalidToken
+UntrustedRoot
+?(SCHANNEL_ALERT_TOKEN,SCHANNEL_SESSION_TOKEN4<ProtocolId>e__FixedBufferg??
+AllocatedBlock?System.Runtime, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+<Linked1CancellationTokenSource<Linked2CancellationTokenSource<LinkedNCancellationTokenSource
+?System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089?c#$
+browser"ThreadCountHolder,TaskCompletionSource`1
+TokenHashValue&UNINITIALIZED_VALUE???
+?System.Diagnostics.Design.ProcessDesigner, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a$PerformanceMonitor
+SafeTokenHandle
+PipeWriter.SegmentedArrayBuilder`1[
+HttpContent+
+.HttpMessageHandlerStage$HttpMessageHandler$HttpRequestMessage
+HttpMethod???$&HttpResponseMessage
+HttpBaseStream
+$HttpMessageInvoker*HttpProtocolException
+HttpIOException(HttpRequestException HttpRequestError?
+.HttpRequestOptionsKey`1
+HttpTelemetry"HttpVersionPolicy?
+StringContentNSocketsHttpPlaintextStreamFilterContext$HttpConnectionPool
+%,HttpConnectionWaiter`1
+$HttpConnectionBase
+HttpConnection
+"HttpContentStream
+Http2Connection
+2IHttpStreamHeadersHandler,Http2ProtocolErrorCode?
+Http3Connection
+$Http3RequestStream
+DHttpAuthenticatedConnectionHandler
+HttpAuthority???%*HttpConnectionHandler$HttpConnectionKind?
+2HttpConnectionPoolManager
+:HttpConnectionResponseContent
+,HttpConnectionSettings
+8SocketsHttpConnectionContext$SocketsHttpHandler
+Http3FrameType?
+>HttpEnvironmentProxyCredentials(HttpEnvironmentProxy HttpWindowsProxy$WinInetProxyHelper
+.HttpVersionNotSupported?
+?System.Numerics, Version=4.0.0.0, PublicKeyToken=b77a5c561934e089
+*SafeAccessTokenHandle(SafeLocalAllocHandle&SafeLsaMemoryHandle&SafeLsaPolicyHandle2SafeLsaReturnBufferHandle
+JsonTokenType?
+?System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+ListBuilder`1HNativeFormatMetadataReaderExtensions
+ConnectionError*SecureConnectionError"HttpProtocolError6ExtendedConnectNotSupported.VersionNegotiationError.UserAuthenticationError ProxyTunnelError
+,RequestVersionOrHigher&RequestVersionExact~<<DisableHttp2Connection>g__DisableHttp2ConnectionAsync|106_0>d~<<DisableHttp3Connection>g__DisableHttp3ConnectionAsync|133_0>d,<>c__DisplayClass141_0@<ApplyPlaintextFilterAsync>d__54&<ConnectAsync>d__518<ConnectToTcpHostAsync>d__52J<ConstructHttp11ConnectionAsync>d__81J<ConstructHttp2ConnectionAsync>d__102D<CreateHttp11ConnectionAsync>d__80@<EstablishProxyTunnelAsync>d__556<EstablishSocksTunnel>d__56:<HandleHttp11Downgrade>d__104J<InjectNewHttp11ConnectionAsync>d__79J<InjectNewHttp2ConnectionAsync>d__101J<InjectNewHttp3ConnectionAsync>d__130X<SendWithVersionDetectionAndRetryAsync>d__50<<TrySendUsingHttp3Async>d__127?s?
+DigestResponseD<GetDigestTokenForCredential>d__400<SendWithAuthAsync>d__174<SendWithNtAuthAsync>d__528<TrySetDigestAuthToken>d__152ChunkedEncodingReadStream
+*HttpContentReadStream
+,HttpContentWriteStream2ConnectionCloseReadStream
+Http11Required*<>c__DisplayClass32_0
+Http3ReadStream
+ Http3WriteStream&<DisposeAsync>d__26@<DrainContentLength0Frames>d__34:<ReadFrameEnvelopeAsync>d__45.<ReadHeadersAsync>d__46:<ReadNextDataFrameAsync>d__580<ReadResponseAsync>d__30><ReadResponseContentAsync>d__56 <SendAsync>d__29.<SendContentAsync>d__31<<SkipUnknownPayloadAsync>d__54><WriteRequestContentAsync>d__32?C?
+(NetworkChangeCleanup"HttpConnectionKey?S?,4<SendAsyncMultiProxy>d__23L<<SerializeToStreamAsync>g__Impl|6_0>d
+*ReservedHttp2Priority
+"ReservedHttp2Ping
+2ReservedHttp2WindowUpdate
+2ReservedHttp2Continuation
+,HPackDecodingException0HuffmanDecodingException8HttpMetricsEnrichmentContext
+"ConnectionMetrics2SocketsHttpHandlerMetrics
+HttpHeaderType?
+2AuthenticationHeaderValue BaseHeaderParser HttpHeaderParser*ByteArrayHeaderParser0CacheControlHeaderParser.CacheControlHeaderValue
+?S?,???,$HttpContentHeaders
+HttpHeaders+
+?S?,$HttpGeneralHeaders
+HeaderEntry6HttpHeaderValueCollection`1
+$HttpRequestHeaders&HttpResponseHeaders
+StaticDataCell*ThreadStaticIndexCell(MethodDictionaryCell FieldLdTokenCell"MethodLdTokenCell$AllocateObjectCell,DefaultConstructorCell
+*X500DistinguishedNameNX509AuthorityInformationAccessExtension
+X509ExtensionFX509AuthorityKeyIdentifierExtension:X509BasicConstraintsExtension
+:X509EnhancedKeyUsageExtension.X509ExtensionCollection?
+;-.X509ExtensionEnumerator??;-*X509KeyUsageExtension"X509KeyUsageFlags?
+X509StoreFX509SubjectAlternativeNameExtensionBX509SubjectKeyIdentifierExtension*X509VerificationFlags?
+Http2ReadStream(Http2ReadWriteStream Http2WriteStream$<CopyToAsync>d__79(<ReadDataAsync>d__77><ReadResponseHeadersAsync>d__74(<SendDataAsync>d__816<SendRequestBodyAsync>d__45<<WaitFor100ContinueAsync>d__462<<CheckForShutdown>b__0>d?<<ProcessServerControlStreamAsync>g__ProcessGoAwayFrameAsync|2>d?<<ProcessServerControlStreamAsync>g__ProcessSettingsFrameAsync|1>d~<<ProcessServerControlStreamAsync>g__ReadFrameEnvelopeAsync|0>d?<<ProcessServerControlStreamAsync>g__SkipUnknownPayloadAsync|3>d$<DisposeAsync>d__9?C?
+???-*TokenObjectCollection8GetParsedValueLengthDelegate
+Cyclic InvalidExtension0InvalidPolicyConstraints.InvalidBasicConstraints,InvalidNameConstraints:HasNotSupportedNameConstraint6HasNotDefinedNameConstraint:HasNotPermittedNameConstraint2HasExcludedNameConstraint
+CtlNotTimeValid(CtlNotSignatureValid&CtlNotValidForUsage"OfflineRevocation*NoIssuanceChainPolicy ExplicitDistrust
+@@HasNotSupportedCriticalExtension
+SYSLIB0039Dhttps://aka.ms/dotnet-warnings/{0}?S
+ hRestrictedTrust  hRestrictedOther0 cAdditionalStore@$rghAdditionalStoreP
+hExclusiveRoot?.hExclusiveTrustedPeople??
+ApplyControlToken
+CompleteAuthToken
+WinHttpCloseHandle
+WinHttpGetIEProxyConfigForCurrentUser
+WinHttpGetProxyForUrl
+Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability
+PRI * HTTP/2.0
+C:\Users\niles\code\clicky-closed\windows\src\HeyClicky.BrowserHost\bin\x64\Release\net9.0-windows10.0.22621.0\win-x64\native\ClickyBrowserHost.pdb
+ClickyBrowserHost.exe
+AdjustTokenPrivileges
+GetTokenInformation
+OpenProcessToken
+OpenThreadToken
+CertFindExtension
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+  </trustInfo>

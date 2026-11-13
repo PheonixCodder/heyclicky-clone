@@ -1,0 +1,265 @@
+﻿{
+    "TotalLinksChecked":  154,
+    "BrokenLinksCount":  17,
+    "BrokenLinks":  [
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  40,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Codex\\CodexSession.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  40,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Codex\\CodexServerProcess.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  96,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Codex\\CodexHomeManager.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  99,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Codex\\WindowsInstructionAdapter.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  118,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Worker\\AgentWorkerApi.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  126,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Prompt\\StructuredFinalReply.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  145,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Clickys\\ClickyJobStore.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  145,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Clickys\\ClickyJob.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  147,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Clickys\\ClickyWorkFolderFiles.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  160,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Clickys\\ClickyJobStepWatcher.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  217,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Worker\\AgentWorkerApi.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  217,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Integrations\\AgentIntegrationsApi.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  226,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Integrations\\ComposioMcpConfiguration.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  340,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Core\\HeyClicky.Core.Services\\WorkerClient.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  340,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Worker\\AgentWorkerApi.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  344,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Prompt\\UserMemoryCache.cs",
+                            "Exists":  false
+                        },
+                        {
+                            "DocFile":  "06-agents-proactive-and-memory.md",
+                            "Line":  347,
+                            "Target":  "C:\\dev\\heyclicky-clone\\reference\\decompiled\\HeyClicky.Agents\\HeyClicky.Agents.Prompt\\TurnPromptBuilder.cs",
+                            "Exists":  false
+                        }
+                    ],
+    "DistAssetsSubfolders":  [
+                                 {
+                                     "Subfolder":  "Audio",
+                                     "FileCount":  1,
+                                     "SampleFiles":  "ff.m4a"
+                                 },
+                                 {
+                                     "Subfolder":  "Earcons",
+                                     "FileCount":  17,
+                                     "SampleFiles":  "agent-close.wav, agent-done.wav, agent-launch.wav, agent-needs-you.wav, clicky-question.wav"
+                                 },
+                                 {
+                                     "Subfolder":  "Engine",
+                                     "FileCount":  5,
+                                     "SampleFiles":  "clicky-draw-engine.js, clicky-draw-native.js, clicky-draw-pieces.js, clicky-three-parts.js, clicky-three.js"
+                                 },
+                                 {
+                                     "Subfolder":  "Fonts",
+                                     "FileCount":  4,
+                                     "SampleFiles":  "ClickyDraw-Barlow-Medium.ttf, ClickyDraw-Barlow-Regular.ttf, ClickyDraw-Barlow-SemiBold.ttf, ClickyDraw-PatrickHand.ttf"
+                                 },
+                                 {
+                                     "Subfolder":  "Logos",
+                                     "FileCount":  34,
+                                     "SampleFiles":  "airtable-logo.svg, apple-notes-logo.svg, apple-reminders-logo.png, chatgpt-logo-tinted.svg, chatgpt-logo.svg"
+                                 },
+                                 {
+                                     "Subfolder":  "Referral",
+                                     "FileCount":  3,
+                                     "SampleFiles":  "referral-sample-farza.png, referral-sample-kelli.png, referral-sample-nilesh.png"
+                                 },
+                                 {
+                                     "Subfolder":  "Sounds",
+                                     "FileCount":  63,
+                                     "SampleFiles":  "badge-pop-1.wav, badge-pop-2.wav, badge-pop-3.wav, boing-1.wav, boing-2.wav"
+                                 },
+                                 {
+                                     "Subfolder":  "Video",
+                                     "FileCount":  3,
+                                     "SampleFiles":  "clicky-spatial-demo.mp4, onboarding-intro-v2-windows.mp4, paywall-intro-v2.mp4"
+                                 },
+                                 {
+                                     "Subfolder":  "VoicePreviews",
+                                     "FileCount":  40,
+                                     "SampleFiles":  "gemini-voice-preview-achernar.mp3, gemini-voice-preview-achird.mp3, gemini-voice-preview-algenib.mp3, gemini-voice-preview-algieba.mp3, gemini-voice-preview-alnilam.mp3"
+                                 }
+                             ],
+    "FileCountAudit":  [
+                           {
+                               "Project":  "Kursor.Contracts",
+                               "DocumentedCount":  56,
+                               "ActualRefCsCount":  55,
+                               "ActualRefAllFiles":  56,
+                               "ActualSrcCsCount":  55,
+                               "ActualSrcAllFiles":  56
+                           },
+                           {
+                               "Project":  "Kursor.Drawing3D",
+                               "DocumentedCount":  42,
+                               "ActualRefCsCount":  41,
+                               "ActualRefAllFiles":  42,
+                               "ActualSrcCsCount":  41,
+                               "ActualSrcAllFiles":  42
+                           },
+                           {
+                               "Project":  "Kursor.Drawing",
+                               "DocumentedCount":  86,
+                               "ActualRefCsCount":  85,
+                               "ActualRefAllFiles":  86,
+                               "ActualSrcCsCount":  85,
+                               "ActualSrcAllFiles":  91
+                           },
+                           {
+                               "Project":  "Kursor.Platform",
+                               "DocumentedCount":  346,
+                               "ActualRefCsCount":  345,
+                               "ActualRefAllFiles":  346,
+                               "ActualSrcCsCount":  345,
+                               "ActualSrcAllFiles":  346
+                           },
+                           {
+                               "Project":  "Kursor.Core",
+                               "DocumentedCount":  565,
+                               "ActualRefCsCount":  564,
+                               "ActualRefAllFiles":  565,
+                               "ActualSrcCsCount":  564,
+                               "ActualSrcAllFiles":  565
+                           },
+                           {
+                               "Project":  "Kursor.Agents",
+                               "DocumentedCount":  123,
+                               "ActualRefCsCount":  122,
+                               "ActualRefAllFiles":  123,
+                               "ActualSrcCsCount":  122,
+                               "ActualSrcAllFiles":  123
+                           },
+                           {
+                               "Project":  "Kursor.App",
+                               "DocumentedCount":  884,
+                               "ActualRefCsCount":  884,
+                               "ActualRefAllFiles":  887,
+                               "ActualSrcCsCount":  884,
+                               "ActualSrcAllFiles":  887
+                           }
+                       ],
+    "BackendEnvVarsInCode":  [
+                                 "DATABASE_PATH",
+                                 "DEEPGRAM_API_KEY",
+                                 "DICTATION_CLEANUP_PROVIDER",
+                                 "EARS_PRIMARY_PROVIDER",
+                                 "GEMINI_API_KEY",
+                                 "GROQ_API_KEY",
+                                 "HOST",
+                                 "KURSOR_BRAIN_MODEL",
+                                 "MOUTH_PRIMARY_PROVIDER",
+                                 "OPENAI_API_KEY",
+                                 "OPENROUTER_API_KEY",
+                                 "OPENROUTER_DEFAULT_MODEL",
+                                 "OPENROUTER_FAST_MODEL",
+                                 "OPENROUTER_SEARCH_MODEL",
+                                 "PORT",
+                                 "TAVILY_API_KEY"
+                             ],
+    "EnvExampleVars":  [
+                           "ANTHROPIC_API_KEY",
+                           "BRAVE_API_KEY",
+                           "COMPOSIO_API_KEY",
+                           "DATABASE_PATH",
+                           "DEEPGRAM_API_KEY",
+                           "DICTATION_CLEANUP_PROVIDER",
+                           "EARS_PRIMARY_PROVIDER",
+                           "GEMINI_API_KEY",
+                           "GROQ_API_KEY",
+                           "HOST",
+                           "KURSOR_DEV_BYPASS_AUTH",
+                           "MOUTH_PRIMARY_PROVIDER",
+                           "OPENAI_API_KEY",
+                           "OPENROUTER_API_KEY",
+                           "OPENROUTER_DEFAULT_MODEL",
+                           "OPENROUTER_FAST_MODEL",
+                           "OPENROUTER_SEARCH_MODEL",
+                           "PORT",
+                           "SERPER_API_KEY",
+                           "TAVILY_API_KEY",
+                           "WEB_SEARCH_PROVIDER"
+                       ],
+    "EnvVarsInCodeButNotExample":  [
+                                       "KURSOR_BRAIN_MODEL"
+                                   ],
+    "EnvVarsInExampleButNotCode":  [
+                                       "ANTHROPIC_API_KEY",
+                                       "BRAVE_API_KEY",
+                                       "COMPOSIO_API_KEY",
+                                       "KURSOR_DEV_BYPASS_AUTH",
+                                       "SERPER_API_KEY",
+                                       "WEB_SEARCH_PROVIDER"
+                                   ]
+}

@@ -1,0 +1,156 @@
+{
+  "crossAuditWorkstream": "WS-J",
+  "crossAuditor": "ws-fg-drawing-2d-3d",
+  "primaryAuthor": "ws-jk-agents-ui",
+  "timestamp": "2026-11-13T12:52:00Z",
+  "summary": {
+    "pass1FindingsAudited": 8,
+    "confirmedExact": 5,
+    "confirmedWithRefinement": 3,
+    "disputed": 0,
+    "newFindingsAdded": 4
+  },
+  "pass1Verdicts": [
+    {
+      "id": "AUD-J-001",
+      "severity": "Critical",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "notes": "Confirmed all 7 missing backend routes (/agent/openai/v1/responses, /agent/anthropic/v1/messages, GET & POST /agent/web-search, /agent/harness/lab/h1/jobs, /agent/harness/lab/h1/probe, /mcp/composio) in agents-harness-drivers.txt, agents.ts:943, and Scenarios 14-27. Refined C# line citation: AgentHarnessRunnerRuntime.cs is 372 lines total and constructs the worker baseUrl/sessionToken payload inside RunTurnAsync at lines 91-95 (not BuildStartSpec at lines 356-411)."
+    },
+    {
+      "id": "AUD-J-002",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed AgentHarnessRuntimes.cs:14-28 returns null for (Codex, Mac) (causing CodexSession.cs:852 to throw 'Codex on this PC isn't available in this build.') and routes all 13 other (AgentHarness, AgentHarnessPlace) pairs to AgentHarnessRunnerRuntime, while clicky-harness.exe (agents-harness-drivers.txt:186) only registers 'h1-mac' and h5 (line 139) hardcodes '/usr/bin/tar'."
+    },
+    {
+      "id": "AUD-J-003",
+      "severity": "High",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "notes": "Confirmed clicky-harness.exe (h1-mac) executes arbitrary PowerShell via powershell.exe -ExecutionPolicy Bypass (bashTimeoutS: 300) and allows unrestricted write/edit/read outside the workspace via path.resolve(workspace, p) (Scenario 26). Refined C# citation: CodexSession.cs (HeyClicky.Agents.Runtime/CodexSession.cs, 1,232 lines) does NOT contain BuildExecArgs() and never spawns codex.exe; instead, approval_policy = 'never' and sandbox_mode = 'danger-full-access' are written to %LOCALAPPDATA%\\HeyClicky\\codex-home\\config.toml by CodexHomeManager.WriteConfigToml() at HeyClicky.Agents.Runtime/CodexHomeManager.cs:96-97."
+    },
+    {
+      "id": "AUD-J-004",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed clicky-harness.exe (92,803,520 bytes, Bun executable) and ClickyBrowserHost.exe (4,904,384 bytes, Go binary) are closed-source binaries signed by CN='Humansongs, Inc' with no source in src/."
+    },
+    {
+      "id": "AUD-J-005",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed AgentHarnessRunnerProcess.cs:61-77 (RunnerScriptPath) hardcodes 'C:\\Users\\niles\\code\\clicky-closed\\windows\\src\\HeyClicky.Agents\\Harness\\AgentHarnessRunnerRuntime.cs' and ResolveLaunch() (lines 255-263) only checks BundledRunnerPath, leaving RunnerScriptPath and NodeExecutablePath() (lines 173-253) unreachable."
+    },
+    {
+      "id": "AUD-J-006",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed macOS prompt/tool leakage in TurnPromptBuilder.cs:38, 89 ('call the mac_step tool'), AgentHarnessNames.cs:20 (AgentHarnessPlace.Mac => 'mac'), and agents-harness-drivers.txt:65-66 ('The user's own skills, kept on this Mac')."
+    },
+    {
+      "id": "AUD-J-007",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed RoutineKeepAwake.cs:46-68 holds PowerSetRequest(..., PowerRequestSystemRequired) continuously whenever RoutineScheduler.cs:112, 309 sees any unpaused routine (!r.IsPaused) on AC power."
+    },
+    {
+      "id": "AUD-J-008",
+      "severity": "Low",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "notes": "Confirmed docs/06-agents-proactive-and-memory.md has architectural drift. However, Pass 1's own AUD-J-008, REPORT.md (§1 table, lines 27-37), and coverage.json (items 1-7) cited non-existent namespaces in Kursor.Agents (HeyClicky.Agents.Codex, HeyClicky.Agents.Memory, HeyClicky.Agents.Proactive, HeyClicky.Agents.Sidecar) and non-existent AgentModelOption.cs. Enumeration of all 119 C# files in src/desktop/Kursor.Agents/ proves the actual 8 namespaces are HeyClicky.Agents (18), HeyClicky.Agents.Backend (13, including UserMemoryCache.cs), HeyClicky.Agents.Clickys (2), HeyClicky.Agents.Harness (17, including AgentHarnessModel.cs), HeyClicky.Agents.Jobs (40), HeyClicky.Agents.Routines (6), HeyClicky.Agents.Runtime (11, including CodexSession.cs and CodexHomeManager.cs), and HeyClicky.Agents.Turns (8)."
+  }
+  ],
+  "newFindings": [
+    {
+      "id": "AUD-J-009",
+      "workstream": "WS-J",
+      "severity": "High",
+      "status": "FAIL",
+      "category": "API Contract / DTO Schema Mismatch",
+      "title": "Complete C#-to-Backend DTO schema mismatch across GET /agent/integrations, POST /agent/integrations/:toolkit/connect, and POST /agent/composio/session breaks all agent integrations and Composio MCP session setup",
+      "location": [
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentIntegration.cs:64-83",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs:98-181",
+        "src/backend/src/routes/agents.ts:843-947"
+      ],
+      "symptoms": "1) AgentService.ListIntegrationsAsync() always returns 0 integrations because AgentIntegration.Parse() requires o['id'] (returns null if missing) and accounts[].connected_account_id, whereas agents.ts:843-876 returns toolkit, name, and accounts[].id. 2) AgentWorkerApi.ConnectIntegrationAsync() always throws AgentBackendException('HeyClicky received an invalid integration connect URL.') because it requires a non-empty redirect_url string, whereas agents.ts:896 returns connect_url: null. 3) AgentWorkerApi.ComposioSessionAsync() always returns (ComposioFetchKind.NoConnectedApps, Config: null, Error: null) because it checks enabled == true and proxy_url, whereas agents.ts:936-946 returns mcp_url and omits enabled.",
+      "rootCause": "Backend mock routes in src/backend/src/routes/agents.ts:843-947 were written with guessed field names (toolkit/name, connect_url, mcp_url) instead of matching the C# parsers in AgentIntegration.cs and AgentWorkerApi.cs (id/display_name/status/toolkits/connected_account_id, redirect_url, enabled/proxy_url).",
+      "evidence": [
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentIntegration.cs:64-83",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs:98-181",
+        "src/backend/src/routes/agents.ts:843-947"
+      ],
+      "reproduction": "Call GET /agent/integrations, POST /agent/integrations/gmail/connect, and POST /agent/composio/session and feed responses to AgentIntegrationsApi.ParseCatalog and AgentWorkerApi.",
+      "userImpact": "Connected Apps / Integrations UI is empty and non-functional, and Composio MCP is never attached to any agent turn.",
+      "recommendedFix": "Align GET /agent/integrations, POST /agent/integrations/:toolkit/connect, and POST /agent/composio/session in src/backend/src/routes/agents.ts with AgentIntegration.Parse and AgentWorkerApi.",
+      "verificationCriteria": "ParseCatalog returns all 8 integrations, ConnectIntegrationAsync returns a non-empty redirect_url, and ComposioSessionAsync returns ComposioFetchKind.Connected."
+    },
+    {
+      "id": "AUD-J-010",
+      "workstream": "WS-J",
+      "severity": "High",
+      "status": "FAIL",
+      "category": "API Contract / Caching & Model Selection Bug",
+      "title": "POST /agent/session-token returns expires_at as an ISO string instead of numeric Unix seconds and omits capabilities.developer_model_selection, permanently defeating AgentSessionTokenProvider caching (NeedsRefresh == true) and locking all turns to AgentHarnessModel.Standard",
+      "location": [
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs:78-96",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentSessionTokenProvider.cs:29-41",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentRuntimeOptions.cs:24",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentService.cs:2692, 3672",
+        "src/backend/src/routes/agents.ts:911-922"
+      ],
+      "symptoms": "1) AgentSessionTokenProvider.NeedsRefresh is permanently true, causing redundant POST /agent/session-token HTTP requests on every tokens.GetAsync(ct) call. 2) tokens.AllowsDeveloperModelSelection is permanently false, forcing AgentService.cs:3672 to use AgentHarnessModel.Standard and ignoring ClickyAgentHarnessModel. 3) POST /agent/session-token returns two different UUIDs for session_token and token.",
+      "rootCause": "AgentWorkerApi.MintSessionTokenAsync (line 92) parses expires_at via TryGetValue<double> (Unix seconds); because agents.ts:916 sends an ISO-8601 string, it falls back to UtcNow + 15 minutes, which is immediately <= SessionTokenRefreshMargin (30 minutes at AgentRuntimeOptions.cs:24). In addition, agents.ts:911-922 omits capabilities: { developer_model_selection: true }.",
+      "evidence": [
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentWorkerApi.cs:91-95",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentSessionTokenProvider.cs:31-41",
+        "src/backend/src/routes/agents.ts:911-922"
+      ],
+      "reproduction": "Mint a token via POST /agent/session-token and inspect AgentSessionTokenProvider.NeedsRefresh (true immediately) and AllowsDeveloperModelSelection (false).",
+      "userImpact": "Uncached HTTP round-trips to /agent/session-token on every turn preparation and inability to select non-Standard harness models (Astra, Sol, Terra, Luna, Fable, Opus, Sonnet, Haiku).",
+      "recommendedFix": "In src/backend/src/routes/agents.ts:911-922, return a single token value, numeric expires_at: Math.floor(Date.now() / 1000) + 3600, and capabilities: { developer_model_selection: true }.",
+      "verificationCriteria": "After MintSessionTokenAsync, NeedsRefresh is false for 30 minutes and AllowsDeveloperModelSelection is true."
+    },
+    {
+      "id": "AUD-J-011",
+      "workstream": "WS-J",
+      "severity": "Medium",
+      "status": "FAIL",
+      "category": "Hardcoded Production URL & Plaintext Credential Storage",
+      "title": "CodexHomeManager.cs hardcodes https://worker.heyclicky.com/agent/openai/v1 and writes plaintext session tokens, bearer tokens, and sandbox_mode = 'danger-full-access' to %LOCALAPPDATA%\\HeyClicky\\codex-home\\ even though local Codex is retired",
+      "location": [
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs:15-153",
+        "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentService.cs:2315"
+      ],
+      "symptoms": "Every runtime preparation writes %LOCALAPPDATA%\\HeyClicky\\codex-home\\config.toml with base_url = 'https://worker.heyclicky.com/agent/openai/v1', approval_policy = 'never', sandbox_mode = 'danger-full-access', and plaintext bearer tokens / custom connector environment variables.",
+      "rootCause": "CodexHomeManager.cs:15 hardcodes OpenAiBaseUrl = 'https://worker.heyclicky.com/agent/openai/v1' and serializes credentials into config.toml and auth.json even though AgentHarnessRuntimes.cs:16-19 retired local Codex.",
+      "evidence": [
+        "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs:15, 76-153"
+      ],
+      "reproduction": "Inspect CodexHomeManager.WriteConfigToml() (lines 90-153) and WriteAuthJson() (lines 76-89).",
+      "userImpact": "Plaintext tokens and connector secrets are persisted to %LOCALAPPDATA%\\HeyClicky\\codex-home\\config.toml alongside a dead upstream worker URL.",
+      "recommendedFix": "Use the configured WorkerBaseUrl instead of hardcoded worker.heyclicky.com and stop writing plaintext tokens to config.toml/auth.json when local Codex is disabled.",
+      "verificationCriteria": "No hardcoded worker.heyclicky.com URL or unused plaintext bearer tokens are written to %LOCALAPPDATA%\\HeyClicky\\codex-home\\config.toml."
+    },
+    {
+      "id": "AUD-J-012",
+      "workstream": "WS-J",
+      "severity": "Medium",
+      "status": "FAIL",
+      "category": "Persistence / State Reset Bug",
+      "title": "POST /proactive/jobs resets nextSuggestionNumericId = 101 in memory on every backend restart, colliding with existing SQLite proactive_cards rows and un-dismissing previously dismissed proactive suggestions",
+      "location": [
+        "src/backend/src/routes/agents.ts:85-177"
+      ],
+      "symptoms": "After a backend restart, POST /proactive/jobs reuses IDs '101', '102', ... and executes ON CONFLICT(id) DO UPDATE SET ... dismissed = 0, overwriting and un-dismissing resolved proactive cards in SQLite.",
+      "rootCause": "let nextSuggestionNumericId = 101 (agents.ts:85) is not seeded from SQLite proactive_cards at startup.",
+      "evidence": [
+        "src/backend/src/routes/agents.ts:85, 134, 152-166"
+      ],
+      "reproduction": "Create and dismiss suggestion 101, restart the backend, and call POST /proactive/jobs -> row '101' is overwritten with dismissed = 0.",
+      "userImpact": "Dismissed proactive agent cards reappear after backend restarts.",
+      "recommendedFix": "Seed nextSuggestionNumericId from SELECT COALESCE(MAX(CAST(id AS INTEGER)), 100) + 1 FROM proactive_cards at startup.",
+      "verificationCriteria": "New proactive suggestions after a backend restart receive strictly increasing IDs and never overwrite existing proactive_cards rows."
+    }
+  ]
+}

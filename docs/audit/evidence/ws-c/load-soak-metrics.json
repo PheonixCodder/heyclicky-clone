@@ -1,0 +1,27 @@
+{
+  "concurrentRequests": 120,
+  "successCount": 120,
+  "errorCount": 0,
+  "totalLoadDurationMs": 31566,
+  "throughputReqPerSec": 3.8,
+  "latencyMs": {
+    "min": 7561.57,
+    "p50": 8301.65,
+    "p95": 25799.99,
+    "p99": 28619.01,
+    "max": 31331.88
+  },
+  "sseAbortTests": {
+    "attempted": 10,
+    "handledCleanly": 10,
+    "serverHealthyAfterAborts": true
+  },
+  "memoryBytes": {
+    "rssBefore": 124452864,
+    "rssAfter": 135487488,
+    "rssDeltaMB": 10.52,
+    "heapUsedBefore": 17610368,
+    "heapUsedAfter": 19930144,
+    "heapUsedDeltaMB": 2.21
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "crossAuditWorkstream": "WS-A, WS-B, WS-N",
+  "auditor": "ws-e-voice-dictation",
+  "pass1Author": "ws-ab-build-brand",
+  "timestamp": "2026-11-13T12:01:00Z",
+  "summary": {
+    "totalPass1FindingsReviewed": 20,
+    "confirmedCount": 20,
+    "disputedCount": 0,
+    "confirmedWithRefinementCount": 3,
+    "newFindingsDiscoveredCount": 4
+  },
+  "verifications": [
+    {
+      "id": "AUD-A-001",
+      "workstream": "WS-A",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified against src/desktop/Directory.Build.props:3 (suppresses SYSLIB1050;SYSLIB1043;CS0649;CS0169;CS0414;CS8632;CS8981;CS8500;CS9191), all 7 .csproj files (<Nullable>annotations</Nullable> and <AllowUnsafeBlocks>True</AllowUnsafeBlocks>), and docs/audit/evidence/ws-ab/dotnet-build-debug.txt:699-700 ('343 Warning(s), 0 Error(s)'). Confirmed CA2014 stackalloc-in-loop at PrecisionTouchpad.cs:221, 6 SYSLIB1032 non-partial JsonSerializerContext classes in Kursor.Core (lines 370-375), CS0162/CS0164 unreachable code in PhotoLoader.cs:524, and CS4014 unawaited tasks."
+    },
+    {
+      "id": "AUD-A-002",
+      "workstream": "WS-A",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in src/desktop/Directory.Build.props:4-6 and all 7 .csproj files: zero <PackageReference> items exist; all 32 third-party/framework DLLs are referenced via <HintPath>$(HeyClickyRuntimeDir)\\*.dll</HintPath>, blinding dotnet list package --vulnerable."
+    },
+    {
+      "id": "AUD-A-003",
+      "workstream": "WS-A",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in scripts/build-dist.ps1:34,72-87, scripts/overlay-and-launch.ps1:14-29, and docs/audit/evidence/ws-ab/artifact-hash-comparison-prebuild.json:157-166: build-dist.ps1 hardcodes '-c Debug', copies .pdb files into dist/kursor-desktop/, and omits HeyClicky.exe from the $Assemblies array (leaving dist/kursor-desktop/HeyClicky.exe at SHA256 26AB7792... while bin/Debug/net9.0/HeyClicky.exe is 32C071E8...)."
+    },
+    {
+      "id": "AUD-A-004",
+      "workstream": "WS-A",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in scripts/build-dist.ps1:105 and Kursor.Drawing3D.csproj:34-37: src/desktop/Kursor.Drawing3D/Assets/Engine does not exist, and clicky-draw-pieces.js in %LOCALAPPDATA%\\HeyClickyApp\\current (66,086 B) is out of sync with dist/kursor-desktop/ (66,985 B)."
+    },
+    {
+      "id": "AUD-A-005",
+      "workstream": "WS-A",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in src/backend/package.json:14,25, setup-kursor.ps1:27-32, README.md:127,140, and docs/audit/evidence/ws-ab/npm-audit.json: @hono/node-server@1.19.19 has moderate advisory GHSA-rmxm-3fg6-px4f, and setup-kursor.ps1 does not check the Node major version against engines.node (>=24.0.0)."
+    },
+    {
+      "id": "AUD-A-006",
+      "workstream": "WS-A",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in src/backend/src/routes/worker.ts:7-8 ('C:\\\\Users\\\\ubaid\\\\AppData\\\\Local\\\\HeyClicky\\\\app-config.json'), src/desktop/Kursor.App/Properties/AssemblyInfo.cs:8 ('C:\\\\Users\\\\niles\\\\code\\\\clicky-closed\\\\windows\\\\src\\\\HeyClicky.App\\\\'), and AgentHarnessRunnerProcess.cs:75. Note minor line-number refinement: in AssemblyInfo.cs, Sentry.ProjectDirectory is on line 8 (not line 14)."
+    },
+    {
+      "id": "AUD-A-007",
+      "workstream": "WS-A",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in start-kursor.ps1:74-120: -Restart (lines 115-120) only stops HeyClicky.exe and never stops the backend node.exe process on port 8787 or sidecars; lines 84-108 sleep 3 seconds after spawning node/powershell without re-checking /health; line 105 interpolates $BackendDir inside single quotes."
+    },
+    {
+      "id": "AUD-A-008",
+      "workstream": "WS-A",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in scripts/install-autostart.ps1:21-38, scripts/uninstall-autostart.ps1:7-22, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/LaunchAtLogin.cs:12-33, and docs/audit/evidence/ws-ab/system-state-check.json:2-8: install-autostart.ps1 registers BOTH HKCU\\...\\Run\\Kursor AND Startup\\Kursor.lnk (causing double execution at login), while LaunchAtLogin.cs registers HKCU\\...\\Run\\HeyClicky ('...HeyClicky.exe --launched-at-login'), and all three are active simultaneously on the host."
+    },
+    {
+      "id": "AUD-A-009",
+      "workstream": "WS-A",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in setup-kursor.ps1:56-61, scripts/seed-local-auth.ps1:25-30,81-90, and AppPaths.cs:12: setup scripts populate both %LOCALAPPDATA%\\HeyClicky and %LOCALAPPDATA%\\Kursor, whereas AppPaths.Root resolves exclusively to %LOCALAPPDATA%\\HeyClicky."
+    },
+    {
+      "id": "AUD-A-010",
+      "workstream": "WS-A",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED_WITH_REFINEMENT",
+      "verificationNotes": "Confirmed missing LICENSE/THIRD_PARTY_NOTICES, unanchored [Dd]ebug/ and [Rr]elease/ in .gitignore:38-39, and lack of running-process lock checks in scripts/package-portable.ps1. Refinement: package-portable.ps1:17-20 DOES check `if (-not (Test-Path (Join-Path $DistDir 'HeyClicky.exe')))` and invokes `build-dist.ps1`, so the pre-flight existence check exists, though it still fails if running processes lock files or if robocopy sets a non-zero $LASTEXITCODE (see new finding AUD-A-011)."
+    },
+    {
+      "id": "AUD-B-001",
+      "workstream": "WS-B",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in all 7 .csproj files and src/desktop/Kursor.App/Properties/AssemblyInfo.cs:8-17: AssemblyName and RootNamespace remain HeyClicky*, and AssemblyCompany/Product/Title are stamped as 'HeyClicky'."
+    },
+    {
+      "id": "AUD-B-002",
+      "workstream": "WS-B",
+      "pass1Severity": "CRITICAL",
+      "status": "CONFIRMED_WITH_REFINEMENT",
+      "verificationNotes": "Independently verified across AssemblyInfo.cs:15-17, AppBundleConfiguration.cs:36-55,109-145,174-181, CrashReporting.cs:210-265, ClickyAnalytics.cs:290-325, and ClickyInkImages.cs:60-68:\n1. AssemblyInfo.cs:15-17 bakes in live PostHog key (phc_xcQPygmhTMzzYh8wNW92CCwoXmnzqyChAixh8zgpqC3C), Sentry DSN (https://9e98b32e152dad3e7e5d30448fd929d9@o4511254886154240.ingest.us.sentry.io/4512274263572480), and UpdateFeedUrl (https://github.com/heyclicky/clicky-releases-windows/releases/latest/download).\n2. AppBundleConfiguration.ApplyProductionBackendOverride (lines 36-43) switches to https://api.heyclicky.com and https://mrpvynsdsnimuisyhkow.supabase.co (with production anon JWT) whenever use-production-backend.flag exists.\n3. CrashReporting.StartSentry (line 242) sets options.SendDefaultPii = true and activates whenever IsLocalDevelopmentConfiguration(endpoints) is false.\n4. ClickyInkImages.WorkerBaseUrl (line 60) defaults to 'https://api.heyclicky.com' with User-Agent 'HeyClicky'.\n5. Additional Critical Refinement Discovered in Pass 2: In dist/kursor-desktop/HeyClicky.exe (which is the original unmodified Humansongs, Inc binary, SHA256 26AB7792..., because build-dist.ps1 never copies HeyClicky.exe!), Assembly.GetEntryAssembly() in AppBundleConfiguration.WithBuildMetadata() (lines 113-138) reads the entry assembly's (HeyClicky.exe's) baked-in AssemblyMetadata attributes ('HeyClicky.WorkerBaseUrl' = 'https://api.heyclicky.com', 'HeyClicky.SupabaseUrl' = 'https://mrpvynsdsnimuisyhkow.supabase.co')! And if endpoints.json has PascalCase-only keys (as observed in system-state-check.json line 88!), ReadConfigured('workerBaseUrl') returns null and falls back to HeyClicky.exe's production metadata unless HEYCLICKY_WORKER_BASE_URL is set in the environment!"
+    },
+    {
+      "id": "AUD-B-003",
+      "workstream": "WS-B",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in SingleInstance.cs:80,312-341, ProtocolRegistration.cs:10, FileOpenRegistration.cs:13-47, and scripts/seed-local-auth.ps1:94-102: uses Local\\HeyClicky-<SID> mutex/MMF/pipe, kills 'HeyClicky' processes, and registers heyclicky://, clicky://, and HeyClicky.Document."
+    },
+    {
+      "id": "AUD-B-004",
+      "workstream": "WS-B",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in src/backend/src/routes/worker.ts:9-16 (DEFAULT_APP_CONFIG_LINKS pointing to heyclicky.canny.io, reddit.com/r/heyclicky_, and heyclicky.com/changelog) and across desktop UI/prompt files."
+    },
+    {
+      "id": "AUD-B-005",
+      "workstream": "WS-B",
+      "pass1Severity": "CRITICAL",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in docs/audit/evidence/ws-ab/legal-ip-inventory.json and scripts/install-runtime.ps1:11: repository tracks 2,096 ILSpy-decompiled C# files in reference/decompiled/, ships 5 executables digitally signed by 'CN=Humansongs, Inc' (HeyClicky-Setup.exe, HeyClicky.exe, HeyClicky-Update.exe, clicky-harness.exe, ClickyBrowserHost.exe), bundles 171 proprietary media/JS/font assets (89.4 MB) and 26 prompt/skill files, and install-runtime.ps1 downloads HeyClickyApp-1.1.5-win-x64-full.nupkg from HeyClicky's GitHub releases."
+    },
+    {
+      "id": "AUD-N-001",
+      "workstream": "WS-N",
+      "pass1Severity": "HIGH",
+      "status": "CONFIRMED_WITH_REFINEMENT",
+      "verificationNotes": "Independently verified in README.md:84 (documents non-existent ONEBRAIN_MODEL instead of KURSOR_BRAIN_MODEL), src/backend/.env.example (omits KURSOR_BRAIN_MODEL and defines 6 completely unread vars: KURSOR_DEV_BYPASS_AUTH, ANTHROPIC_API_KEY, COMPOSIO_API_KEY, WEB_SEARCH_PROVIDER, BRAVE_API_KEY, SERPER_API_KEY). Two Pass 2 refinements:\n1. Line numbers in src/backend/.env.example (40 lines total) are lines 9, 20, 34, 38-40 (Pass 1 cited lines 7, 23, 55, 61-63 from the 63-line .env file).\n2. Three additional variables in .env.example — EARS_PRIMARY_PROVIDER (line 28), MOUTH_PRIMARY_PROVIDER (line 30), and DICTATION_CLEANUP_PROVIDER (line 32) — are only echoed in worker.ts metadata (/config/runtime-models) and are NEVER read by src/backend/src/routes/voice.ts where STT, TTS, and Dictation Cleanup actually execute (cross-ref AUD-E-012)."
+    },
+    {
+      "id": "AUD-N-002",
+      "workstream": "WS-N",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in README.md:20-21,133 and scripts/seed-local-auth.ps1:81-90: README.md:133 falsely states setup-kursor.cmd writes session.json (it actually writes DPAPI-encrypted auth.localdev.bin and auth.bin), and README.md:21 cites non-existent writeOnPage."
+    },
+    {
+      "id": "AUD-N-003",
+      "workstream": "WS-N",
+      "pass1Severity": "LOW",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in README.md:3 (2,102), AGENTS.md:14 (2,098), docs/INDEX.md, and docs/audit/evidence/ws-ab/docs-audit.json:155-212: actual .cs counts are 2,096 in reference/decompiled/ and 2,097 in src/desktop/."
+    },
+    {
+      "id": "AUD-N-004",
+      "workstream": "WS-N",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in docs/audit/evidence/ws-ab/docs-audit.json:2-107: 17 file:/// links in docs/06-agents-proactive-and-memory.md point to non-existent namespace subdirectories, and docs/07-kursor-roadmap.md:119 misplaces TrayTooltip.cs in Kursor.App instead of Kursor.Core."
+    },
+    {
+      "id": "AUD-N-005",
+      "workstream": "WS-N",
+      "pass1Severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verificationNotes": "Independently verified in docs/01-architecture-overview.md:155-177 and docs/07-kursor-roadmap.md:31-32,98-132 against docs-audit.json:108-154."
+    }
+  ],
+  "newFindings": [
+    {
+      "id": "AUD-A-011",
+      "workstream": "WS-A",
+      "severity": "HIGH",
+      "category": "Packaging & Portable Distribution Integrity",
+      "title": "LocalAppData\\HeyClicky\\endpoints.json on disk contains only PascalCase keys (ignored by case-sensitive AppBundleConfiguration.LoadConfigured), causing entry-assembly metadata fallback to production Supabase when HEYCLICKY_WORKER_BASE_URL is only a worker override",
+      "file_line": "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:57-89, 109-145; C:\\Users\\ubaid\\AppData\\Local\\HeyClicky\\endpoints.json",
+      "description": "In docs/audit/evidence/ws-ab/system-state-check.json (lines 87-88), the actual file at C:\\Users\\ubaid\\AppData\\Local\\HeyClicky\\endpoints.json on disk contains ONLY PascalCase keys:\n{\n  \"WorkerBaseUrl\": \"http://127.0.0.1:8787\",\n  \"SupabaseUrl\": \"http://127.0.0.1:8787\",\n  \"SupabaseAnonKey\": \"kursor-local-anon-key\"\n}\nHowever, AppBundleConfiguration.LoadConfigured (AppBundleConfiguration.cs:78-80) calls ReadConfigured(rootElement, \"workerBaseUrl\"), ReadConfigured(rootElement, \"supabaseUrl\"), and ReadConfigured(rootElement, \"supabaseAnonKey\") using case-sensitive JsonElement.TryGetProperty! When endpoints.json only has PascalCase keys, all three return null!\nEven worse: because scripts/build-dist.ps1 never copies HeyClicky.exe (leaving the original Humansongs, Inc HeyClicky.exe entry assembly in dist/kursor-desktop/HeyClicky.exe), AppBundleConfiguration.WithBuildMetadata(Defaults) (lines 109-145) inspects Assembly.GetEntryAssembly() (HeyClicky.exe), which has baked-in AssemblyMetadata attributes for production HeyClicky! And when start-kursor.ps1 sets $env:HEYCLICKY_WORKER_BASE_URL='http://127.0.0.1:8787', ApplyWorkerOverride (lines 91-107) ONLY overrides WorkerBaseUrl — leaving SupabaseUrl and SupabaseAnonKey at whatever WithBuildMetadata returned if endpoints.json failed camelCase lookup!",
+      "reproductionSteps": [
+        "Inspect LocalAppData_HeyClicky_EndpointsJson in docs/audit/evidence/ws-ab/system-state-check.json:87-88 (note it only has PascalCase WorkerBaseUrl, SupabaseUrl, SupabaseAnonKey).",
+        "Trace AppBundleConfiguration.LoadConfigured (AppBundleConfiguration.cs:57-89) -> ReadConfigured (lines 147-159) which uses case-sensitive root.TryGetProperty('workerBaseUrl', ...)."
+      ],
+      "observedResult": "PascalCase-only endpoints.json is silently ignored by ReadConfigured, and ApplyWorkerOverride only overrides WorkerBaseUrl (ignoring HEYCLICKY_SUPABASE_URL and HEYCLICKY_SUPABASE_ANON_KEY set by start-kursor.ps1:123-124).",
+      "expectedResult": "ReadConfigured in AppBundleConfiguration.cs must check both camelCase and PascalCase property names (or use case-insensitive matching), and ApplyWorkerOverride should also honor HEYCLICKY_SUPABASE_URL and HEYCLICKY_SUPABASE_ANON_KEY.",
+      "remediation": "In AppBundleConfiguration.ReadConfigured (lines 147-159), match property names case-insensitively (`foreach (var prop in root.EnumerateObject()) if (string.Equals(prop.Name, name, StringComparison.OrdinalIgnoreCase)) ...`), and support HEYCLICKY_SUPABASE_URL / HEYCLICKY_SUPABASE_ANON_KEY environment overrides."
+    },
+    {
+      "id": "AUD-A-012",
+      "workstream": "WS-A",
+      "severity": "MEDIUM",
+      "category": "Packaging Script Exit Code & Portable Archive Bloat",
+      "title": "scripts/package-portable.ps1 and scripts/build-dist.ps1 leave non-zero robocopy $LASTEXITCODE (1-7), and package-portable.ps1 bundles docs/audit/ and unusable build-dist.ps1 without src/desktop",
+      "file_line": "scripts/package-portable.ps1:45-52, 73-84; scripts/build-dist.ps1:46",
+      "description": "1. Non-zero $LASTEXITCODE from robocopy: In scripts/package-portable.ps1:73 (`$null = robocopy $DistDir $DistStage /E ...`) and scripts/build-dist.ps1:46, robocopy sets $LASTEXITCODE to 1-3 on successful file copy. Because Compress-Archive is a PowerShell cmdlet (which does not reset $LASTEXITCODE), package-portable.ps1 exits with $LASTEXITCODE = 1 (or 3), causing automated callers or CI pipelines checking $LASTEXITCODE to treat a successful build/package as a failure.\n2. Broken scripts & audit artifacts bundled in portable zip: scripts/package-portable.ps1:46 copies all of scripts/ (including build-dist.ps1 and overlay-and-launch.ps1) into the portable zip while omitting src/desktop/, so running scripts/build-dist.ps1 inside an extracted portable zip fails with 'Solution file not found'. Line 50 also copies the entire docs/ directory (including internal reverse-engineering specs and audit evidence) into the end-user portable zip.",
+      "reproductionSteps": [
+        "Inspect scripts/package-portable.ps1 lines 45-52 and 73-84.",
+        "Verify that robocopy sets $LASTEXITCODE = 1 when copying files and neither script resets `global:LASTEXITCODE = 0` or checks `if ($LASTEXITCODE -ge 8) { throw ... }`."
+      ],
+      "observedResult": "robocopy failures ($LASTEXITCODE >= 8) are not checked, successful runs leave $LASTEXITCODE = 1..3, and the portable zip contains broken build scripts and internal docs.",
+      "expectedResult": "Check `if ($LASTEXITCODE -ge 8) { throw \"robocopy failed with code $LASTEXITCODE\" } else { $global:LASTEXITCODE = 0 }`, and copy only runtime-applicable scripts into the portable stage.",
+      "remediation": "Validate robocopy exit codes (`< 8`) and reset `$global:LASTEXITCODE = 0` in `scripts/build-dist.ps1` and `scripts/package-portable.ps1`, and exclude source-only build scripts and `docs/audit/` from the portable zip."
+    },
+    {
+      "id": "AUD-B-006",
+      "workstream": "WS-B",
+      "severity": "HIGH",
+      "category": "Production Installer Fallback / Upstream Binary Execution",
+      "title": "start-kursor.ps1 automatically launches proprietary executable-file\\HeyClicky-Setup.exe (Humansongs, Inc Velopack installer) if dist\\kursor-desktop\\HeyClicky.exe is missing",
+      "file_line": "start-kursor.ps1:49-56, 126-135",
+      "description": "In start-kursor.ps1:49-56, if `dist\\kursor-desktop\\HeyClicky.exe` does not exist and `scripts\\build-dist.ps1` throws an error (e.g. .NET 9 SDK is not installed), the catch block swallows the error with `Write-Warning \"Desktop build step skipped: $_\"`. Then at lines 126-135, `start-kursor.ps1` falls back to:\n`elseif (Test-Path $InstallerExe) { Start-Process -FilePath $InstallerExe }`\nwhere `$InstallerExe` is `executable-file\\HeyClicky-Setup.exe` — the unmodified, Authenticode-signed Humansongs, Inc Velopack installer! Executing `HeyClicky-Setup.exe` installs the unpatched upstream HeyClicky v1.1.5 application into `%LOCALAPPDATA%\\HeyClickyApp\\current` and launches it directly against HeyClicky's production cloud (`https://api.heyclicky.com` and `https://mrpvynsdsnimuisyhkow.supabase.co`).",
+      "reproductionSteps": [
+        "Read start-kursor.ps1 lines 48-56 and 126-135.",
+        "Trace execution when dist\\kursor-desktop\\HeyClicky.exe and %LOCALAPPDATA%\\HeyClickyApp\\current\\HeyClicky.exe are absent and build-dist.ps1 fails."
+      ],
+      "observedResult": "start-kursor.ps1 silently swallows the build failure and launches `executable-file\\HeyClicky-Setup.exe`, installing and starting the unpatched upstream HeyClicky client.",
+      "expectedResult": "Never execute `executable-file\\HeyClicky-Setup.exe` from `start-kursor.ps1`; if `dist\\kursor-desktop\\HeyClicky.exe` is missing and cannot be built, fail with a clear diagnostic error.",
+      "remediation": "Remove the `$InstallerExe` (`executable-file\\HeyClicky-Setup.exe`) fallback at `start-kursor.ps1:126,132-135` and surface build failures directly."
+    },
+    {
+      "id": "AUD-N-006",
+      "workstream": "WS-N",
+      "severity": "MEDIUM",
+      "category": "Documentation & Script Flag Drift",
+      "title": "Pass 1 AUD-N-001 missed that EARS_PRIMARY_PROVIDER, MOUTH_PRIMARY_PROVIDER, and DICTATION_CLEANUP_PROVIDER in .env.example are partially/completely unwired in voice.ts, and start-kursor.ps1 sets unread HEYCLICKY_SUPABASE_URL / HEYCLICKY_SUPABASE_ANON_KEY",
+      "file_line": "src/backend/.env.example:28-32; src/backend/src/routes/voice.ts:18-84, 519-827; start-kursor.ps1:122-124",
+      "description": "In Pass 1, `docs-audit.json` classified `EARS_PRIMARY_PROVIDER` and `DICTATION_CLEANUP_PROVIDER` as 'used in backend code' only because `src/backend/src/routes/worker.ts:201-208` echoes their strings in the static `/config/runtime-models` response. In reality, `src/backend/src/routes/voice.ts` (which implements all STT and Dictation Cleanup endpoints) NEVER reads `process.env.EARS_PRIMARY_PROVIDER` or `process.env.DICTATION_CLEANUP_PROVIDER`! Similarly, `start-kursor.ps1:123-124` sets `$env:HEYCLICKY_SUPABASE_URL` and `$env:HEYCLICKY_SUPABASE_ANON_KEY`, neither of which is read anywhere in the C# desktop codebase (`AppBundleConfiguration.cs` only checks `HEYCLICKY_WORKER_BASE_URL`).",
+      "reproductionSteps": [
+        "Grep for `EARS_PRIMARY_PROVIDER` and `DICTATION_CLEANUP_PROVIDER` in `src/backend/src/routes/voice.ts` (0 matches).",
+        "Grep for `HEYCLICKY_SUPABASE_URL` and `HEYCLICKY_SUPABASE_ANON_KEY` in `src/desktop/` (0 matches)."
+      ],
+      "observedResult": "Setting `EARS_PRIMARY_PROVIDER` or `DICTATION_CLEANUP_PROVIDER` in `.env` has zero effect on `voice.ts` routing, and setting `HEYCLICKY_SUPABASE_URL` / `HEYCLICKY_SUPABASE_ANON_KEY` in `start-kursor.ps1` has zero effect on the C# client.",
+      "expectedResult": "Wire `EARS_PRIMARY_PROVIDER` and `DICTATION_CLEANUP_PROVIDER` into `voice.ts`, and wire `HEYCLICKY_SUPABASE_URL` / `HEYCLICKY_SUPABASE_ANON_KEY` into `AppBundleConfiguration.cs`.",
+      "remediation": "Read `process.env.EARS_PRIMARY_PROVIDER` and `process.env.DICTATION_CLEANUP_PROVIDER` in `src/backend/src/routes/voice.ts`, and read `HEYCLICKY_SUPABASE_URL` / `HEYCLICKY_SUPABASE_ANON_KEY` in `AppBundleConfiguration.ApplyWorkerOverride`."
+    }
+  ]
+}

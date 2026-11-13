@@ -1,0 +1,17 @@
+============================================================
+ KURSOR PHASE 2 & PHASE 6 BACKEND VERIFICATION SUITE
+============================================================
+
+[Kursor Backend] Listening on http://127.0.0.1:57594 (SQLite: C:\dev\heyclicky-clone\src\backend\data\kursor.db)
+  [TEST] POST /brain/turn (Gzip request, SSE meta/status/text/items/done, say(1, ...) & spot(...) drawing code) ... PASS
+  [TEST] POST /brain/turn (tool_call / tool_calls & computer_calls SSE events) ... [OneBrain] Answered via groq-120b (openai/gpt-oss-120b) for prompt: "Look at my screen and help me."
+PASS
+  [TEST] POST /brain/compact, POST /brain/session-end, & POST /brain/prewarm ... PASS
+  [TEST] Proactive routes (/proactive/jobs, /proactive-agents/jobs, /proactive/cards/resolve, /proactive/cards/status, /proactive/morning/claim) ... PASS
+  [TEST] Agent Notifications, Crons, Session Token & Turn Leases (/agent/* & /agents/*) ... PASS
+  [TEST] Connectors & Composio MCP (/connectors/status, /agent/integrations, /connectors/connect, /agent/composio/session) ... PASS
+  [TEST] Calendar & WorkerTools (/calendar/upcoming, /agent/realtime/google-calendar/*, /tools/*) ... PASS
+
+============================================================
+ ALL 7 PHASE 2 & PHASE 6 TEST SUITES PASSED SUCCESSFULLY!
+============================================================

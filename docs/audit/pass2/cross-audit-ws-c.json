@@ -1,0 +1,187 @@
+{
+  "cross_audit_id": "PASS2-WS-C",
+  "auditor": "ws-e-voice-dictation",
+  "timestamp": "2026-11-13T12:31:00Z",
+  "target_workstreams": ["WS-C"],
+  "summary": {
+    "total_pass1_findings_reviewed": 15,
+    "confirmed": 12,
+    "confirmed_with_refinement": 3,
+    "disputed": 0,
+    "new_findings_discovered": 3,
+    "routes_enumerated_and_verified": 111
+  },
+  "verdicts": [
+    {
+      "id": "AUD-C-001",
+      "workstream": "WS-C",
+      "pass1_severity": "Critical",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/index.ts:19 (app.use('*', cors())), src/backend/src/middleware/auth.ts:34-88 (clientHeadersAndAuthMiddleware unconditionally sets DEFAULT_USER_ID on every request), src/backend/src/routes/voice.ts:18-31 (/deepgram/token), 53-83 (/v2/dictation/gemini-token), 169-211 (/realtime/token raw key fallback), and src/backend/src/routes/worker.ts:520-560 (/memory). Also confirmed by live evidence in docs/audit/evidence/ws-c/audit-summary.json (preflightAllowOrigin: '*', memoryReadWithoutAuthOrOriginRestriction: true)."
+    },
+    {
+      "id": "AUD-C-002",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/middleware/gzip.ts:18-20: await c.req.raw.arrayBuffer() and gunzipSync(compressedBuffer) are called synchronously on the main event loop with no compressed byte limit and no maxOutputLength option. Confirmed by live magnification test in docs/audit/evidence/ws-c/audit-summary.json (15,331 bytes compressed -> 15,728,652 bytes uncompressed, 1,025.9x expansion ratio)."
+    },
+    {
+      "id": "AUD-C-003",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verification_notes": "Confirmed that GET /auth/v1/authorize (src/backend/src/routes/auth.ts:100-121) takes an unvalidated redirect_to/redirect_uri query parameter, mints a 1-year access_token, appends it to the URL, and returns a 302 redirect to any external host (leaksTokenToExternalHost: true). Precision refinement: AUD-C-003's description attributed the unvalidated redirect_to HTML link to GET /auth/start (citing lines 76-85); in the actual code, lines 56-94 are GET /auth/callback (which reads unvalidated redirect_to and injects it into both href and window.location.href — see new finding AUD-C-016), whereas GET /auth/start (lines 128-175) constructs location from scheme === 'kursor' ? 'kursor' : 'heyclicky'."
+    },
+    {
+      "id": "AUD-C-004",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/routes/auth.ts:27-39 (createLocalJwt hardcodes base64UrlEncode('kursor-local-dev-signature') as the third JWT segment), auth.ts:236-248 (POST /auth/v1/logout deletes from sessions), and src/backend/src/middleware/auth.ts:34-88 (never verifies JWT signature, exp, or sessions table existence). Confirmed in docs/audit/evidence/ws-c/audit-summary.json (revokedTokenStillAcceptedStatus: 200, forgedSignatureJwtAcceptedStatus: 200)."
+    },
+    {
+      "id": "AUD-C-005",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/routes/brain.ts:1021-1045: POST /brain/turn awaits tryCallUpstreamLlm(...) at line 1021 before checking if (upstream && !body.force_local_fallback) at line 1045. Confirmed by docs/audit/evidence/ws-c/test-phase2-stderr.txt showing live Groq calls during force_local_fallback: true tests."
+    },
+    {
+      "id": "AUD-C-006",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/test-phase1.ts:155 (hardcodes assert.equal(data.mouth.primary_provider, 'openai-realtime'), failing when .env sets MOUTH_PRIMARY_PROVIDER=gemini-tts) and src/backend/src/routes/voice.ts:263-320 (ensureWarmSynthWorker spawns persistent powershell.exe at module load without .unref(), hanging test-phase1.ts and test-phase2.ts after server.close())."
+    },
+    {
+      "id": "AUD-C-007",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified against src/backend/src/middleware/auth.ts:44-60, src/backend/src/routes/worker.ts:206-340, and C# ClickyClientHeadersHandler.cs / WorkerClient.cs:61 / RegisteredDevice.cs. Backend reads x-clicky-device-id instead of X-Clicky-Device and body.device_name instead of body.display_name, and omits id, display_name, is_this_device, and capabilities required by C# RegisteredDevice."
+    },
+    {
+      "id": "AUD-C-008",
+      "workstream": "WS-C",
+      "pass1_severity": "High",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified against src/backend/src/routes/worker.ts:406-485 and C# StarterPlanResponse.cs, StarterPlanClicky.cs, and StarterPlanSuggestion.cs. worker.ts returns { title, prompt, why } for clickys (missing key, name, role, description, intro_messages, reveal_line, first_asks) and { id, title, tagline, initial_prompt, schedule_hint } for suggested_agents (missing description, agent_prompt)."
+    },
+    {
+      "id": "AUD-C-009",
+      "workstream": "WS-C",
+      "pass1_severity": "Medium",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/routes/worker.ts:8: const LOCAL_APP_CONFIG_PATH = 'C:\\\\Users\\\\ubaid\\\\AppData\\\\Local\\\\HeyClicky\\\\app-config.json'."
+    },
+    {
+      "id": "AUD-C-010",
+      "workstream": "WS-C",
+      "pass1_severity": "Medium",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verification_notes": "Confirmed that src/backend/src/db/index.ts has zero CREATE INDEX statements, EXPLAIN QUERY PLAN shows SCAN sessions and SCAN notifications + USE TEMP B-TREE FOR ORDER BY, sessions grows monotonically without pruning, and ensureSessionAndThread (brain.ts:172-187) stores raw base64 screenshots in threads.messages_json. Precision refinement on column names in remediation: in db/index.ts:78-113, the actual columns are notifications(user_id, is_read, created_at DESC), proactive_cards(user_id, dismissed), and threads(user_id) (threads.id stores sessionId; there is no threads.session_id column)."
+    },
+    {
+      "id": "AUD-C-011",
+      "workstream": "WS-C",
+      "pass1_severity": "Medium",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/routes/agents.ts:943 (returns proxy_url: 'http://127.0.0.1:8787/mcp/composio') and src/backend/src/routes/worker.ts:983, 990 (returns 'http://127.0.0.1:8787/billing/local-max-active' and 'http://127.0.0.1:8787/billing/local-portal'). None of those three routes exist in the backend, returning 404 Not Found."
+    },
+    {
+      "id": "AUD-C-012",
+      "workstream": "WS-C",
+      "pass1_severity": "Medium",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/routes/worker.ts:995-1003 (/account/delete and /me/account/delete are pure no-ops that delete 0 rows), worker.ts:1005-1020 (/telemetry/client-error and /report-error discard ErrorReport), worker.ts:1045-1050 (/me/companion-history is a pure no-op returning []), and src/backend/src/routes/agents.ts:929-934, 1112-1173 (/label no-op, /tools/execute-connector stub, /tools/spotify/search hardcoded track)."
+    },
+    {
+      "id": "AUD-C-013",
+      "workstream": "WS-C",
+      "pass1_severity": "Medium",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified at src/backend/src/routes/agents.ts:83-85 (proactiveJobs, proactiveCardStatuses), 534 (turnLeases), 711 (integrationsCatalog), and 972 (calendarEvents) — all stored in volatile in-memory Maps/arrays without TTL eviction or SQLite persistence for jobs, leases, integrations, or calendar events."
+    },
+    {
+      "id": "AUD-C-014",
+      "workstream": "WS-C",
+      "pass1_severity": "Medium",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "verification_notes": "Confirmed fragile regex scraping in searchDuckDuckGoHtml (worker.ts:620-621) and silent HTTP 200 synthetic fallback (worker.ts:756-766). Precision refinement on decodeHtmlEntities (worker.ts:571-582): .replace(/<[^>]+>/g, '') is on line 580 AFTER .replace(/&lt;/g, '<').replace(/&gt;/g, '>') on lines 574-575 (and .replace(/&amp;/g, '&') runs first on line 573). This causes double-unescaping (&amp;lt; -> &lt; -> <) AND causes legitimate decoded angle-bracket text (e.g., 'a &lt; b &amp;&amp; c &gt; d' or 'List&lt;string&gt;') to be silently stripped by /<[^>]+>/g."
+    },
+    {
+      "id": "AUD-C-015",
+      "workstream": "WS-C",
+      "pass1_severity": "Low",
+      "verdict": "CONFIRMED",
+      "verification_notes": "Verified across auth.ts, worker.ts, brain.ts, and agents.ts: try { body = await c.req.json(); } catch {} silently swallows malformed JSON and falls back to {} with HTTP 200, and PUT/POST /memory (worker.ts:520-553) has no payload size limit."
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "AUD-C-016",
+      "workstream": "WS-C",
+      "severity": "High",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "GET /auth/callback and GET /callback Allow DOM XSS via Unvalidated javascript: Scheme in redirect_to Parameter",
+      "component": "Backend Auth Callback HTML Route",
+      "location": "src/backend/src/routes/auth.ts:56-94",
+      "description": "In handleAuthCallback (GET /auth/callback and GET /callback, src/backend/src/routes/auth.ts:56-94), line 58 reads const redirectTo = c.req.query('redirect_to') || 'heyclicky://auth-callback' without validating the URL protocol or host. Line 60 constructs targetUrl via buildCallbackUrl(redirectTo, { code, state }), and lines 84 and 88 render href=\"${escapeHtml(targetUrl)}\" and <script>window.location.href = ${JSON.stringify(targetUrl)};</script> inside an HTML response served on http://127.0.0.1:8787. Because neither escapeHtml() nor JSON.stringify() blocks the javascript: URI scheme, passing redirect_to=javascript:alert(document.domain)// causes the inline script to immediately execute window.location.href = \"javascript:alert(document.domain)//?code=...\" in the http://127.0.0.1:8787 origin.",
+      "reproduction": [
+        "1. Open or fetch GET http://127.0.0.1:8787/auth/callback?redirect_to=javascript:fetch('http://127.0.0.1:8787/deepgram/token',{method:'POST'})//",
+        "2. Inspect the returned HTML at lines 84 and 88."
+      ],
+      "observed": "The response is 200 text/html containing <script>window.location.href = \"javascript:fetch('http://127.0.0.1:8787/deepgram/token',{method:'POST'})//?code=...\";</script>, which executes arbitrary JavaScript in the context of the local backend origin http://127.0.0.1:8787.",
+      "expected": "Strictly validate redirect_to in handleAuthCallback (and buildCallbackUrl) so only heyclicky://, kursor://, or loopback http://127.0.0.1 / http://localhost URLs are permitted, rejecting javascript:, data:, and external https: schemes with HTTP 400.",
+      "impact": "Same-origin arbitrary JavaScript execution (DOM XSS) on http://127.0.0.1:8787, bypassing even same-origin protections if CORS is restricted.",
+      "remediation": "Validate the parsed URL protocol of redirect_to against an allowlist (['heyclicky:', 'kursor:', 'http:'] with loopback hostname check for http:) before rendering or redirecting in src/backend/src/routes/auth.ts:48-94.",
+      "effort": "S",
+      "evidence": ["src/backend/src/routes/auth.ts"]
+    },
+    {
+      "id": "AUD-C-017",
+      "workstream": "WS-C",
+      "severity": "Medium",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "nextSuggestionNumericId Resets to 101 on Backend Restart and Overwrites/Un-Dismisses Existing proactive_cards Rows in SQLite",
+      "component": "Backend Proactive Agents Persistence",
+      "location": "src/backend/src/routes/agents.ts:85, 104-107, 156-175",
+      "description": "src/backend/src/routes/agents.ts:85 initializes let nextSuggestionNumericId = 101; as an in-memory counter rather than seeding it from SELECT MAX(CAST(id AS INTEGER)) FROM proactive_cards. When createProactiveJob() runs (agents.ts:104-107, 156-175), it assigns IDs '101', '102', etc. and executes INSERT INTO proactive_cards (...) VALUES (...) ON CONFLICT(id) DO UPDATE SET title = excluded.title, ..., dismissed = 0. Consequently, after every backend restart, the next proactive job creation reuses IDs 101, 102, ... and overwrites previously stored cards in SQLite, resetting dismissed = 0 on cards the user had already dismissed or resolved.",
+      "reproduction": [
+        "1. Call POST /proactive/jobs (creates cards 101 and 102) and resolve/dismiss card 101 via POST /proactive/cards/resolve with {card_ids:['101'], resolution:'dismissed'}.",
+        "2. Restart the backend server (nextSuggestionNumericId resets to 101) and call POST /proactive/jobs again.",
+        "3. Query SELECT id, dismissed, payload_json FROM proactive_cards WHERE id = '101'."
+      ],
+      "observed": "Card '101' in SQLite is overwritten and its dismissed column is reset from 1 back to 0 (and status reset to 'presented').",
+      "expected": "Initialize nextSuggestionNumericId from SELECT COALESCE(MAX(CAST(id AS INTEGER)), 100) + 1 FROM proactive_cards at startup (or use a SQLite INTEGER PRIMARY KEY AUTOINCREMENT / UUID).",
+      "impact": "Previously dismissed or resolved proactive suggestion cards reappear as unread/active after a backend restart.",
+      "remediation": "Seed nextSuggestionNumericId from the SQLite proactive_cards table on startup in src/backend/src/routes/agents.ts:85.",
+      "effort": "S",
+      "evidence": ["src/backend/src/routes/agents.ts"]
+    },
+    {
+      "id": "AUD-C-018",
+      "workstream": "WS-C",
+      "severity": "Medium",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "GET /auth/v1/authorize and GET /auth/start Mint Access Tokens Without Inserting Session Rows Into SQLite sessions Table",
+      "component": "Backend Auth Session Persistence",
+      "location": "src/backend/src/routes/auth.ts:107-121, 131-175",
+      "description": "While POST /auth/v1/token (src/backend/src/routes/auth.ts:198-207) inserts each minted access_token and refresh_token into the SQLite sessions table, GET /auth/v1/authorize (auth.ts:107-121) and GET /auth/start (auth.ts:131-175) call createLocalJwt(DEFAULT_USER_ID, DEFAULT_EMAIL) and return the minted access_token and refresh_token directly to the caller without inserting a row into SQLite sessions.",
+      "reproduction": [
+        "1. Inspect src/backend/src/routes/auth.ts lines 100-175 vs lines 193-208.",
+        "2. Call GET /auth/start?format=json and check SELECT COUNT(*) FROM sessions WHERE access_token = <returned_token>."
+      ],
+      "observed": "0 rows exist in SQLite sessions for tokens minted via GET /auth/v1/authorize or GET /auth/start.",
+      "expected": "Every endpoint that mints an access_token and refresh_token must persist the session row in SQLite sessions so session validation, token refresh, and logout work consistently across all auth flows.",
+      "impact": "Inconsistent session state in SQLite; once AUD-C-004 is fixed to validate bearer tokens against the sessions table, tokens obtained via /auth/v1/authorize or /auth/start will be rejected as unknown sessions.",
+      "remediation": "Insert a sessions row in handleAuthorize (auth.ts:107) and handleAuthStart (auth.ts:131) using the same INSERT INTO sessions statement used in handleToken (auth.ts:198-207).",
+      "effort": "S",
+      "evidence": ["src/backend/src/routes/auth.ts"]
+    }
+  ]
+}

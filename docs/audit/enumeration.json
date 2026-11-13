@@ -1,0 +1,3487 @@
+{
+  "generatedAt": "2026-11-13T11:24:00.133Z",
+  "generatedBy": "verifier-lead",
+  "summary": {
+    "backendRouteCount": 111,
+    "scriptCount": 14,
+    "desktopProjectCount": 7,
+    "desktopNamespaceCount": 105,
+    "totalDesktopCsFiles": 2096,
+    "settingsPageCount": 12,
+    "uiSurfaceAndWindowCount": 191,
+    "configurableHotkeyCount": 4,
+    "shortcutActionCount": 11,
+    "v8JsAssetCount": 8,
+    "shaderConstantCount": 4,
+    "shaderEntryPointCount": 27,
+    "existingTestSuiteCount": 2,
+    "existingTestCaseCount": 25
+  },
+  "backendRoutes": [
+    {
+      "file": "src/backend/src/index.ts",
+      "line": 24,
+      "router": "app",
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "file": "src/backend/src/index.ts",
+      "line": 34,
+      "router": "app",
+      "method": "GET",
+      "path": "/health"
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 100,
+      "router": "authRoutes",
+      "method": "GET",
+      "path": "/auth/v1/authorize"
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 128,
+      "router": "authRoutes",
+      "method": "GET",
+      "path": "/auth/start"
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 181,
+      "router": "authRoutes",
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 228,
+      "router": "authRoutes",
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 236,
+      "router": "authRoutes",
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 91,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/plan"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 92,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/me/plan"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 109,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/config"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 110,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/app-config"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 195,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/config/runtime-models"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 198,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/runtime/model-policy"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 342,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/devices/register"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 343,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/devices"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 344,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/devices"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 345,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/me/devices"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 401,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/onboarding/discovery-channel"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 402,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/me/discovery-channel"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 403,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/onboarding/discovery-channel"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 404,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/discovery-channel"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 406,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/onboarding/starter-plan"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 555,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/memory"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 556,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/me/memory"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 557,
+      "router": "workerRoutes",
+      "method": "PUT",
+      "path": "/memory"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 558,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/memory"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 559,
+      "router": "workerRoutes",
+      "method": "PUT",
+      "path": "/me/memory"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 560,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/memory/save"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 774,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/search/web"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 775,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/web-search"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 879,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/search/images"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 880,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/image-search"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 960,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/referral"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 961,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/me/referral"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 962,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/referral/claim"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 963,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/referral/claim"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 964,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/referral/code"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 965,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/referral/code"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 971,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/billing/checkout"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 988,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/billing/portal"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1002,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/account/delete"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1003,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/account/delete"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1019,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/telemetry/client-error"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1020,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/report-error"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1042,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/voice/language-hints"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1043,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/onboarding/language-hints"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1045,
+      "router": "workerRoutes",
+      "method": "GET",
+      "path": "/me/companion-history"
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1048,
+      "router": "workerRoutes",
+      "method": "POST",
+      "path": "/me/companion-history"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 34,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/deepgram/token"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 35,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/v2/dictation/deepgram-token"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 86,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/v2/dictation/gemini-token"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 87,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/brain/ears/token"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 215,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/realtime/token"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 216,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/agent/realtime/session"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 218,
+      "router": "voiceRoutes",
+      "method": "HEAD",
+      "path": "/agent/realtime/warmup"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 218,
+      "router": "voiceRoutes",
+      "method": "GET",
+      "path": "/agent/realtime/warmup"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 413,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/agent/realtime/speak"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 485,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/v2/dictation/cleanup"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 829,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/v2/dictation/transcribe"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 830,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/brain/ears/transcribe"
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 831,
+      "router": "voiceRoutes",
+      "method": "POST",
+      "path": "/ears/transcribe"
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 932,
+      "router": "brainRoutes",
+      "method": "POST",
+      "path": "/brain/turn"
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 1177,
+      "router": "brainRoutes",
+      "method": "POST",
+      "path": "/brain/compact"
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 1257,
+      "router": "brainRoutes",
+      "method": "POST",
+      "path": "/brain/session-end"
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 1301,
+      "router": "brainRoutes",
+      "method": "POST",
+      "path": "/brain/prewarm"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 360,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive/jobs"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 361,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive-agents/jobs"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 362,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/proactive/jobs/:jobId"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 363,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/proactive-agents/jobs/:jobId"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 364,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive/cards/resolve"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 365,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive-agents/resolution"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 366,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive/cards/status"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 367,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive-agents/suggestions/statuses"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 371,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive/morning/claim"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 372,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/proactive-agents/invitation-claim"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 488,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agents/notifications/unread"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 489,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agent/notifications"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 490,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agents/notifications/:id/read"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 494,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/notifications/:id/read"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 495,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agents/notifications/read-all"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 499,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/notifications/read-all"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 503,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agents/crons/:id"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 504,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agent/cron/:id"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 507,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/session-token"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 536,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/record-agent-launch"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 575,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agent/turn-lease/:id/status"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 598,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/continue"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 622,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/continue-after-computer-use-consent"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 644,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/complete"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 653,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/refund-early-stop"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 657,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/codex-thread-title"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 672,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/codex-thread-launch"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 678,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent-messages"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 910,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/connectors/status"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 911,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agent/integrations"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 912,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/connectors/connect"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 913,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/integrations/connect"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 914,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/integrations/:toolkit/connect"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 918,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/integrations/:toolkit/disconnect"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 929,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/integrations/:toolkit/accounts/:connectionId/label"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 936,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/composio/session"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1037,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/calendar/upcoming"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1038,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/me/calendar/upcoming"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1039,
+      "router": "agentRoutes",
+      "method": "GET",
+      "path": "/agent/realtime/google-calendar/events"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1043,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/realtime/google-calendar/events"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1047,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/realtime/google-calendar/create-event"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1051,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/realtime/google-calendar/events/create"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1057,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/tools/search-connectors"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1112,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/tools/execute-connector"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1172,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/tools/spotify/search"
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1173,
+      "router": "agentRoutes",
+      "method": "POST",
+      "path": "/agent/realtime/spotify/search"
+    }
+  ],
+  "scripts": [
+    {
+      "path": "setup-kursor.cmd",
+      "location": "root",
+      "sizeBytes": 131
+    },
+    {
+      "path": "setup-kursor.ps1",
+      "location": "root",
+      "sizeBytes": 4175
+    },
+    {
+      "path": "start-kursor.cmd",
+      "location": "root",
+      "sizeBytes": 115
+    },
+    {
+      "path": "start-kursor.ps1",
+      "location": "root",
+      "sizeBytes": 6588
+    },
+    {
+      "path": "scripts/build-dist.ps1",
+      "location": "scripts",
+      "sizeBytes": 5598
+    },
+    {
+      "path": "scripts/check-status.ps1",
+      "location": "scripts",
+      "sizeBytes": 401
+    },
+    {
+      "path": "scripts/install-autostart.ps1",
+      "location": "scripts",
+      "sizeBytes": 2955
+    },
+    {
+      "path": "scripts/install-dotnet.ps1",
+      "location": "scripts",
+      "sizeBytes": 474
+    },
+    {
+      "path": "scripts/install-runtime.ps1",
+      "location": "scripts",
+      "sizeBytes": 2002
+    },
+    {
+      "path": "scripts/overlay-and-launch.ps1",
+      "location": "scripts",
+      "sizeBytes": 3200
+    },
+    {
+      "path": "scripts/package-portable.ps1",
+      "location": "scripts",
+      "sizeBytes": 3661
+    },
+    {
+      "path": "scripts/seed-local-auth.ps1",
+      "location": "scripts",
+      "sizeBytes": 4230
+    },
+    {
+      "path": "scripts/start-kursor-hidden.vbs",
+      "location": "scripts",
+      "sizeBytes": 870
+    },
+    {
+      "path": "scripts/uninstall-autostart.ps1",
+      "location": "scripts",
+      "sizeBytes": 1234
+    }
+  ],
+  "desktopProjects": [
+    {
+      "project": "Kursor.Contracts",
+      "csproj": "src/desktop/Kursor.Contracts/Kursor.Contracts.csproj",
+      "assemblyName": "HeyClicky.Contracts",
+      "targetFramework": "net9.0",
+      "outputType": "Library",
+      "totalCsFiles": 55,
+      "namespaces": [
+        {
+          "namespace": "HeyClicky",
+          "directory": "src/desktop/Kursor.Contracts/HeyClicky",
+          "csFileCount": 54,
+          "sampleFiles": [
+            "src/desktop/Kursor.Contracts/HeyClicky/AgentTaskSnapshot.cs",
+            "src/desktop/Kursor.Contracts/HeyClicky/AgentTaskStatus.cs",
+            "src/desktop/Kursor.Contracts/HeyClicky/AppPaths.cs",
+            "src/desktop/Kursor.Contracts/HeyClicky/ClickTargetRing.cs",
+            "src/desktop/Kursor.Contracts/HeyClicky/ClickyEndpoints.cs"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Kursor.Drawing3D",
+      "csproj": "src/desktop/Kursor.Drawing3D/Kursor.Drawing3D.csproj",
+      "assemblyName": "HeyClicky.Drawing3D",
+      "targetFramework": "net9.0",
+      "outputType": "Library",
+      "totalCsFiles": 41,
+      "namespaces": [
+        {
+          "namespace": "HeyClicky.Drawing3D",
+          "directory": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D",
+          "csFileCount": 36,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/CatmullRomCurve.cs",
+            "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs",
+            "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/CssColor.cs",
+            "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/DrawItem3D.cs",
+            "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/EarClipping.cs"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Kursor.Drawing",
+      "csproj": "src/desktop/Kursor.Drawing/Kursor.Drawing.csproj",
+      "assemblyName": "HeyClicky.Drawing",
+      "targetFramework": "net9.0",
+      "outputType": "Library",
+      "totalCsFiles": 85,
+      "namespaces": [
+        {
+          "namespace": "HeyClicky.Drawing",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing",
+          "csFileCount": 11,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingTimelineReport.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing/GpuPriority.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPenPose.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPlaybackFrame.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Drawing.Audio",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio",
+          "csFileCount": 3,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio/ScreenDrawingSounds.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio/SoundItem.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio/SoundPlayer.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Drawing.Engine",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine",
+          "csFileCount": 8,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/CssColor.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/HostBridge.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/ScreenshotSampler.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/SvgPath.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Drawing.Interop",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Interop",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Interop/NativeMethods.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Drawing.Media",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media",
+          "csFileCount": 9,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/LessonVideoFiles.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/LessonVideoRecorder.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/MF.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4Probe.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4Soundtrack.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Drawing.Overlay",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay",
+          "csFileCount": 12,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/ActionButtons.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/ButtonLabels.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/CardHandles.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/DrawingCaption.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/DrawingSuggestionCards.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Drawing.Painter",
+          "directory": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter",
+          "csFileCount": 15,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/AnimationSpec.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/CompositionShadows.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/Drawing3DAdapter.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/IFigureSurface.cs",
+            "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/MarkTiming.cs"
+          ]
+        },
+        {
+          "namespace": "System.Text.RegularExpressions.Generated",
+          "directory": "src/desktop/Kursor.Drawing/System.Text.RegularExpressions.Generated",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F7574F012CF8662BB4428E0569B8990148C8CEFCEB6920EBA9F953742ED426801__TransformPattern_0.cs",
+            "src/desktop/Kursor.Drawing/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F7574F012CF8662BB4428E0569B8990148C8CEFCEB6920EBA9F953742ED426801__Utilities.cs"
+          ]
+        },
+        {
+          "namespace": "WinRT.HeyClicky_DrawingGenericHelpers",
+          "directory": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers",
+          "csFileCount": 21,
+          "sampleFiles": [
+            "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/GlobalVtableLookup.cs",
+            "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IDictionary_string_string.cs",
+            "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_byte.cs",
+            "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_int.cs",
+            "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_object.cs"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Kursor.Platform",
+      "csproj": "src/desktop/Kursor.Platform/Kursor.Platform.csproj",
+      "assemblyName": "HeyClicky.Platform",
+      "targetFramework": "net9.0",
+      "outputType": "Library",
+      "totalCsFiles": 345,
+      "namespaces": [
+        {
+          "namespace": "HeyClicky.Platform.Audio",
+          "directory": "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio",
+          "csFileCount": 21,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/AudioDeviceInfo.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/AudioDevices.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/AudioEndpointInfo.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/AudioEndpoints.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/AudioOutputRoute.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Platform.Capture",
+          "directory": "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture",
+          "csFileCount": 7,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/CaptureGpu.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/DesktopDuplicationSource.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/JpegEncoder.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureBackend.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Platform.Input",
+          "directory": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input",
+          "csFileCount": 24,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyActuation.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyDriveState.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyInputProvenance.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyKeyNames.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyModifierKeys.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Platform.Overlay",
+          "directory": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay",
+          "csFileCount": 26,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/ClickTargetLayer.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorAdjacentPlacement.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorClusterPose.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorClusterRenderer.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorLayer.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Platform.Permissions",
+          "directory": "src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions/PermissionService.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Platform.Win32",
+          "directory": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32",
+          "csFileCount": 23,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/AppWindowLocator.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/CaptureExclusion.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DisplayEnumerator.cs",
+            "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DpiAwarenessScope.cs"
+          ]
+        },
+        {
+          "namespace": "System.Text.RegularExpressions.Generated",
+          "directory": "src/desktop/Kursor.Platform/System.Text.RegularExpressions.Generated",
+          "csFileCount": 3,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/System.Text.RegularExpressions.Generated/-RegexGenerator_g-FD27443086CA09DA37C0E5A8B6DAA42AD77D15FFFA56E38F8C84164A75A302D1A__EmDashPattern_0.cs",
+            "src/desktop/Kursor.Platform/System.Text.RegularExpressions.Generated/-RegexGenerator_g-FD27443086CA09DA37C0E5A8B6DAA42AD77D15FFFA56E38F8C84164A75A302D1A__LeadingCommaPattern_1.cs",
+            "src/desktop/Kursor.Platform/System.Text.RegularExpressions.Generated/-RegexGenerator_g-FD27443086CA09DA37C0E5A8B6DAA42AD77D15FFFA56E38F8C84164A75A302D1A__Utilities.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32",
+          "csFileCount": 30,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32/AvRevertMmThreadCharacteristicsSafeHandle.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32/ComOrWinRTObjectMarshaller.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32/ComOutPtr.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32/FreeLibrarySafeHandle.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32/GlobalFreeSafeHandle.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.Foundation",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.Foundation",
+          "csFileCount": 22,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.Foundation/BOOL.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Foundation/BSTR.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Foundation/CHAR.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Foundation/COLORREF.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Foundation/DECIMAL.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.Graphics.Dwm",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Dwm",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Dwm/DWMWINDOWATTRIBUTE.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.Graphics.Gdi",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Gdi",
+          "csFileCount": 8,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Gdi/HBRUSH.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Gdi/HDC.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Gdi/HGDIOBJ.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Gdi/HMONITOR.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Graphics.Gdi/MONITORENUMPROC.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.Media.Audio",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio",
+          "csFileCount": 16,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio/AUDCLNT_SHAREMODE.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio/AUDIO_VOLUME_NOTIFICATION_DATA.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio/DEVICE_STATE.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio/EDataFlow.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio/ERole.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.Media.Audio.Endpoints",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio.Endpoints",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio.Endpoints/IAudioEndpointVolume.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.Media.Audio.Endpoints/IAudioEndpointVolumeCallback.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.Security",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.Security",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.Security/SECURITY_ATTRIBUTES.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.System.Com",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.System.Com",
+          "csFileCount": 38,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com/ADVANCED_FEATURE_FLAGS.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com/BINDPTR_unmanaged.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com/BLOB.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com/CALLCONV.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com/CLSCTX.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.System.Com.StructuredStorage",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.System.Com.StructuredStorage",
+          "csFileCount": 29,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com.StructuredStorage/BSTRBLOB.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com.StructuredStorage/CABOOL.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com.StructuredStorage/CABSTR.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com.StructuredStorage/CABSTRBLOB.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Com.StructuredStorage/CAC.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.System.Memory",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.System.Memory",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Memory/GLOBAL_ALLOC_FLAGS.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.System.Ole",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.System.Ole",
+          "csFileCount": 5,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Ole/ARRAYDESC.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Ole/IRecordInfo_unmanaged.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Ole/PARAMDESCEX_unmanaged.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Ole/PARAMDESC_unmanaged.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Ole/PARAMFLAGS.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.System.Threading",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.System.Threading",
+          "csFileCount": 3,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Threading/AVRT_TASK_HANDLE.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Threading/PROCESS_ACCESS_RIGHTS.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Threading/PROCESS_NAME_FORMAT.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.System.Variant",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.System.Variant",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Variant/VARENUM.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.System.Variant/VARIANT_unmanaged.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.UI.Accessibility",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.UI.Accessibility",
+          "csFileCount": 37,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Accessibility/AutomationElementMode.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Accessibility/CUIAutomation8.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Accessibility/HWINEVENTHOOK.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Accessibility/IAccessible.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Accessibility/IRawElementProviderSimple.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.UI.HiDpi",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.UI.HiDpi",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.HiDpi/DPI_AWARENESS_CONTEXT.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.HiDpi/MONITOR_DPI_TYPE.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.UI.Input",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.UI.Input",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input/RAWINPUTDEVICE.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input/RAWINPUTDEVICE_FLAGS.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.UI.Input.KeyboardAndMouse",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.UI.Input.KeyboardAndMouse",
+          "csFileCount": 11,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input.KeyboardAndMouse/HARDWAREINPUT.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input.KeyboardAndMouse/HKL.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input.KeyboardAndMouse/INPUT.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input.KeyboardAndMouse/INPUT_TYPE.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Input.KeyboardAndMouse/KEYBDINPUT.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.UI.Shell.PropertiesSystem",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.UI.Shell.PropertiesSystem",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.Shell.PropertiesSystem/IPropertyStore.cs"
+          ]
+        },
+        {
+          "namespace": "Windows.Win32.UI.WindowsAndMessaging",
+          "directory": "src/desktop/Kursor.Platform/Windows.Win32.UI.WindowsAndMessaging",
+          "csFileCount": 27,
+          "sampleFiles": [
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.WindowsAndMessaging/CURSORINFO.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.WindowsAndMessaging/CURSORINFO_FLAGS.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.WindowsAndMessaging/GET_ANCESTOR_FLAGS.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.WindowsAndMessaging/HCURSOR.cs",
+            "src/desktop/Kursor.Platform/Windows.Win32.UI.WindowsAndMessaging/HHOOK.cs"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Kursor.Core",
+      "csproj": "src/desktop/Kursor.Core/Kursor.Core.csproj",
+      "assemblyName": "HeyClicky.Core",
+      "targetFramework": "net9.0",
+      "outputType": "Library",
+      "totalCsFiles": 564,
+      "namespaces": [
+        {
+          "namespace": "CommunityToolkit.Mvvm.ComponentModel.__Internals",
+          "directory": "src/desktop/Kursor.Core/CommunityToolkit.Mvvm.ComponentModel.__Internals",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/CommunityToolkit.Mvvm.ComponentModel.__Internals/__KnownINotifyPropertyChangedArgs.cs",
+            "src/desktop/Kursor.Core/CommunityToolkit.Mvvm.ComponentModel.__Internals/__KnownINotifyPropertyChangingArgs.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core/CoreJsonContext.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core/CoreServices.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Auth",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Auth",
+          "csFileCount": 10,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Auth/AtomicFile.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthCallback.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthCallbackError.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthDeepLink.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthTokenStore.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Billing",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Billing",
+          "csFileCount": 27,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Billing/AgentModelPricing.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Billing/AgentTurnCostLedger.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Billing/AgentTurnUsageRecord.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Billing/BillingActionStyle.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Billing/BillingFetchError.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Brain",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Brain",
+          "csFileCount": 29,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainClient.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainCompactionPolicy.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainCompactReply.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainCompactResult.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainComputerCall.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Browser",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Browser",
+          "csFileCount": 12,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Browser/BrowserErrorKinds.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Browser/BrowserTurnContext.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Browser/BrowserTurnUsage.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Browser/BrowserTurnUsageTally.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Browser/BrowserUploads.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Configuration",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Configuration",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/TelemetryConfiguration.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Connectors",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Connectors",
+          "csFileCount": 14,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/CodexStoredSignIn.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/CodexStoredSignIns.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/LoopbackCallbackServer.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/McpOAuth.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/McpOAuthClientRegistration.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Dictation",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Dictation",
+          "csFileCount": 16,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationCleanupContext.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationController.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationControllerOptions.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationCorrectionDetector.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationDeliveryOutcome.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Documents",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Documents",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents/DocumentText.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents/PdfText.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Documents.Markdown",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Markdown",
+          "csFileCount": 7,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Markdown/MarkdownInlineParser.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Markdown/MarkdownInlineRun.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Markdown/MarkdownViewerBlock.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Markdown/MarkdownViewerListItem.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Markdown/MarkdownViewerParser.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Documents.Spreadsheet",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Spreadsheet",
+          "csFileCount": 29,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Spreadsheet/ISpreadsheetTextMeasurer.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Spreadsheet/SpreadsheetBorderEdge.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Spreadsheet/SpreadsheetCell.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Spreadsheet/SpreadsheetCellAddress.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Documents.Spreadsheet/SpreadsheetCellKind.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Drive",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Drive",
+          "csFileCount": 12,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Drive/AgentDriveEnding.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Drive/AgentDriveOutcome.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Drive/AgentDriveReports.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyConsentReplyMarker.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyDriveActions.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Identity",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Identity",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Identity/ClickyClientIdentity.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Identity/ClickySystemEnvironment.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Ink",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Ink",
+          "csFileCount": 107,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyEdgeStackInkReading.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyHomeInkNote.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkActionFeedback.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkActionsStore.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkActivity.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Net",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Net",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Net/ClickyClientHeadersHandler.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Net/ClickyHttp.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Notch",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Notch",
+          "csFileCount": 35,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Notch/CachedConversation.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Notch/ChatActionCaption.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Notch/ChatHandOff.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Notch/ChatHandOffKind.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Notch/ChatHandOffOutcome.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Onboarding",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Onboarding",
+          "csFileCount": 20,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Onboarding/CursorColorOption.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Onboarding/DiscoveryChannelOption.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Onboarding/DrawnTourBriefs.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Onboarding/HostedVideoFailure.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Onboarding/HostedVideoFailureReporter.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Platform",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Platform",
+          "csFileCount": 3,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Platform/IDesktopActions.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Platform/TextInsertOutcome.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Platform/WindowsDesktopActions.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Proactive",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Proactive",
+          "csFileCount": 47,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Proactive/AgentBackendClient.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Proactive/AgentIntegrationInfo.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Proactive/AgentNotification.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Proactive/AgentNotificationSeverity.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Proactive/ClickyFoundingMarker.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Settings",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Settings",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Settings/AppSettings.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Settings/SettingsStore.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Telemetry",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Telemetry",
+          "csFileCount": 11,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Telemetry/AgentFailureReason.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Telemetry/AnalyticsEvent.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Telemetry/ClickyAITracing.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Telemetry/ClickyAnalytics.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Telemetry/CrashReporter.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Tools",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Tools",
+          "csFileCount": 22,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Tools/AgentClickyInfo.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Tools/AgentHandoffBlock.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Tools/AgentJobInfo.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Tools/AgentJobRunInfo.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Tools/AgentTaskInfo.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Voice",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Voice",
+          "csFileCount": 41,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Voice/AppTeachingIds.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Voice/Attachments.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Voice/BrainUserContext.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSessionOptions.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Core.Worker",
+          "directory": "src/desktop/Kursor.Core/HeyClicky.Core.Worker",
+          "csFileCount": 50,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/HeyClicky.Core.Worker/AppConfig.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Worker/AppConfigLinks.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Worker/AppConfigResponse.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Worker/AppRemoteConfig.cs",
+            "src/desktop/Kursor.Core/HeyClicky.Core.Worker/AppRemoteLinks.cs"
+          ]
+        },
+        {
+          "namespace": "System.Text.RegularExpressions.Generated",
+          "directory": "src/desktop/Kursor.Core/System.Text.RegularExpressions.Generated",
+          "csFileCount": 49,
+          "sampleFiles": [
+            "src/desktop/Kursor.Core/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F2A86C3D8F8653D6C99BE1B8441A5DADEC6C855822CB294D49492A00C67E55137__AdjacentLinksRegex_42.cs",
+            "src/desktop/Kursor.Core/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F2A86C3D8F8653D6C99BE1B8441A5DADEC6C855822CB294D49492A00C67E55137__AnyTag_10.cs",
+            "src/desktop/Kursor.Core/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F2A86C3D8F8653D6C99BE1B8441A5DADEC6C855822CB294D49492A00C67E55137__BareUrlPattern_2.cs",
+            "src/desktop/Kursor.Core/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F2A86C3D8F8653D6C99BE1B8441A5DADEC6C855822CB294D49492A00C67E55137__BfCharBlock_28.cs",
+            "src/desktop/Kursor.Core/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F2A86C3D8F8653D6C99BE1B8441A5DADEC6C855822CB294D49492A00C67E55137__BfRangeBlock_29.cs"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Kursor.Agents",
+      "csproj": "src/desktop/Kursor.Agents/Kursor.Agents.csproj",
+      "assemblyName": "HeyClicky.Agents",
+      "targetFramework": "net9.0",
+      "outputType": "Library",
+      "totalCsFiles": 122,
+      "namespaces": [
+        {
+          "namespace": "HeyClicky.Agents",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents",
+          "csFileCount": 18,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentActivityItem.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentActivityKind.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentBrowserTurn.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentDefaults.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentFailureDescription.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Backend",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend",
+          "csFileCount": 13,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentBackendException.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentIntegration.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentIntegrationAccount.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentIntegrationCatalog.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Backend/AgentIntegrationsApi.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Clickys",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Clickys",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Clickys/ClickyInfo.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Clickys/ClickyStore.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Harness",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness",
+          "csFileCount": 17,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarness.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessEvent.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessException.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessLocalMcpCommand.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessMcpServer.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Jobs",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs",
+          "csFileCount": 40,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyAnswer.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyAppLiveStatus.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyAppsPreferences.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyAppStore.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyArcPlan.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Routines",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines",
+          "csFileCount": 6,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/ClickyRoutine.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/IRoutineHost.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineKeepAwake.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineScheduler.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutinesTool.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Runtime",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime",
+          "csFileCount": 11,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexRolloutHistory.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexSession.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/ComposioMcpConfiguration.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/ComposioTurnErrors.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.Agents.Turns",
+          "directory": "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns",
+          "csFileCount": 8,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/ActivityRow.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/AgentRoutineRequest.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/AgentTask.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/ChromeTurnEnd.cs",
+            "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/CitationMarkers.cs"
+          ]
+        },
+        {
+          "namespace": "System.Text.RegularExpressions.Generated",
+          "directory": "src/desktop/Kursor.Agents/System.Text.RegularExpressions.Generated",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.Agents/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F438A85ABF99E47EA4FBA640CE8836B84C8719F8A5025C90CE820D2BC67EAC31D__NonSlug_0.cs",
+            "src/desktop/Kursor.Agents/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F438A85ABF99E47EA4FBA640CE8836B84C8719F8A5025C90CE820D2BC67EAC31D__Utilities.cs"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Kursor.App",
+      "csproj": "src/desktop/Kursor.App/Kursor.App.csproj",
+      "assemblyName": "HeyClicky",
+      "targetFramework": "net9.0",
+      "outputType": "WinExe",
+      "totalCsFiles": 884,
+      "namespaces": [
+        {
+          "namespace": "HeyClicky.App",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App",
+          "csFileCount": 14,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App/AgentDetailExtensions.cs",
+            "src/desktop/Kursor.App/HeyClicky.App/AgentsInkNoteHost.cs",
+            "src/desktop/Kursor.App/HeyClicky.App/App.cs",
+            "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs",
+            "src/desktop/Kursor.App/HeyClicky.App/AppOptions.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Billing",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Billing",
+          "csFileCount": 7,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Billing/BillingUi.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Billing/IPaywallCardHost.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallCard.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallCloseKind.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallFit.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Browser",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Browser",
+          "csFileCount": 7,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeAutoInstall.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeInternalPages.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeSetupBriefs.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeSetupFlow.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Browser/ClickyDriveEnding.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Demo",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Demo",
+          "csFileCount": 11,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Demo/AnalyticsEndToEnd.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Demo/DemoRunner.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Demo/DocumentGallery.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Demo/EndToEnd.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Demo/IntegrationsEndToEnd.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Design",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Design",
+          "csFileCount": 8,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Design/DS.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Design/Easing.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Design/NotchSprings.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Design/SpringCurve.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Design/SpringMove.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.DevFakes",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.DevFakes",
+          "csFileCount": 12,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.DevFakes/DevShortcutMonitor.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.DevFakes/FakeAgentService.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.DevFakes/FakeAudioOutput.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.DevFakes/FakeAuthService.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.DevFakes/FakeCompanionSession.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Dock",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Dock",
+          "csFileCount": 87,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Dock/AgentDriveJobs.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Dock/AgentFocusPlace.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcButtons.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardContent.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardContentSource.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Documents",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Documents",
+          "csFileCount": 28,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Documents/DocumentViewers.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownFontWeight.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerBufferExtensions.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerContent.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerDocumentModel.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Drive",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Drive",
+          "csFileCount": 13,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Drive/AgentDriveBinding.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Drive/AgentDriveConsent.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Drive/ChromeSetupDrive.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Drive/ClickyTakeOverController.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Drive/DriveArt.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.HeyClicky_App_XamlTypeInfo",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.HeyClicky_App_XamlTypeInfo",
+          "csFileCount": 13,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.HeyClicky_App_XamlTypeInfo/Activator.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.HeyClicky_App_XamlTypeInfo/AddToCollection.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.HeyClicky_App_XamlTypeInfo/AddToDictionary.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.HeyClicky_App_XamlTypeInfo/BoxInstanceMethod.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.HeyClicky_App_XamlTypeInfo/CreateFromStringMethod.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Home",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Home",
+          "csFileCount": 19,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Home/AgentHomeSource.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Home/ArtifactPaths.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Home/ArtifactThumbnails.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Home/ChatBlockViews.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Home/DemoFiles.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Ink",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Ink",
+          "csFileCount": 269,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyArcPlanNotes.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyBaselinePlaced.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyBrandMark.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyBrandMarkShape.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyCardFace.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Interop",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Interop",
+          "csFileCount": 5,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Interop/FileSecurityProperties.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Interop/FolderDialog.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Interop/Native.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Interop/VirtualDesktops.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Interop/WindowSubclass.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Notch",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Notch",
+          "csFileCount": 12,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Notch/INotchHost.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchAccessibility.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchCornerGlow.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchGeometry.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchPreferences.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Notch.Peek",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek",
+          "csFileCount": 46,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ArcVoicePill.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ChatBubbles.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ChatDrawingRow.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ChatHandOffRow.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ChatMessageRow.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Notch.Surfaces",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces",
+          "csFileCount": 32,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ActivityIndicators.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ActivityPhase.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ActivitySurface.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/AgentColors.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/AgentTaskSurface.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Notch.Window",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window",
+          "csFileCount": 10,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindow.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowComposerBacking.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowConversation.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowFlightSpring.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowHost.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Onboarding",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Onboarding",
+          "csFileCount": 26,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Onboarding/CompositorSpringMotion.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Onboarding/CursorCompanion.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Onboarding/DrawStepStagePolicy.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Onboarding/GelSelectionBorder.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Onboarding/HatchFlightOverlay.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.OneBrain",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.OneBrain",
+          "csFileCount": 10,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.OneBrain/ClickyTourJob.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.OneBrain/ClickyTourJobCardLayout.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.OneBrain/ClickyTourJobCards.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.OneBrain/DrawnOnboardingFinalePrefetch.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.OneBrain/DrawnOnboardingNotchShowcase.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Portraits",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Portraits",
+          "csFileCount": 25,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Portraits/-PortraitWash-F2FF3F8DF461DCABE6D955F65C17EB9EF429F49A32432E29B2D7E392AB32ECE00__Colors.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Portraits/ClickyFace.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Portraits/ClickyLedgeHand.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Portraits/ClickyRoster.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Portraits/CloudFaceTraits.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Proactive",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Proactive",
+          "csFileCount": 4,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Proactive/ProactiveCoordinator.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Proactive/ProactiveHooks.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Proactive/ProactiveJobLaunch.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Proactive/TapVoiceCapture.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Services",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Services",
+          "csFileCount": 15,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Services/AppEntry.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services/AppRelaunch.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services/AppServices.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services/ConnectedApps.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services/CoreAppSettings.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Services.Updates",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Services.Updates",
+          "csFileCount": 7,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Services.Updates/IdleInstallContext.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services.Updates/IdleInstallPolicy.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services.Updates/IUpdateService.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services.Updates/NullUpdateService.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Services.Updates/UpdateService.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Settings",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Settings",
+          "csFileCount": 23,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Settings/AgentFolders.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Settings/BugReport.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Settings/CommandResolver.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Settings/ConnectorAuth.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Settings/ConnectorSignInKind.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Shell",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Shell",
+          "csFileCount": 9,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Shell/Displays.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Shell/FocusWatch.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Shell/OneBrainStatsPanel.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Shell/OverlayWindow.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Shell/PanelWindow.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.UI",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.UI",
+          "csFileCount": 28,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.UI/Accessibility.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.UI/AccessibleGrid.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.UI/Anim.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.UI/BrandMark.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.UI/CenteredWrapPanel.cs"
+          ]
+        },
+        {
+          "namespace": "HeyClicky.App.Wiring",
+          "directory": "src/desktop/Kursor.App/HeyClicky.App.Wiring",
+          "csFileCount": 15,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/HeyClicky.App.Wiring/AgentToolHost.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Wiring/AgentVoiceRelay.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Wiring/BrainContext.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Wiring/CompanionNotchBridge.cs",
+            "src/desktop/Kursor.App/HeyClicky.App.Wiring/DeferredCursorOverlay.cs"
+          ]
+        },
+        {
+          "namespace": "Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Common",
+          "directory": "src/desktop/Kursor.App/Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Common",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Common/AutoInitialize.cs"
+          ]
+        },
+        {
+          "namespace": "Microsoft.Windows.Foundation.UndockedRegFreeWinRTCS",
+          "directory": "src/desktop/Kursor.App/Microsoft.Windows.Foundation.UndockedRegFreeWinRTCS",
+          "csFileCount": 2,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/Microsoft.Windows.Foundation.UndockedRegFreeWinRTCS/AutoInitialize.cs",
+            "src/desktop/Kursor.App/Microsoft.Windows.Foundation.UndockedRegFreeWinRTCS/NativeMethods.cs"
+          ]
+        },
+        {
+          "namespace": "Sentry.Generated",
+          "directory": "src/desktop/Kursor.App/Sentry.Generated",
+          "csFileCount": 1,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/Sentry.Generated/BuildPropertyInitializer.cs"
+          ]
+        },
+        {
+          "namespace": "System.Text.RegularExpressions.Generated",
+          "directory": "src/desktop/Kursor.App/System.Text.RegularExpressions.Generated",
+          "csFileCount": 9,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F36FB2D25FB3E06331DF866801390D20E97C6BDCC4C519A6278D40F829CA940A3__BulletRegex_3.cs",
+            "src/desktop/Kursor.App/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F36FB2D25FB3E06331DF866801390D20E97C6BDCC4C519A6278D40F829CA940A3__HeadingRegex_1.cs",
+            "src/desktop/Kursor.App/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F36FB2D25FB3E06331DF866801390D20E97C6BDCC4C519A6278D40F829CA940A3__ImageRegex_5.cs",
+            "src/desktop/Kursor.App/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F36FB2D25FB3E06331DF866801390D20E97C6BDCC4C519A6278D40F829CA940A3__InlineRegex_7.cs",
+            "src/desktop/Kursor.App/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F36FB2D25FB3E06331DF866801390D20E97C6BDCC4C519A6278D40F829CA940A3__NonAlnum_0.cs"
+          ]
+        },
+        {
+          "namespace": "WinRT.HeyClickyGenericHelpers",
+          "directory": "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers",
+          "csFileCount": 97,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/GlobalVtableLookup.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IDictionary_int_string.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IDictionary_string_bool.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IDictionary_string_int.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IDictionary_string_string.cs"
+          ]
+        },
+        {
+          "namespace": "WinRT.HeyClickyVtableClasses",
+          "directory": "src/desktop/Kursor.App/WinRT.HeyClickyVtableClasses",
+          "csFileCount": 6,
+          "sampleFiles": [
+            "src/desktop/Kursor.App/WinRT.HeyClickyVtableClasses/HeyClicky_App_AppWinRTTypeDetails.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyVtableClasses/HeyClicky_App_HeyClicky_App_XamlTypeInfo_XamlMemberWinRTTypeDetails.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyVtableClasses/HeyClicky_App_HeyClicky_App_XamlTypeInfo_XamlMetaDataProviderWinRTTypeDetails.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyVtableClasses/HeyClicky_App_HeyClicky_App_XamlTypeInfo_XamlSystemBaseTypeWinRTTypeDetails.cs",
+            "src/desktop/Kursor.App/WinRT.HeyClickyVtableClasses/HeyClicky_App_Proactive_ProactiveCoordinatorWinRTTypeDetails.cs"
+          ]
+        }
+      ]
+    }
+  ],
+  "settingsPages": [
+    {
+      "index": 0,
+      "page": "Account",
+      "enumValue": "SettingsWindow.Page.Account",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 11
+    },
+    {
+      "index": 1,
+      "page": "General",
+      "enumValue": "SettingsWindow.Page.General",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 12
+    },
+    {
+      "index": 2,
+      "page": "Referral",
+      "enumValue": "SettingsWindow.Page.Referral",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 13
+    },
+    {
+      "index": 3,
+      "page": "Voice",
+      "enumValue": "SettingsWindow.Page.Voice",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 14
+    },
+    {
+      "index": 4,
+      "page": "Microphone",
+      "enumValue": "SettingsWindow.Page.Microphone",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 15
+    },
+    {
+      "index": 5,
+      "page": "Dictation",
+      "enumValue": "SettingsWindow.Page.Dictation",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 16
+    },
+    {
+      "index": 6,
+      "page": "Shortcuts",
+      "enumValue": "SettingsWindow.Page.Shortcuts",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 17
+    },
+    {
+      "index": 7,
+      "page": "Cursor",
+      "enumValue": "SettingsWindow.Page.Cursor",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 18
+    },
+    {
+      "index": 8,
+      "page": "Agents",
+      "enumValue": "SettingsWindow.Page.Agents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 19
+    },
+    {
+      "index": 9,
+      "page": "Routines",
+      "enumValue": "SettingsWindow.Page.Routines",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 20
+    },
+    {
+      "index": 10,
+      "page": "Integrations",
+      "enumValue": "SettingsWindow.Page.Integrations",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 21
+    },
+    {
+      "index": 11,
+      "page": "Developer",
+      "enumValue": "SettingsWindow.Page.Developer",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs",
+      "line": 22
+    }
+  ],
+  "uiSurfacesAndWindows": [
+    {
+      "name": "ArcNotchHomeDock",
+      "namespace": "HeyClicky.App",
+      "file": "src/desktop/Kursor.App/HeyClicky.App/ArcNotchHomeDock.cs"
+    },
+    {
+      "name": "DrawnOnboardingNotch",
+      "namespace": "HeyClicky.App",
+      "file": "src/desktop/Kursor.App/HeyClicky.App/DrawnOnboardingNotch.cs"
+    },
+    {
+      "name": "IPaywallCardHost",
+      "namespace": "HeyClicky.App.Billing",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Billing/IPaywallCardHost.cs"
+    },
+    {
+      "name": "PaywallCard",
+      "namespace": "HeyClicky.App.Billing",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallCard.cs"
+    },
+    {
+      "name": "PaywallCloseKind",
+      "namespace": "HeyClicky.App.Billing",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallCloseKind.cs"
+    },
+    {
+      "name": "PaywallFit",
+      "namespace": "HeyClicky.App.Billing",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallFit.cs"
+    },
+    {
+      "name": "PaywallPalette",
+      "namespace": "HeyClicky.App.Billing",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallPalette.cs"
+    },
+    {
+      "name": "PaywallWindow",
+      "namespace": "HeyClicky.App.Billing",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallWindow.cs"
+    },
+    {
+      "name": "FakeCursorOverlay",
+      "namespace": "HeyClicky.App.DevFakes",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.DevFakes/FakeCursorOverlay.cs"
+    },
+    {
+      "name": "FakeHighlightOverlay",
+      "namespace": "HeyClicky.App.DevFakes",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.DevFakes/FakeHighlightOverlay.cs"
+    },
+    {
+      "name": "ArcCardContent",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardContent.cs"
+    },
+    {
+      "name": "ArcCardContentSource",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardContentSource.cs"
+    },
+    {
+      "name": "ArcCardState",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardState.cs"
+    },
+    {
+      "name": "ArcCardStates",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardStates.cs"
+    },
+    {
+      "name": "ArcCardView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardView.cs"
+    },
+    {
+      "name": "ArcDock",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcDock.cs"
+    },
+    {
+      "name": "ArcDockAnalytics",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcDockAnalytics.cs"
+    },
+    {
+      "name": "ArcDockHost",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcDockHost.cs"
+    },
+    {
+      "name": "ArcDockView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcDockView.cs"
+    },
+    {
+      "name": "CardFooterRequest",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/CardFooterRequest.cs"
+    },
+    {
+      "name": "CardReadyOutput",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/CardReadyOutput.cs"
+    },
+    {
+      "name": "ChatWorkCard",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ChatWorkCard.cs"
+    },
+    {
+      "name": "DockFiles",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockFiles.cs"
+    },
+    {
+      "name": "DockFileStyle",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockFileStyle.cs"
+    },
+    {
+      "name": "DockFlow",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockFlow.cs"
+    },
+    {
+      "name": "DockLaunchFlight",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockLaunchFlight.cs"
+    },
+    {
+      "name": "DockMembershipWatch",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockMembershipWatch.cs"
+    },
+    {
+      "name": "DockOrder",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockOrder.cs"
+    },
+    {
+      "name": "DockRecency",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockRecency.cs"
+    },
+    {
+      "name": "DockTimer",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockTimer.cs"
+    },
+    {
+      "name": "DockWindowKey",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/DockWindowKey.cs"
+    },
+    {
+      "name": "FileCard",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/FileCard.cs"
+    },
+    {
+      "name": "FileCardRow",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/FileCardRow.cs"
+    },
+    {
+      "name": "FileCardSound",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/FileCardSound.cs"
+    },
+    {
+      "name": "FileCardStack",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/FileCardStack.cs"
+    },
+    {
+      "name": "GelTrackView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/GelTrackView.cs"
+    },
+    {
+      "name": "HandoffChipView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/HandoffChipView.cs"
+    },
+    {
+      "name": "JobCardText",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/JobCardText.cs"
+    },
+    {
+      "name": "LiveLineView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/LiveLineView.cs"
+    },
+    {
+      "name": "NoteChipView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/NoteChipView.cs"
+    },
+    {
+      "name": "PaperStampView",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/PaperStampView.cs"
+    },
+    {
+      "name": "ResultCardFace",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ResultCardFace.cs"
+    },
+    {
+      "name": "ResultCardLayouts",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/ResultCardLayouts.cs"
+    },
+    {
+      "name": "StickyPreviewLayout",
+      "namespace": "HeyClicky.App.Dock",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Dock/StickyPreviewLayout.cs"
+    },
+    {
+      "name": "DocumentViewers",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/DocumentViewers.cs"
+    },
+    {
+      "name": "MarkdownViewerBufferExtensions",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerBufferExtensions.cs"
+    },
+    {
+      "name": "MarkdownViewerContent",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerContent.cs"
+    },
+    {
+      "name": "MarkdownViewerDocumentModel",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerDocumentModel.cs"
+    },
+    {
+      "name": "MarkdownViewerFileWatcher",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerFileWatcher.cs"
+    },
+    {
+      "name": "MarkdownViewerFonts",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerFonts.cs"
+    },
+    {
+      "name": "MarkdownViewerImage",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerImage.cs"
+    },
+    {
+      "name": "MarkdownViewerInlineDocument",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerInlineDocument.cs"
+    },
+    {
+      "name": "MarkdownViewerLinks",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerLinks.cs"
+    },
+    {
+      "name": "MarkdownViewerMetrics",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerMetrics.cs"
+    },
+    {
+      "name": "MarkdownViewerPalette",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerPalette.cs"
+    },
+    {
+      "name": "MarkdownViewerPreparedDocument",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerPreparedDocument.cs"
+    },
+    {
+      "name": "MarkdownViewerTableContent",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerTableContent.cs"
+    },
+    {
+      "name": "MarkdownViewerTableView",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerTableView.cs"
+    },
+    {
+      "name": "MarkdownViewerTextView",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerTextView.cs"
+    },
+    {
+      "name": "SpreadsheetAssetCache",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetAssetCache.cs"
+    },
+    {
+      "name": "SpreadsheetChromePalette",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetChromePalette.cs"
+    },
+    {
+      "name": "SpreadsheetDocumentView",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetDocumentView.cs"
+    },
+    {
+      "name": "SpreadsheetGridPalette",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetGridPalette.cs"
+    },
+    {
+      "name": "SpreadsheetGridRenderer",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetGridRenderer.cs"
+    },
+    {
+      "name": "SpreadsheetGridView",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetGridView.cs"
+    },
+    {
+      "name": "SpreadsheetPaneGeometry",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetPaneGeometry.cs"
+    },
+    {
+      "name": "SpreadsheetPreview",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetPreview.cs"
+    },
+    {
+      "name": "SpreadsheetSelection",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetSelection.cs"
+    },
+    {
+      "name": "SpreadsheetSelectionSummary",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetSelectionSummary.cs"
+    },
+    {
+      "name": "SpreadsheetTextAttributes",
+      "namespace": "HeyClicky.App.Documents",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetTextAttributes.cs"
+    },
+    {
+      "name": "OnboardingDriveContext",
+      "namespace": "HeyClicky.App.Drive",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Drive/OnboardingDriveContext.cs"
+    },
+    {
+      "name": "OnboardingDriveDemo",
+      "namespace": "HeyClicky.App.Drive",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Drive/OnboardingDriveDemo.cs"
+    },
+    {
+      "name": "TakeOverConsentCard",
+      "namespace": "HeyClicky.App.Drive",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Drive/TakeOverConsentCard.cs"
+    },
+    {
+      "name": "TakeOverOverlay",
+      "namespace": "HeyClicky.App.Drive",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Drive/TakeOverOverlay.cs"
+    },
+    {
+      "name": "UploadApprovalCard",
+      "namespace": "HeyClicky.App.Drive",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Drive/UploadApprovalCard.cs"
+    },
+    {
+      "name": "ChatBlockViews",
+      "namespace": "HeyClicky.App.Home",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Home/ChatBlockViews.cs"
+    },
+    {
+      "name": "ClickyCardFace",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyCardFace.cs"
+    },
+    {
+      "name": "ClickyCardSparkline",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyCardSparkline.cs"
+    },
+    {
+      "name": "ClickyCardView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyCardView.cs"
+    },
+    {
+      "name": "ClickyEdgeStackInkCard",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyEdgeStackInkCard.cs"
+    },
+    {
+      "name": "ClickyEdgeStackInkPulledCard",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyEdgeStackInkPulledCard.cs"
+    },
+    {
+      "name": "ClickyInkCardSubject",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkCardSubject.cs"
+    },
+    {
+      "name": "ClickyInkDashboardFaceView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkDashboardFaceView.cs"
+    },
+    {
+      "name": "ClickyInkDashboardView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkDashboardView.cs"
+    },
+    {
+      "name": "ClickyInkDeskView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkDeskView.cs"
+    },
+    {
+      "name": "ClickyInkEdgeCardEnvironment",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkEdgeCardEnvironment.cs"
+    },
+    {
+      "name": "ClickyInkEdgeCardLayout",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkEdgeCardLayout.cs"
+    },
+    {
+      "name": "ClickyInkEditionView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkEditionView.cs"
+    },
+    {
+      "name": "ClickyInkFaceView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkFaceView.cs"
+    },
+    {
+      "name": "ClickyInkFileCard",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkFileCard.cs"
+    },
+    {
+      "name": "ClickyInkFrontPageView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkFrontPageView.cs"
+    },
+    {
+      "name": "ClickyInkGroupView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkGroupView.cs"
+    },
+    {
+      "name": "ClickyInkLinkPreviewPlate",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkLinkPreviewPlate.cs"
+    },
+    {
+      "name": "ClickyInkMadeLinkCard",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkMadeLinkCard.cs"
+    },
+    {
+      "name": "ClickyInkOverlay",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkOverlay.cs"
+    },
+    {
+      "name": "ClickyInkPageView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkPageView.cs"
+    },
+    {
+      "name": "ClickyInkPipelineView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkPipelineView.cs"
+    },
+    {
+      "name": "ClickyInkProgressView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkProgressView.cs"
+    },
+    {
+      "name": "ClickyInkReviewCompactLine",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkReviewCompactLine.cs"
+    },
+    {
+      "name": "ClickyInkReviewList",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkReviewList.cs"
+    },
+    {
+      "name": "ClickyInkSheetRowView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkSheetRowView.cs"
+    },
+    {
+      "name": "ClickyInkSheetView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkSheetView.cs"
+    },
+    {
+      "name": "ClickyInkWordsView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkWordsView.cs"
+    },
+    {
+      "name": "ClickyNoteView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyNoteView.cs"
+    },
+    {
+      "name": "ClickyPaperGlyphView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyPaperGlyphView.cs"
+    },
+    {
+      "name": "ClickyShapeView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyShapeView.cs"
+    },
+    {
+      "name": "ClickySketchCard",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickySketchCard.cs"
+    },
+    {
+      "name": "ClickySketchCardMetrics",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickySketchCardMetrics.cs"
+    },
+    {
+      "name": "ClickySketchShapeView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickySketchShapeView.cs"
+    },
+    {
+      "name": "InkPaperSheet",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/InkPaperSheet.cs"
+    },
+    {
+      "name": "InkTextView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/InkTextView.cs"
+    },
+    {
+      "name": "InkViewModifiers",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/InkViewModifiers.cs"
+    },
+    {
+      "name": "InkViews",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/InkViews.cs"
+    },
+    {
+      "name": "InkViewThatFits",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/InkViewThatFits.cs"
+    },
+    {
+      "name": "PaperShadowView",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/PaperShadowView.cs"
+    },
+    {
+      "name": "PaperSurface",
+      "namespace": "HeyClicky.App.Ink",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Ink/PaperSurface.cs"
+    },
+    {
+      "name": "WindowSubclass",
+      "namespace": "HeyClicky.App.Interop",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Interop/WindowSubclass.cs"
+    },
+    {
+      "name": "NotchSurface",
+      "namespace": "HeyClicky.App.Notch",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchSurface.cs"
+    },
+    {
+      "name": "NotchSurfaces",
+      "namespace": "HeyClicky.App.Notch",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchSurfaces.cs"
+    },
+    {
+      "name": "NotchView",
+      "namespace": "HeyClicky.App.Notch",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchView.cs"
+    },
+    {
+      "name": "ClickyDrawingWindowView",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowView.cs"
+    },
+    {
+      "name": "ClickyDrawingWindowViewer",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowViewer.cs"
+    },
+    {
+      "name": "IHeyClickyWindowHost",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/IHeyClickyWindowHost.cs"
+    },
+    {
+      "name": "INotchHomeDock",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/INotchHomeDock.cs"
+    },
+    {
+      "name": "NotchChatView",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/NotchChatView.cs"
+    },
+    {
+      "name": "NotchDocumentViewer",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/NotchDocumentViewer.cs"
+    },
+    {
+      "name": "NotchPeekSurface",
+      "namespace": "HeyClicky.App.Notch.Peek",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/NotchPeekSurface.cs"
+    },
+    {
+      "name": "ActivitySurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ActivitySurface.cs"
+    },
+    {
+      "name": "AgentTaskSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/AgentTaskSurface.cs"
+    },
+    {
+      "name": "AppTipSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/AppTipSurface.cs"
+    },
+    {
+      "name": "AppUpdatedSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/AppUpdatedSurface.cs"
+    },
+    {
+      "name": "CardParts",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/CardParts.cs"
+    },
+    {
+      "name": "ClickyUpdateSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ClickyUpdateSurface.cs"
+    },
+    {
+      "name": "DictationClipboardSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/DictationClipboardSurface.cs"
+    },
+    {
+      "name": "DictionaryLearnedSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/DictionaryLearnedSurface.cs"
+    },
+    {
+      "name": "DocumentAccessSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/DocumentAccessSurface.cs"
+    },
+    {
+      "name": "HandoffSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/HandoffSurface.cs"
+    },
+    {
+      "name": "IntegrationConnectedSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/IntegrationConnectedSurface.cs"
+    },
+    {
+      "name": "IntegrationSuggestionSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/IntegrationSuggestionSurface.cs"
+    },
+    {
+      "name": "IntroSkillPingSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/IntroSkillPingSurface.cs"
+    },
+    {
+      "name": "MeetingCountdownSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/MeetingCountdownSurface.cs"
+    },
+    {
+      "name": "MicrophoneTroubleSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/MicrophoneTroubleSurface.cs"
+    },
+    {
+      "name": "MorningSuggestionsSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/MorningSuggestionsSurface.cs"
+    },
+    {
+      "name": "MutedSpeakerSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/MutedSpeakerSurface.cs"
+    },
+    {
+      "name": "NotchUpdateCardAnalytics",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/NotchUpdateCardAnalytics.cs"
+    },
+    {
+      "name": "OnboardingCardSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/OnboardingCardSurface.cs"
+    },
+    {
+      "name": "RestingMarkSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/RestingMarkSurface.cs"
+    },
+    {
+      "name": "SkillPinnedSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/SkillPinnedSurface.cs"
+    },
+    {
+      "name": "TextInputSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/TextInputSurface.cs"
+    },
+    {
+      "name": "TextResponseSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/TextResponseSurface.cs"
+    },
+    {
+      "name": "TutorialInviteSurface",
+      "namespace": "HeyClicky.App.Notch.Surfaces",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/TutorialInviteSurface.cs"
+    },
+    {
+      "name": "HeyClickyWindow",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindow.cs"
+    },
+    {
+      "name": "HeyClickyWindowComposerBacking",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowComposerBacking.cs"
+    },
+    {
+      "name": "HeyClickyWindowConversation",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowConversation.cs"
+    },
+    {
+      "name": "HeyClickyWindowFlightSpring",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowFlightSpring.cs"
+    },
+    {
+      "name": "HeyClickyWindowHost",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowHost.cs"
+    },
+    {
+      "name": "HeyClickyWindowOpeningFlight",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowOpeningFlight.cs"
+    },
+    {
+      "name": "HeyClickyWindowPalette",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowPalette.cs"
+    },
+    {
+      "name": "HeyClickyWindowUsageRing",
+      "namespace": "HeyClicky.App.Notch.Window",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowUsageRing.cs"
+    },
+    {
+      "name": "HatchFlightOverlay",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/HatchFlightOverlay.cs"
+    },
+    {
+      "name": "InterviewController",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/InterviewController.cs"
+    },
+    {
+      "name": "InterviewFieldFocusPolicy",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/InterviewFieldFocusPolicy.cs"
+    },
+    {
+      "name": "InterviewStage",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/InterviewStage.cs"
+    },
+    {
+      "name": "InterviewThoughtBubbles",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/InterviewThoughtBubbles.cs"
+    },
+    {
+      "name": "IntroWindow",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/IntroWindow.cs"
+    },
+    {
+      "name": "OnboardingDemoPointer",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/OnboardingDemoPointer.cs"
+    },
+    {
+      "name": "TutorialWindow",
+      "namespace": "HeyClicky.App.Onboarding",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/TutorialWindow.cs"
+    },
+    {
+      "name": "ClickyTourJobCardLayout",
+      "namespace": "HeyClicky.App.OneBrain",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.OneBrain/ClickyTourJobCardLayout.cs"
+    },
+    {
+      "name": "ClickyTourJobCards",
+      "namespace": "HeyClicky.App.OneBrain",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.OneBrain/ClickyTourJobCards.cs"
+    },
+    {
+      "name": "DrawnOnboardingFinalePrefetch",
+      "namespace": "HeyClicky.App.OneBrain",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.OneBrain/DrawnOnboardingFinalePrefetch.cs"
+    },
+    {
+      "name": "DrawnOnboardingNotchShowcase",
+      "namespace": "HeyClicky.App.OneBrain",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.OneBrain/DrawnOnboardingNotchShowcase.cs"
+    },
+    {
+      "name": "DrawnOnboardingTour",
+      "namespace": "HeyClicky.App.OneBrain",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.OneBrain/DrawnOnboardingTour.cs"
+    },
+    {
+      "name": "TourJobCardContent",
+      "namespace": "HeyClicky.App.OneBrain",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.OneBrain/TourJobCardContent.cs"
+    },
+    {
+      "name": "PortraitView",
+      "namespace": "HeyClicky.App.Portraits",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Portraits/PortraitView.cs"
+    },
+    {
+      "name": "StarterTaskCard",
+      "namespace": "HeyClicky.App.Portraits",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Portraits/StarterTaskCard.cs"
+    },
+    {
+      "name": "INotchCardActions",
+      "namespace": "HeyClicky.App.Services",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Services/INotchCardActions.cs"
+    },
+    {
+      "name": "UpdateWindow",
+      "namespace": "HeyClicky.App.Services.Updates",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Services.Updates/UpdateWindow.cs"
+    },
+    {
+      "name": "ReferralEstimatorCard",
+      "namespace": "HeyClicky.App.Settings",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/ReferralEstimatorCard.cs"
+    },
+    {
+      "name": "SettingsWindow",
+      "namespace": "HeyClicky.App.Settings",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs"
+    },
+    {
+      "name": "OverlayWindow",
+      "namespace": "HeyClicky.App.Shell",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Shell/OverlayWindow.cs"
+    },
+    {
+      "name": "PanelWindow",
+      "namespace": "HeyClicky.App.Shell",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Shell/PanelWindow.cs"
+    },
+    {
+      "name": "TrayIcon",
+      "namespace": "HeyClicky.App.Shell",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Shell/TrayIcon.cs"
+    },
+    {
+      "name": "GelSurface",
+      "namespace": "HeyClicky.App.UI",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.UI/GelSurface.cs"
+    },
+    {
+      "name": "RoundedVideoView",
+      "namespace": "HeyClicky.App.UI",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.UI/RoundedVideoView.cs"
+    },
+    {
+      "name": "DeferredCursorOverlay",
+      "namespace": "HeyClicky.App.Wiring",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Wiring/DeferredCursorOverlay.cs"
+    },
+    {
+      "name": "DeferredHighlightOverlay",
+      "namespace": "HeyClicky.App.Wiring",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Wiring/DeferredHighlightOverlay.cs"
+    },
+    {
+      "name": "WindowsPageReader",
+      "namespace": "HeyClicky.App.Wiring",
+      "file": "src/desktop/Kursor.App/HeyClicky.App.Wiring/WindowsPageReader.cs"
+    },
+    {
+      "name": "IEnumerable_Windows_Foundation_Point",
+      "namespace": "WinRT.HeyClickyGenericHelpers",
+      "file": "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IEnumerable_Windows_Foundation_Point.cs"
+    },
+    {
+      "name": "IEnumerator_Windows_Foundation_Point",
+      "namespace": "WinRT.HeyClickyGenericHelpers",
+      "file": "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IEnumerator_Windows_Foundation_Point.cs"
+    },
+    {
+      "name": "IList_Windows_Foundation_Point",
+      "namespace": "WinRT.HeyClickyGenericHelpers",
+      "file": "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IList_Windows_Foundation_Point.cs"
+    },
+    {
+      "name": "IReadOnlyList_Windows_Foundation_Point",
+      "namespace": "WinRT.HeyClickyGenericHelpers",
+      "file": "src/desktop/Kursor.App/WinRT.HeyClickyGenericHelpers/IReadOnlyList_Windows_Foundation_Point.cs"
+    }
+  ],
+  "globalHotkeys": {
+    "configurableBindings": [
+      {
+        "slot": "PushToTalk",
+        "defaultModifiers": "Control | Alt",
+        "defaultTrigger": "Hold",
+        "displayText": "Ctrl + Alt",
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs",
+        "line": 38
+      },
+      {
+        "slot": "TextMode",
+        "defaultModifiers": "Control",
+        "defaultTrigger": "DoubleTap",
+        "displayText": "Ctrl, pressed twice",
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs",
+        "line": 40
+      },
+      {
+        "slot": "Dictation",
+        "defaultModifiers": "Control | Win",
+        "defaultTrigger": "Hold",
+        "displayText": "Ctrl + Win",
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs",
+        "line": 42
+      },
+      {
+        "slot": "HandsFreeDictation",
+        "defaultModifiers": "Control | Win",
+        "defaultTrigger": "DoubleTap",
+        "displayText": "Ctrl + Win, pressed twice",
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs",
+        "line": 44
+      }
+    ],
+    "shortcutActions": [
+      {
+        "action": "PushToTalkDown",
+        "value": 0,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 5,
+        "trigger": "PushToTalk chord pressed"
+      },
+      {
+        "action": "PushToTalkUp",
+        "value": 1,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 6,
+        "trigger": "PushToTalk chord released"
+      },
+      {
+        "action": "TextComposerToggle",
+        "value": 2,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 7,
+        "trigger": "TextMode chord double-tap or hold"
+      },
+      {
+        "action": "DictationDown",
+        "value": 3,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 8,
+        "trigger": "Dictation chord pressed"
+      },
+      {
+        "action": "DictationUp",
+        "value": 4,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 9,
+        "trigger": "Dictation chord released"
+      },
+      {
+        "action": "Escape",
+        "value": 5,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 10,
+        "trigger": "VK_ESCAPE (27) pressed"
+      },
+      {
+        "action": "DictationCancel",
+        "value": 6,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 11,
+        "trigger": "Non-modifier key pressed while Dictation held"
+      },
+      {
+        "action": "HandsFreeDictationToggle",
+        "value": 7,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 12,
+        "trigger": "HandsFreeDictation chord double-tap or hold"
+      },
+      {
+        "action": "ProactiveDebugSweep",
+        "value": 8,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 13,
+        "trigger": "Win + Shift + F12 (VK_F12 = 123)"
+      },
+      {
+        "action": "MorningPreviewChord",
+        "value": 9,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 14,
+        "trigger": "Win + Shift + F11 (VK_F11 = 122)"
+      },
+      {
+        "action": "SystemScreenshotShortcut",
+        "value": 10,
+        "file": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs",
+        "line": 15,
+        "trigger": "Win + Shift + S (VK_S = 83) or PrintScreen (VK_SNAPSHOT = 44)"
+      }
+    ]
+  },
+  "v8JsAssets": [
+    {
+      "path": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js",
+      "exists": true,
+      "sizeBytes": 259913
+    },
+    {
+      "path": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js",
+      "exists": true,
+      "sizeBytes": 66985
+    },
+    {
+      "path": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js",
+      "exists": true,
+      "sizeBytes": 50405
+    },
+    {
+      "path": "dist/kursor-desktop/Assets/Engine/clicky-draw-engine.js",
+      "exists": true,
+      "sizeBytes": 259913
+    },
+    {
+      "path": "dist/kursor-desktop/Assets/Engine/clicky-draw-pieces.js",
+      "exists": true,
+      "sizeBytes": 66985
+    },
+    {
+      "path": "dist/kursor-desktop/Assets/Engine/clicky-draw-native.js",
+      "exists": true,
+      "sizeBytes": 50405
+    },
+    {
+      "path": "dist/kursor-desktop/Assets/Engine/clicky-three.js",
+      "exists": true,
+      "sizeBytes": 429525
+    },
+    {
+      "path": "dist/kursor-desktop/Assets/Engine/clicky-three-parts.js",
+      "exists": true,
+      "sizeBytes": 41390
+    }
+  ],
+  "shaders": {
+    "file": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Shaders.cs",
+    "constants": [
+      {
+        "name": "Common",
+        "line": 5,
+        "entryPoints": [
+          "transformNormal",
+          "sRGBFromLinear"
+        ]
+      },
+      {
+        "name": "Marker",
+        "line": 7,
+        "entryPoints": [
+          "davinci_vertex",
+          "davinci_fragment",
+          "davinci_uncut_id_fragment",
+          "davinci_picking_fragment",
+          "davinci_outline_vertex",
+          "davinci_outline_fragment",
+          "davinci_ink_and_seam_fragment"
+        ]
+      },
+      {
+        "name": "Studio",
+        "line": 9,
+        "entryPoints": [
+          "studio_vertex",
+          "studio_shadow_vertex",
+          "studio_shadow_cut_vertex",
+          "studio_shadow_cut_fragment",
+          "studio_distance_fragment",
+          "studio_uncut_distance_fragment",
+          "studio_fullscreen_vertex",
+          "studio_occlusion_fragment",
+          "studio_occlusion_blur_fragment",
+          "studio_bake_environment",
+          "studio_bake_irradiance",
+          "studio_fragment",
+          "studio_ground_vertex",
+          "studio_ground_fragment"
+        ]
+      },
+      {
+        "name": "Overlay",
+        "line": 11,
+        "entryPoints": [
+          "stage_overlay_vertex",
+          "stage_overlay_fragment",
+          "stage_sheet_vertex",
+          "stage_sheet_fragment"
+        ]
+      }
+    ]
+  },
+  "existingTestSuites": [
+    {
+      "file": "src/backend/src/test-phase1.ts",
+      "testCaseCount": 18,
+      "testCases": [
+        {
+          "line": 29,
+          "name": "GET /health & x-clicky-accepts-gzip: 1 header"
+        },
+        {
+          "line": 41,
+          "name": "GET /auth/v1/authorize (302 redirect to callback with code & state)"
+        },
+        {
+          "line": 56,
+          "name": "POST /auth/v1/token (PKCE / password / refresh_token -> valid JWT & user)"
+        },
+        {
+          "line": 82,
+          "name": "GET /auth/v1/user (Seeded local user profile)"
+        },
+        {
+          "line": 93,
+          "name": "POST /auth/v1/logout (200 OK)"
+        },
+        {
+          "line": 99,
+          "name": "GET /plan & GET /me/plan (PlanSnapshot DTO)"
+        },
+        {
+          "line": 119,
+          "name": "GET /config & GET /app-config (AppConfigResponse DTO)"
+        },
+        {
+          "line": 146,
+          "name": "GET /config/runtime-models (OpenRouter Brain, Deepgram Ears, OpenAI Realtime Mouth, Groq Dictation)"
+        },
+        {
+          "line": 161,
+          "name": "POST /devices/register (with Content-Encoding: gzip) & GET /devices"
+        },
+        {
+          "line": 200,
+          "name": "POST & GET /onboarding/discovery-channel & POST /onboarding/starter-plan"
+        },
+        {
+          "line": 240,
+          "name": "GET /memory & PUT /memory (UserMemoryResponse & SaveMemoryResponse)"
+        },
+        {
+          "line": 266,
+          "name": "POST /search/web & POST /search/images (WebSearchResponse & ImageSearchResponse)"
+        },
+        {
+          "line": 298,
+          "name": "Referral, Billing, Account Delete, Telemetry, & Language Hints routes"
+        },
+        {
+          "line": 368,
+          "name": "POST /deepgram/token (DeepgramTokenResponse DTO)"
+        },
+        {
+          "line": 380,
+          "name": "POST /v2/dictation/gemini-token (GeminiTranscriber.MintAsync DTO)"
+        },
+        {
+          "line": 398,
+          "name": "POST /realtime/token (RealtimeMouth.ParseMint DTO - OpenAI & Gemini fallback)"
+        },
+        {
+          "line": 428,
+          "name": "POST /v2/dictation/cleanup (Groq / OpenRouter / Gemini / Heuristic cleanup)"
+        },
+        {
+          "line": 447,
+          "name": "POST /v2/dictation/transcribe (Multipart audio & JSON base64 audio)"
+        }
+      ]
+    },
+    {
+      "file": "src/backend/src/test-phase2.ts",
+      "testCaseCount": 7,
+      "testCases": [
+        {
+          "line": 67,
+          "name": "POST /brain/turn (Gzip request, SSE meta/status/text/items/done, say(1, ...) & spot(...) drawing code)"
+        },
+        {
+          "line": 193,
+          "name": "POST /brain/turn (tool_call / tool_calls & computer_calls SSE events)"
+        },
+        {
+          "line": 235,
+          "name": "POST /brain/compact, POST /brain/session-end, & POST /brain/prewarm"
+        },
+        {
+          "line": 286,
+          "name": "Proactive routes (/proactive/jobs, /proactive-agents/jobs, /proactive/cards/resolve, /proactive/cards/status, /proactive/morning/claim)"
+        },
+        {
+          "line": 350,
+          "name": "Agent Notifications, Crons, Session Token & Turn Leases (/agent/* & /agents/*)"
+        },
+        {
+          "line": 425,
+          "name": "Connectors & Composio MCP (/connectors/status, /agent/integrations, /connectors/connect, /agent/composio/session)"
+        },
+        {
+          "line": 479,
+          "name": "Calendar & WorkerTools (/calendar/upcoming, /agent/realtime/google-calendar/*, /tools/*)"
+        }
+      ]
+    }
+  ]
+}

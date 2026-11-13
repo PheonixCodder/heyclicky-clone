@@ -1,0 +1,202 @@
+﻿[
+    {
+        "Name":  "ClearScript.Core.dll",
+        "Length":  1346880,
+        "SHA256":  "3669DEA49B60CABFB04488E0805FEFEE21E3371FA9E2C5A611A3ED1071970FA4"
+    },
+    {
+        "Name":  "ClearScript.V8.dll",
+        "Length":  1350976,
+        "SHA256":  "37A6979EEAA9A7D362812FD89F17A40CFA9268A57F521F873D6708C43BE5F625"
+    },
+    {
+        "Name":  "ClearScript.V8.ICUData.dll",
+        "Length":  10833544,
+        "SHA256":  "4C4C0D32C1186A3B8955AE5C32A034B2A801BBB6BDDE9947492FC8584DF22A07"
+    },
+    {
+        "Name":  "CommunityToolkit.Mvvm.dll",
+        "Length":  392512,
+        "SHA256":  "8912BE337A989509AD9F484238C83C156A8D166778DEE15AF67094A7E95D7BF6"
+    },
+    {
+        "Name":  "HeyClicky.Agents.dll",
+        "Length":  960512,
+        "SHA256":  "57136EED525E91F4FC05DFA5B763ED75120F22D154068EDC9B5DCC164C65AF68"
+    },
+    {
+        "Name":  "HeyClicky.Agents.pdb",
+        "Length":  261888,
+        "SHA256":  "B17FE24873277382C3F59161647C1EF3F59B403BEF7ABA48424A6D3EEDD82DF7"
+    },
+    {
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "SHA256":  "CAD323CF271705E7A00F988FD4E7690D0CB53810C4E2656251F73838DF008D84"
+    },
+    {
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  38188,
+        "SHA256":  "39A53B1E6DD1B23C0C283B2FAD1965696D14B13F0BA8456A94C86A9E75375B6A"
+    },
+    {
+        "Name":  "HeyClicky.Core.dll",
+        "Length":  3549696,
+        "SHA256":  "E26110B44CCEB0672D524B6CCD3B24E320736996B5514FF4DF292C954791C2CE"
+    },
+    {
+        "Name":  "HeyClicky.Core.pdb",
+        "Length":  1004552,
+        "SHA256":  "6B3D15465C36E6A9A9707907822DF524D2846B8A20BEFB7E03C10D42723DABDE"
+    },
+    {
+        "Name":  "HeyClicky.dll",
+        "Length":  4762112,
+        "SHA256":  "73F2DFDFDEE243B0B5B0433F3894FD5D5BD03497A0D6C1F896C8FFE1969C8507"
+    },
+    {
+        "Name":  "HeyClicky.Drawing.dll",
+        "Length":  543232,
+        "SHA256":  "E7ABBE00287DF65148C1F550137A8F397AFCEE300DA2AE9B4C3FD8F8E0B8326B"
+    },
+    {
+        "Name":  "HeyClicky.Drawing.pdb",
+        "Length":  223020,
+        "SHA256":  "47CB4574CD35AF830CD82E7CBBC7D25AF0C7F8C43E19C876246206FC5A66BE37"
+    },
+    {
+        "Name":  "HeyClicky.Drawing3D.dll",
+        "Length":  399360,
+        "SHA256":  "1B9E95AD9A0FE7534881221CE05F50173B9E86F63A1A2B07DCEBBB99584393C5"
+    },
+    {
+        "Name":  "HeyClicky.Drawing3D.pdb",
+        "Length":  120436,
+        "SHA256":  "352B202879957CAF23B5D5CEBF5134DBDA61AAD5BF2534DAE82F3AD408024451"
+    },
+    {
+        "Name":  "HeyClicky.exe",
+        "Length":  420352,
+        "SHA256":  "32C071E81A0677191F9160A5BC116E5E0B49BA60FFBF817A4EC659088679034D"
+    },
+    {
+        "Name":  "HeyClicky.pdb",
+        "Length":  1477848,
+        "SHA256":  "0A80E4389C521110B250C82B56CE0081E9A16054111CEA4CBD8744D043112F64"
+    },
+    {
+        "Name":  "HeyClicky.Platform.dll",
+        "Length":  715264,
+        "SHA256":  "E12BF3740A217B898988A2672F1F088183C1B1F91C79C3F92BB11EFB2373C7E6"
+    },
+    {
+        "Name":  "HeyClicky.Platform.pdb",
+        "Length":  296944,
+        "SHA256":  "E713589655500EF9E074D300EF757D20735BB6F72798F2CA4A55AB0B1FB8C2BE"
+    },
+    {
+        "Name":  "Microsoft.Graphics.Canvas.Interop.dll",
+        "Length":  2800960,
+        "SHA256":  "C7B5C0AE00EA21989ECF1C3872D2B7B6124C02C6D4CE1AA012DB22F12C1B2448"
+    },
+    {
+        "Name":  "Microsoft.InteractiveExperiences.Projection.dll",
+        "Length":  3591488,
+        "SHA256":  "57C0B291300A282442A02A86CDB3BCD4493AC46C3F256F88E11259655BB9CEBF"
+    },
+    {
+        "Name":  "Microsoft.Web.WebView2.Core.Projection.dll",
+        "Length":  1486144,
+        "SHA256":  "316A1142C0F8F8F9E6CFEDB7B29BAE3BBDC94D4FFC2BED978D1BE0785034F29E"
+    },
+    {
+        "Name":  "Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Length":  154944,
+        "SHA256":  "8AA25A7CE61510516AF8296C19B5F924571D335AB287A0DB7F82D79AE3537F1A"
+    },
+    {
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Name":  "Microsoft.WinUI.dll",
+        "Length":  16776512,
+        "SHA256":  "5CFC3A25F3F8FFD10868F2D83B1A8A94A1E97281A4805EC6EDF6F58B165A80BE"
+    },
+    {
+        "Name":  "Newtonsoft.Json.dll",
+        "Length":  1854784,
+        "SHA256":  "38E4748F5158239A91778057DF6DE4014139091C08A397FF14AD69EA39410747"
+    },
+    {
+        "Name":  "Sentry.dll",
+        "Length":  2047296,
+        "SHA256":  "3F717AC6E27E01AECEAC11853B5891135917D77319C2B3FE561576988B1AF5D3"
+    },
+    {
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Name":  "System.Security.Cryptography.ProtectedData.dll",
+        "Length":  60736,
+        "SHA256":  "6228273D96AC1B27DE8ED72473C42E920E650527D91E40F9EB9F122F4EBB98BB"
+    },
+    {
+        "Name":  "Velopack.dll",
+        "Length":  712000,
+        "SHA256":  "2A3E763021364E307E5ECF95A7AB9C7BE65AC652D1FA49F44EADA91B057A9AB9"
+    },
+    {
+        "Name":  "Vortice.D3DCompiler.dll",
+        "Length":  77120,
+        "SHA256":  "DA2A53402A4372C99ACB6A31C23037636D1514903473CFB4380CE0C13419C05F"
+    },
+    {
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Name":  "Vortice.DirectComposition.dll",
+        "Length":  195904,
+        "SHA256":  "5B53A6ADD1FD4CD5396C15B20CBBD40F53B44FE1BAAE1882DB0EC38655FE9762"
+    },
+    {
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Name":  "Vortice.XAudio2.dll",
+        "Length":  150848,
+        "SHA256":  "203C3749B93592E0F33683F32FF4948D0D704ED1DD71144DF758C7CCE1D9668E"
+    },
+    {
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    }
+]

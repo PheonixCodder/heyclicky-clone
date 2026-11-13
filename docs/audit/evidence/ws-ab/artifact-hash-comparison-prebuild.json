@@ -1,0 +1,167 @@
+﻿[
+    {
+        "Artifact":  "HeyClicky.Contracts.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929",
+        "BinDebugTime":  "2026-11-11T17:58:03.8513417Z",
+        "DistSHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929",
+        "DistTime":  "2026-11-11T17:58:03.8513417Z",
+        "OrigAppDataSHA256":  "F5E75E61BCC6D52513F5092B267A51E57D3D35539CC567CA30B42A23A468EE46",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Contracts.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830",
+        "BinDebugTime":  "2026-11-11T17:58:02.0510399Z",
+        "DistSHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830",
+        "DistTime":  "2026-11-11T17:58:02.0510399Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Drawing3D.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254",
+        "BinDebugTime":  "2026-11-11T17:58:31.2690999Z",
+        "DistSHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254",
+        "DistTime":  "2026-11-11T17:58:31.2690999Z",
+        "OrigAppDataSHA256":  "683729ABBE2DFAB180D30F0F7D921AAB9A3D30B7D889BBF9702C8D1456920397",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Drawing3D.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "38485E0DAD70D32673B834A78C4BAF4732EEA6630730D5BBFC43DABD856104C5",
+        "BinDebugTime":  "2026-11-11T17:58:31.1888233Z",
+        "DistSHA256":  "38485E0DAD70D32673B834A78C4BAF4732EEA6630730D5BBFC43DABD856104C5",
+        "DistTime":  "2026-11-11T17:58:31.1888233Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Drawing.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE",
+        "BinDebugTime":  "2026-11-12T11:32:35.7786739Z",
+        "DistSHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE",
+        "DistTime":  "2026-11-12T11:32:35.7786739Z",
+        "OrigAppDataSHA256":  "0DC190A5C55C65E648800CC047A55468648A49ECA756EDACD056D7DB3DC74117",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Drawing.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "E29A906F6DEC87E964ECFA288748F537E433FEC455101AA229C6B58DE125F8AC",
+        "BinDebugTime":  "2026-11-12T11:32:35.6965834Z",
+        "DistSHA256":  "E29A906F6DEC87E964ECFA288748F537E433FEC455101AA229C6B58DE125F8AC",
+        "DistTime":  "2026-11-12T11:32:35.6965834Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Platform.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251",
+        "BinDebugTime":  "2026-11-11T18:02:10.0933154Z",
+        "DistSHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251",
+        "DistTime":  "2026-11-11T18:02:10.0933154Z",
+        "OrigAppDataSHA256":  "2FE710E074579B6B3E535F51D57327F6AB455C563F62FDB886F8EE9B6EB506C0",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Platform.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "B83414E9EC6AA977ABE36C5F078BD757539DF62B841C461DA1CF639ACE6E468A",
+        "BinDebugTime":  "2026-11-11T18:02:09.9326636Z",
+        "DistSHA256":  "B83414E9EC6AA977ABE36C5F078BD757539DF62B841C461DA1CF639ACE6E468A",
+        "DistTime":  "2026-11-11T18:02:09.9326636Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Core.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D",
+        "BinDebugTime":  "2026-11-12T06:07:44.5793779Z",
+        "DistSHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D",
+        "DistTime":  "2026-11-12T06:07:44.5793779Z",
+        "OrigAppDataSHA256":  "C7DE513FA99A2D8EEE2A8704CADE3F5E02463F6F8D3210A83C4C61441C294F39",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Core.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "41D39CBF32EA34709D1E58FB170B438FA2B90ED27ADFDE9A8A030C43D5D00A75",
+        "BinDebugTime":  "2026-11-12T06:07:43.9180707Z",
+        "DistSHA256":  "41D39CBF32EA34709D1E58FB170B438FA2B90ED27ADFDE9A8A030C43D5D00A75",
+        "DistTime":  "2026-11-12T06:07:43.9180707Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Agents.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537",
+        "BinDebugTime":  "2026-11-11T18:40:37.3293807Z",
+        "DistSHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537",
+        "DistTime":  "2026-11-11T18:40:37.3293807Z",
+        "OrigAppDataSHA256":  "39AB1B748553CAA297D05D71D5DA4C7742780DB87A73DD3EA1098AC6D884F6AC",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.Agents.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "1F3522D0ED4D47C639C72B3725675310A4C6AD92172AA3CD0A2BC8DF5A8BD09F",
+        "BinDebugTime":  "2026-11-11T18:40:36.2594844Z",
+        "DistSHA256":  "1F3522D0ED4D47C639C72B3725675310A4C6AD92172AA3CD0A2BC8DF5A8BD09F",
+        "DistTime":  "2026-11-11T18:40:36.2594844Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.dll",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8",
+        "BinDebugTime":  "2026-11-12T11:40:30.0875059Z",
+        "DistSHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8",
+        "DistTime":  "2026-11-12T11:40:30.0875059Z",
+        "OrigAppDataSHA256":  "16E24E332CBE75042DE745FC9649A8F727CE0DF49110298C51CE02FFD0077792",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.pdb",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "F814254E6EDA07AC34C59432A2A1899F64E0CBFBE2913841612FE7A2F5A1D3E7",
+        "BinDebugTime":  "2026-11-12T11:40:21.2301877Z",
+        "DistSHA256":  "F814254E6EDA07AC34C59432A2A1899F64E0CBFBE2913841612FE7A2F5A1D3E7",
+        "DistTime":  "2026-11-12T11:40:21.2301877Z",
+        "OrigAppDataSHA256":  "MISSING",
+        "BinEqualsDist":  true,
+        "DistEqualsOriginalHeyClicky":  false
+    },
+    {
+        "Artifact":  "HeyClicky.exe",
+        "BinDebugExists":  true,
+        "BinDebugSHA256":  "32C071E81A0677191F9160A5BC116E5E0B49BA60FFBF817A4EC659088679034D",
+        "BinDebugTime":  "2026-11-12T11:40:34.7020570Z",
+        "DistSHA256":  "26AB779203881266FB8FC0BD4664D26D7167C0C185C3B63638C79EA7EEE3F4F9",
+        "DistTime":  "2026-11-08T05:02:20.0204549Z",
+        "OrigAppDataSHA256":  "26AB779203881266FB8FC0BD4664D26D7167C0C185C3B63638C79EA7EEE3F4F9",
+        "BinEqualsDist":  false,
+        "DistEqualsOriginalHeyClicky":  true
+    }
+]

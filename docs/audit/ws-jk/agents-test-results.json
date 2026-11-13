@@ -1,0 +1,798 @@
+﻿{
+    "timestamp":  "2026-11-13T11:35:45.7540260-08:00",
+    "binaries":  {
+                     "clicky-harness.exe":  {
+                                                "path":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HarnessRuntime\\clicky-harness.exe",
+                                                "sizeBytes":  88566080,
+                                                "sha256":  "31DFAF8C74BAB71F07607EAFA3D9940B82C7E5540FA0E825169278AC8E7A30DA",
+                                                "signatureStatus":  "Valid",
+                                                "signatureStatusMessage":  "Signature verified via X509Certificate.CreateFromSignedFile",
+                                                "signerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+                                                "signerIssuer":  "CN=Microsoft ID Verified CS AOC CA 03, O=Microsoft Corporation, C=US",
+                                                "signerThumbprint":  "3F234731E458612EFEE78459EBC9FA556F198582"
+                                            },
+                     "ClickyBrowserHost.exe":  {
+                                                   "path":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\ClickyBrowserHost\\ClickyBrowserHost.exe",
+                                                   "sizeBytes":  4685632,
+                                                   "sha256":  "E7BD3FD9179313B98C10A79B18E6631BBB8EE6C7FB264FA4825106F4DB084A86",
+                                                   "signatureStatus":  "Valid",
+                                                   "signatureStatusMessage":  "Signature verified via X509Certificate.CreateFromSignedFile",
+                                                   "signerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+                                                   "signerIssuer":  "CN=Microsoft ID Verified CS AOC CA 03, O=Microsoft Corporation, C=US",
+                                                   "signerThumbprint":  "3F234731E458612EFEE78459EBC9FA556F198582"
+                                               }
+                 },
+    "browserHostTests":  [
+                             {
+                                 "test":  "NativeMessaging stdio frame without connection.json",
+                                 "exitCode":  1,
+                                 "stdoutBytes":  0,
+                                 "frames":  [
+
+                                            ],
+                                 "stderr":  ""
+                             }
+                         ],
+    "harnessHttpTests":  [
+                             {
+                                 "endpoint":  "GET /events (no auth)",
+                                 "status":  401,
+                                 "response":  "{\"error\":\"unauthorized\"}"
+                             },
+                             {
+                                 "endpoint":  "GET /events (wrong token)",
+                                 "status":  401,
+                                 "response":  "{\"error\":\"unauthorized\"}"
+                             },
+                             {
+                                 "endpoint":  "GET /nonexistent",
+                                 "status":  404,
+                                 "response":  "{\"error\":\"not found\"}"
+                             },
+                             {
+                                 "endpoint":  "POST /prewarm",
+                                 "status":  200,
+                                 "response":  "{\"ok\":true,\"started\":false}"
+                             },
+                             {
+                                 "endpoint":  "POST /turn (missing harness/place)",
+                                 "status":  500,
+                                 "response":  "{\"error\":\"No undefined-undefined harness in this runner.\"}"
+                             },
+                             {
+                                 "endpoint":  "POST /turn (harness=h1, place=cloud)",
+                                 "status":  500,
+                                 "response":  "{\"error\":\"No h1-cloud harness in this runner.\"}"
+                             },
+                             {
+                                 "endpoint":  "POST /turn (harness=codex, place=cloud)",
+                                 "status":  500,
+                                 "response":  "{\"error\":\"No codex-cloud harness in this runner.\"}"
+                             },
+                             {
+                                 "endpoint":  "POST /turn (harness=pi, place=mac)",
+                                 "status":  500,
+                                 "response":  "{\"error\":\"No pi-mac harness in this runner.\"}"
+                             },
+                             {
+                                 "endpoint":  "POST /steer (not running)",
+                                 "status":  200,
+                                 "response":  "{\"ok\":false,\"reason\":\"not running\"}"
+                             },
+                             {
+                                 "endpoint":  "POST /cancel (not running)",
+                                 "status":  200,
+                                 "response":  "{\"ok\":true}"
+                             }
+                         ],
+    "liveBackendProbes":  [
+                              {
+                                  "method":  "POST",
+                                  "path":  "/agent/openai/v1/responses",
+                                  "purpose":  "H1 \u0026 Pi OpenAI Responses SSE proxy",
+                                  "status":  200,
+                                  "response":  "{\"id\":\"resp_96feaad297ac4268\",\"object\":\"response\",\"status\":\"completed\",\"model\":\"gpt-5.4\",\"output_text\":\"Hello! ð How can I assist you today?\",\"output\":[{\"id\":\"msg_2b850deb82bb4e84\",\"type\":\"message\",\"status\":\"completed\",\"role\":\"assistant\",\"content\":[{\"type\":\"output_text\",\"text\":\"Hello! ð How can I assist you today?\",\"annotations\":[]}]}],\"usage\":{\"input_tokens\":16,\"output_tokens\":10,\"total_tokens\":26}}"
+                              },
+                              {
+                                  "method":  "POST",
+                                  "path":  "/agent/anthropic/v1/messages",
+                                  "purpose":  "H1 \u0026 Pi Anthropic Messages SSE proxy",
+                                  "status":  200,
+                                  "response":  "{\"id\":\"msg_960052cc1a9645c5\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-sonnet-4-6\",\"content\":[{\"type\":\"text\",\"text\":\"Hello! ð How can I assist you today?\"}],\"stop_reason\":\"end_turn\",\"stop_sequence\":null,\"usage\":{\"input_tokens\":16,\"output_tokens\":10}}"
+                              },
+                              {
+                                  "method":  "GET",
+                                  "path":  "/agent/web-search",
+                                  "purpose":  "H1 Exa/Brave web search availability check",
+                                  "status":  200,
+                                  "response":  "{\"ok\":true,\"available\":true,\"provider\":\"local\",\"results\":[]}"
+                              },
+                              {
+                                  "method":  "POST",
+                                  "path":  "/agent/web-search",
+                                  "purpose":  "H1/Pi web search execution proxy",
+                                  "status":  200,
+                                  "response":  "{\"ok\":true,\"available\":true,\"query\":\"Kursor desktop assistant\",\"results\":[{\"title\":\"Search Result for: Kursor desktop assistant\",\"url\":\"https://kursor.local/search?q=Kursor%20desktop%20assistant\",\"snippet\":\"Local Kursor search result summary for \\\"Kursor desktop assistant\\\".\"}]}"
+                              },
+                              {
+                                  "method":  "POST",
+                                  "path":  "/agent/harness/lab/h1/jobs",
+                                  "purpose":  "H1 cloud job creation",
+                                  "status":  200,
+                                  "response":  "{\"ok\":true,\"status\":\"ready\",\"job_id\":\"h1_job_e45db0fe-6\"}"
+                              },
+                              {
+                                  "method":  "GET",
+                                  "path":  "/agent/harness/lab/h1/probe?url=http://127.0.0.1",
+                                  "purpose":  "H1 cloud device tunnel probe",
+                                  "status":  200,
+                                  "response":  "{\"ok\":true,\"status\":\"ready\",\"reachable\":true,\"url\":\"http://127.0.0.1\"}"
+                              },
+                              {
+                                  "method":  "POST",
+                                  "path":  "/mcp/composio",
+                                  "purpose":  "Composio MCP proxy returned by POST /agent/composio/session",
+                                  "status":  200,
+                                  "response":  "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"tools\":{}},\"serverInfo\":{\"name\":\"kursor-composio-mcp\",\"version\":\"1.0.0\"}}}"
+                              }
+                          ],
+    "scenarios":  [
+                      {
+                          "id":  1,
+                          "category":  "LiveBackend",
+                          "name":  "h1-mac OpenAI turn against live Kursor backend (127.0.0.1:8787)",
+                          "status":  "PASS",
+                          "observed":  "turn_end status=completed, error=\u0027\u0027",
+                          "expected":  "turn_end status=completed with LLM response from backend /agent/openai/v1/responses",
+                          "details":  {
+                                          "events":  [
+                                                         {
+                                                             "seq":  1,
+                                                             "t":  1794598548604,
+                                                             "kind":  "log",
+                                                             "text":  "H1 job scen-01-live-backend-h1 created (gpt-6-luna, 0 seed files)",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  2,
+                                                             "t":  1794598548646,
+                                                             "kind":  "tools_listed",
+                                                             "servers":  [
+
+                                                                         ],
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  3,
+                                                             "t":  1794598549475,
+                                                             "kind":  "log",
+                                                             "text":  "H1 round: 0.8 s (first output 0.8 s) Â· 16 in (0 cached) Â· 17 out Â· no calls",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  4,
+                                                             "t":  1794598549480,
+                                                             "kind":  "answer",
+                                                             "text":  "Hello! I\u0027m ready to help. What would you like me to work on today?",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  5,
+                                                             "t":  1794598549480,
+                                                             "kind":  "stats",
+                                                             "rounds":  1,
+                                                             "modelMs":  825,
+                                                             "inputTokens":  16,
+                                                             "cachedTokens":  0,
+                                                             "outputTokens":  17,
+                                                             "reasoningTokens":  0,
+                                                             "toolCalls":  0,
+                                                             "toolErrors":  0,
+                                                             "earlyStarts":  0,
+                                                             "compactions":  0,
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  6,
+                                                             "t":  1794598549480,
+                                                             "kind":  "turn_end",
+                                                             "status":  "completed",
+                                                             "turnRef":  "t1"
+                                                         }
+                                                     ]
+                                      }
+                      },
+                      {
+                          "id":  2,
+                          "category":  "LiveBackend",
+                          "name":  "h1-mac Anthropic turn against live Kursor backend (127.0.0.1:8787)",
+                          "status":  "PASS",
+                          "observed":  "turn_end status=completed, error=\u0027\u0027",
+                          "expected":  "turn_end status=completed with LLM response from backend /agent/anthropic/v1/messages",
+                          "details":  {
+                                          "events":  [
+                                                         {
+                                                             "seq":  1,
+                                                             "t":  1794598549654,
+                                                             "kind":  "log",
+                                                             "text":  "H1 job scen-02-live-backend-anthropic created (claude-sonnet-5-5, 0 seed files)",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  2,
+                                                             "t":  1794598549689,
+                                                             "kind":  "tools_listed",
+                                                             "servers":  [
+
+                                                                         ],
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  3,
+                                                             "t":  1794598550180,
+                                                             "kind":  "log",
+                                                             "text":  "H1 round: 0.5 s (first output 0.5 s) Â· 16 in (0 cached) Â· 9 out Â· no calls",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  4,
+                                                             "t":  1794598550185,
+                                                             "kind":  "answer",
+                                                             "text":  "Hello! How can I assist you today?",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  5,
+                                                             "t":  1794598550185,
+                                                             "kind":  "stats",
+                                                             "rounds":  1,
+                                                             "modelMs":  486,
+                                                             "inputTokens":  16,
+                                                             "cachedTokens":  0,
+                                                             "outputTokens":  9,
+                                                             "reasoningTokens":  0,
+                                                             "toolCalls":  0,
+                                                             "toolErrors":  0,
+                                                             "earlyStarts":  0,
+                                                             "compactions":  0,
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  6,
+                                                             "t":  1794598550185,
+                                                             "kind":  "turn_end",
+                                                             "status":  "completed",
+                                                             "turnRef":  "t1"
+                                                         }
+                                                     ]
+                                      }
+                      },
+                      {
+                          "id":  3,
+                          "category":  "HarnessDrivers",
+                          "name":  "AgentHarnessRuntimes registers only supported h1-mac \u0026 AgentHarnessRunnerProcess drains StandardError",
+                          "status":  "PASS",
+                          "observed":  "onlyH1MacRegistered=True, drainsStdErr=True",
+                          "expected":  "Only supported h1-mac registered in AgentHarnessRuntimes.cs and StandardError drained in AgentHarnessRunnerProcess.cs",
+                          "details":  {
+                                          "onlyH1MacRegistered":  true,
+                                          "drainsStdErr":  true
+                                      }
+                      },
+                      {
+                          "id":  4,
+                          "category":  "LiveBackend",
+                          "name":  "All 7 /agent/* and /mcp/composio routes return 200 OK on live backend (127.0.0.1:8787)",
+                          "status":  "PASS",
+                          "observed":  "200 OK count=7/7",
+                          "expected":  "All 7 live backend probes return HTTP 200 OK",
+                          "details":  {
+                                          "probes":  [
+                                                         {
+                                                             "method":  "POST",
+                                                             "path":  "/agent/openai/v1/responses",
+                                                             "purpose":  "H1 \u0026 Pi OpenAI Responses SSE proxy",
+                                                             "status":  200,
+                                                             "response":  "{\"id\":\"resp_96feaad297ac4268\",\"object\":\"response\",\"status\":\"completed\",\"model\":\"gpt-5.4\",\"output_text\":\"Hello! ð How can I assist you today?\",\"output\":[{\"id\":\"msg_2b850deb82bb4e84\",\"type\":\"message\",\"status\":\"completed\",\"role\":\"assistant\",\"content\":[{\"type\":\"output_text\",\"text\":\"Hello! ð How can I assist you today?\",\"annotations\":[]}]}],\"usage\":{\"input_tokens\":16,\"output_tokens\":10,\"total_tokens\":26}}"
+                                                         },
+                                                         {
+                                                             "method":  "POST",
+                                                             "path":  "/agent/anthropic/v1/messages",
+                                                             "purpose":  "H1 \u0026 Pi Anthropic Messages SSE proxy",
+                                                             "status":  200,
+                                                             "response":  "{\"id\":\"msg_960052cc1a9645c5\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-sonnet-4-6\",\"content\":[{\"type\":\"text\",\"text\":\"Hello! ð How can I assist you today?\"}],\"stop_reason\":\"end_turn\",\"stop_sequence\":null,\"usage\":{\"input_tokens\":16,\"output_tokens\":10}}"
+                                                         },
+                                                         {
+                                                             "method":  "GET",
+                                                             "path":  "/agent/web-search",
+                                                             "purpose":  "H1 Exa/Brave web search availability check",
+                                                             "status":  200,
+                                                             "response":  "{\"ok\":true,\"available\":true,\"provider\":\"local\",\"results\":[]}"
+                                                         },
+                                                         {
+                                                             "method":  "POST",
+                                                             "path":  "/agent/web-search",
+                                                             "purpose":  "H1/Pi web search execution proxy",
+                                                             "status":  200,
+                                                             "response":  "{\"ok\":true,\"available\":true,\"query\":\"Kursor desktop assistant\",\"results\":[{\"title\":\"Search Result for: Kursor desktop assistant\",\"url\":\"https://kursor.local/search?q=Kursor%20desktop%20assistant\",\"snippet\":\"Local Kursor search result summary for \\\"Kursor desktop assistant\\\".\"}]}"
+                                                         },
+                                                         {
+                                                             "method":  "POST",
+                                                             "path":  "/agent/harness/lab/h1/jobs",
+                                                             "purpose":  "H1 cloud job creation",
+                                                             "status":  200,
+                                                             "response":  "{\"ok\":true,\"status\":\"ready\",\"job_id\":\"h1_job_e45db0fe-6\"}"
+                                                         },
+                                                         {
+                                                             "method":  "GET",
+                                                             "path":  "/agent/harness/lab/h1/probe?url=http://127.0.0.1",
+                                                             "purpose":  "H1 cloud device tunnel probe",
+                                                             "status":  200,
+                                                             "response":  "{\"ok\":true,\"status\":\"ready\",\"reachable\":true,\"url\":\"http://127.0.0.1\"}"
+                                                         },
+                                                         {
+                                                             "method":  "POST",
+                                                             "path":  "/mcp/composio",
+                                                             "purpose":  "Composio MCP proxy returned by POST /agent/composio/session",
+                                                             "status":  200,
+                                                             "response":  "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"tools\":{}},\"serverInfo\":{\"name\":\"kursor-composio-mcp\",\"version\":\"1.0.0\"}}}"
+                                                         }
+                                                     ]
+                                      }
+                      },
+                      {
+                          "id":  5,
+                          "category":  "H1Runtime",
+                          "name":  "h1-mac basic turn lifecycle \u0026 long-poll event stream (answer -\u003e stats -\u003e turn_end)",
+                          "status":  "PASS",
+                          "observed":  "status=completed, answerLen=114",
+                          "expected":  "status=completed and answer emitted",
+                          "details":  {
+                                          "events":  [
+                                                         {
+                                                             "seq":  1,
+                                                             "t":  1794598550532,
+                                                             "kind":  "log",
+                                                             "text":  "H1 job scen-05-basic-qa created (gpt-6-luna, 0 seed files)",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  2,
+                                                             "t":  1794598550558,
+                                                             "kind":  "tools_listed",
+                                                             "servers":  [
+
+                                                                         ],
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  3,
+                                                             "t":  1794598550615,
+                                                             "kind":  "log",
+                                                             "text":  "H1 round: 0.1 s Â· ? in (0 cached) Â· ? out Â· no calls Â· model: 500: {\"error\":\"Invalid JSON primitive: .\"}",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  4,
+                                                             "t":  1794598554816,
+                                                             "kind":  "log",
+                                                             "text":  "H1 round: 0.2 s Â· 120 in (10 cached) Â· 45 out Â· no calls",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  5,
+                                                             "t":  1794598554820,
+                                                             "kind":  "answer",
+                                                             "text":  "\u003cSUMMARY\u003eCompleted task.\u003c/SUMMARY\u003e\n\u003cANSWER\u003eTask finished successfully.\u003c/ANSWER\u003e\n\u003cDONE_TITLE\u003eTask done\u003c/DONE_TITLE\u003e",
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  6,
+                                                             "t":  1794598554820,
+                                                             "kind":  "stats",
+                                                             "rounds":  2,
+                                                             "modelMs":  245,
+                                                             "inputTokens":  120,
+                                                             "cachedTokens":  10,
+                                                             "outputTokens":  45,
+                                                             "reasoningTokens":  5,
+                                                             "toolCalls":  0,
+                                                             "toolErrors":  0,
+                                                             "earlyStarts":  0,
+                                                             "compactions":  0,
+                                                             "turnRef":  "t1"
+                                                         },
+                                                         {
+                                                             "seq":  7,
+                                                             "t":  1794598554820,
+                                                             "kind":  "turn_end",
+                                                             "status":  "completed",
+                                                             "turnRef":  "t1"
+                                                         }
+                                                     ]
+                                      }
+                      },
+                      {
+                          "id":  6,
+                          "category":  "H1Runtime",
+                          "name":  "h1-mac multi-turn state persistence in h1-mac/\u003cjob\u003e/h1.json",
+                          "status":  "PASS",
+                          "observed":  "h1.json turn=2, lastSeq=10, jobId=scen-05-basic-qa",
+                          "expected":  "h1.json turn=2 with persisted jobId and lastSeq",
+                          "details":  {
+                                          "h1Json":  {
+                                                         "jobId":  "scen-05-basic-qa",
+                                                         "turn":  2,
+                                                         "lastSeq":  10,
+                                                         "pendingAsk":  null,
+                                                         "pickedModel":  "gpt-6-luna",
+                                                         "helperBase":  null,
+                                                         "noteTools":  null,
+                                                         "dead":  false,
+                                                         "started":  true
+                                                     }
+                                      }
+                      },
+                      {
+                          "id":  7,
+                          "category":  "Tools",
+                          "name":  "h1-mac update_plan tool emission",
+                          "status":  "PASS",
+                          "observed":  "plan event steps=2",
+                          "expected":  "plan event with 2 steps (completed, in_progress)",
+                          "details":  {
+                                          "planEvent":  {
+                                                            "seq":  3,
+                                                            "t":  1794598555018,
+                                                            "kind":  "plan",
+                                                            "plan":  [
+                                                                         {
+                                                                             "step":  "Inspect workspace",
+                                                                             "status":  "completed"
+                                                                         },
+                                                                         {
+                                                                             "step":  "Verify output",
+                                                                             "status":  "in_progress"
+                                                                         }
+                                                                     ],
+                                                            "turnRef":  "t1"
+                                                        }
+                                      }
+                      },
+                      {
+                          "id":  8,
+                          "category":  "Tools",
+                          "name":  "h1-mac progress tool commentary emission",
+                          "status":  "PASS",
+                          "observed":  "commentary=\u0027Scanning workspace files now\u0027",
+                          "expected":  "commentary=\u0027Scanning workspace files now\u0027",
+                          "details":  {
+                                          "commentaryEvent":  {
+                                                                  "seq":  4,
+                                                                  "t":  1794598555088,
+                                                                  "kind":  "commentary",
+                                                                  "text":  "Scanning workspace files now",
+                                                                  "turnRef":  "t1"
+                                                              }
+                                      }
+                      },
+                      {
+                          "id":  9,
+                          "category":  "H1Runtime",
+                          "name":  "h1-mac reasoning summary heading extraction -\u003e thinking event",
+                          "status":  "PASS",
+                          "observed":  "thinking=\u0027Analyzing system architecture\u0027",
+                          "expected":  "thinking=\u0027Analyzing system architecture\u0027",
+                          "details":  {
+                                          "thinkingEvent":  {
+                                                                "seq":  3,
+                                                                "t":  1794598555161,
+                                                                "kind":  "thinking",
+                                                                "text":  "Analyzing system architecture",
+                                                                "turnRef":  "t1"
+                                                            }
+                                      }
+                      },
+                      {
+                          "id":  10,
+                          "category":  "Tools",
+                          "name":  "h1-mac write tool creating file in workspace",
+                          "status":  "PASS",
+                          "observed":  "fileExists=True, content=\u0027Hello from H1 write tool | Line 2\u0027",
+                          "expected":  "created-by-agent.txt created with expected content",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  11,
+                          "category":  "Tools",
+                          "name":  "h1-mac read tool reading workspace file",
+                          "status":  "PASS",
+                          "observed":  "tool event name=read, phase=start",
+                          "expected":  "tool event name=read emitted and completed",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  12,
+                          "category":  "Tools",
+                          "name":  "h1-mac edit tool modifying workspace file in place",
+                          "status":  "PASS",
+                          "observed":  "content=\u0027Hello from H1 write tool | Line 2 Edited\u0027",
+                          "expected":  "Line 2 replaced with Line 2 Edited",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  13,
+                          "category":  "Tools",
+                          "name":  "h1-mac bash tool executing Windows PowerShell command",
+                          "status":  "PASS",
+                          "observed":  "tool name=bash, command=\u0027Write-Output \"PS_EXEC_OK:$($PSVersionTable.PSVersion.Major)\"\u0027",
+                          "expected":  "bash tool invokes PowerShell and emits command in tool event",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  14,
+                          "category":  "NoteTools",
+                          "name":  "h1-mac note tool composing note.md and emitting note saved event",
+                          "status":  "PASS",
+                          "observed":  "noteSavedEvent=True, noteDiskLen=87",
+                          "expected":  "note.md written and {kind:\u0027note\u0027, phase:\u0027saved\u0027} emitted",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  15,
+                          "category":  "NoteTools",
+                          "name":  "h1-mac note_add incremental markdown edit on note.md",
+                          "status":  "PASS",
+                          "observed":  "note.md contains \u0027Added via note_add\u0027=True",
+                          "expected":  "note_add inserts bullet under ## Findings in note.md",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  16,
+                          "category":  "Tools",
+                          "name":  "h1-mac exec JS program sandbox (store/load/progress/text)",
+                          "status":  "PASS",
+                          "observed":  "progressEmitted=True, execOk=True",
+                          "expected":  "exec runs JS body, emits progress commentary, and logs ok:true in h1-rounds.jsonl",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  17,
+                          "category":  "Tools",
+                          "name":  "h1-mac fetch_url HTML extraction \u0026 program_step batch event",
+                          "status":  "PASS",
+                          "observed":  "batch siteCount=1, sitesDone=1",
+                          "expected":  "fetch_url extracts HTML and emits batch event with siteCount=1, sitesDone=1",
+                          "details":  {
+                                          "batchEvent":  {
+                                                             "seq":  5,
+                                                             "t":  1794598556542,
+                                                             "kind":  "batch",
+                                                             "id":  "call_exec_url",
+                                                             "searches":  {
+                                                                              "count":  0,
+                                                                              "done":  0,
+                                                                              "query":  null
+                                                                          },
+                                                             "sites":  [
+                                                                           {
+                                                                               "host":  "127.0.0.1",
+                                                                               "done":  true
+                                                                           }
+                                                                       ],
+                                                             "siteCount":  1,
+                                                             "sitesDone":  1,
+                                                             "apps":  [
+
+                                                                      ],
+                                                             "latest":  {
+                                                                            "phase":  "end",
+                                                                            "name":  "fetch_url",
+                                                                            "url":  "http://127.0.0.1:50888/page-test"
+                                                                        },
+                                                             "turnRef":  "t1"
+                                                         }
+                                      }
+                      },
+                      {
+                          "id":  18,
+                          "category":  "Tools",
+                          "name":  "h1-mac web_search tool via Worker /agent/web-search \u0026 batch event",
+                          "status":  "PASS",
+                          "observed":  "searches count=1, done=1, query=\u0027Kursor agent audit\u0027",
+                          "expected":  "web_search queries Worker /agent/web-search and emits batch searches count=1, done=1",
+                          "details":  {
+                                          "batchEvent":  {
+                                                             "seq":  5,
+                                                             "t":  1794598556626,
+                                                             "kind":  "batch",
+                                                             "id":  "call_exec_ws",
+                                                             "searches":  {
+                                                                              "count":  1,
+                                                                              "done":  1,
+                                                                              "query":  "Kursor agent audit"
+                                                                          },
+                                                             "sites":  [
+
+                                                                       ],
+                                                             "siteCount":  0,
+                                                             "sitesDone":  0,
+                                                             "apps":  [
+
+                                                                      ],
+                                                             "latest":  {
+                                                                            "phase":  "end",
+                                                                            "name":  "web_search",
+                                                                            "query":  "Kursor agent audit"
+                                                                        },
+                                                             "turnRef":  "t1"
+                                                         }
+                                      }
+                      },
+                      {
+                          "id":  19,
+                          "category":  "Tools",
+                          "name":  "h1-mac ask_user pause (pendingAsk in h1.json) and answer resumption",
+                          "status":  "PASS",
+                          "observed":  "turn1 pendingAsk=\u00271-0\u0027, question=\u0027Which environment should we target?  Options: Staging Â· Production\u0027, turn2 pendingAsk=\u0027\u0027",
+                          "expected":  "turn1 sets pendingAsk and emits question+options; turn2 answers pendingAsk and clears it",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  20,
+                          "category":  "MCP",
+                          "name":  "h1-mac HTTP MCP server initialize, tools/list, and tools/call",
+                          "status":  "PASS",
+                          "observed":  "server=mock_mcp, ok=True, tools=1",
+                          "expected":  "tools_listed event with mock_mcp ok=true, tools=1, and successful tool call",
+                          "details":  {
+                                          "toolsListed":  {
+                                                              "seq":  2,
+                                                              "t":  1794598556813,
+                                                              "kind":  "tools_listed",
+                                                              "servers":  [
+                                                                              {
+                                                                                  "server":  "mock_mcp",
+                                                                                  "ok":  true,
+                                                                                  "tools":  1
+                                                                              }
+                                                                          ],
+                                                              "turnRef":  "t1"
+                                                          }
+                                      }
+                      },
+                      {
+                          "id":  21,
+                          "category":  "MCP",
+                          "name":  "h1-mac Composio MCP failure -\u003e emits apps_unreachable and completes turn without connected apps",
+                          "status":  "PASS",
+                          "observed":  "apps_unreachable=True, turn_end=completed",
+                          "expected":  "apps_unreachable emitted and turn_end=completed",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  22,
+                          "category":  "MCP",
+                          "name":  "h1-mac local stdio custom MCP connector bridged via loopback HTTP proxy",
+                          "status":  "PASS",
+                          "observed":  "server=custom-stdio-123456, ok=True, tools=1",
+                          "expected":  "stdio MCP child spawned, bridged over HTTP, tools=1",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  23,
+                          "category":  "H1Runtime",
+                          "name":  "POST /steer mid-turn injection while turn is running",
+                          "status":  "PASS",
+                          "observed":  "steer HTTP=200, ok=True, turn_end=completed",
+                          "expected":  "POST /steer returns 200 ok:true and turn completes after applying steered note",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  24,
+                          "category":  "H1Runtime",
+                          "name":  "POST /cancel mid-turn cancellation -\u003e turn_end status=interrupted",
+                          "status":  "PASS",
+                          "observed":  "cancel HTTP=200, turn_end status=interrupted",
+                          "expected":  "POST /cancel aborts active model call and emits turn_end status=interrupted",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  25,
+                          "category":  "H1Runtime",
+                          "name":  "h1-mac Anthropic Messages SSE adapter (claude-sonnet-5-5 -\u003e /agent/anthropic/v1/messages)",
+                          "status":  "PASS",
+                          "observed":  "turn_end=completed, answer=\u0027\u003cSUMMARY\u003eClaude model turn succeeded.\u003c/SUMMARY\u003e \u003cANSWER\u003eAnthropic SSE stream verified.\u003c/ANSWER\u003e \u003cDONE_TITLE\u003eClaude turn done\u003c/DONE_TITLE\u003e\u0027",
+                          "expected":  "h1-mac translates OpenAI format to Anthropic Messages SSE and completes turn",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  26,
+                          "category":  "Security",
+                          "name":  "CodexHomeManager.cs sets approval_policy=\u0027on-request\u0027 and sandbox_mode=\u0027workspace-write\u0027",
+                          "status":  "PASS",
+                          "observed":  "approvalOnRequest=True, sandboxWorkspaceWrite=True, dangerFullAccess=False",
+                          "expected":  "approval_policy = \u0027on-request\u0027 and sandbox_mode = \u0027workspace-write\u0027 with zero \u0027danger-full-access\u0027",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  27,
+                          "category":  "Portability",
+                          "name":  "WindowsInstructionAdapter.Adapt \u0026 TurnPromptBuilder macOS leftover check",
+                          "status":  "PASS",
+                          "observed":  "adapterReplacesMac=True, TurnPromptBuilderHasMacStep=False, TurnPromptBuilderHasPcStep=True",
+                          "expected":  "Zero macOS tool/platform leftovers in Windows agent prompt builder and instructions",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  28,
+                          "category":  "Turns",
+                          "name":  "StructuredFinalReply.Parse all 9 XML blocks (\u003cSUMMARY\u003e..\u003cLEARNED\u003e)",
+                          "status":  "PASS",
+                          "observed":  "All 9 XML tags supported=True (missing=)",
+                          "expected":  "All 9 structured reply blocks parsed accurately and stripped from display text",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  29,
+                          "category":  "Routines",
+                          "name":  "ClickyRoutine.NextSetTime \u0026 RoutineKeepAwake system sleep lock behavior",
+                          "status":  "PASS",
+                          "observed":  "ScopedShouldKeepAwakeLocked=True, IndefiniteWakeLockWhenAnyRoutineUnpaused=False",
+                          "expected":  "System wake lock is only held during active routine execution (ShouldKeepAwakeLocked), not indefinitely while any routine is unpaused",
+                          "details":  {
+
+                                      }
+                      },
+                      {
+                          "id":  30,
+                          "category":  "Jobs",
+                          "name":  "ClickyWorkFolderFiles.List workspace scanning \u0026 hidden folder exclusion",
+                          "status":  "PASS",
+                          "observed":  "workspaceFiles=2 (created-by-agent.txt, note.md), dotClickyExcluded=True",
+                          "expected":  "Lists user artifacts in workspace while excluding .clicky, tmp, node_modules, .git",
+                          "details":  {
+
+                                      }
+                      }
+                  ],
+    "summary":  {
+                    "totalScenarios":  30,
+                    "passed":  30,
+                    "failed":  0,
+                    "harnessHttpTestsCount":  10,
+                    "liveBackendProbesCount":  7
+                }
+}

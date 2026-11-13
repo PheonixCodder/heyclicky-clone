@@ -1,0 +1,31 @@
+﻿{
+  "@hono/node-server": {
+    "current": "1.19.19",
+    "wanted": "1.19.19",
+    "latest": "2.1.8",
+    "dependent": "backend",
+    "location": "C:\\dev\\heyclicky-clone\\src\\backend\\node_modules\\@hono\\node-server"
+  },
+  "@types/node": {
+    "current": "24.19.2",
+    "wanted": "24.19.2",
+    "latest": "26.6.6",
+    "dependent": "backend",
+    "location": "C:\\dev\\heyclicky-clone\\src\\backend\\node_modules\\@types\\node"
+  },
+  "dotenv": {
+    "current": "16.6.1",
+    "wanted": "16.6.1",
+    "latest": "18.0.10",
+    "dependent": "backend",
+    "location": "C:\\dev\\heyclicky-clone\\src\\backend\\node_modules\\dotenv"
+  },
+  "typescript": {
+    "current": "5.9.3",
+    "wanted": "5.9.3",
+    "latest": "7.0.2",
+    "dependent": "backend",
+    "location": "C:\\dev\\heyclicky-clone\\src\\backend\\node_modules\\typescript"
+  }
+}
+

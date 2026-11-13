@@ -1,0 +1,14 @@
+﻿    net.pipe
+BrowserBridg
+ClickyBrowserExtensionDevelopmentID.tx
+HEYCLICKY_DATA_DI
+HeyClicky.ex
+Sec-WebSocket-Extension
+browser-pol
+browser_pol
+chrome-extension:/
+chrome.ex
+heyclicky://settings/browse
+HeyClicky
+ClickyBrowserHost
+ClickyBrowserHost.dll

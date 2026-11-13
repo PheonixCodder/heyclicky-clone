@@ -1,0 +1,2660 @@
+{
+  "timestamp": "2026-11-13T18:40:02.060Z",
+  "totalPrograms": 57,
+  "passCount": 55,
+  "expectedFailCount": 2,
+  "unexpectedCount": 0,
+  "clickyCanvasMethods": [
+    "setPieces",
+    "beginStream",
+    "continueStream",
+    "state",
+    "feed",
+    "line",
+    "lineLength",
+    "finish",
+    "now",
+    "isFinished",
+    "timeline",
+    "clear",
+    "keepNotesOnly",
+    "dropPointing",
+    "cards",
+    "closeCard",
+    "zoomCard",
+    "moveCard",
+    "buttonSpot",
+    "markBox",
+    "tick3d",
+    "renderWhole"
+  ],
+  "clickyDrawMethods": [
+    "workerSource",
+    "version",
+    "render",
+    "live",
+    "TONES",
+    "runCode",
+    "statementEnds",
+    "statementScanner",
+    "Stream",
+    "Pacer",
+    "Layout",
+    "layoutMarks",
+    "natural",
+    "setPen",
+    "Session",
+    "attribute",
+    "exec",
+    "describe",
+    "stateText",
+    "markBox",
+    "recolorMark",
+    "restyleMark",
+    "EDIT_BASE",
+    "pointsAtScreen",
+    "isCardMark",
+    "onCardTest"
+  ],
+  "primitivePresence": {
+    "say": "function",
+    "step": "function",
+    "erase": "function",
+    "startOver": "function",
+    "move": "function",
+    "moveTo": "function",
+    "scale": "function",
+    "recolor": "function",
+    "restyle": "function",
+    "text": "function",
+    "line": "function",
+    "arrow": "function",
+    "curve": "function",
+    "rect": "function",
+    "circle": "function",
+    "ellipse": "function",
+    "poly": "function",
+    "highlight": "function",
+    "image": "function",
+    "figure": "function",
+    "scene3d": "function",
+    "graph": "function",
+    "timeline": "function",
+    "dot": "function",
+    "path": "function",
+    "label": "function",
+    "molecule": "function",
+    "seen": "function",
+    "noted": "function",
+    "callout": "undefined",
+    "brace": "undefined",
+    "table": "undefined",
+    "chart": "undefined",
+    "point": "function",
+    "spot": "function",
+    "ring": "function",
+    "frame": "function",
+    "check": "function",
+    "cross": "function",
+    "write": "function",
+    "underline": "function",
+    "strike": "function",
+    "num": "function",
+    "connect": "function",
+    "trace": "function",
+    "sticky": "function",
+    "clipping": "function",
+    "receipt": "function",
+    "legend": "function",
+    "paper": "function",
+    "openPage": "function",
+    "writeOnPage": "undefined",
+    "button": "function",
+    "target": "function",
+    "hover": "function",
+    "typeText": "function",
+    "copyText": "function",
+    "handOff": "function",
+    "sfx": "function",
+    "photo": "function",
+    "tie": "function",
+    "source": "function",
+    "sources": "function",
+    "scroll": "function",
+    "cheer": "function",
+    "spotlight": "function",
+    "jobTicket": "function",
+    "dreamMedal": "function",
+    "task": "function",
+    "waitForUser": "function",
+    "onScreen": "function",
+    "tag": "function",
+    "lessonTitle": "function",
+    "plan": "function",
+    "ink": "function",
+    "inkCircle": "function",
+    "tourJob": "function",
+    "tuckJobs": "function",
+    "showNotch": "function",
+    "fadeAway": "function",
+    "nextQuestions": "function"
+  },
+  "missingPrimitives": [
+    "callout",
+    "brace",
+    "table",
+    "chart",
+    "writeOnPage"
+  ],
+  "results": [
+    {
+      "name": "01_step_and_say_basic",
+      "code": "step(\"Inspect Header\"); say(\"Look right here at the main header.\"); point(420, 200, \"Header\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": false,
+      "lines": [
+        "Look right here at the main header."
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 420,
+          "y": 200,
+          "r": 0,
+          "box": null,
+          "label": "Header",
+          "text": null,
+          "line": 0,
+          "i": 0
+        },
+        {
+          "role": "point",
+          "x": 420,
+          "y": 200,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 1
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 12,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "02_point_with_direction_and_color",
+      "code": "say(\"Click the submit button.\"); point(500, 300, \"Submit\", { from: \"tl\", color: \"coral\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": false,
+      "lines": [
+        "Click the submit button."
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": "Submit",
+          "text": null,
+          "line": 0,
+          "i": 0
+        },
+        {
+          "role": "point",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 1
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 12,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "03_spot_undefined_without_polyfill_AUD_F_002",
+      "code": "say(\"Spot check\"); spot(500, 300, \"Kursor Active\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": false,
+      "lines": [
+        "Spot check"
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": "Kursor Active",
+          "text": null,
+          "line": 0,
+          "i": 0
+        },
+        {
+          "role": "point",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 1
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 12,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "04_spot_with_brain_ts_polyfill",
+      "code": "const spot = typeof point === \"function\" ? point : () => {}; say(\"With polyfill\"); spot(500, 300, \"Kursor Active\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": false,
+      "lines": [
+        "With polyfill"
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": "Kursor Active",
+          "text": null,
+          "line": 0,
+          "i": 0
+        },
+        {
+          "role": "point",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 1
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 12,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "05_ring_callout",
+      "code": "say(\"Circle the avatar.\"); ring(640, 360, 48, 48, \"Avatar\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 8,
+      "inkedCount": 8,
+      "pictureFlag": false,
+      "lines": [
+        "Circle the avatar."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 11,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "06_frame_callout",
+      "code": "say(\"Frame the login box.\"); frame(200, 150, 300, 120, \"Login Box\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": false,
+      "lines": [
+        "Frame the login box."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 11,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "07_check_mark",
+      "code": "say(\"This field is valid.\"); check(400, 400);",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "This field is valid."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 4,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "08_cross_mark",
+      "code": "say(\"Remove this deprecated setting.\"); cross(450, 400);",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 2,
+      "inkedCount": 2,
+      "pictureFlag": false,
+      "lines": [
+        "Remove this deprecated setting."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 6,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "09_write_handwritten_note",
+      "code": "say(\"Jot a quick margin note.\"); write(300, 220, \"Remember to save!\", { size: 24, tone: \"ink\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Jot a quick margin note."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "10_underline_emphasis",
+      "code": "say(\"Underline the key term.\"); underline(250, 300, 180, { tone: \"red\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Underline the key term."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 4,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "11_strike_deletion",
+      "code": "say(\"Strike out the old price.\"); strike(250, 340, 160);",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Strike out the old price."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 4,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "12_num_numbered_badges",
+      "code": "say(\"Follow steps one and two.\"); num(180, 180, 1); num(180, 260, 2);",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 14,
+      "inkedCount": 14,
+      "pictureFlag": false,
+      "lines": [
+        "Follow steps one and two."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 16,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "13_connect_two_points",
+      "code": "say(\"Connect client to server.\"); connect([200, 200], [500, 350], { label: \"HTTPS\", bend: 0.25 });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 8,
+      "inkedCount": 8,
+      "pictureFlag": false,
+      "lines": [
+        "Connect client to server."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 13,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "14_trace_multi_waypoint_path",
+      "code": "say(\"Trace the packet route.\"); trace([[150, 150], [300, 220], [480, 180], [650, 300]], { straight: true, fill: true, label: \"Cluster\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 8,
+      "inkedCount": 8,
+      "pictureFlag": false,
+      "lines": [
+        "Trace the packet route."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 11,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "15_highlight_region",
+      "code": "say(\"Highlight the warning banner.\"); highlight(300, 260, 220, 36, { color: \"yellow\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Highlight the warning banner."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "16_sticky_note_card",
+      "code": "say(\"Pin a sticky reminder.\"); sticky(1300, 140, \"Check token expiry\\nVerify signature\", \"butter\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 6,
+      "inkedCount": 6,
+      "pictureFlag": true,
+      "lines": [
+        "Pin a sticky reminder."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            1295.5853224836644,
+            128.40675758368027,
+            177.9917671118112,
+            189.00791993265543
+          ],
+          "markCount": 6,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 8,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 3,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "17_clipping_quote_card",
+      "code": "say(\"Clip the RFC definition.\"); clipping(1250, 180, 320, \"RFC 9110\", \"The GET method requests transfer of a current selected representation.\", \"ietf.org\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 3,
+      "inkedCount": 3,
+      "pictureFlag": true,
+      "lines": [
+        "Clip the RFC definition."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            1226,
+            128,
+            368,
+            206
+          ],
+          "markCount": 3,
+          "title": "ietf.org",
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 5,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 3,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "18_receipt_breakdown_card",
+      "code": "say(\"Here is the latency breakdown.\"); receipt(1250, 160, \"Latency Budget\", [\"DNS Lookup: 12ms\", \"TLS Handshake: 28ms\", \"TTFB: 45ms\"]);",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 5,
+      "inkedCount": 5,
+      "pictureFlag": true,
+      "lines": [
+        "Here is the latency breakdown."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            1226,
+            108,
+            328,
+            218
+          ],
+          "markCount": 5,
+          "title": "notes",
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 7,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 5,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "19_legend_key_card",
+      "code": "say(\"Color legend for the diagram.\"); legend(1300, 200, [[\"red\", \"Critical Path\"], [\"green\", \"Healthy\"], [\"amber\", \"Degraded\"]]);",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 6,
+      "inkedCount": 6,
+      "pictureFlag": false,
+      "lines": [
+        "Color legend for the diagram."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 8,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 3,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "20_paper_study_card_window",
+      "code": "\n      say(\"Let us work out the quadratic formula on paper.\");\n      const area = paper(260, 140, 520, 380, { title: \"Algebra\", heading: \"Quadratic Roots\", subtitle: \"ax^2 + bx + c = 0\" });\n      write(area.x + 20, area.y + 40, \"Discriminant: b^2 - 4ac\");\n      write(area.x + 20, area.y + 90, \"If > 0: two distinct real roots\");\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 5,
+      "inkedCount": 5,
+      "pictureFlag": true,
+      "lines": [
+        "Let us work out the quadratic formula on paper."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            236,
+            88,
+            568,
+            456
+          ],
+          "markCount": 5,
+          "title": "Algebra",
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 7,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 5,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "21_openPage_url_action_AUD_F_001",
+      "code": "say(\"Opening documentation in browser.\"); openPage(\"https://example.com/docs\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Opening documentation in browser."
+      ],
+      "actions": [
+        {
+          "role": "open",
+          "x": 4,
+          "y": 2,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": "https://example.com/docs",
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 0,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "22_writeOnPage_hallucinated_primitive_AUD_F_001",
+      "code": "say(\"Testing writeOnPage from README.md.\"); writeOnPage(\"Study Card\", \"Markdown body\");",
+      "thrown": null,
+      "analysisError": "code stopped at line 863: writeOnPage is not defined (kept the 0 marks before it)",
+      "analysisWarnings": [],
+      "markCount": 0,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Testing writeOnPage from README.md."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 2,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 0,
+      "logs": [],
+      "hasState": false,
+      "custom": null,
+      "expectPass": false,
+      "verified": true,
+      "status": "EXPECTED_FAIL_CONFIRMED"
+    },
+    {
+      "name": "23_circle_engine_primitive",
+      "code": "say(\"Draw a core circle.\"); circle(500, 500, 60, { id: \"c1\", tone: \"red\", fill: \"red\", fillAlpha: 0.2, label: \"Core\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw a core circle."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 5,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "24_ellipse_engine_primitive",
+      "code": "say(\"Draw an orbit ellipse.\"); ellipse(600, 400, 90, 45, { id: \"e1\", tone: \"blue\", dash: \"dashed\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw an orbit ellipse."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 4,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "25_rect_engine_primitive",
+      "code": "say(\"Draw a service rectangle.\"); rect(300, 200, 180, 90, { id: \"r1\", tone: \"green\", fill: \"green\", label: \"Service A\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw a service rectangle."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 5,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "26_poly_engine_primitive",
+      "code": "say(\"Draw a closed polygon.\"); poly([[300, 300], [400, 250], [450, 350], [320, 380]], { id: \"p1\", tone: \"purple\", fill: \"purple\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw a closed polygon."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 5,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "27_line_engine_primitive",
+      "code": "say(\"Draw a dividing line.\"); line([[100, 100], [400, 200]], { id: \"l1\", tone: \"ink\", size: 3 });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw a dividing line."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 6,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "28_curve_engine_primitive",
+      "code": "say(\"Draw a smooth trajectory curve.\"); curve([[100, 400], [200, 320], [320, 440], [450, 350]], { id: \"cv1\", tone: \"amber\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw a smooth trajectory curve."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 4,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "29_arrow_engine_primitive",
+      "code": "say(\"Draw a request arrow.\"); arrow([[250, 250], [550, 350]], { id: \"a1\", curve: 25, tone: \"red\", label: \"Request\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Draw a request arrow."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 7,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "30_text_engine_primitive_with_link",
+      "code": "say(\"Write a heading with link.\"); text(500, 120, \"Architecture Overview https://example.com/arch\", { id: \"t1\", size: 28, tone: \"ink\", anchor: \"middle\", box: true });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 1,
+      "pictureFlag": false,
+      "lines": [
+        "Write a heading with link."
+      ],
+      "actions": [
+        {
+          "role": "link",
+          "x": 500,
+          "y": 120,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": "https://example.com/arch",
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 1,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "31_graph_axes_and_plot",
+      "code": "\n      say(\"Plot sine and cosine waves.\");\n      const area = paper(180, 140, 560, 400, { title: \"Trig Waves\" });\n      const g = graph(area.x + 40, area.y + 30, 440, 280, { x: [0, 6.28], y: [-1.2, 1.2], xLabel: \"t\", yLabel: \"amp\", grid: true, ticks: true });\n      const s1 = g.plot(x => Math.sin(x), { tone: \"blue\", label: \"sin(t)\" });\n      const s2 = g.plot(x => Math.cos(x), { tone: \"red\", dash: \"dashed\", label: \"cos(t)\" });\n      const xing = g.cross(s1, s2);\n      g.point(xing, { label: \"Intersect\", guides: true, tone: \"amber\" });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 36,
+      "inkedCount": 36,
+      "pictureFlag": true,
+      "lines": [
+        "Plot sine and cosine waves."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            156,
+            88,
+            608,
+            476
+          ],
+          "markCount": 18,
+          "title": "Trig Waves",
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 38,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 18,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "32_timeline_events",
+      "code": "\n      say(\"HTTP protocol timeline.\");\n      const area = paper(180, 180, 640, 280, { title: \"HTTP Evolution\" });\n      timeline(area.x + 20, area.y + 110, 540, [[\"1991\", \"HTTP/0.9\"], [\"1997\", \"HTTP/1.1\"], [\"2015\", \"HTTP/2\"], [\"2022\", \"HTTP/3\"]]);\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 18,
+      "inkedCount": 18,
+      "pictureFlag": true,
+      "lines": [
+        "HTTP protocol timeline."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            156,
+            128,
+            688,
+            356
+          ],
+          "markCount": 18,
+          "title": "HTTP Evolution",
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 27,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 14,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "33_figure_3d_declarative_parts_and_labels",
+      "code": "\n      say(\"Inspect the turbofan core in 3D.\");\n      const f = figure(300, 180, 480, 340, { title: \"Turbofan\", style: \"davinci\", spin: 8 });\n      const core = f.cyl({ at: [0, 0, 0], r: 0.8, h: 2.4, axis: \"x\", mat: \"steel\", name: \"Core\" });\n      f.cone({ at: [1.5, 0, 0], r: 0.7, h: 0.9, axis: \"x\", mat: \"copper\", name: \"Exhaust\" });\n      f.label(core, \"Compressor stage\", { side: \"left\" });\n      f.readout({ RPM: \"12,400\", Thrust: \"98 kN\" });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 4,
+      "inkedCount": 4,
+      "pictureFlag": true,
+      "lines": [
+        "Inspect the turbofan core in 3D."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 6,
+      "shapes3dBuiltCount": 8,
+      "shapes3dBuilt": [
+        {
+          "kind": "cyl",
+          "recipe": {
+            "axis": "x",
+            "h": 2.4,
+            "r": 0.8
+          }
+        },
+        {
+          "kind": "cone",
+          "recipe": {
+            "axis": "x",
+            "h": 0.9,
+            "r": 0.7
+          }
+        },
+        {
+          "kind": "cyl",
+          "recipe": {
+            "axis": "x",
+            "h": 2.4,
+            "r": 0.8
+          }
+        },
+        {
+          "kind": "cone",
+          "recipe": {
+            "axis": "x",
+            "h": 0.9,
+            "r": 0.7
+          }
+        },
+        {
+          "kind": "cyl",
+          "recipe": {
+            "axis": "x",
+            "h": 2.4,
+            "r": 0.8
+          }
+        },
+        {
+          "kind": "cone",
+          "recipe": {
+            "axis": "x",
+            "h": 0.9,
+            "r": 0.7
+          }
+        },
+        {
+          "kind": "cyl",
+          "recipe": {
+            "axis": "x",
+            "h": 2.4,
+            "r": 0.8
+          }
+        },
+        {
+          "kind": "cone",
+          "recipe": {
+            "axis": "x",
+            "h": 0.9,
+            "r": 0.7
+          }
+        }
+      ],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "34_figure_materials_and_around_audit_AUD_F_003_004",
+      "code": "\n      say(\"Audit cast/carbon materials and around.at vs around.center.\");\n      const f = figure(300, 180, 480, 340, { title: \"Audit 3D\", style: \"shaded\" });\n      f.box({ at: [-1, 0, 0], size: [0.8, 0.8, 0.8], mat: \"cast\", name: \"CastIron\" });\n      f.sphere({ at: [1, 0, 0], r: 0.5, mat: \"carbon\", name: \"CarbonFiber\" });\n      f.torus({ at: [2, 1, 0], r: 0.3, tube: 0.08, mat: \"gold\", around: { count: 4, axis: \"y\", at: [2, 0, 0] } });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 7,
+      "inkedCount": 7,
+      "pictureFlag": true,
+      "lines": [
+        "Audit cast/carbon materials and around.at vs around.center."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 9,
+      "shapes3dBuiltCount": 30,
+      "shapes3dBuilt": [
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              0.8,
+              0.8,
+              0.8
+            ]
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.5
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              0.8,
+              0.8,
+              0.8
+            ]
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.5
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              0.8,
+              0.8,
+              0.8
+            ]
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.5
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              0.8,
+              0.8,
+              0.8
+            ]
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.5
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              0.8,
+              0.8,
+              0.8
+            ]
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.5
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        },
+        {
+          "kind": "torus",
+          "recipe": {
+            "r": 0.3,
+            "tube": 0.08
+          }
+        }
+      ],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 6,
+      "logs": [],
+      "hasState": true,
+      "custom": {
+        "castMaterial": {
+          "mat": "cast"
+        },
+        "carbonMaterial": {
+          "mat": "carbon"
+        },
+        "aroundWithAtPositions": [
+          [
+            2,
+            1,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ]
+        ]
+      },
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "35_scene3d_and_figure_group_move_camera",
+      "code": "\n      say(\"Group 3D parts, animate move(), and adjust camera view().\");\n      const s = scene3d(820, 180, 360, 260, { title: \"Illustrated Scene3D\" });\n      s.sphere({ at: [0, 0, 0], r: 0.6, color: \"blue\" });\n      const f = figure(300, 180, 460, 320, { title: \"Mechanism\", style: \"shaded\" });\n      let piston = null;\n      const grp = f.group((g) => {\n        piston = g.cyl({ at: [0, 0, 0], r: 0.4, h: 1.2, mat: \"alu\", name: \"Piston\" });\n        g.sphere({ at: [0, 0.8, 0], r: 0.3, mat: \"brass\", name: \"Head\" });\n      }, { at: [0, -0.5, 0], name: \"Assembly\" });\n      f.move(piston, { to: [0, 0.5, 0], rot: [0, 45, 0], secs: 0.6 });\n      f.view({ turn: 35, tilt: 20, zoom: 1.25, spin: 4 });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 8,
+      "inkedCount": 8,
+      "pictureFlag": true,
+      "lines": [
+        "Group 3D parts, animate move(), and adjust camera view()."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 10,
+      "shapes3dBuiltCount": 8,
+      "shapes3dBuilt": [
+        {
+          "kind": "cyl",
+          "recipe": {
+            "h": 1.2,
+            "r": 0.4
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.3
+          }
+        },
+        {
+          "kind": "cyl",
+          "recipe": {
+            "h": 1.2,
+            "r": 0.4
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.3
+          }
+        },
+        {
+          "kind": "cyl",
+          "recipe": {
+            "h": 1.2,
+            "r": 0.4
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.3
+          }
+        },
+        {
+          "kind": "cyl",
+          "recipe": {
+            "h": 1.2,
+            "r": 0.4
+          }
+        },
+        {
+          "kind": "sphere",
+          "recipe": {
+            "r": 0.3
+          }
+        }
+      ],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 4,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "36_button_interactive_prompt",
+      "code": "say(\"Offer a next-step button.\"); button(900, 800, \"Next Step\", { ask: \"Continue to step 2\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Offer a next-step button."
+      ],
+      "actions": [
+        {
+          "role": "button",
+          "x": 900,
+          "y": 800,
+          "r": 0,
+          "box": [
+            900,
+            800,
+            114,
+            31
+          ],
+          "label": null,
+          "text": "{\"text\":\"Next Step\",\"kind\":\"ask\",\"value\":\"Continue to step 2\"}",
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 1,
+      "markSoundsCount": 0,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "37_target_click_action",
+      "code": "say(\"Click the sign-in button.\"); target(600, 420, \"Sign In\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Click the sign-in button."
+      ],
+      "actions": [
+        {
+          "role": "target",
+          "x": 600,
+          "y": 420,
+          "r": "Sign In",
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "38_hover_action",
+      "code": "say(\"Hover over settings.\"); hover(320, 80, \"Settings Menu\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Hover over settings."
+      ],
+      "actions": [
+        {
+          "role": "hover",
+          "x": 320,
+          "y": 80,
+          "r": "Settings Menu",
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "39_typeText_action",
+      "code": "say(\"Type hello world into search.\"); typeText(500, 300, \"hello world\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Type hello world into search."
+      ],
+      "actions": [
+        {
+          "role": "type",
+          "x": 500,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": "hello world",
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "40_copyText_action",
+      "code": "say(\"Copy the build command.\"); copyText(\"npm run build\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Copy the build command."
+      ],
+      "actions": [
+        {
+          "role": "copy",
+          "x": 2,
+          "y": 2,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": "npm run build",
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "41_handOff_wait_for_user",
+      "code": "say(\"Hand off to background agent.\"); handOff({ task: \"Audit repository\", label: \"Run Audit\", clicky: \"Verifier\" });",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 1,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Hand off to background agent."
+      ],
+      "actions": [
+        {
+          "role": "handoff",
+          "x": 6,
+          "y": 2,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": "{\"task\":\"Audit repository\",\"label\":\"Run Audit\",\"clicky\":\"Verifier\"}",
+          "line": 0,
+          "i": 0
+        }
+      ],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 3,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 0,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "42_sfx_sound_effects",
+      "code": "say(\"Play sound effects.\"); sfx(\"ding\"); sfx(\"tada\"); sfx(\"whoosh\");",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 3,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Play sound effects."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 5,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 3,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "43_erase_single_mark",
+      "code": "\n      say(\"Draw two circles then erase one.\");\n      const c1 = circle(300, 300, 40, { id: \"keep_me\" });\n      const c2 = circle(500, 300, 40, { id: \"drop_me\" });\n      say(\"Erase the second circle.\");\n      erase(c2);\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 3,
+      "inkedCount": 3,
+      "pictureFlag": true,
+      "lines": [
+        "Draw two circles then erase one.",
+        "Erase the second circle."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 10,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 3,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "44_move_and_moveTo_mutations",
+      "code": "\n      say(\"Draw and move shapes.\");\n      const b1 = rect(100, 100, 80, 50, { id: \"box1\" });\n      const c2 = circle(200, 200, 30, { id: \"c2\" });\n      say(\"Now shift them.\");\n      move(b1, 50, 30);\n      moveTo(c2, 400, 450);\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 4,
+      "inkedCount": 4,
+      "pictureFlag": true,
+      "lines": [
+        "Draw and move shapes.",
+        "Now shift them."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 10,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 4,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "45_scale_recolor_restyle_mutations",
+      "code": "\n      say(\"Draw a circle and restyle it.\");\n      const c = circle(400, 400, 50, { id: \"sc1\", tone: \"red\" });\n      say(\"Scale, recolor, and restyle.\");\n      scale(c, 1.5);\n      recolor(c, \"green\");\n      restyle(c, { dash: \"dashed\", size: 5 });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 4,
+      "inkedCount": 4,
+      "pictureFlag": true,
+      "lines": [
+        "Draw a circle and restyle it.",
+        "Scale, recolor, and restyle."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 4,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 2,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "46_startOver_clears_scene",
+      "code": "\n      say(\"First board.\");\n      sticky(200, 200, \"Old note\");\n      circle(300, 300, 40, { id: \"old_circle\" });\n      say(\"Start over with a clean board.\");\n      startOver();\n      circle(600, 400, 50, { id: \"new_circle\" });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": true,
+      "lines": [
+        "First board.",
+        "Start over with a clean board."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 29,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 6,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "47_photo_and_tie_connector",
+      "code": "\n      say(\"Place a photo and tie it to a row.\");\n      const p = photo(250, 250, 200, 150, \"golden gate bridge\", \"Golden Gate\", { subtitle: \"San Francisco\" });\n      tie([650, 320], p);\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 7,
+      "inkedCount": 7,
+      "pictureFlag": true,
+      "lines": [
+        "Place a photo and tie it to a row."
+      ],
+      "actions": [
+        {
+          "role": "photo",
+          "x": 249.1196950951761,
+          "y": 250.01536577927033,
+          "r": 0,
+          "box": [
+            249.1196950951761,
+            250.01536577927033,
+            200,
+            150
+          ],
+          "label": null,
+          "text": "golden gate bridge",
+          "line": 0,
+          "i": 2
+        }
+      ],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            233.68595657964138,
+            226.97102914172925,
+            234.26677106805587,
+            243.72827439964286
+          ],
+          "markCount": 6,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 12,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 5,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "48_source_and_sources_citations",
+      "code": "\n      say(\"Cite web sources.\");\n      source(300, 800, \"developer.mozilla.org\", \"MDN Web Docs\");\n      sources(300, 860, [[\"httpwg.org\", \"RFC 9110\"], [\"w3.org\", \"W3C\"]]);\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": false,
+      "lines": [
+        "Cite web sources."
+      ],
+      "actions": [
+        {
+          "role": "photo",
+          "x": 300,
+          "y": 787.7,
+          "r": 0,
+          "box": [
+            300,
+            787.7,
+            14,
+            14
+          ],
+          "label": null,
+          "text": "favicon: developer.mozilla.org",
+          "line": 0,
+          "i": 0
+        },
+        {
+          "role": "photo",
+          "x": 354.22,
+          "y": 849.34,
+          "r": 0,
+          "box": [
+            354.22,
+            849.34,
+            12,
+            12
+          ],
+          "label": null,
+          "text": "favicon: httpwg.org",
+          "line": 0,
+          "i": 5
+        },
+        {
+          "role": "photo",
+          "x": 430.90000000000003,
+          "y": 849.34,
+          "r": 0,
+          "box": [
+            430.90000000000003,
+            849.34,
+            12,
+            12
+          ],
+          "label": null,
+          "text": "favicon: w3.org",
+          "line": 0,
+          "i": 7
+        }
+      ],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            286.5,
+            838.15,
+            191.27999999999997,
+            34.60000000000002
+          ],
+          "markCount": 7,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 11,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 4,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "49_scroll_cheer_spotlight_pieces",
+      "code": "\n      say(\"Spotlight the form, scroll down, and celebrate.\");\n      spotlight(400, 250, 500, 300);\n      scroll(600, 500, \"down\", \"Scroll for more\");\n      cheer(960, 540, \"(^_^)v\");\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 17,
+      "inkedCount": 17,
+      "pictureFlag": false,
+      "lines": [
+        "Spotlight the form, scroll down, and celebrate."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 22,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 5,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "50_jobTicket_and_dreamMedal_cards",
+      "code": "\n      say(\"Show background job ticket and dream medal.\");\n      jobTicket(1200, 120, { title: \"Deploy Worker\", time: \"Every 15m\", steps: [\"run migrations\", \"upload bundle\", \"verify health\"], icon: \"code\", color: \"mint\" });\n      dreamMedal(1200, 480, \"100%\", { caption: \"Full audit coverage\" });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 20,
+      "inkedCount": 20,
+      "pictureFlag": true,
+      "lines": [
+        "Show background job ticket and dream medal."
+      ],
+      "actions": [],
+      "cardCount": 2,
+      "cards": [
+        {
+          "box": [
+            1198.5,
+            118.5,
+            314,
+            130
+          ],
+          "markCount": 11,
+          "title": null,
+          "has3D": false
+        },
+        {
+          "box": [
+            1094.5,
+            374.5,
+            211,
+            211
+          ],
+          "markCount": 8,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 44,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 16,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "51_streaming_partial_chunks_scanner",
+      "code": "",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 15,
+      "inkedCount": 15,
+      "pictureFlag": true,
+      "lines": [
+        "Streaming in chunks"
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 400,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": "Streamed Target",
+          "text": null,
+          "line": 0,
+          "i": 0
+        },
+        {
+          "role": "point",
+          "x": 400,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 1
+        }
+      ],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            1195.5853224836644,
+            188.40675758368027,
+            177.9917671118112,
+            189.00791993265543
+          ],
+          "markCount": 6,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 18,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 5,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "52_figure_tick3d_pose_packing_and_exception_watchdog",
+      "code": "\n      say(\"Animate 3D rotor with tick().\");\n      const f = figure(300, 200, 380, 280, { id: \"st1\", title: \"Rotor\" });\n      const rotor = f.box({ at: [0, 0, 0], size: [1, 1, 1], mat: \"steel\", name: \"Rotor\" });\n      f.tick((t, dt) => {\n        rotor.pos = [Math.sin(t), 0, 0];\n        rotor.rot = [0, t * 90, 0];\n        rotor.scale = 1.2;\n        rotor.glow = 0.5;\n        rotor.color = \"#ff5500\";\n        if (t > 10) throw new Error(\"Simulated tick failure\");\n      });\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 3,
+      "inkedCount": 3,
+      "pictureFlag": true,
+      "lines": [
+        "Animate 3D rotor with tick()."
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 5,
+      "shapes3dBuiltCount": 4,
+      "shapes3dBuilt": [
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "kind": "box",
+          "recipe": {
+            "size": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 1,
+      "logs": [
+        "tick st1t1 stopped: Simulated tick failure"
+      ],
+      "hasState": true,
+      "custom": {
+        "poseLength": 14,
+        "poseArray": [
+          1,
+          55,
+          0.4794255495071411,
+          0,
+          0,
+          0,
+          45,
+          0,
+          1.2000000476837158,
+          1,
+          0.5,
+          1,
+          0.3333333432674408,
+          0
+        ],
+        "stoppedLogFound": true,
+        "poseCrashLength": 14
+      },
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "53_card_lifecycle_move_zoom_close_keepNotesOnly_dropPointing",
+      "code": "\n      say(\"Create a sticky and a screen pointer.\");\n      sticky(200, 200, \"Persistent sticky note\");\n      point(600, 500, \"Transient pointer\");\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 15,
+      "inkedCount": 15,
+      "pictureFlag": true,
+      "lines": [
+        "Create a sticky and a screen pointer."
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 600,
+          "y": 500,
+          "r": 0,
+          "box": null,
+          "label": "Transient pointer",
+          "text": null,
+          "line": 0,
+          "i": 6
+        },
+        {
+          "role": "point",
+          "x": 600,
+          "y": 500,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 7
+        }
+      ],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            195.58532248366427,
+            188.40675758368027,
+            177.99176711181147,
+            189.00791993265543
+          ],
+          "markCount": 6,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 18,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 5,
+      "logs": [],
+      "hasState": true,
+      "custom": {
+        "movedCount": 6,
+        "zoomedCount": 6,
+        "unzoomedCount": 6,
+        "dropRes": {
+          "dropped": 9,
+          "left": 6
+        },
+        "keepRes": {
+          "kept": 6,
+          "dropped": 0
+        },
+        "closeRes": {
+          "closed": 6,
+          "left": 0
+        }
+      },
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "54_syntax_error_graceful_reporting",
+      "code": "say(\"Valid line before syntax error\");\nfunction broken( {",
+      "thrown": null,
+      "analysisError": "syntax error after line 862: Unexpected token '}' (kept the 0 marks before it)",
+      "analysisWarnings": [],
+      "markCount": 0,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [
+        "Valid line before syntax error"
+      ],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 2,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 0,
+      "logs": [],
+      "hasState": false,
+      "custom": null,
+      "expectPass": false,
+      "verified": true,
+      "status": "EXPECTED_FAIL_CONFIRMED"
+    },
+    {
+      "name": "55_continueStream_multi_turn_session",
+      "code": "\n      say(\"Turn 1 note and pointer.\");\n      sticky(220, 200, \"Turn 1 Sticky\");\n      point(400, 300, \"Turn 1 Pointer\");\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 15,
+      "inkedCount": 15,
+      "pictureFlag": true,
+      "lines": [
+        "Turn 1 note and pointer."
+      ],
+      "actions": [
+        {
+          "role": "point",
+          "x": 400,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": "Turn 1 Pointer",
+          "text": null,
+          "line": 0,
+          "i": 6
+        },
+        {
+          "role": "point",
+          "x": 400,
+          "y": 300,
+          "r": 0,
+          "box": null,
+          "label": null,
+          "text": null,
+          "line": 0,
+          "i": 7
+        }
+      ],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            215.58532248366427,
+            188.40675758368027,
+            177.99176711181147,
+            189.00791993265543
+          ],
+          "markCount": 8,
+          "title": null,
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 28,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 7,
+      "logs": [],
+      "hasState": true,
+      "custom": {
+        "firstLineTurn2": 1,
+        "turn2Actions": [
+          {
+            "role": "point",
+            "x": 800,
+            "y": 600,
+            "r": 0,
+            "box": null,
+            "label": "Turn 2 Pointer",
+            "text": null,
+            "line": 1,
+            "i": 16
+          },
+          {
+            "role": "point",
+            "x": 800,
+            "y": 600,
+            "r": 0,
+            "box": null,
+            "label": null,
+            "text": null,
+            "line": 1,
+            "i": 17
+          }
+        ]
+      },
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "56_renderWhole_lab_harness_mode",
+      "code": "\n      say(\"Whole render mode.\");\n      const area = paper(200, 150, 480, 320, { title: \"Whole Card\" });\n      circle(area.x + 120, area.y + 120, 45, { tone: \"blue\", fill: \"blue\" });\n      write(area.x + 190, area.y + 120, \"Instant render\");\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 3,
+      "inkedCount": 0,
+      "pictureFlag": false,
+      "lines": [],
+      "actions": [],
+      "cardCount": 0,
+      "cards": [],
+      "drainedOpCount": 7,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 0,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    },
+    {
+      "name": "57_molecule_smiles_and_tour_meta_primitives",
+      "code": "\n      lessonTitle(\"Benzene Ring\");\n      plan(\"Draw benzene SMILES on paper\");\n      task(\"Understand aromatic ring\");\n      onScreen(0);\n      seen(\"User viewing chemistry notes\");\n      noted(\"Student studies organic chemistry\");\n      say(\"Here is a benzene ring drawn via SMILES.\");\n      const area = paper(200, 150, 420, 320, { title: \"Chemistry\" });\n      molecule(\"c1ccccc1\", area.x + 60, area.y + 40, 220, 180, { tone: \"ink\" });\n      tag(area.x + 120, area.y + 240, \"C6H6\");\n    ",
+      "thrown": null,
+      "analysisError": null,
+      "analysisWarnings": [],
+      "markCount": 9,
+      "inkedCount": 9,
+      "pictureFlag": true,
+      "lines": [
+        "Here is a benzene ring drawn via SMILES."
+      ],
+      "actions": [],
+      "cardCount": 1,
+      "cards": [
+        {
+          "box": [
+            176,
+            98,
+            468,
+            396
+          ],
+          "markCount": 9,
+          "title": "Chemistry",
+          "has3D": false
+        }
+      ],
+      "drainedOpCount": 11,
+      "shapes3dBuiltCount": 0,
+      "shapes3dBuilt": [],
+      "buttonsReadyCount": 0,
+      "markSoundsCount": 3,
+      "logs": [],
+      "hasState": true,
+      "custom": null,
+      "expectPass": true,
+      "verified": true,
+      "status": "PASS"
+    }
+  ]
+}

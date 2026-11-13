@@ -1,0 +1,208 @@
+[
+  {
+    "id": "AUD-D-001",
+    "workstream": "WS-D",
+    "severity": "HIGH",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "OpenRouter :free Fallback Array Contains 4 Retired 404 Models, baidu/ernie-5.5-flash-preview:free Is Unreachable Dead Code, ONEBRAIN_MODEL Env Is Ignored, and Vision Eye Failure Skips groq-120b",
+    "component": "OneBrain Provider Routing & Fallback Chain (brain.ts)",
+    "location": "src/backend/src/routes/brain.ts:433, 578-601, 660-668, 691-705, 958-962",
+    "description": "Multiple defects exist in tryCallUpstreamLlm and /brain/turn model routing: (1) All 4 explicit free models in the OpenRouter retry array at lines 700-704 ('google/gemma-3-27b-it:free', 'meta-llama/llama-4-maverick:free', 'qwen/qwen2.5-vl-72b-instruct:free', 'mistralai/mistral-small-3.1-24b-instruct:free') have been retired from OpenRouter's free tier and return HTTP 404 ('This model is unavailable for free'); (2) 'baidu/ernie-5.5-flash-preview:free' at line 601 (which returns HTTP 200 on OpenRouter) is 100% unreachable dead code because requestedModel at line 962 defaults to 'anthropic/claude-sonnet-4.6' (always truthy), so 'requestedModel || \"baidu/ernie-5.5-flash-preview:free\"' at lines 600-601 can never evaluate to the fallback string; (3) README.md instructs setting ONEBRAIN_MODEL, which brain.ts (lines 598-599, 959-960) completely ignores in favor of KURSOR_BRAIN_MODEL and OPENROUTER_DEFAULT_MODEL; (4) When a screenshot is attached and runGroqVisionEye (lines 422-469) fails or times out, it retries 'qwen/qwen3.8-27b' twice even on non-429 errors, then sets groq-120b ('openai/gpt-oss-120b') apiKey to undefined (lines 578-581) so groq-120b is completely skipped, and then calls 'qwen/qwen3.8-27b' a third time in groq-qwen-vision (line 590); (5) Lines 661-668 omit payload.tools on ALL Groq and OpenRouter requests (even paid anthropic/claude-sonnet-4.6), preventing tool calls unless fallback reaches OpenAI or Gemini.",
+    "reproductionSteps": [
+      "Run `cd src/backend && npx tsx ../../tests/audit/ws-d/test-brain-prompts.ts`.",
+      "Inspect `docs/audit/evidence/ws-d/model-provider-verification.json` under `hardcodedModelInventory`, `readmeEnvMismatch`, and `fallbackChainWithScreenshotAndTools`."
+    ],
+    "observedResult": "Live OpenRouter probes return HTTP 404 for all 4 explicit `:free` retry models (`google/gemma-3-27b-it:free`, `meta-llama/llama-4-maverick:free`, `qwen/qwen2.5-vl-72b-instruct:free`, `mistralai/mistral-small-3.1-24b-instruct:free`). `baidu/ernie-5.5-flash-preview:free` at line 601 is never reached. Setting `ONEBRAIN_MODEL=google/gemini-2.5-pro` is ignored (`anthropic/claude-sonnet-4.6` is used). When `runGroqVisionEye` fails on a screenshot turn, `qwen/qwen3.8-27b` is called 3 times in a row while `openai/gpt-oss-120b` is skipped, and `payload.tools` is omitted on all Groq and OpenRouter calls.",
+    "expectedResult": "OpenRouter fallback model list should contain active vision-capable `:free` models (including reachable `baidu/ernie-5.5-flash-preview:free`), `process.env.ONEBRAIN_MODEL` should be honored as documented in `README.md`, `groq-qwen-vision` should not re-query `qwen/qwen3.8-27b` after `runGroqVisionEye` already failed twice on the same model, and `payload.tools` should be forwarded to tool-capable models.",
+    "impact": "Degraded reliability, wasted latency (3 redundant Groq Vision calls + 4 dead OpenRouter `:free` slugs on fallback), broken `ONEBRAIN_MODEL` configuration, and silent inability to invoke `tools` on primary Groq/OpenRouter providers.",
+    "remediation": "1. Honor `process.env.ONEBRAIN_MODEL` in `defaultModel` (`brain.ts:958-962`) and provider selection (`brain.ts:598-601`). 2. Update the OpenRouter `:free` retry array (`brain.ts:699-705`) to include `\"baidu/ernie-5.5-flash-preview:free\"` and `\"openrouter/free\"`, removing retired 404 slugs. 3. Track whether `runGroqVisionEye` was attempted and failed so `groq-qwen-vision` does not make a 3rd identical request to `qwen/qwen3.8-27b`, and allow `groq-120b` to run using `extracted.screenLayout.layoutPromptNote` when vision OCR fails. 4. Forward `payload.tools` when using tool-capable OpenRouter/Groq models.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-d/model-provider-verification.json",
+      "src/backend/src/routes/brain.ts:433",
+      "src/backend/src/routes/brain.ts:578-601",
+      "src/backend/src/routes/brain.ts:660-705",
+      "src/backend/src/routes/brain.ts:958-962"
+    ]
+  },
+  {
+    "id": "AUD-D-002",
+    "workstream": "WS-D",
+    "severity": "HIGH",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "Synchronous Pure-JS JPEG Decode and Full-Resolution Pixel Scanning in analyzeScreenLayout Blocks Node.js Event Loop for 0.42s to 6.94s Per Turn",
+    "component": "Screen Layout Analyzer (screenLayout.ts)",
+    "location": "src/backend/src/utils/screenLayout.ts:68-82, 144-482, 492-510",
+    "description": "analyzeScreenLayout is invoked synchronously on the main Node.js event loop inside extractPromptInput (brain.ts:385, 976) before the SSE stream even begins. It decodes the base64 screenshot via pure-JS jpeg-js (`jpeg.decode(buf, { useTArray: true })`) with no input byte-size cap or dimension cap (jpeg-js defaults to maxResolutionInMP = 100 MP and maxMemoryUsageInMB = 512 MB), and then executes nested full-resolution pixel loops across W x H for horizontal borders, vertical borders, dotted answer lines, and calm-spot Sobel edge scoring.",
+    "reproductionSteps": [
+      "Run `cd src/backend && npx tsx ../../tests/audit/ws-d/test-screen-layout.ts`.",
+      "Inspect `docs/audit/evidence/ws-d/screen-layout-benchmark.json` under `summary.timingMs` and cases `51`–`54`, `65`, and `66`."
+    ],
+    "observedResult": "Across 50 standard `1280x720` corpus JPEGs, `analyzeScreenLayout` blocks the main thread for `p50 = 423.12 ms`, `mean = 448.59 ms`, `p95 = 750.45 ms`, and `max = 1203.68 ms`. On higher resolutions, main-thread blocking reaches `1362.25 ms` (`1920x1080`), `2182.75 ms` (`2560x1440`), `6938.76 ms` (`4000x3000` 12 MP), and `4212.50 ms` (`8000x8000` 64 MP, allocating a 256 MB RGBA buffer synchronously). During this window, all concurrent HTTP/SSE requests (`/health`, `/voice/*`, `/brain/*`) are frozen.",
+    "expectedResult": "`analyzeScreenLayout` should enforce a strict base64 payload size limit and dimension guard before decoding, or decode/downsample in a Worker thread / after emitting initial SSE `meta` and `status` events so the Node.js event loop is never blocked for hundreds of milliseconds.",
+    "impact": "Severe event-loop starvation and denial of service: a single high-DPI screenshot or oversized JPEG stalls the entire backend worker for 1.3–6.9 seconds, delaying SSE start and starving concurrent voice/UI requests.",
+    "remediation": "1. Parse the JPEG SOF0/SOF2 header dimensions and reject/skip layout analysis if `buf.length > 4 * 1024 * 1024` or `width * height > 2560 * 1440`, and pass `{ useTArray: true, maxResolutionInMP: 4, maxMemoryUsageInMB: 32 }` to `jpeg.decode`. 2. Move `analyzeScreenLayout` inside the `ReadableStream.start` callback *after* flushing `meta` and `status` SSE events, or offload pixel scanning to a `node:worker_threads` worker.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-d/screen-layout-benchmark.json",
+      "tests/audit/ws-d/test-screen-layout.ts",
+      "src/backend/src/utils/screenLayout.ts:68-82"
+    ]
+  },
+  {
+    "id": "AUD-D-003",
+    "workstream": "WS-D",
+    "severity": "HIGH",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "Greedy Multiline Regex in snapProgramToScreenLayout Case B Wipes Out Subsequent Beats and check() Calls or Leaves Dangling SyntaxErrors",
+    "component": "Screen Layout Program Snapping (screenLayout.ts)",
+    "location": "src/backend/src/utils/screenLayout.ts:690-698",
+    "description": "When a program contains both table marks (`check` or `cross`) and a summary card (`receipt` or `clipping`) and the user prompt does not explicitly request a card, Case B (`screenLayout.ts:694-697`) strips `receipt`/`clipping` calls using `/^[ \\t]*(?:receipt|clipping)\\s*\\([\\s\\S]*?\\)\\s*;?[ \\t]*$/gm`. Because `[\\s\\S]*?` matches across newlines until it finds `)\\s*;?[ \\t]*$` at the end of a line: (1) if a `receipt(...)` line has a trailing inline comment (e.g. `receipt(860, 150, \"Summary\", [\"A\"]); // summary`), `)\\s*;?[ \\t]*$` fails at the end of that line and `[\\s\\S]*?` consumes all subsequent lines (`step(2)`, `say(...)`, `check(...)`) up to the last `);` in the file; (2) if a multiline `receipt(` call contains an inner line ending with `)` (e.g. `String(123)`), the regex stops early on that inner line and leaves the remaining arguments as a fatal JS `SyntaxError`.",
+    "reproductionSteps": [
+      "Run `cd src/backend && npx tsx ../../tests/audit/ws-d/test-screen-layout.ts`.",
+      "Inspect adversarial cases `SNAP-01`, `SNAP-02`, and `SNAP-03` in `docs/audit/evidence/ws-d/snap-program-adversarial.json`, and `TBL-08` in `docs/audit/evidence/ws-d/brain-prompt-matrix.json`."
+    ],
+    "observedResult": "In `SNAP-01`, adding `// floating summary card` after `receipt(...)` caused `snapProgramToScreenLayout` to delete `step(2)`, `say(\"Checking rows.\")`, and all 4 `check(...)` calls (`checkCallsAfter = 0`). In `SNAP-03`, code between `receipt(...); // comment` and a later `clipping(...)` was completely erased. In `SNAP-02`, a multiline `receipt(...)` with `String(123)` at the end of line 3 left `, [\"Step 1\", \"Step 2\"], { w: 390 });` as a `SyntaxError`.",
+    "expectedResult": "Removing `receipt()` or `clipping()` calls must use a balanced-parenthesis scanner (respecting string literals and comments) rather than a multiline `[\\s\\S]*?` regex anchored to EOL.",
+    "impact": "Silent data loss of all table checkmarks/spoken beats or broken JavaScript syntax that prevents any overlay from rendering on the user's screen.",
+    "remediation": "Replace the regex at `screenLayout.ts:694-697` with a balanced-parenthesis statement matcher that tracks string quotes (`\"`, `'`, `` ` ``), escape characters (`\\`), and single/multi-line comments before matching the closing `)` and optional `;`.",
+    "effort": "S",
+    "evidence": [
+      "docs/audit/evidence/ws-d/snap-program-adversarial.json",
+      "src/backend/src/utils/screenLayout.ts:690-698"
+    ]
+  },
+  {
+    "id": "AUD-D-004",
+    "workstream": "WS-D",
+    "severity": "HIGH",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "Zero Execution Watchdog or V8 Interrupt on NativeEngine.Feed, RenderWhole, Evaluate, RunFigureTicks, and ClickyThreeKernel.Build Allows Infinite Loops to Permanently Freeze DrawingThread",
+    "component": "Generated-JS V8 Sandbox & Watchdog (NativeEngine.cs, DrawingThread.cs, ClickyThreeKernel.cs)",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:141-148, 249-289, 347-350, 617-649; src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs:204-220; src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:288-355",
+    "description": "Neither the 2D V8 engine (`NativeEngine.cs`) nor the 3D V8 kernel (`ClickyThreeKernel.cs`) configures an execution watchdog timer to call `v8.Interrupt()` when evaluating LLM-generated JavaScript, and `brain.ts` performs zero static filtering for infinite loops (`while(true){}`, `for(;;){}`). Furthermore: (1) `clicky-draw-native.js:650` calls `ClickyDraw.live(...)` without `budgetMs`, so `sink.deadline` in `clicky-draw-engine.js:1080` is `0` (disabled), and even if set, `checkDeadline` (`line 1066`) only runs inside `push()` when emitting a primitive; (2) in `clicky-draw-native.js:835-851` (`__tickFigures`), the 8ms budget check (`if (nowMs() - t0 > 8.0)`) runs *after* `fn(dt, t, f.api)` returns, so `f.tick(() => { while(true){} })` never returns; (3) `DrawingThread.Invoke` (`DrawingThread.cs:220`) blocks on `done.Wait()` without a timeout; (4) `ClickyThreeKernel.cs:290` creates `new V8ScriptEngine` without `V8RuntimeConstraints` (`MaxOldSpaceSize` is unset).",
+    "reproductionSteps": [
+      "Inspect `docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json` and `INJ-01` in `docs/audit/evidence/ws-d/brain-prompt-matrix.json`.",
+      "Trace `POST /brain/turn` with `INJ-01` (`while(true){}` in LLM output) -> `brain.ts` streams `while(true){}` unfiltered into `NativeEngine.Feed` -> `v8.Invoke(\"__feed\", chunk)` on `DrawingThread`."
+    ],
+    "observedResult": "`POST /brain/turn` streams `while(true){}` directly to the client (`containsInfiniteLoopUnfiltered: true` in `INJ-01`). Inside `NativeEngine.Feed`, `v8.Invoke(\"__feed\", chunk)` executes `with (__api) { return eval(__c); }` with no watchdog timer calling `v8.Interrupt()`, permanently hanging `DrawingThread` and deadlocking any thread calling `DrawingThread.Invoke`.",
+    "expectedResult": "`NativeEngine` and `ClickyThreeKernel` must arm a watchdog timer (e.g. 250ms for `Feed`/`RenderWhole`/`Evaluate`, 16ms for `RunFigureTicks`, and 500ms for `ClickyThreeKernel.Build`) that calls `v8.Interrupt()` on timeout, and `ClickyThreeKernel` must set `V8RuntimeConstraints.MaxOldSpaceSize`.",
+    "impact": "Complete denial of service of the desktop overlay engine and UI deadlock if an LLM hallucinates or is prompt-injected into emitting a non-terminating loop.",
+    "remediation": "1. In `NativeEngine.cs`, wrap every `v8.Invoke` / `v8.Evaluate` / `v8.Execute` call in a watchdog helper that schedules a timer (e.g. `CancellationTokenSource(TimeSpan.FromMilliseconds(budgetMs))` registering `() => v8?.Interrupt()`) and catches `ScriptInterruptedException`. 2. Pass `budgetMs: 200` to `ClickyDraw.live(...)` in `clicky-draw-native.js:650`. 3. Add a timeout parameter to `DrawingThread.Invoke` (`done.Wait(timeoutMs)`). 4. Configure `V8RuntimeConstraints { MaxOldSpaceSize = 128, MaxNewSpaceSize = 32 }` and a 500ms `v8.Interrupt()` watchdog in `ClickyThreeKernel.cs:290`.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json",
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:141-148",
+      "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs:204-220",
+      "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:288-355"
+    ]
+  },
+  {
+    "id": "AUD-D-005",
+    "workstream": "WS-D",
+    "severity": "HIGH",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "Unrestricted V8 Global Scope Access to __hostRaw (HostBridge), Unbounded setTimeout/setInterval Floods, and Persistent Prototype/Global Pollution Across Turns",
+    "component": "Generated-JS V8 Sandbox & HostBridge (NativeEngine.cs, HostBridge.cs, clicky-draw-native.js, clicky-draw-engine.js)",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:150, 296-306, 859-887; src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/HostBridge.cs:12-127; src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:9-21, 128-167; src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1057, 1089",
+    "description": "LLM-generated JS is evaluated via `new Function('__api', '__c', 'with (__api) { return eval(__c); }')` (`clicky-draw-engine.js:1057, 1089`) in the shared global V8 context of a single long-lived `V8ScriptEngine` instance. Because `globalThis.__hostRaw` (`HostBridge`), `globalThis.__host`, `globalThis.__drainRender`, `globalThis.__feed`, `globalThis.setTimeout`, and `globalThis.setInterval` are unprotected globals: (1) LLM code can directly invoke `__hostRaw.Schedule(id, sec)`, `__hostRaw.Cancel(id)`, `__hostRaw.Speak(...)`, `__hostRaw.PlaySound(...)`, or `.GetType()` on the C# `HostBridge` object (`INJ-03`); (2) LLM code can flood `setTimeout` / `setInterval` (`INJ-08`), spawning thousands of C# `CancellationTokenSource` and `DrawingThread.timers` entries with no cap, and `NativeEngine.Clear()` (`lines 296-306`) never cancels global `setTimeout`/`setInterval` timers registered outside `ClickyDraw`; (3) LLM code can overwrite `globalThis.__drainRender = () => null` or `Object.prototype`, permanently breaking all subsequent turns.",
+    "reproductionSteps": [
+      "Inspect `docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json` and cases `INJ-03` and `INJ-08` in `docs/audit/evidence/ws-d/brain-prompt-matrix.json`.",
+      "Verify in `clicky-draw-native.js:9-21, 128-167, 650-687` that `__hostRaw`, `__host`, `timerCallbacks`, and `__drainRender` remain on `globalThis` and `NativeEngine.Clear()` only calls `__clear()`."
+    ],
+    "observedResult": "`POST /brain/turn` passes `globalThis.__hostRaw.Log(\"pwned\")` (`INJ-03`) and `for(let i=0;i<10000;i++) setInterval(()=>{}, 1)` (`INJ-08`) straight through to `NativeEngine.Feed`. In `NativeEngine`, `timerCallbacks` and `DrawingThread.timers` have no upper bound and are not cleared by `NativeEngine.Clear()`.",
+    "expectedResult": "`__hostRaw` and `__host` should be captured inside an IIFE closure in `clicky-draw-native.js` and deleted from `globalThis` before any user code runs; `HostBridge` should use `V8ScriptEngineFlags.DisableGlobalMembers` + `[ScriptMember]` allowlisting; `setTimeout`/`setInterval` should cap active timers (e.g. `<= 64`) and be cleared on `NativeEngine.Clear()`; and `__drainRender`/`__feed`/`Object.prototype` should be frozen with `Object.freeze`.",
+    "impact": "Untrusted on-screen prompt injection or hallucinated JS can saturate `DrawingThread` with unstoppable 1ms timers, invoke C# `HostBridge` methods directly, or brick the overlay engine for the lifetime of the desktop process.",
+    "remediation": "1. Wrap `clicky-draw-native.js` in an IIFE that captures `const hostRaw = globalThis.__hostRaw; delete globalThis.__hostRaw; delete globalThis.__host;` during engine bootstrap, and freeze `Object.prototype` and the `__feed`/`__drainRender` entry points with `Object.defineProperty(..., { writable: false, configurable: false })`. 2. Cap active timers in `NativeEngine.ScheduleTimer` (e.g. max 64 concurrent timers, min delay 16ms) and cancel all remaining `timerTokens` inside `NativeEngine.Clear()`. 3. Add a lightweight AST/regex guard in `brain.ts` rejecting `__host`, `__hostRaw`, `Object.prototype`, `while(true)`, and `for(;;)`.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json",
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:150, 296-306, 859-887",
+      "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:9-21, 128-167"
+    ]
+  },
+  {
+    "id": "AUD-D-006",
+    "workstream": "WS-D",
+    "severity": "MEDIUM",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "analyzeScreenLayout Has 35.48% Strict Table Recall and 37.50% Strict Answer-Line Recall, Misses Solid/Dashed Lines (0% Recall), Falsely Detects Split Panes/Charts as Tables, and Places 640x480 Calm Cards Off-Screen",
+    "component": "Screen Layout Analyzer (screenLayout.ts)",
+    "location": "src/backend/src/utils/screenLayout.ts:95-142, 271-395, 405-481, 486-515",
+    "description": "Benchmarking `analyzeScreenLayout` across 66 corpus images (`tests/audit/ws-d/test-screen-layout.ts`) exposed multiple structural blind spots in its pixel heuristics: (1) Answer-line detection (`lines 405-481`) only counts short dark runs of `1..8px` (`if (inDot && runLen > 8) { inDot = false; dotCount = 0; }`) with `bestDots >= 50` and `span >= W * 0.35`, yielding **0% recall** on solid underline blanks (`29_lines_solid_underline_blanks`), dashed lines (`30_lines_dashed_10px_blanks`), wide-gap dots (`31`), short blanks (`32`), `<50` dots (`33`), light-gray dots (`35`), cream paper (`36`), and 2x DPI `2560x1440` dotted lines (`54`). Worse, when solid/dashed answer lines are missed (`numTables === 0 && numAnswerLines === 0`), `snapProgramToScreenLayout` Case A (`line 652`) replaces the LLM's valid `write(x, y, ...)` calls on the worksheet lines with a floating `receipt()` card! (2) Table detection (`lines 95-395`) requires `bg >= 160`, `>= 3` connecting vertical borders, `>= 4` horizontal lines, and `22 <= dy <= 115`, missing borderless tables (`08`), horizontal-only border tables (`09`), dark-mode tables (`12`, `13`), cream-shaded tables (`14`), skewed scans (`15`, `16`), tall rows `>115px` (`18`, `52`, `53`), and 2-row tables (`21`), while only keeping a single `bestGroup` (`tables.length <= 1` on multi-table screens `22`, `23`) and forcing `hasVisibleHeader = false` when `135 <= yMin < 175` (`17`). (3) Light IDE split panes (`43`) and bar charts with gridlines (`48`) trigger false-positive table detections (`2 FP`). (4) `candidateSpots` (`lines 486-490`) hardcode `1280x720` coordinates (`x: 860, y: 150, w: 390, h: 420`); on `640x480` (`55`, `56`), `x=860` is off-screen so the edge loop executes 0 iterations (`busy = 0`), selecting off-screen `(860, 150)` as the winning `calmCardSpot`!",
+    "reproductionSteps": [
+      "Run `cd src/backend && npx tsx ../../tests/audit/ws-d/test-screen-layout.ts`.",
+      "Inspect `docs/audit/evidence/ws-d/screen-layout-benchmark.json` for precision/recall summary and per-image results across all 66 corpus images."
+    ],
+    "observedResult": "Table detection achieved `35.48%` strict recall (`11/31`), `51.61%` any-table recall (`16/31`), `15 FN`, and `2 FP`. Answer-line detection achieved `37.50%` strict recall (`6/16`), `50.00%` any-line recall (`8/16`), and `8 FN` (including 0% on solid underline blanks and dashed lines). On `640x480` images (`55`, `56`), `calmCardSpot` returned `{ x: 860, y: 150, w: 390, h: 420 }` completely outside the `640x480` viewport.",
+    "expectedResult": "`analyzeScreenLayout` should scale spatial thresholds (`dy`, `dotW`, `candidateSpots`) proportionally to `(W, H)`, detect solid/dashed worksheet blank lines (or avoid triggering Case A `write()`->`receipt()` conversion when no lines are detected), support dark-mode contrast (`|lum - bg| >= 32`), and emit all qualifying non-overlapping table groups.",
+    "impact": "On worksheets with solid or dashed blank lines, Kursor erases the LLM's inline `write()` answers and converts them into a single floating `receipt()` card; on `1080p`/`1440p` or dark-mode tables, snapping fails completely; on `<860px` windows, floating cards spawn off-screen.",
+    "remediation": "1. Scale `candidateSpots`, row height limits (`22 * H/720 .. 115 * H/720`), and dot run lengths (`dotW <= 8 * W/1280`) by `(W / 1280, H / 720)` and clamp `calmCardSpot.x` to `<= W - spot.w - 16`. 2. Detect solid horizontal blank lines (isolated horizontal rules not connected to `>= 3` vertical table borders) and dashed lines (`runLen <= 16`) as `answerLines`. 3. Use relative contrast `Math.abs(bg - lum) >= 32` instead of `bg >= 160` so dark-mode tables are detected.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-d/screen-layout-benchmark.json",
+      "tests/audit/ws-d/test-screen-layout.ts",
+      "src/backend/src/utils/screenLayout.ts:95-515"
+    ]
+  },
+  {
+    "id": "AUD-D-007",
+    "workstream": "WS-D",
+    "severity": "MEDIUM",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "snapProgramToScreenLayout Produces 'const w2 = ;' SyntaxError on Assigned write(), Matches Keywords Inside Comments/Strings, Hardcodes RISC/CISC Column Order, and Corrupts Coordinates on ViT Rescale & Combo Worksheets",
+    "component": "Screen Layout Program Snapping (screenLayout.ts)",
+    "location": "src/backend/src/utils/screenLayout.ts:652-689, 720-724, 735-777, 811-835",
+    "description": "Adversarial testing of `snapProgramToScreenLayout` across 35 cases (`tests/audit/ws-d/test-screen-layout.ts`) confirmed 16 distinct failure modes in addition to AUD-D-003: (1) Case A (`lines 679-687`) replaces the 1st `write(...)` call with `receipt(...)` and replaces all subsequent `write(...)` calls with `\"\"`. If the LLM assigned the result (`const w2 = write(...);`), replacing `write(...)` with `\"\"` leaves `const w2 = ;` (`SyntaxError: Unexpected token` — confirmed in `SNAP-04` and `MATH-05`); (2) `hasTableMarks` (`line 646`) and `hasCardAlready` (`line 648`) run raw regexes across the entire code string without stripping comments or `say(...)` strings, so `// check(100, 200)` strips a valid `receipt()` card (`SNAP-31`) and `say(\"Look at paper(1)\")` blocks Case A (`SNAP-32`); (3) `writeFullRegex` (`line 664`) and `point` regex (`line 736`) use `\\{[^)]*\\}` and `(?:,[^)]*)?\\)`, failing when options contain `)` (e.g. `{ label: \"a)\" }` in `SNAP-06`) or leaving a dangling `});` `SyntaxError` (`SNAP-34`); (4) `lines 721-724` hardcode `risc` -> `answerCols[0].cx` and `cisc` -> `answerCols[1].cx`, swapping columns when CISC is Col 2 and RISC is Col 3 (`SNAP-11`); (5) `needsVitRescale` (`lines 756-776`) triggers whenever `avgX < minAnswerColX - 80` and multiplies Y by `720 / 565`, warping valid `1280x720` Y coordinates into the wrong row (`SNAP-15`); (6) `checksOnePerRow` (`lines 783-801`) overwrites bottom-up `check()` calls (`Row 4 -> Row 1`) into top-down order (`Row 1 -> Row 4`) whenever `bestDy > 20` (`SNAP-14`); (7) `lines 829-832` discard all `answerLines` above a table whenever `linesBelowTable.length > 0` and `check()` is used, moving `write()` calls for questions above the table down below the table (`SNAP-22`); (8) off-screen (`check(-500, 9999)` in `SNAP-09`) or non-table multiple-choice checkmarks (`SNAP-10`) and `point(..., \"See Row 1\")` (`SNAP-12`, `SNAP-13`) are hijacked into table cells.",
+    "reproductionSteps": [
+      "Run `cd src/backend && npx tsx ../../tests/audit/ws-d/test-screen-layout.ts`.",
+      "Inspect all 19 failed adversarial cases in `docs/audit/evidence/ws-d/snap-program-adversarial.json` and `MATH-05` in `docs/audit/evidence/ws-d/brain-prompt-matrix.json`."
+    ],
+    "observedResult": "19 of 35 adversarial test cases in `snap-program-adversarial.json` failed (`SNAP-01`..`04`, `SNAP-06`..`15`, `SNAP-19`, `SNAP-22`, `SNAP-31`, `SNAP-32`, `SNAP-34`), including fatal JS `SyntaxError`s in `SNAP-02`, `SNAP-04` (`MATH-05`), and `SNAP-34`.",
+    "expectedResult": "`snapProgramToScreenLayout` must never emit syntactically invalid JS (returning `{}` or `null` instead of `\"\"` when replacing a `write()` expression, and parsing balanced parens/strings), must strip comments and string literals before checking `hasTableMarks`/`hasCardAlready`, must only snap `check(x, y)` calls that fall within a reasonable bounding margin of `table.bbox`, and must not hardcode RISC/CISC column indices.",
+    "impact": "Generated Clicky-Draw programs crash with `SyntaxError` in `NativeEngine.Feed` or mark the wrong table columns/rows.",
+    "remediation": "1. In Case A (`screenLayout.ts:685`), replace subsequent `write(...)` calls with `null` (or strip the enclosing statement only when `write(...)` is a standalone expression statement) so `const w2 = write(...)` becomes `const w2 = null`. 2. Strip comments and string literals before evaluating `hasTableMarks` and `hasCardAlready`. 3. Remove hardcoded `risc`/`cisc` column index overrides (`lines 721-724`) and only snap `check`/`cross` calls whose `(x, y)` lies within `table.bbox` expanded by `120px` (or after explicit ViT coordinate detection). 4. Keep all `answerLines` when a `write()` call's `rawY` is above `primaryTable.bbox.y` (`lines 829-832`).",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-d/snap-program-adversarial.json",
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "src/backend/src/utils/screenLayout.ts:645-880"
+    ]
+  },
+  {
+    "id": "AUD-D-008",
+    "workstream": "WS-D",
+    "severity": "MEDIUM",
+    "confidence": "CONFIRMED",
+    "status": "FAIL",
+    "title": "POST /brain/compact Never Persists to SQLite and Emits role='developer' Note Items That POST /brain/turn Drops; History Filter Drops Assistant Turns Without say() and Upstream Turn Path Never Emits computer_calls",
+    "component": "OneBrain Thread Compaction, History Filter & Session Lifecycle (brain.ts)",
+    "location": "src/backend/src/routes/brain.ts:512-556, 1039-1088, 1177-1295",
+    "description": "End-to-end testing of `/brain/compact`, `/brain/session-end`, and multi-turn `/brain/turn` (`tests/audit/ws-d/test-brain-prompts.ts`) revealed 5 protocol and state bugs: (1) `POST /brain/compact` (`lines 1177-1251`) computes `note_item` and `keep_from_index` and returns them in JSON, but never updates `threads.messages_json` in SQLite; (2) `POST /brain/compact` sets `note_item.role = \"developer\"` (`line 1224`), while `POST /brain/turn` (`line 517`) filters `thread` with `item.type === \"message\" && (item.role === \"user\" || item.role === \"assistant\")`, silently dropping the compacted `note_item` on every subsequent turn; (3) `POST /brain/turn` (`lines 538-550`) strips assistant history by extracting `say(...)` regex matches and only pushes an assistant message `if (sayMatches.length > 0)`, completely dropping any assistant turn that only drew visual marks without `say(...)`, as well as any user message that omits `type: \"message\"` (`line 516`); (4) `tryCallUpstreamLlm` (`lines 397-408, 1039-1056`) never populates or returns `computerCalls`, so `computer_calls` SSE events (`lines 1083-1088`) are only ever emitted in `buildLocalFallbackProgram` when `body.force_computer_call` is passed; (5) `POST /brain/compact` (`line 1181`) and `POST /brain/session-end` (`line 1261`) swallow malformed JSON bodies and return `HTTP 200`, and `/brain/session-end` performs zero memory extraction/consolidation into `user_memory`.",
+    "reproductionSteps": [
+      "Run `cd src/backend && npx tsx ../../tests/audit/ws-d/test-brain-prompts.ts`.",
+      "Inspect `docs/audit/evidence/ws-d/brain-prompt-matrix.json` under `endpointContracts.compactEndpointAudit`, `endpointContracts.historyFilteringAudit`, `endpointContracts.invalidJsonHandling`, and `endpointContracts.sessionEndAudit`."
+    ],
+    "observedResult": "After `POST /brain/compact` on a 10-message thread, SQLite `threads.messages_json` still contained all 10 messages (`persistedToSqlite: false`), and passing `compactJson.note_item` (`role: \"developer\"`) to the next `POST /brain/turn` resulted in `compactedNoteItemForwardedToLlmOnNextTurn: false`. Assistant turns without `say()` and user turns without `type: \"message\"` were dropped from `forwardedMessages` (`forwardedMessageRoles: [\"system\", \"assistant\", \"user\", \"user\"]`).",
+    "expectedResult": "`POST /brain/compact` should persist the compacted thread to SQLite `threads.messages_json`, `/brain/turn` should accept `item.role === \"developer\"` (or `note_item` should use a role forwarded into the prompt) and preserve assistant turns even when `say()` is absent, and upstream `computer` tool calls should be mapped to `computerCalls` SSE events.",
+    "impact": "Thread compaction is non-functional in SQLite and its summary `note_item` is discarded on the very next turn; multi-turn conversations lose assistant turns without `say()`, resulting in adjacent `user` messages.",
+    "remediation": "1. In `POST /brain/compact` (`brain.ts:1239`), persist `[noteItem, ...thread.slice(keepFromIndex)]` to `threads.messages_json` when `session_id` exists in SQLite. 2. In `tryCallUpstreamLlm` (`brain.ts:516-554`), include `item.role === \"developer\"` (mapped to `role: \"system\"` or `\"user\"` for providers that reject `developer`), allow history items where `item.type` is omitted, and fall back to a placeholder summary (`step(1); // previous drawing`) when an assistant turn has no `say()` match. 3. Map upstream `computer` / GUI action tool calls into `computerCalls` so `computer_calls` SSE events are emitted on live LLM turns.",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-d/brain-prompt-matrix.json",
+      "tests/audit/ws-d/test-brain-prompts.ts",
+      "src/backend/src/routes/brain.ts:512-556",
+      "src/backend/src/routes/brain.ts:1039-1088",
+      "src/backend/src/routes/brain.ts:1177-1295"
+    ]
+  }
+]

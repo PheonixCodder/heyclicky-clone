@@ -1,0 +1,175 @@
+{
+  "crossAuditor": "ws-fg-drawing-2d-3d",
+  "targetWorkstream": "WS-E",
+  "primaryAuditor": "ws-e-voice-dictation",
+  "primaryReportPath": "docs/audit/ws-e/REPORT.md",
+  "timestamp": "2026-11-13T12:00:00Z",
+  "summary": {
+    "totalPass1Findings": 12,
+    "confirmed": 12,
+    "disputed": 0,
+    "newFindingsAdded": 3
+  },
+  "verdicts": [
+    {
+      "id": "AUD-E-001",
+      "severity": "Critical",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:231-311",
+        "src/backend/src/routes/voice.ts:385-408"
+      ],
+      "notes": "Confirmed 100%. Additionally noted that voice.ts:269-277 (rl.on('line')) and voice.ts:292-298 (pumpWarmSynthQueue stdout.once('data')) BOTH call warmSynthQueue.shift() on the same queue and mix readline line-buffering with raw stdout 'data' events."
+    },
+    {
+      "id": "AUD-E-002",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:53-84",
+        "src/backend/src/routes/voice.ts:648-827",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Voice/GeminiTranscriber.cs:26,356-360,515",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationController.cs:499-589"
+      ],
+      "notes": "Confirmed 100%: gem_kursor_ triggers immediate fallback in GeminiTranscriber.cs:356-360, raw AIza... keys are rejected by BidiGenerateContentConstrained with Authorization: Token, and RunBatchAsync bypasses /v2/dictation/cleanup."
+    },
+    {
+      "id": "AUD-E-003",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:690-827",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationController.cs:567-570",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:1570-1586"
+      ],
+      "notes": "Confirmed 100%: voice.ts:823-826 returns HTTP 200 with hardcoded 'Hello from Kursor local dictation transcription.' whenever audioBuffer.byteLength <= 44 or all STT providers fail."
+    },
+    {
+      "id": "AUD-E-004",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/TextInsertion.cs:86-174,238-250,419-437",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:440-479"
+      ],
+      "notes": "Confirmed 100%: when ReadValue returns null (common in Electron/Chromium/terminals), landed is null, verification is 'unverifiable', and RestoreClipboard empties the clipboard after 250ms."
+    },
+    {
+      "id": "AUD-E-005",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:453,504-552",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationTranscriptionClient.cs:151-185"
+      ],
+      "notes": "Confirmed 100%: voice.ts:504-517 reads contextObj.process_name and contextObj.window_title while DictationTranscriptionClient.cs:151-185 sends app_name, before_text, selected_text, after_text, single_line, site_host, and known_terms. Also noted comment vs model mismatch (llama-3.3-70b-versatile in comment at line 453 vs openai/gpt-oss-120b at line 532)."
+    },
+    {
+      "id": "AUD-E-006",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:179,743,765-791,833-890"
+      ],
+      "notes": "Confirmed 100%: 64-entry ring buffer has no overflow check and EnqueueClick races between hook thread and UI thread."
+    },
+    {
+      "id": "AUD-E-007",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:459-480"
+      ],
+      "notes": "Confirmed 100%: line 469 'if (!cleaned) return raw.trim();' returns raw filler words when input is 100% fillers, and lines 472-477 unconditionally capitalize and append a period."
+    },
+    {
+      "id": "AUD-E-008",
+      "severity": "Low",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/TextInsertion.cs:186-208",
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:414"
+      ],
+      "notes": "Confirmed 100%: ReplacingEmDashesForInsertion runs unconditionally across all apps."
+    },
+    {
+      "id": "AUD-E-009",
+      "severity": "Low",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:278-284,314-320"
+      ],
+      "notes": "Confirmed eager module-load spawn of powershell.exe at lines 314-320 with no process.on('exit'|'SIGINT'|'SIGTERM') cleanup. Precision note: warmSynthProc.on('exit') at lines 281-283 does drain warmSynthQueue."
+    },
+    {
+      "id": "AUD-E-010",
+      "severity": "Low",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:793-831,878-881"
+      ],
+      "notes": "Confirmed 100%: SendMaskKey injects VK__none_ (0xFF) on every DictationDown when Win is in the chord."
+    },
+    {
+      "id": "AUD-E-011",
+      "severity": "Low",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationCorrectionDetector.cs:14-99",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationController.cs:950"
+      ],
+      "notes": "Confirmed 100%: single-token count equality and IsDistinctiveLearnableWord uppercase/underscore requirement."
+    },
+    {
+      "id": "AUD-E-012",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/voice.ts:18-84,146-199,705",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Voice/RealtimeMouth.cs:345-378"
+      ],
+      "notes": "Confirmed 100%: EARS_PRIMARY_PROVIDER and DICTATION_CLEANUP_PROVIDER ignored, 3-letter language codes dropped at line 705, keyterms/language ignored in /v2/dictation/gemini-token, and handleRealtimeSession catch block returns raw openAiKey ('sk-...') which bypasses RealtimeMouth.cs:355 fallback."
+    }
+  ],
+  "newFindings": [
+    {
+      "id": "AUD-E-013",
+      "workstream": "WS-E",
+      "severity": "Medium",
+      "category": "Spec Drift / Context Keyterm Loss",
+      "status": "FAIL",
+      "title": "DictationController.SetUpSessionAsync drops UIA context keyterms (BeforeText/SelectedText/AfterText) on cold starts for DictationTranscriptionClient and on warm starts for GeminiTranscriber",
+      "files": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationController.cs:359-430"
+      ],
+      "remediation": "Set newClient.KnownTerms = list unconditionally outside the 'if (adopted != null)' branch in SetUpSessionAsync.",
+      "effort": "S"
+    },
+    {
+      "id": "AUD-E-014",
+      "workstream": "WS-E",
+      "severity": "Medium",
+      "category": "Concurrency / Premature Stream Termination",
+      "status": "FAIL",
+      "title": "GeminiTranscriber.FinishAsync sets finishSent = true before queued audio finishes uploading, causing intermediate inputTranscription events to truncate utterances",
+      "files": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Voice/GeminiTranscriber.cs:240-267,587-597,742-754"
+      ],
+      "remediation": "Gate early resolution of delivered in HandleMessage (line 750) on activityEndSent.Task.IsCompleted rather than finishSent.",
+      "effort": "S"
+    },
+    {
+      "id": "AUD-E-015",
+      "workstream": "WS-E",
+      "severity": "Low",
+      "category": "Resource Leak (ArrayPool<byte>.Shared)",
+      "status": "FAIL",
+      "title": "DeepgramTranscriber leaks ArrayPool<byte>.Shared buffers when BoundedChannelFullMode.DropOldest drops frames and during DisposeAsync",
+      "files": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Voice/DeepgramTranscriber.cs:54-60,166-177,501-523"
+      ],
+      "remediation": "Use BoundedChannelFullMode.Wait and drain outgoing.Reader in DisposeAsync() to return pooled buffers to ArrayPool<byte>.Shared.",
+      "effort": "S"
+    }
+  ]
+}

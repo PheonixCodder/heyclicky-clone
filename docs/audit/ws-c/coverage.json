@@ -1,0 +1,1413 @@
+[
+  {
+    "category": "backend_route",
+    "item": "GET /",
+    "location": "src/backend/src/index.ts:24",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /health",
+    "location": "src/backend/src/index.ts:34",
+    "owner": "ws-c-backend",
+    "status": "PASS",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "Exercised GET /health in test-backend-audit.ts (HTTP 200/204/307); note global wildcard CORS AUD-C-001."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /auth/v1/authorize",
+    "location": "src/backend/src/routes/auth.ts:100",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-003: Unvalidated redirect_to / redirect_uri parameter allows open redirect with minted 1-year token. AUD-C-004: Uses static fake JWT signature ('kursor-local-dev-signature') and does not enforce session revocation after /v1/logout."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /auth/start",
+    "location": "src/backend/src/routes/auth.ts:128",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-003: Unvalidated redirect_to / redirect_uri parameter allows open redirect with minted 1-year token. AUD-C-004: Uses static fake JWT signature ('kursor-local-dev-signature') and does not enforce session revocation after /v1/logout."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /auth/v1/token",
+    "location": "src/backend/src/routes/auth.ts:181",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-004: Uses static fake JWT signature ('kursor-local-dev-signature') and does not enforce session revocation after /v1/logout. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /auth/v1/user",
+    "location": "src/backend/src/routes/auth.ts:228",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-004: Uses static fake JWT signature ('kursor-local-dev-signature') and does not enforce session revocation after /v1/logout."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /auth/v1/logout",
+    "location": "src/backend/src/routes/auth.ts:236",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-004: Uses static fake JWT signature ('kursor-local-dev-signature') and does not enforce session revocation after /v1/logout. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /plan",
+    "location": "src/backend/src/routes/worker.ts:91",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/plan",
+    "location": "src/backend/src/routes/worker.ts:92",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /config",
+    "location": "src/backend/src/routes/worker.ts:109",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /app-config",
+    "location": "src/backend/src/routes/worker.ts:110",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /config/runtime-models",
+    "location": "src/backend/src/routes/worker.ts:195",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /runtime/model-policy",
+    "location": "src/backend/src/routes/worker.ts:198",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /devices/register",
+    "location": "src/backend/src/routes/worker.ts:342",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-007: Ignores C# X-Clicky-Device header & display_name body field; omits id, display_name, is_this_device, capabilities expected by Kursor.Core RegisteredDevice. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/devices",
+    "location": "src/backend/src/routes/worker.ts:343",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-007: Ignores C# X-Clicky-Device header & display_name body field; omits id, display_name, is_this_device, capabilities expected by Kursor.Core RegisteredDevice. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /devices",
+    "location": "src/backend/src/routes/worker.ts:344",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-007: Ignores C# X-Clicky-Device header & display_name body field; omits id, display_name, is_this_device, capabilities expected by Kursor.Core RegisteredDevice."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/devices",
+    "location": "src/backend/src/routes/worker.ts:345",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-007: Ignores C# X-Clicky-Device header & display_name body field; omits id, display_name, is_this_device, capabilities expected by Kursor.Core RegisteredDevice."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /onboarding/discovery-channel",
+    "location": "src/backend/src/routes/worker.ts:401",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/discovery-channel",
+    "location": "src/backend/src/routes/worker.ts:402",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /onboarding/discovery-channel",
+    "location": "src/backend/src/routes/worker.ts:403",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/discovery-channel",
+    "location": "src/backend/src/routes/worker.ts:404",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /onboarding/starter-plan",
+    "location": "src/backend/src/routes/worker.ts:406",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-003: Unvalidated redirect_to / redirect_uri parameter allows open redirect with minted 1-year token. AUD-C-008: Response schema for clickys and suggested_agents mismatches C# StarterPlanClicky and StarterPlanSuggestion DTOs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /memory",
+    "location": "src/backend/src/routes/worker.ts:555",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/memory",
+    "location": "src/backend/src/routes/worker.ts:556",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "PUT /memory",
+    "location": "src/backend/src/routes/worker.ts:557",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /memory",
+    "location": "src/backend/src/routes/worker.ts:558",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "PUT /me/memory",
+    "location": "src/backend/src/routes/worker.ts:559",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/memory/save",
+    "location": "src/backend/src/routes/worker.ts:560",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /search/web",
+    "location": "src/backend/src/routes/worker.ts:774",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-014: Fragile single-regex DuckDuckGo HTML scraper and decodeHtmlEntities strips tags before decoding &lt;/&gt;. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /web-search",
+    "location": "src/backend/src/routes/worker.ts:775",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /search/images",
+    "location": "src/backend/src/routes/worker.ts:879",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /image-search",
+    "location": "src/backend/src/routes/worker.ts:880",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /referral",
+    "location": "src/backend/src/routes/worker.ts:960",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/referral",
+    "location": "src/backend/src/routes/worker.ts:961",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /referral/claim",
+    "location": "src/backend/src/routes/worker.ts:962",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/referral/claim",
+    "location": "src/backend/src/routes/worker.ts:963",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /referral/code",
+    "location": "src/backend/src/routes/worker.ts:964",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/referral/code",
+    "location": "src/backend/src/routes/worker.ts:965",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /billing/checkout",
+    "location": "src/backend/src/routes/worker.ts:971",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-011: Returns local URL (/billing/local-max-active, /billing/local-portal, or /mcp/composio) that is not registered and returns HTTP 404. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /billing/portal",
+    "location": "src/backend/src/routes/worker.ts:988",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-011: Returns local URL (/billing/local-max-active, /billing/local-portal, or /mcp/composio) that is not registered and returns HTTP 404. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /account/delete",
+    "location": "src/backend/src/routes/worker.ts:1002",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/account/delete",
+    "location": "src/backend/src/routes/worker.ts:1003",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /telemetry/client-error",
+    "location": "src/backend/src/routes/worker.ts:1019",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /report-error",
+    "location": "src/backend/src/routes/worker.ts:1020",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /voice/language-hints",
+    "location": "src/backend/src/routes/worker.ts:1042",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /onboarding/language-hints",
+    "location": "src/backend/src/routes/worker.ts:1043",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/companion-history",
+    "location": "src/backend/src/routes/worker.ts:1045",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response)."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /me/companion-history",
+    "location": "src/backend/src/routes/worker.ts:1048",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /deepgram/token",
+    "location": "src/backend/src/routes/voice.ts:34",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-001 (Critical): Exposes raw master API key (DEEPGRAM_API_KEY / GEMINI_API_KEY / OPENAI_API_KEY fallback) in JSON response to unauthenticated cross-origin callers. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /v2/dictation/deepgram-token",
+    "location": "src/backend/src/routes/voice.ts:35",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-001 (Critical): Exposes raw master API key (DEEPGRAM_API_KEY / GEMINI_API_KEY / OPENAI_API_KEY fallback) in JSON response to unauthenticated cross-origin callers. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /v2/dictation/gemini-token",
+    "location": "src/backend/src/routes/voice.ts:86",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-001 (Critical): Exposes raw master API key (DEEPGRAM_API_KEY / GEMINI_API_KEY / OPENAI_API_KEY fallback) in JSON response to unauthenticated cross-origin callers. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /brain/ears/token",
+    "location": "src/backend/src/routes/voice.ts:87",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-001 (Critical): Exposes raw master API key (DEEPGRAM_API_KEY / GEMINI_API_KEY / OPENAI_API_KEY fallback) in JSON response to unauthenticated cross-origin callers. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /realtime/token",
+    "location": "src/backend/src/routes/voice.ts:215",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-001 (Critical): Exposes raw master API key (DEEPGRAM_API_KEY / GEMINI_API_KEY / OPENAI_API_KEY fallback) in JSON response to unauthenticated cross-origin callers. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/realtime/session",
+    "location": "src/backend/src/routes/voice.ts:216",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-001 (Critical): Exposes raw master API key (DEEPGRAM_API_KEY / GEMINI_API_KEY / OPENAI_API_KEY fallback) in JSON response to unauthenticated cross-origin callers. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "HEAD /agent/realtime/warmup",
+    "location": "src/backend/src/routes/voice.ts:218",
+    "owner": "ws-c-backend",
+    "status": "PASS",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "Exercised HEAD /agent/realtime/warmup in test-backend-audit.ts (HTTP 200/204/307); note global wildcard CORS AUD-C-001."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agent/realtime/warmup",
+    "location": "src/backend/src/routes/voice.ts:218",
+    "owner": "ws-c-backend",
+    "status": "PASS",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "Exercised GET /agent/realtime/warmup in test-backend-audit.ts (HTTP 200/204/307); note global wildcard CORS AUD-C-001."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/realtime/speak",
+    "location": "src/backend/src/routes/voice.ts:413",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /v2/dictation/cleanup",
+    "location": "src/backend/src/routes/voice.ts:485",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /v2/dictation/transcribe",
+    "location": "src/backend/src/routes/voice.ts:829",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /brain/ears/transcribe",
+    "location": "src/backend/src/routes/voice.ts:830",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /ears/transcribe",
+    "location": "src/backend/src/routes/voice.ts:831",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /brain/turn",
+    "location": "src/backend/src/routes/brain.ts:932",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-005: Unconditionally calls live upstream LLMs before checking force_local_fallback. AUD-C-010: Persists raw base64 screenshots into SQLite threads.messages_json. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /brain/compact",
+    "location": "src/backend/src/routes/brain.ts:1177",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /brain/session-end",
+    "location": "src/backend/src/routes/brain.ts:1257",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /brain/prewarm",
+    "location": "src/backend/src/routes/brain.ts:1301",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive/jobs",
+    "location": "src/backend/src/routes/agents.ts:360",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive-agents/jobs",
+    "location": "src/backend/src/routes/agents.ts:361",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /proactive/jobs/:jobId",
+    "location": "src/backend/src/routes/agents.ts:362",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /proactive-agents/jobs/:jobId",
+    "location": "src/backend/src/routes/agents.ts:363",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive/cards/resolve",
+    "location": "src/backend/src/routes/agents.ts:364",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive-agents/resolution",
+    "location": "src/backend/src/routes/agents.ts:365",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive/cards/status",
+    "location": "src/backend/src/routes/agents.ts:366",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive-agents/suggestions/statuses",
+    "location": "src/backend/src/routes/agents.ts:367",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive/morning/claim",
+    "location": "src/backend/src/routes/agents.ts:371",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /proactive-agents/invitation-claim",
+    "location": "src/backend/src/routes/agents.ts:372",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agents/notifications/unread",
+    "location": "src/backend/src/routes/agents.ts:488",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agent/notifications",
+    "location": "src/backend/src/routes/agents.ts:489",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agents/notifications/:id/read",
+    "location": "src/backend/src/routes/agents.ts:490",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/notifications/:id/read",
+    "location": "src/backend/src/routes/agents.ts:494",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agents/notifications/read-all",
+    "location": "src/backend/src/routes/agents.ts:495",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/notifications/read-all",
+    "location": "src/backend/src/routes/agents.ts:499",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agents/crons/:id",
+    "location": "src/backend/src/routes/agents.ts:503",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agent/cron/:id",
+    "location": "src/backend/src/routes/agents.ts:504",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/session-token",
+    "location": "src/backend/src/routes/agents.ts:507",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/record-agent-launch",
+    "location": "src/backend/src/routes/agents.ts:536",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agent/turn-lease/:id/status",
+    "location": "src/backend/src/routes/agents.ts:575",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/turn-lease/:id/continue",
+    "location": "src/backend/src/routes/agents.ts:598",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/turn-lease/:id/continue-after-computer-use-consent",
+    "location": "src/backend/src/routes/agents.ts:622",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/turn-lease/:id/complete",
+    "location": "src/backend/src/routes/agents.ts:644",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/turn-lease/:id/refund-early-stop",
+    "location": "src/backend/src/routes/agents.ts:653",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /codex-thread-title",
+    "location": "src/backend/src/routes/agents.ts:657",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /codex-thread-launch",
+    "location": "src/backend/src/routes/agents.ts:672",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent-messages",
+    "location": "src/backend/src/routes/agents.ts:678",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /connectors/status",
+    "location": "src/backend/src/routes/agents.ts:910",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agent/integrations",
+    "location": "src/backend/src/routes/agents.ts:911",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /connectors/connect",
+    "location": "src/backend/src/routes/agents.ts:912",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/integrations/connect",
+    "location": "src/backend/src/routes/agents.ts:913",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/integrations/:toolkit/connect",
+    "location": "src/backend/src/routes/agents.ts:914",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/integrations/:toolkit/disconnect",
+    "location": "src/backend/src/routes/agents.ts:918",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/integrations/:toolkit/accounts/:connectionId/label",
+    "location": "src/backend/src/routes/agents.ts:929",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/composio/session",
+    "location": "src/backend/src/routes/agents.ts:936",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-011: Returns local URL (/billing/local-max-active, /billing/local-portal, or /mcp/composio) that is not registered and returns HTTP 404. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /calendar/upcoming",
+    "location": "src/backend/src/routes/agents.ts:1037",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /me/calendar/upcoming",
+    "location": "src/backend/src/routes/agents.ts:1038",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-013: Backed by volatile in-memory Map/Array lost on server restart with no eviction of expired leases/jobs."
+  },
+  {
+    "category": "backend_route",
+    "item": "GET /agent/realtime/google-calendar/events",
+    "location": "src/backend/src/routes/agents.ts:1039",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/realtime/google-calendar/events",
+    "location": "src/backend/src/routes/agents.ts:1043",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/realtime/google-calendar/create-event",
+    "location": "src/backend/src/routes/agents.ts:1047",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/realtime/google-calendar/events/create",
+    "location": "src/backend/src/routes/agents.ts:1051",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /tools/search-connectors",
+    "location": "src/backend/src/routes/agents.ts:1057",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /tools/execute-connector",
+    "location": "src/backend/src/routes/agents.ts:1112",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /tools/spotify/search",
+    "location": "src/backend/src/routes/agents.ts:1172",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_route",
+    "item": "POST /agent/realtime/spotify/search",
+    "location": "src/backend/src/routes/agents.ts:1173",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/route-test-matrix.json",
+      "docs/audit/evidence/ws-c/backend-audit-test-results.txt"
+    ],
+    "notes": "AUD-C-001: Wildcard CORS (Access-Control-Allow-Origin: *) and zero-enforcement auto-auth middleware accept unauthenticated requests. AUD-C-012: Non-functional stub endpoint (no-op persistence or hardcoded static response). AUD-C-015: No request body size limit and silently swallows malformed JSON with 200/201."
+  },
+  {
+    "category": "backend_middleware",
+    "item": "Global CORS Middleware (app.use('*', cors()))",
+    "location": "src/backend/src/index.ts:19",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ],
+    "notes": "AUD-C-001: Emits Access-Control-Allow-Origin: * on all routes and OPTIONS preflights, enabling cross-origin browser requests to localhost:8787."
+  },
+  {
+    "category": "backend_middleware",
+    "item": "Gzip Request Decompression Middleware (gzipMiddleware)",
+    "location": "src/backend/src/middleware/gzip.ts:10-52",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ],
+    "notes": "AUD-C-002: Decompresses <8KB and >=8KB payloads and rejects corrupt gzip (400), but calls gunzipSync without maxOutputLength or compressed size cap (15KB -> 15.7MB 1025.9x magnification verified)."
+  },
+  {
+    "category": "backend_middleware",
+    "item": "Client Identity & Auth Middleware (clientHeadersAndAuthMiddleware)",
+    "location": "src/backend/src/middleware/auth.ts:34-88",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ],
+    "notes": "AUD-C-001, AUD-C-004, AUD-C-007: Unconditionally authenticates all requests as DEFAULT_USER_ID, never verifies JWT signatures or session revocation, and ignores X-Clicky-Platform/X-Clicky-Device/X-Clicky-App-Version headers."
+  },
+  {
+    "category": "backend_database",
+    "item": "SQLite Persistence Layer (node:sqlite kursor.db)",
+    "location": "src/backend/src/db/index.ts:1-170",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/sqlite-db-inspection.txt",
+      "docs/audit/evidence/ws-c/audit-summary.json"
+    ],
+    "notes": "AUD-C-010: Parameterized queries and WAL+FK enabled, but zero secondary indexes exist (SCAN sessions/notifications), sessions grows unboundedly, and threads.messages_json stores raw base64 screenshots (9.8MB DB+WAL for 9 threads)."
+  },
+  {
+    "category": "existing_test_suite",
+    "item": "Backend Phase 1 Test Suite (test-phase1.ts — 18 test cases)",
+    "location": "src/backend/src/test-phase1.ts:1-501",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/existing-tests-output.txt"
+    ],
+    "notes": "AUD-C-006: Fails at line 155 when .env sets MOUTH_PRIMARY_PROVIDER=gemini-tts and hangs on exit due to unreferenced warmSynthProc child process."
+  },
+  {
+    "category": "existing_test_suite",
+    "item": "Backend Phase 2 Test Suite (test-phase2.ts — 7 test cases)",
+    "location": "src/backend/src/test-phase2.ts:1-571",
+    "owner": "ws-c-backend",
+    "status": "FAIL",
+    "evidence": [
+      "docs/audit/evidence/ws-c/test-phase2-output.txt",
+      "docs/audit/evidence/ws-c/test-phase2-stderr.txt"
+    ],
+    "notes": "AUD-C-005, AUD-C-006: Passes 7 assertions but makes live external Groq LLM calls despite force_local_fallback: true and hangs forever after server.close()."
+  },
+  {
+    "category": "backend_load_soak",
+    "item": "120-Request Concurrent Load & 10 SSE Client Mid-Stream Abort Soak Test",
+    "location": "tests/audit/ws-c/test-backend-audit.ts:675-795",
+    "owner": "ws-c-backend",
+    "status": "PASS",
+    "evidence": [
+      "docs/audit/evidence/ws-c/load-soak-metrics.json"
+    ],
+    "notes": "120 concurrent requests completed with 0 5xx errors and 10/10 mid-stream SSE AbortController disconnects handled cleanly without crashing the server."
+  }
+]

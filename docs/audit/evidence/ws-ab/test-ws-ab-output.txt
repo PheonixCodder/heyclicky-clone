@@ -1,0 +1,54 @@
+﻿================================================================
+ KURSOR AUDIT SUITE: WS-A (Build/Pkg), WS-B (Brand/IP), WS-N (Docs)
+ RepoRoot: C:\dev\heyclicky-clone
+================================================================
+
+[FAIL] AUD-A-001 (WS-A): Global compiler warning suppression in Directory.Build.props
+       Observed: Directory.Build.props suppresses 9 warning codes globally (SYSLIB1050;SYSLIB1043;CS0649;CS0169;CS0414;CS8632;CS8981;CS8500;CS9191) and all 7 csproj files set <Nullable>annotations</Nullable> and <AllowUnsafeBlocks>True</AllowUnsafeBlocks>.
+[FAIL] AUD-A-002 (WS-A): Zero NuGet PackageReferences; all 3rd-party dependencies bound via local HintPath DLLs
+       Observed: PackageReference count = 0; raw <HintPath> binary reference count = 49 across 7 .csproj files (dotnet list package --vulnerable cannot audit any 3rd-party dependencies).
+[FAIL] AUD-A-003 (WS-A): build-dist.ps1 ships Debug assemblies + PDBs and omits HeyClicky.exe apphost
+       Observed: build-dist.ps1:34 compiles '-c Debug', copies .pdb debug symbols into dist/kursor-desktop/, and omits HeyClicky.exe from  (bin HeyClicky.exe SHA256=32C071E81A0677191F9160A5BC116E5E0B49BA60FFBF817A4EC659088679034D vs dist HeyClicky.exe SHA256=26AB779203881266FB8FC0BD4664D26D7167C0C185C3B63638C79EA7EEE3F4F9).
+[FAIL] AUD-A-004 (WS-A): build-dist.ps1 and overlay-and-launch.ps1 reference non-existent Kursor.Drawing3D/Assets/Engine
+       Observed: Directory src/desktop/Kursor.Drawing3D/Assets/Engine does not exist; all 5 V8 JS files reside in src/desktop/Kursor.Drawing/Assets/Engine.
+[FAIL] AUD-A-005 (WS-A): Vulnerable @hono/node-server (<2.1.3, GHSA-rmxm-3fg6-px4f) & Node engine version mismatch
+       Observed: @hono/node-server is '^1.14.0' (installed 1.19.19, vulnerable to GHSA-rmxm-3fg6-px4f). package.json engines requires 'node >=24.0.0', whereas setup-kursor.ps1:29 and README.md:127 say 'Node.js v22+' and setup-kursor.ps1 does not check major version.
+[FAIL] AUD-A-006 (WS-A): Hardcoded developer path C:\Users\ubaid\... in src/backend/src/routes/worker.ts
+       Observed: LOCAL_APP_CONFIG_PATH hardcodes 'C:\\Users\\ubaid\\AppData\\Local\\HeyClicky\\app-config.json' at worker.ts:7-8.
+[FAIL] AUD-A-007 (WS-A): start-kursor.ps1 -Restart ignores backend/sidecars and fails silently if port 8787 is occupied by another service
+       Observed: start-kursor.ps1 -Restart only kills 'HeyClicky', leaving backend node.exe on :8787 and sidecars running; if a non-Kursor service occupies :8787, Test-BackendRunning returns false and spawns a conflicting node process without verifying health after 3s sleep.
+[FAIL] AUD-A-008 (WS-A): Duplicate/conflicting Windows autostart registrations across install-autostart.ps1 and LaunchAtLogin.cs
+       Observed: install-autostart.ps1 registers BOTH HKCU\...\Run\Kursor AND Startup\Kursor.lnk (launching start-kursor-hidden.vbs twice simultaneously at login), while in-app LaunchAtLogin.cs:12 writes HKCU\...\Run\HeyClicky (launching HeyClicky.exe without backend). uninstall-autostart.ps1 leaves Run\HeyClicky and Desktop\Kursor.lnk behind.
+[FAIL] AUD-A-009 (WS-A): %LOCALAPPDATA%\HeyClicky vs %LOCALAPPDATA%\Kursor split between AppPaths.cs and setup scripts
+       Observed: seed-local-auth.ps1 and setup-kursor.ps1 seed both %LOCALAPPDATA%\HeyClicky and %LOCALAPPDATA%\Kursor, but AppPaths.cs:12 defaults to %LOCALAPPDATA%\HeyClicky and start-kursor.ps1 never sets KURSOR_DATA_DIR.
+[FAIL] AUD-A-010 (WS-A): Missing LICENSE / THIRD_PARTY_NOTICES and unanchored Release/Debug rules in .gitignore
+       Observed: No LICENSE or THIRD_PARTY_NOTICES file exists in repo root; 4,260 tracked files include 2,096 decompiled files in reference/decompiled/; .gitignore:38 has unanchored [Rr]elease/ and [Dd]ebug/ patterns.
+[FAIL] AUD-B-001 (WS-B): All 7 desktop .csproj files compile HeyClicky*.dll/exe with HeyClicky AssemblyInfo metadata
+       Observed: All 7 .csproj files specify <AssemblyName>HeyClicky*</AssemblyName>; AssemblyInfo.cs sets AssemblyCompany/Product/Title to 'HeyClicky' and leaks original developer path 'C:\Users\niles\code\clicky-closed\windows\src\HeyClicky.App\'.
+[FAIL] AUD-B-002 (WS-B): Production HeyClicky endpoints, Supabase anon JWT, Sentry DSN, PostHog key, and Velopack feed baked into binary
+       Observed: AssemblyInfo.cs bakes in HeyClicky's live PostHog key, Sentry DSN (with SendDefaultPii=true in CrashReporting.cs:233), and GitHub UpdateFeedUrl; AppBundleConfiguration.cs:36-43 switches to api.heyclicky.com + mrpvynsdsnimuisyhkow.supabase.co if use-production-backend.flag exists; ClickyInkImages.cs:60 defaults WorkerBaseUrl to https://api.heyclicky.com.
+[FAIL] AUD-B-003 (WS-B): OS-level mutex, named pipe, process killer, URI scheme (heyclicky://), and file association collisions
+       Observed: SingleInstance.cs:80 uses appId='HeyClicky' (mutex Local\HeyClicky-<SID>, pipe HeyClicky-<SID>-args) and kills processes named 'HeyClicky' (line 322); ProtocolRegistration.cs hijacks heyclicky:// and clicky://; FileOpenRegistration.cs registers HeyClicky.Document across 22 extensions.
+[FAIL] AUD-B-004 (WS-B): Incomplete UI & prompt rebranding (4,712 'HeyClicky' and 19,632 'Clicky' occurrences in src/desktop)
+       Observed: App.cs:111, SingleInstance.cs:345, BillingUi.cs:503, SettingsContent.cs:1205,2540 show 'HeyClicky' dialogs and 'hi@heyclicky.com'; TrayIcon.cs:232 registers 'HeyClickyTray'; TrayTooltip.cs:25 says 'N Clickys working'; CodexHomeManager.cs:74-91 instructs agents to tell users 'HeyClicky Settings -> Integrations'.
+[FAIL] AUD-B-005 (WS-B): Direct IP/copyright exposure: 2,096 decompiled C# files tracked in git + Humansongs-signed binaries & proprietary assets
+       Observed: Repo tracks 2,096 ILSpy-decompiled C# files in reference/decompiled/ and 2,097 in src/desktop/, plus executable-file/HeyClicky-Setup.exe and dist/kursor-desktop/ binaries signed by 'CN=Humansongs, Inc' (HeyClicky.exe, HeyClicky-Update.exe, clicky-harness.exe, ClickyBrowserHost.exe) and 171 proprietary audio/video/font/sprite assets (89.4 MB).
+[FAIL] AUD-N-001 (WS-N): Env var drift between README.md (ONEBRAIN_MODEL), .env.example (6 unused vars), and backend code (KURSOR_BRAIN_MODEL)
+       Observed: README.md:84 documents ONEBRAIN_MODEL which is never read in src/backend/src/ (brain.ts:598 reads KURSOR_BRAIN_MODEL || OPENROUTER_DEFAULT_MODEL); .env.example omits KURSOR_BRAIN_MODEL and lists 6 env vars (KURSOR_DEV_BYPASS_AUTH, ANTHROPIC_API_KEY, COMPOSIO_API_KEY, WEB_SEARCH_PROVIDER, BRAVE_API_KEY, SERPER_API_KEY) never read in backend code.
+[FAIL] AUD-N-002 (WS-N): README.md documents non-existent writeOnPage primitive and claims setup-kursor seeds session.json
+       Observed: README.md:20-21 claims 'openPage + writeOnPage' spawn study cards (writeOnPage does not exist anywhere in V8 JS or brain.ts; openPage opens browser URLs); README.md:133 claims setup-kursor.cmd writes session.json (seed-local-auth.ps1:83-88 actually writes DPAPI auth.localdev.bin and auth.bin).
+[FAIL] AUD-N-003 (WS-N): C# file count discrepancies in README.md (2,102), AGENTS.md (2,098), and docs/INDEX.md vs ground truth
+       Observed: Actual .cs file counts are reference/decompiled = 2096 (docs claim 2,098 because 6 .csproj files were counted as .cs) and src/desktop = 2097 (docs claim 2,102).
+[FAIL] AUD-N-004 (WS-N): 17 broken file:/// source links in docs/06-agents-proactive-and-memory.md
+       Observed: 17 file:/// links in docs/06-agents-proactive-and-memory.md point to non-existent paths (e.g., HeyClicky.Agents.Codex, HeyClicky.Agents.Worker, HeyClicky.Agents.Prompt, HeyClicky.Core.Services/WorkerClient.cs).
+[FAIL] AUD-N-005 (WS-N): Fabricated/stale asset paths and byte sizes in docs/01 and unimplemented items marked COMPLETED in docs/07
+       Observed: docs/01:155-177 places Engine/*.js under BundledResources\ with wrong byte sizes, cites non-existent ClickyBrowserExtensionID.txt, Assets\Clicky\*.png, Assets\Squad\*.png, PlusJakartaSans-*.ttf; docs/07:32,98-132 marks Phases 4-7 COMPLETED including namespace rebranding, kursor:// URI, .kursor file extension, and %LOCALAPPDATA%\Kursor\ migration.
+[FAIL] WS-A-CTRL-001 (WS-A): Backend .env is gitignored and contains no live user API keys
+       Observed: src/backend/.env is covered by .gitignore and all *_KEY= entries are empty.
+[PASS] WS-N-CTRL-001 (WS-N): Backend test suite counts in docs/INDEX.md (18 + 7 = 25) match test-phase1.ts and test-phase2.ts
+
+================================================================
+ SUMMARY: Total=22 | PASS=1 | FAIL=21 | UNVERIFIED=0
+================================================================
+Saved JSON results to: C:\dev\heyclicky-clone\docs\audit\evidence\ws-ab\test-ws-ab-output.json
+

@@ -1,0 +1,108 @@
+﻿{
+    "timestampUtc":  "2026-11-13T18:40:30.7147532Z",
+    "customConnectorDpapi":  {
+                                 "entropy":  "HeyClicky.Connectors.v1",
+                                 "configFileName":  "connectors.json",
+                                 "secretsFileName":  "connectors.secrets",
+                                 "docExpectedConfigName":  "custom-connectors.json",
+                                 "namingMismatch":  true,
+                                 "encryptedBytesCount":  342,
+                                 "roundTripVerified":  true
+                             },
+    "authTokenStoreDpapi":  {
+                                "sessionEntropy":  "HeyClicky.Auth.v1",
+                                "pendingSignInEntropy":  "HeyClicky.PendingSignIn.v1",
+                                "prodFileName":  "auth.bin",
+                                "localDevFileName":  "auth.localdev.bin",
+                                "encryptedBytesCount":  326,
+                                "roundTripVerified":  true,
+                                "wrongEntropyRejected":  true
+                            },
+    "realLocalAppDataInspection":  {
+                                       "path":  "C:\\Users\\ubaid\\AppData\\Local\\HeyClicky",
+                                       "exists":  true,
+                                       "fileCount":  15,
+                                       "files":  [
+                                                     {
+                                                         "name":  "ai-trace-ids.json",
+                                                         "sizeBytes":  187,
+                                                         "lastWriteUtc":  "2026-11-03T10:21:56.6133076Z"
+                                                     },
+                                                     {
+                                                         "name":  "analytics-identity.json",
+                                                         "sizeBytes":  108,
+                                                         "lastWriteUtc":  "2026-11-13T18:39:56.2600367Z"
+                                                     },
+                                                     {
+                                                         "name":  "app-config.json",
+                                                         "sizeBytes":  267,
+                                                         "lastWriteUtc":  "2026-11-13T18:39:57.4207853Z"
+                                                     },
+                                                     {
+                                                         "name":  "auth.bin",
+                                                         "sizeBytes":  1958,
+                                                         "lastWriteUtc":  "2026-11-13T06:50:08.9008501Z"
+                                                     },
+                                                     {
+                                                         "name":  "auth.localdev.bin",
+                                                         "sizeBytes":  838,
+                                                         "lastWriteUtc":  "2026-11-13T18:39:56.2375084Z"
+                                                     },
+                                                     {
+                                                         "name":  "clickys.json",
+                                                         "sizeBytes":  721,
+                                                         "lastWriteUtc":  "2026-11-03T10:17:37.1435133Z"
+                                                     },
+                                                     {
+                                                         "name":  "connectors.codex-sign-ins-imported",
+                                                         "sizeBytes":  33,
+                                                         "lastWriteUtc":  "2026-11-03T10:17:14.6316876Z"
+                                                     },
+                                                     {
+                                                         "name":  "device-registration.json",
+                                                         "sizeBytes":  131,
+                                                         "lastWriteUtc":  "2026-11-13T18:39:58.2278129Z"
+                                                     },
+                                                     {
+                                                         "name":  "endpoints.json",
+                                                         "sizeBytes":  273,
+                                                         "lastWriteUtc":  "2026-11-13T18:39:53.4845968Z"
+                                                     },
+                                                     {
+                                                         "name":  "heyclicky-window.json",
+                                                         "sizeBytes":  57,
+                                                         "lastWriteUtc":  "2026-11-09T18:06:43.7234437Z"
+                                                     },
+                                                     {
+                                                         "name":  "notch.json",
+                                                         "sizeBytes":  44,
+                                                         "lastWriteUtc":  "2026-11-04T17:19:39.0878980Z"
+                                                     },
+                                                     {
+                                                         "name":  "OneBrainHeardScripts.json",
+                                                         "sizeBytes":  21,
+                                                         "lastWriteUtc":  "2026-11-09T18:03:50.1867117Z"
+                                                     },
+                                                     {
+                                                         "name":  "proactive.json",
+                                                         "sizeBytes":  1129,
+                                                         "lastWriteUtc":  "2026-11-13T18:40:08.1331443Z"
+                                                     },
+                                                     {
+                                                         "name":  "session.json",
+                                                         "sizeBytes":  240,
+                                                         "lastWriteUtc":  "2026-11-13T04:31:06.9185845Z"
+                                                     },
+                                                     {
+                                                         "name":  "settings.json",
+                                                         "sizeBytes":  1695,
+                                                         "lastWriteUtc":  "2026-11-13T18:39:57.4509482Z"
+                                                     }
+                                                 ]
+                                   },
+    "obsidianVaultLogic":  {
+                               "simulatedConfigPath":  "C:\\Users\\ubaid\\AppData\\Local\\Temp\\kursor-wsk-audit-90593cfa77834016a9f161806cd3a497\\obsidian\\obsidian.json",
+                               "openVaultPath":  "C:\\Users\\ubaid\\AppData\\Local\\Temp\\kursor-wsk-audit-90593cfa77834016a9f161806cd3a497\\VaultOpen",
+                               "openVaultExists":  true
+                           }
+}

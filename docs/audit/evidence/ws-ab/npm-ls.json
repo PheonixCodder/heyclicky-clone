@@ -1,0 +1,42 @@
+﻿{
+  "version": "1.0.0",
+  "name": "@kursor/backend",
+  "dependencies": {
+    "@hono/node-server": {
+      "version": "1.19.19",
+      "resolved": "https://registry.npmjs.org/@hono/node-server/-/node-server-1.19.19.tgz",
+      "overridden": false
+    },
+    "@types/node": {
+      "version": "24.19.2",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.19.2.tgz",
+      "overridden": false
+    },
+    "dotenv": {
+      "version": "16.6.1",
+      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-16.6.1.tgz",
+      "overridden": false
+    },
+    "hono": {
+      "version": "4.13.18",
+      "resolved": "https://registry.npmjs.org/hono/-/hono-4.13.18.tgz",
+      "overridden": false
+    },
+    "jpeg-js": {
+      "version": "0.4.4",
+      "resolved": "https://registry.npmjs.org/jpeg-js/-/jpeg-js-0.4.4.tgz",
+      "overridden": false
+    },
+    "tsx": {
+      "version": "4.23.15",
+      "resolved": "https://registry.npmjs.org/tsx/-/tsx-4.23.15.tgz",
+      "overridden": false
+    },
+    "typescript": {
+      "version": "5.9.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+      "overridden": false
+    }
+  }
+}
+

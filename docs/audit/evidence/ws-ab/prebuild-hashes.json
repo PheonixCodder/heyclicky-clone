@@ -1,0 +1,3906 @@
+﻿[
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\CommunityToolkit.Mvvm.dll",
+        "Name":  "CommunityToolkit.Mvvm.dll",
+        "Length":  392512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8930145Z",
+        "SHA256":  "8912BE337A989509AD9F484238C83C156A8D166778DEE15AF67094A7E95D7BF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Agents.dll",
+        "Name":  "HeyClicky.Agents.dll",
+        "Length":  960512,
+        "LastWriteTimeUtc":  "2026-11-11T18:40:37.3293807Z",
+        "SHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Agents.pdb",
+        "Name":  "HeyClicky.Agents.pdb",
+        "Length":  261476,
+        "LastWriteTimeUtc":  "2026-11-11T18:40:36.2594844Z",
+        "SHA256":  "1F3522D0ED4D47C639C72B3725675310A4C6AD92172AA3CD0A2BC8DF5A8BD09F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Core.dll",
+        "Name":  "HeyClicky.Core.dll",
+        "Length":  3549696,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "SHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Core.pdb",
+        "Name":  "HeyClicky.Core.pdb",
+        "Length":  1004140,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:43.9180707Z",
+        "SHA256":  "41D39CBF32EA34709D1E58FB170B438FA2B90ED27ADFDE9A8A030C43D5D00A75"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Platform.dll",
+        "Name":  "HeyClicky.Platform.dll",
+        "Length":  715264,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "SHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\HeyClicky.Platform.pdb",
+        "Name":  "HeyClicky.Platform.pdb",
+        "Length":  296532,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:09.9326636Z",
+        "SHA256":  "B83414E9EC6AA977ABE36C5F078BD757539DF62B841C461DA1CF639ACE6E468A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Microsoft.Windows.SDK.NET.dll",
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:28.9347131Z",
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\SharpGen.Runtime.COM.dll",
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1475017Z",
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\SharpGen.Runtime.dll",
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1939692Z",
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\System.Security.Cryptography.ProtectedData.dll",
+        "Name":  "System.Security.Cryptography.ProtectedData.dll",
+        "Length":  60736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4888415Z",
+        "SHA256":  "6228273D96AC1B27DE8ED72473C42E920E650527D91E40F9EB9F122F4EBB98BB"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Vortice.Direct2D1.dll",
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.5838655Z",
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Vortice.Direct3D11.dll",
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6379468Z",
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Vortice.DirectComposition.dll",
+        "Name":  "Vortice.DirectComposition.dll",
+        "Length":  195904,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6572321Z",
+        "SHA256":  "5B53A6ADD1FD4CD5396C15B20CBBD40F53B44FE1BAAE1882DB0EC38655FE9762"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Vortice.DirectX.dll",
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7040190Z",
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Vortice.DXGI.dll",
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7689663Z",
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\Vortice.Mathematics.dll",
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8203871Z",
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Agents\\bin\\Debug\\net9.0\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-draw-engine.js",
+        "Name":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-draw-native.js",
+        "Name":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-draw-pieces.js",
+        "Name":  "clicky-draw-pieces.js",
+        "Length":  66985,
+        "LastWriteTimeUtc":  "2026-11-12T10:39:04.5756251Z",
+        "SHA256":  "EAAC7283CC5EF188B688560E84DE280B1728BB4806838682C6BFFC2554395C95"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-three-parts.js",
+        "Name":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-three.js",
+        "Name":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\ClearScript.Core.dll",
+        "Name":  "ClearScript.Core.dll",
+        "Length":  1346880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0179155Z",
+        "SHA256":  "3669DEA49B60CABFB04488E0805FEFEE21E3371FA9E2C5A611A3ED1071970FA4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\ClearScript.V8.dll",
+        "Name":  "ClearScript.V8.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0361731Z",
+        "SHA256":  "37A6979EEAA9A7D362812FD89F17A40CFA9268A57F521F873D6708C43BE5F625"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\ClearScript.V8.ICUData.dll",
+        "Name":  "ClearScript.V8.ICUData.dll",
+        "Length":  10833544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.2171457Z",
+        "SHA256":  "4C4C0D32C1186A3B8955AE5C32A034B2A801BBB6BDDE9947492FC8584DF22A07"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\CommunityToolkit.Mvvm.dll",
+        "Name":  "CommunityToolkit.Mvvm.dll",
+        "Length":  392512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8930145Z",
+        "SHA256":  "8912BE337A989509AD9F484238C83C156A8D166778DEE15AF67094A7E95D7BF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Agents.dll",
+        "Name":  "HeyClicky.Agents.dll",
+        "Length":  960512,
+        "LastWriteTimeUtc":  "2026-11-11T18:40:37.3293807Z",
+        "SHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Agents.pdb",
+        "Name":  "HeyClicky.Agents.pdb",
+        "Length":  261476,
+        "LastWriteTimeUtc":  "2026-11-11T18:40:36.2594844Z",
+        "SHA256":  "1F3522D0ED4D47C639C72B3725675310A4C6AD92172AA3CD0A2BC8DF5A8BD09F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Core.dll",
+        "Name":  "HeyClicky.Core.dll",
+        "Length":  3549696,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "SHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Core.pdb",
+        "Name":  "HeyClicky.Core.pdb",
+        "Length":  1004140,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:43.9180707Z",
+        "SHA256":  "41D39CBF32EA34709D1E58FB170B438FA2B90ED27ADFDE9A8A030C43D5D00A75"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.dll",
+        "Name":  "HeyClicky.dll",
+        "Length":  4762112,
+        "LastWriteTimeUtc":  "2026-11-12T11:40:30.0875059Z",
+        "SHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Drawing.dll",
+        "Name":  "HeyClicky.Drawing.dll",
+        "Length":  543232,
+        "LastWriteTimeUtc":  "2026-11-12T11:32:35.7786739Z",
+        "SHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Drawing.pdb",
+        "Name":  "HeyClicky.Drawing.pdb",
+        "Length":  222608,
+        "LastWriteTimeUtc":  "2026-11-12T11:32:35.6965834Z",
+        "SHA256":  "E29A906F6DEC87E964ECFA288748F537E433FEC455101AA229C6B58DE125F8AC"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Drawing3D.dll",
+        "Name":  "HeyClicky.Drawing3D.dll",
+        "Length":  399360,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "SHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Drawing3D.pdb",
+        "Name":  "HeyClicky.Drawing3D.pdb",
+        "Length":  120028,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.1888233Z",
+        "SHA256":  "38485E0DAD70D32673B834A78C4BAF4732EEA6630730D5BBFC43DABD856104C5"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.exe",
+        "Name":  "HeyClicky.exe",
+        "Length":  420352,
+        "LastWriteTimeUtc":  "2026-11-12T11:40:34.7020570Z",
+        "SHA256":  "32C071E81A0677191F9160A5BC116E5E0B49BA60FFBF817A4EC659088679034D"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.pdb",
+        "Name":  "HeyClicky.pdb",
+        "Length":  1477436,
+        "LastWriteTimeUtc":  "2026-11-12T11:40:21.2301877Z",
+        "SHA256":  "F814254E6EDA07AC34C59432A2A1899F64E0CBFBE2913841612FE7A2F5A1D3E7"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Platform.dll",
+        "Name":  "HeyClicky.Platform.dll",
+        "Length":  715264,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "SHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\HeyClicky.Platform.pdb",
+        "Name":  "HeyClicky.Platform.pdb",
+        "Length":  296532,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:09.9326636Z",
+        "SHA256":  "B83414E9EC6AA977ABE36C5F078BD757539DF62B841C461DA1CF639ACE6E468A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Microsoft.Graphics.Canvas.Interop.dll",
+        "Name":  "Microsoft.Graphics.Canvas.Interop.dll",
+        "Length":  2800960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8182607Z",
+        "SHA256":  "C7B5C0AE00EA21989ECF1C3872D2B7B6124C02C6D4CE1AA012DB22F12C1B2448"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Microsoft.InteractiveExperiences.Projection.dll",
+        "Name":  "Microsoft.InteractiveExperiences.Projection.dll",
+        "Length":  3591488,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.1880200Z",
+        "SHA256":  "57C0B291300A282442A02A86CDB3BCD4493AC46C3F256F88E11259655BB9CEBF"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Microsoft.Web.WebView2.Core.Projection.dll",
+        "Name":  "Microsoft.Web.WebView2.Core.Projection.dll",
+        "Length":  1486144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.9651261Z",
+        "SHA256":  "316A1142C0F8F8F9E6CFEDB7B29BAE3BBDC94D4FFC2BED978D1BE0785034F29E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Length":  154944,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.9809300Z",
+        "SHA256":  "8AA25A7CE61510516AF8296C19B5F924571D335AB287A0DB7F82D79AE3537F1A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Microsoft.Windows.SDK.NET.dll",
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:28.9347131Z",
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Microsoft.WinUI.dll",
+        "Name":  "Microsoft.WinUI.dll",
+        "Length":  16776512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:30.7044040Z",
+        "SHA256":  "5CFC3A25F3F8FFD10868F2D83B1A8A94A1E97281A4805EC6EDF6F58B165A80BE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Newtonsoft.Json.dll",
+        "Name":  "Newtonsoft.Json.dll",
+        "Length":  1854784,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.6321990Z",
+        "SHA256":  "38E4748F5158239A91778057DF6DE4014139091C08A397FF14AD69EA39410747"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Sentry.dll",
+        "Name":  "Sentry.dll",
+        "Length":  2047296,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.0853397Z",
+        "SHA256":  "3F717AC6E27E01AECEAC11853B5891135917D77319C2B3FE561576988B1AF5D3"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\SharpGen.Runtime.COM.dll",
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1475017Z",
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\SharpGen.Runtime.dll",
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1939692Z",
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\System.Security.Cryptography.ProtectedData.dll",
+        "Name":  "System.Security.Cryptography.ProtectedData.dll",
+        "Length":  60736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4888415Z",
+        "SHA256":  "6228273D96AC1B27DE8ED72473C42E920E650527D91E40F9EB9F122F4EBB98BB"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Velopack.dll",
+        "Name":  "Velopack.dll",
+        "Length":  712000,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.4220520Z",
+        "SHA256":  "2A3E763021364E307E5ECF95A7AB9C7BE65AC652D1FA49F44EADA91B057A9AB9"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.D3DCompiler.dll",
+        "Name":  "Vortice.D3DCompiler.dll",
+        "Length":  77120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.4843206Z",
+        "SHA256":  "DA2A53402A4372C99ACB6A31C23037636D1514903473CFB4380CE0C13419C05F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.Direct2D1.dll",
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.5838655Z",
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.Direct3D11.dll",
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6379468Z",
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.DirectComposition.dll",
+        "Name":  "Vortice.DirectComposition.dll",
+        "Length":  195904,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6572321Z",
+        "SHA256":  "5B53A6ADD1FD4CD5396C15B20CBBD40F53B44FE1BAAE1882DB0EC38655FE9762"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.DirectX.dll",
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7040190Z",
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.DXGI.dll",
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7689663Z",
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.Mathematics.dll",
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8203871Z",
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\Vortice.XAudio2.dll",
+        "Name":  "Vortice.XAudio2.dll",
+        "Length":  150848,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8466949Z",
+        "SHA256":  "203C3749B93592E0F33683F32FF4948D0D704ED1DD71144DF758C7CCE1D9668E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.App\\bin\\Debug\\net9.0\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Contracts\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Contracts\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\CommunityToolkit.Mvvm.dll",
+        "Name":  "CommunityToolkit.Mvvm.dll",
+        "Length":  392512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8930145Z",
+        "SHA256":  "8912BE337A989509AD9F484238C83C156A8D166778DEE15AF67094A7E95D7BF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\HeyClicky.Core.dll",
+        "Name":  "HeyClicky.Core.dll",
+        "Length":  3549696,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "SHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\HeyClicky.Core.pdb",
+        "Name":  "HeyClicky.Core.pdb",
+        "Length":  1004140,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:43.9180707Z",
+        "SHA256":  "41D39CBF32EA34709D1E58FB170B438FA2B90ED27ADFDE9A8A030C43D5D00A75"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\Microsoft.Windows.SDK.NET.dll",
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:28.9347131Z",
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\System.Security.Cryptography.ProtectedData.dll",
+        "Name":  "System.Security.Cryptography.ProtectedData.dll",
+        "Length":  60736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4888415Z",
+        "SHA256":  "6228273D96AC1B27DE8ED72473C42E920E650527D91E40F9EB9F122F4EBB98BB"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Core\\bin\\Debug\\net9.0\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\Assets\\Engine\\clicky-draw-engine.js",
+        "Name":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\Assets\\Engine\\clicky-draw-native.js",
+        "Name":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\Assets\\Engine\\clicky-draw-pieces.js",
+        "Name":  "clicky-draw-pieces.js",
+        "Length":  66985,
+        "LastWriteTimeUtc":  "2026-11-12T10:39:04.5756251Z",
+        "SHA256":  "EAAC7283CC5EF188B688560E84DE280B1728BB4806838682C6BFFC2554395C95"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\Assets\\Engine\\clicky-three-parts.js",
+        "Name":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\Assets\\Engine\\clicky-three.js",
+        "Name":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-draw-engine.js",
+        "Name":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-draw-native.js",
+        "Name":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-draw-pieces.js",
+        "Name":  "clicky-draw-pieces.js",
+        "Length":  66985,
+        "LastWriteTimeUtc":  "2026-11-12T10:39:04.5756251Z",
+        "SHA256":  "EAAC7283CC5EF188B688560E84DE280B1728BB4806838682C6BFFC2554395C95"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-three-parts.js",
+        "Name":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Assets\\Engine\\clicky-three.js",
+        "Name":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\ClearScript.Core.dll",
+        "Name":  "ClearScript.Core.dll",
+        "Length":  1346880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0179155Z",
+        "SHA256":  "3669DEA49B60CABFB04488E0805FEFEE21E3371FA9E2C5A611A3ED1071970FA4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\ClearScript.V8.dll",
+        "Name":  "ClearScript.V8.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0361731Z",
+        "SHA256":  "37A6979EEAA9A7D362812FD89F17A40CFA9268A57F521F873D6708C43BE5F625"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\ClearScript.V8.ICUData.dll",
+        "Name":  "ClearScript.V8.ICUData.dll",
+        "Length":  10833544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.2171457Z",
+        "SHA256":  "4C4C0D32C1186A3B8955AE5C32A034B2A801BBB6BDDE9947492FC8584DF22A07"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\HeyClicky.Drawing.dll",
+        "Name":  "HeyClicky.Drawing.dll",
+        "Length":  543232,
+        "LastWriteTimeUtc":  "2026-11-12T11:32:35.7786739Z",
+        "SHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\HeyClicky.Drawing.pdb",
+        "Name":  "HeyClicky.Drawing.pdb",
+        "Length":  222608,
+        "LastWriteTimeUtc":  "2026-11-12T11:32:35.6965834Z",
+        "SHA256":  "E29A906F6DEC87E964ECFA288748F537E433FEC455101AA229C6B58DE125F8AC"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\HeyClicky.Drawing3D.dll",
+        "Name":  "HeyClicky.Drawing3D.dll",
+        "Length":  399360,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "SHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\HeyClicky.Drawing3D.pdb",
+        "Name":  "HeyClicky.Drawing3D.pdb",
+        "Length":  120028,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.1888233Z",
+        "SHA256":  "38485E0DAD70D32673B834A78C4BAF4732EEA6630730D5BBFC43DABD856104C5"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Microsoft.Graphics.Canvas.Interop.dll",
+        "Name":  "Microsoft.Graphics.Canvas.Interop.dll",
+        "Length":  2800960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8182607Z",
+        "SHA256":  "C7B5C0AE00EA21989ECF1C3872D2B7B6124C02C6D4CE1AA012DB22F12C1B2448"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Microsoft.InteractiveExperiences.Projection.dll",
+        "Name":  "Microsoft.InteractiveExperiences.Projection.dll",
+        "Length":  3591488,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.1880200Z",
+        "SHA256":  "57C0B291300A282442A02A86CDB3BCD4493AC46C3F256F88E11259655BB9CEBF"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Microsoft.Web.WebView2.Core.Projection.dll",
+        "Name":  "Microsoft.Web.WebView2.Core.Projection.dll",
+        "Length":  1486144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.9651261Z",
+        "SHA256":  "316A1142C0F8F8F9E6CFEDB7B29BAE3BBDC94D4FFC2BED978D1BE0785034F29E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Length":  154944,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.9809300Z",
+        "SHA256":  "8AA25A7CE61510516AF8296C19B5F924571D335AB287A0DB7F82D79AE3537F1A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Microsoft.Windows.SDK.NET.dll",
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:28.9347131Z",
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Microsoft.WinUI.dll",
+        "Name":  "Microsoft.WinUI.dll",
+        "Length":  16776512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:30.7044040Z",
+        "SHA256":  "5CFC3A25F3F8FFD10868F2D83B1A8A94A1E97281A4805EC6EDF6F58B165A80BE"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Newtonsoft.Json.dll",
+        "Name":  "Newtonsoft.Json.dll",
+        "Length":  1854784,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.6321990Z",
+        "SHA256":  "38E4748F5158239A91778057DF6DE4014139091C08A397FF14AD69EA39410747"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\SharpGen.Runtime.COM.dll",
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1475017Z",
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\SharpGen.Runtime.dll",
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1939692Z",
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.D3DCompiler.dll",
+        "Name":  "Vortice.D3DCompiler.dll",
+        "Length":  77120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.4843206Z",
+        "SHA256":  "DA2A53402A4372C99ACB6A31C23037636D1514903473CFB4380CE0C13419C05F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.Direct2D1.dll",
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.5838655Z",
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.Direct3D11.dll",
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6379468Z",
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.DirectX.dll",
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7040190Z",
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.DXGI.dll",
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7689663Z",
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.Mathematics.dll",
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8203871Z",
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\Vortice.XAudio2.dll",
+        "Name":  "Vortice.XAudio2.dll",
+        "Length":  150848,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8466949Z",
+        "SHA256":  "203C3749B93592E0F33683F32FF4948D0D704ED1DD71144DF758C7CCE1D9668E"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing\\bin\\Debug\\net9.0\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\ClearScript.Core.dll",
+        "Name":  "ClearScript.Core.dll",
+        "Length":  1346880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0179155Z",
+        "SHA256":  "3669DEA49B60CABFB04488E0805FEFEE21E3371FA9E2C5A611A3ED1071970FA4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\ClearScript.V8.dll",
+        "Name":  "ClearScript.V8.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0361731Z",
+        "SHA256":  "37A6979EEAA9A7D362812FD89F17A40CFA9268A57F521F873D6708C43BE5F625"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\ClearScript.V8.ICUData.dll",
+        "Name":  "ClearScript.V8.ICUData.dll",
+        "Length":  10833544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.2171457Z",
+        "SHA256":  "4C4C0D32C1186A3B8955AE5C32A034B2A801BBB6BDDE9947492FC8584DF22A07"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\HeyClicky.Drawing3D.dll",
+        "Name":  "HeyClicky.Drawing3D.dll",
+        "Length":  399360,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "SHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\HeyClicky.Drawing3D.pdb",
+        "Name":  "HeyClicky.Drawing3D.pdb",
+        "Length":  120028,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.1888233Z",
+        "SHA256":  "38485E0DAD70D32673B834A78C4BAF4732EEA6630730D5BBFC43DABD856104C5"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Newtonsoft.Json.dll",
+        "Name":  "Newtonsoft.Json.dll",
+        "Length":  1854784,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.6321990Z",
+        "SHA256":  "38E4748F5158239A91778057DF6DE4014139091C08A397FF14AD69EA39410747"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\SharpGen.Runtime.COM.dll",
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1475017Z",
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\SharpGen.Runtime.dll",
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1939692Z",
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Vortice.D3DCompiler.dll",
+        "Name":  "Vortice.D3DCompiler.dll",
+        "Length":  77120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.4843206Z",
+        "SHA256":  "DA2A53402A4372C99ACB6A31C23037636D1514903473CFB4380CE0C13419C05F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Vortice.Direct2D1.dll",
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.5838655Z",
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Vortice.Direct3D11.dll",
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6379468Z",
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Vortice.DirectX.dll",
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7040190Z",
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Vortice.DXGI.dll",
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7689663Z",
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\Vortice.Mathematics.dll",
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8203871Z",
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Drawing3D\\bin\\Debug\\net9.0\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\HeyClicky.Platform.dll",
+        "Name":  "HeyClicky.Platform.dll",
+        "Length":  715264,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "SHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\HeyClicky.Platform.pdb",
+        "Name":  "HeyClicky.Platform.pdb",
+        "Length":  296532,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:09.9326636Z",
+        "SHA256":  "B83414E9EC6AA977ABE36C5F078BD757539DF62B841C461DA1CF639ACE6E468A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Microsoft.Windows.SDK.NET.dll",
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:28.9347131Z",
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\SharpGen.Runtime.COM.dll",
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1475017Z",
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\SharpGen.Runtime.dll",
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1939692Z",
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Vortice.Direct2D1.dll",
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.5838655Z",
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Vortice.Direct3D11.dll",
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6379468Z",
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Vortice.DirectComposition.dll",
+        "Name":  "Vortice.DirectComposition.dll",
+        "Length":  195904,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6572321Z",
+        "SHA256":  "5B53A6ADD1FD4CD5396C15B20CBBD40F53B44FE1BAAE1882DB0EC38655FE9762"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Vortice.DirectX.dll",
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7040190Z",
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Vortice.DXGI.dll",
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7689663Z",
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\Vortice.Mathematics.dll",
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8203871Z",
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Source":  "src/desktop",
+        "RelPath":  "src\\desktop\\Kursor.Platform\\bin\\Debug\\net9.0\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Assets\\Engine\\clicky-draw-engine.js",
+        "Name":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Assets\\Engine\\clicky-draw-native.js",
+        "Name":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Assets\\Engine\\clicky-draw-pieces.js",
+        "Name":  "clicky-draw-pieces.js",
+        "Length":  66985,
+        "LastWriteTimeUtc":  "2026-11-12T10:39:04.5756251Z",
+        "SHA256":  "EAAC7283CC5EF188B688560E84DE280B1728BB4806838682C6BFFC2554395C95"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Assets\\Engine\\clicky-three-parts.js",
+        "Name":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Assets\\Engine\\clicky-three.js",
+        "Name":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\clickup\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3100,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8857212Z",
+        "SHA256":  "F6A40035A43455A781A7BB3A512FC35A962D75B7FC43D186998EA562605119F6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\dropbox\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3129,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8887245Z",
+        "SHA256":  "1EB95369E997F07A21452690DD652E02AD62BB8F53CD687B5F24C89B0D38BADF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\gmail\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3201,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8927833Z",
+        "SHA256":  "B11A62EE4F7B7247C7344309B75E855283444D8B7E33E28DF65B35C2911E2449"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\googledocs\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  2188,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8977841Z",
+        "SHA256":  "5AEA97069B4754E31AF8EFA18F16568664FE4F859568A76BDA82DBB68FCCEE7A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\googletasks\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  2866,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9027792Z",
+        "SHA256":  "AF695F2CC7088C3E261A46FEB845CB9F8B16B7B783668E7618876108A6C05884"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\hubspot\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3214,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9070194Z",
+        "SHA256":  "CD2C534AACC5FCD3A8A16FD9FE73935B4E9D900DF545CB8B06C1BB7E6C25FC9B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\jira\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3238,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9105361Z",
+        "SHA256":  "1CC50DC43DDEBE393F53100F285700CE277102786F17A7AC5F875DF9F68B3343"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\linear\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  1910,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9131541Z",
+        "SHA256":  "5F0FDF80315C494B5CF01A277ECC1B59D9E4B55AA88585819D3A09108449B52B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\microsoft_teams\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3225,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9171528Z",
+        "SHA256":  "66E10C87E23FB253816E2709FD3AFB34FF1A286C0800AB85562F1692CE02CFA0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\outlook\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3615,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9211710Z",
+        "SHA256":  "E16CF2387795C5E1CB55E170002E7C767FE117D81BB23AE52DD967A94D7CF4A9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\integration-skills\\salesforce\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  3263,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9291810Z",
+        "SHA256":  "FD4586D9AD350964BD64255FBD6DE1DB4124AA06EAE717100938756E06A3BB7B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\references\\batching.md",
+        "Name":  "batching.md",
+        "Length":  3019,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9363658Z",
+        "SHA256":  "F9FCDF3065A1EBAD347FD71EFCA1E89EF9A9FCC9012760961827766A5B81ECBA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\references\\confirmations.md",
+        "Name":  "confirmations.md",
+        "Length":  3376,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9383666Z",
+        "SHA256":  "208167A6DEA98C4F34003FABE05A93BC18503C5482F48E18AEC6C845C2022C82"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\references\\files.md",
+        "Name":  "files.md",
+        "Length":  2081,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9419413Z",
+        "SHA256":  "CF6A920CCE94D8FAC231E007BF2B63679E0817D34930906C56746306248E00DB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\references\\safety.md",
+        "Name":  "safety.md",
+        "Length":  1627,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9439730Z",
+        "SHA256":  "75183B2A229DBAC8D2DD0B03DE1413669018074FF7626E9DAF512D07BA05FC3F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\references\\tabs.md",
+        "Name":  "tabs.md",
+        "Length":  3032,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9469821Z",
+        "SHA256":  "D0D2D5A1F93F0BA99285B4A2C895AF272021081D0B0DF60BC0233DE0EB2CC259"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\references\\troubleshooting.md",
+        "Name":  "troubleshooting.md",
+        "Length":  8238,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9550294Z",
+        "SHA256":  "EAD10572783D4486107A814C011B1CC03BEC56164A50AEE02D09C345D6050490"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\clicky-browser\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  7253,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9570346Z",
+        "SHA256":  "955FDF6B18624DBE4F39816C8D5596F629DD90845519D95D143121B6574C5B42"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\vercel-deploy\\ATTRIBUTION.md",
+        "Name":  "ATTRIBUTION.md",
+        "Length":  164,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9687016Z",
+        "SHA256":  "CE56A13FE055F6627643F8A91FF74532AFFEF87B6DFBA02F83521148ED4FFFF9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\vercel-deploy\\LICENSE.txt",
+        "Name":  "LICENSE.txt",
+        "Length":  1084,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9712416Z",
+        "SHA256":  "879778C7455042A271FFEB2C3E048D26EB5F27F7C1C094AE917002FD56754AC6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\skills\\vercel-deploy\\SKILL.md",
+        "Name":  "SKILL.md",
+        "Length":  2730,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9790628Z",
+        "SHA256":  "AFAC6B5B71952AF08F8DCD19C01EC1D80A040240CC50929E3ADD8200B3FCD459"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\BundledResources\\clicky-model-instructions.md",
+        "Name":  "clicky-model-instructions.md",
+        "Length":  6104,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8789771Z",
+        "SHA256":  "33365DE06D78650529E2642ED18968D936EC075D8E47AB7F14B8C5BAEC0E6685"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\ClickyBrowserHost\\ClickyBrowserHost.exe",
+        "Name":  "ClickyBrowserHost.exe",
+        "Length":  4685632,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8088357Z",
+        "SHA256":  "E7BD3FD9179313B98C10A79B18E6631BBB8EE6C7FB264FA4825106F4DB084A86"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HarnessRuntime\\clicky-harness.exe",
+        "Name":  "clicky-harness.exe",
+        "Length":  88566080,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:17.8769954Z",
+        "SHA256":  "31DFAF8C74BAB71F07607EAFA3D9940B82C7E5540FA0E825169278AC8E7A30DA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\ClearScript.Core.dll",
+        "Name":  "ClearScript.Core.dll",
+        "Length":  1346880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0179155Z",
+        "SHA256":  "3669DEA49B60CABFB04488E0805FEFEE21E3371FA9E2C5A611A3ED1071970FA4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\ClearScript.V8.dll",
+        "Name":  "ClearScript.V8.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.0361731Z",
+        "SHA256":  "37A6979EEAA9A7D362812FD89F17A40CFA9268A57F521F873D6708C43BE5F625"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\ClearScript.V8.ICUData.dll",
+        "Name":  "ClearScript.V8.ICUData.dll",
+        "Length":  10833544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.2171457Z",
+        "SHA256":  "4C4C0D32C1186A3B8955AE5C32A034B2A801BBB6BDDE9947492FC8584DF22A07"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\ClearScriptV8.win-x64.dll",
+        "Name":  "ClearScriptV8.win-x64.dll",
+        "Length":  29893768,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.7162629Z",
+        "SHA256":  "23F7B297C59CD77E103E5C3E39EB784E7D43D50670D2DD9AE51BDCEFE51A883A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\ClickyBrowserExtensionID.txt",
+        "Name":  "ClickyBrowserExtensionID.txt",
+        "Length":  34,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.7192624Z",
+        "SHA256":  "B5E423F38D1015712ED8B50752FEA4048C505F90CBA44B3593E2956E77068FA0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\clretwrc.dll",
+        "Name":  "clretwrc.dll",
+        "Length":  312144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8154380Z",
+        "SHA256":  "DFFFF5758ED156F585FFA8D5FEEE619F926CA1049E8D1F8BD45283D6A0C7F3B6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\clrgc.dll",
+        "Name":  "clrgc.dll",
+        "Length":  672552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8289989Z",
+        "SHA256":  "6279E0C24987475EB372C0F523FE5407A4C4E1F45DA3747FA86197F8BDD131D7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\clrgcexp.dll",
+        "Name":  "clrgcexp.dll",
+        "Length":  708944,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8436908Z",
+        "SHA256":  "E7F8A4B2B3D24382B316EDECFD8300970758DD9709D763A65E8B49A3A2AC55DC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\clrjit.dll",
+        "Name":  "clrjit.dll",
+        "Length":  1943376,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8844557Z",
+        "SHA256":  "8176575C501A0A3E3CFA0C01C063E4A638767A57457466BF6A262764B9137CA2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\CommunityToolkit.Mvvm.dll",
+        "Name":  "CommunityToolkit.Mvvm.dll",
+        "Length":  392512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.8930145Z",
+        "SHA256":  "8912BE337A989509AD9F484238C83C156A8D166778DEE15AF67094A7E95D7BF6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\coreclr.dll",
+        "Name":  "coreclr.dll",
+        "Length":  4797224,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:10.9851156Z",
+        "SHA256":  "03A85B6BA7087B41AC63F5C23C534074A4BE81EAA23AC5AAE9ED252C2C28DD1C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\CoreMessagingXP.dll",
+        "Name":  "CoreMessagingXP.dll",
+        "Length":  1062712,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:11.0072973Z",
+        "SHA256":  "049A1379592513D05BADA39D43A46124833C2E5F6EC2EEC299927339E12D57DF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\dcompi.dll",
+        "Name":  "dcompi.dll",
+        "Length":  3233560,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:11.0667111Z",
+        "SHA256":  "2123639C1979CF19D6823CF0BD56AA62D9129A4C7EA4FEF00D552C2B7CF74799"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\DirectML.dll",
+        "Name":  "DirectML.dll",
+        "Length":  18533184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:11.3292552Z",
+        "SHA256":  "C854E2DD4BCA5C6993B2F2E3A2B39234B61B9222BB0AB787EFD172F3690A97A6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\dwmcorei.dll",
+        "Name":  "dwmcorei.dll",
+        "Length":  2914104,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:11.3750807Z",
+        "SHA256":  "2B2CB19C4460B1A72BA666C930A968CA85A2FFD4F34B0F9A7C75E253FB82969C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\DwmSceneI.dll",
+        "Name":  "DwmSceneI.dll",
+        "Length":  2365224,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:11.4087213Z",
+        "SHA256":  "BAEA71C5209EFF3BAFAE5211F618DA5132B650FF5BA9919190C07911B72DBE30"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\DWriteCore.dll",
+        "Name":  "DWriteCore.dll",
+        "Length":  3252576,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:11.4771586Z",
+        "SHA256":  "426674B9C74612BD2A29D0812212FAF0641AD93A48521AEB58EB9A50FAC8708D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky-Update.exe",
+        "Name":  "HeyClicky-Update.exe",
+        "Length":  4315456,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:18.1072089Z",
+        "SHA256":  "390E2FB0BC190A4A756ECCBED074F1B08B562223A3035F6CEAC2CE46D626229F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Agents.dll",
+        "Name":  "HeyClicky.Agents.dll",
+        "Length":  960512,
+        "LastWriteTimeUtc":  "2026-11-11T18:40:37.3293807Z",
+        "SHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Agents.pdb",
+        "Name":  "HeyClicky.Agents.pdb",
+        "Length":  261476,
+        "LastWriteTimeUtc":  "2026-11-11T18:40:36.2594844Z",
+        "SHA256":  "1F3522D0ED4D47C639C72B3725675310A4C6AD92172AA3CD0A2BC8DF5A8BD09F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Contracts.dll",
+        "Name":  "HeyClicky.Contracts.dll",
+        "Length":  130048,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "SHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Contracts.pdb",
+        "Name":  "HeyClicky.Contracts.pdb",
+        "Length":  37776,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:02.0510399Z",
+        "SHA256":  "7A0EAC7344DE148BC612F75BBEA9C0960364CB386678EAD6F85E06074879E830"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Core.dll",
+        "Name":  "HeyClicky.Core.dll",
+        "Length":  3549696,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "SHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Core.pdb",
+        "Name":  "HeyClicky.Core.pdb",
+        "Length":  1004140,
+        "LastWriteTimeUtc":  "2026-11-12T06:07:43.9180707Z",
+        "SHA256":  "41D39CBF32EA34709D1E58FB170B438FA2B90ED27ADFDE9A8A030C43D5D00A75"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.deps.json",
+        "Name":  "HeyClicky.deps.json",
+        "Length":  68851,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:18.9749251Z",
+        "SHA256":  "4F2BC2AE613FEEF0CC448237E629742B02D5C72A913062F246CEDBAF6EE3989E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.dll",
+        "Name":  "HeyClicky.dll",
+        "Length":  4762112,
+        "LastWriteTimeUtc":  "2026-11-12T11:40:30.0875059Z",
+        "SHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Drawing.dll",
+        "Name":  "HeyClicky.Drawing.dll",
+        "Length":  543232,
+        "LastWriteTimeUtc":  "2026-11-12T11:32:35.7786739Z",
+        "SHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Drawing.pdb",
+        "Name":  "HeyClicky.Drawing.pdb",
+        "Length":  222608,
+        "LastWriteTimeUtc":  "2026-11-12T11:32:35.6965834Z",
+        "SHA256":  "E29A906F6DEC87E964ECFA288748F537E433FEC455101AA229C6B58DE125F8AC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Drawing3D.dll",
+        "Name":  "HeyClicky.Drawing3D.dll",
+        "Length":  399360,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "SHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Drawing3D.pdb",
+        "Name":  "HeyClicky.Drawing3D.pdb",
+        "Length":  120028,
+        "LastWriteTimeUtc":  "2026-11-11T17:58:31.1888233Z",
+        "SHA256":  "38485E0DAD70D32673B834A78C4BAF4732EEA6630730D5BBFC43DABD856104C5"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.exe",
+        "Name":  "HeyClicky.exe",
+        "Length":  436032,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:20.0204549Z",
+        "SHA256":  "26AB779203881266FB8FC0BD4664D26D7167C0C185C3B63638C79EA7EEE3F4F9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.pdb",
+        "Name":  "HeyClicky.pdb",
+        "Length":  1477436,
+        "LastWriteTimeUtc":  "2026-11-12T11:40:21.2301877Z",
+        "SHA256":  "F814254E6EDA07AC34C59432A2A1899F64E0CBFBE2913841612FE7A2F5A1D3E7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Platform.dll",
+        "Name":  "HeyClicky.Platform.dll",
+        "Length":  715264,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "SHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.Platform.pdb",
+        "Name":  "HeyClicky.Platform.pdb",
+        "Length":  296532,
+        "LastWriteTimeUtc":  "2026-11-11T18:02:09.9326636Z",
+        "SHA256":  "B83414E9EC6AA977ABE36C5F078BD757539DF62B841C461DA1CF639ACE6E468A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\HeyClicky.runtimeconfig.json",
+        "Name":  "HeyClicky.runtimeconfig.json",
+        "Length":  625,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:20.4386892Z",
+        "SHA256":  "1BFE53FC403A4D9120734D4E98B2FE2706DD839F327AFE3663D65EA168DB578C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\hostfxr.dll",
+        "Name":  "hostfxr.dll",
+        "Length":  374056,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:20.4790085Z",
+        "SHA256":  "B978B94F05B91227397030EBB89BC4E8DFFDEFB13B85D233B65EBEC286B70BBA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\hostpolicy.dll",
+        "Name":  "hostpolicy.dll",
+        "Length":  387368,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:20.4882173Z",
+        "SHA256":  "B60B311BD86D705FBD6F2A28C05F31F108833F467D3E7D99B5943E979C538C36"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\marshal.dll",
+        "Name":  "marshal.dll",
+        "Length":  509736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:20.9112247Z",
+        "SHA256":  "E39108048F78DF267F6A4DAE912B997046425FAD98966C2CCB8AA84932BEF647"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Asg.SemanticIndex.AiFabric.Compatibility.dll",
+        "Name":  "Microsoft.Asg.SemanticIndex.AiFabric.Compatibility.dll",
+        "Length":  3949872,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.1868614Z",
+        "SHA256":  "D6353C03F5A64B9A3852A5A84AC2427A0C664F6A51F1AFDF53F89B419F43D1C7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.CSharp.dll",
+        "Name":  "Microsoft.CSharp.dll",
+        "Length":  993064,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.2526827Z",
+        "SHA256":  "18D925DCCA5B22DED30B6FB92060E88268C34E7342BFCCF241CF0F182FBD0CA9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.DiaSymReader.Native.amd64.dll",
+        "Name":  "Microsoft.DiaSymReader.Native.amd64.dll",
+        "Length":  2377016,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.4684885Z",
+        "SHA256":  "70E4B89978CE57EF87B28F4921F3140C383B04AA96E7F3BDB3C4EBB898FD8A72"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.DirectManipulation.dll",
+        "Name":  "Microsoft.DirectManipulation.dll",
+        "Length":  657200,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.5256608Z",
+        "SHA256":  "CD305CAE842CDCC9DD95DBC36E2FB0BB535BFEDABDA47583E4B1EEC0D905EC53"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Graphics.Canvas.dll",
+        "Name":  "Microsoft.Graphics.Canvas.dll",
+        "Length":  1734176,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.6871029Z",
+        "SHA256":  "DB92EE35E344E2D1F67849BB4CD8DEB483F14D3D127BABA8606A88735406CCEB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Graphics.Canvas.Interop.dll",
+        "Name":  "Microsoft.Graphics.Canvas.Interop.dll",
+        "Length":  2800960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8182607Z",
+        "SHA256":  "C7B5C0AE00EA21989ECF1C3872D2B7B6124C02C6D4CE1AA012DB22F12C1B2448"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Graphics.Display.dll",
+        "Name":  "Microsoft.Graphics.Display.dll",
+        "Length":  227120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8435584Z",
+        "SHA256":  "A5E515DCAFE49100492BB1D09F0C1933AE9883D8C449F89B2E5870E6CCB35211"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Graphics.Imaging.dll",
+        "Name":  "Microsoft.Graphics.Imaging.dll",
+        "Length":  139568,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8495465Z",
+        "SHA256":  "4A1BDC0E48B02FC1DD5D8B9891CA71951B84788F3D80946CC59BF45C7A7FBEFC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Graphics.Imaging.Projection.dll",
+        "Name":  "Microsoft.Graphics.Imaging.Projection.dll",
+        "Length":  56640,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8531026Z",
+        "SHA256":  "BB529C8FF61DA9E63E3E70CA80116F237F8BA5A828ABC1097676FDE17A04AA16"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.InputStateManager.dll",
+        "Name":  "Microsoft.InputStateManager.dll",
+        "Length":  460568,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:21.8955039Z",
+        "SHA256":  "D7480554E2C70A82EC3C2F08E10D82062827982E77751A1D73658C07A7003593"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.InteractiveExperiences.Projection.dll",
+        "Name":  "Microsoft.InteractiveExperiences.Projection.dll",
+        "Length":  3591488,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.1880200Z",
+        "SHA256":  "57C0B291300A282442A02A86CDB3BCD4493AC46C3F256F88E11259655BB9CEBF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Internal.FrameworkUdk.dll",
+        "Name":  "Microsoft.Internal.FrameworkUdk.dll",
+        "Length":  935680,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.2472343Z",
+        "SHA256":  "1A9FFFEE42BA1309C36811A4FF9E95DFA8C3620F6F9190CBBBF334A4CF1B8013"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.ML.OnnxRuntime.dll",
+        "Name":  "Microsoft.ML.OnnxRuntime.dll",
+        "Length":  810304,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.3108516Z",
+        "SHA256":  "9061BF77472A87CE268A967539011525F53067664920B5BD88F4BBB13C8F839D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Security.Authentication.OAuth.Projection.dll",
+        "Name":  "Microsoft.Security.Authentication.OAuth.Projection.dll",
+        "Length":  191808,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.3240431Z",
+        "SHA256":  "D786578D63305F2DE4E49DA19B107B334BE09716023ACDD2802573A44EF61EB7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Composition.OSSupport.dll",
+        "Name":  "Microsoft.UI.Composition.OSSupport.dll",
+        "Length":  67368,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.3569301Z",
+        "SHA256":  "31AE35A221A818F7993FD47870F61A6D2E99176D9958854AFE81AE3F9BBD0593"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Designer.dll",
+        "Name":  "Microsoft.UI.Designer.dll",
+        "Length":  120600,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.3647263Z",
+        "SHA256":  "E5B6A99BD0EC6CBB453BCF4DB4E055F3D6AD76C4A483B02378247C84948C530F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.dll",
+        "Name":  "Microsoft.UI.dll",
+        "Length":  177968,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.4004026Z",
+        "SHA256":  "DCB2507DF89F8B9CCCBB33915BE3CD88A63104071EA25D43B31C576C03D0421E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Input.dll",
+        "Name":  "Microsoft.UI.Input.dll",
+        "Length":  1599256,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.5255600Z",
+        "SHA256":  "F0CD283D139AA6D8DABBB7DDB4E9E030C3FD8AE7F3825437034C1ECF63154306"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Windowing.Core.dll",
+        "Name":  "Microsoft.UI.Windowing.Core.dll",
+        "Length":  550688,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.5754069Z",
+        "SHA256":  "380262ED900765A811CB71E15F243053EF901377C12D24084EC59BF48CE331D9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Windowing.dll",
+        "Name":  "Microsoft.UI.Windowing.dll",
+        "Length":  562984,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:22.6307341Z",
+        "SHA256":  "C875035075A1C59F658F4B232F1D8A07FEE479D1FF3A5FEBE8BB448D7AA990CC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Xaml.Controls.dll",
+        "Name":  "Microsoft.UI.Xaml.Controls.dll",
+        "Length":  6943032,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:23.2629145Z",
+        "SHA256":  "ED5D153C099092E9927639AFAB70545CB48D5CA1B6FA79FDDFAFF0D4F3CA5651"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.ui.xaml.dll",
+        "Name":  "Microsoft.ui.xaml.dll",
+        "Length":  15324472,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.1528591Z",
+        "SHA256":  "AAD12524765E6FB63F0AE26A45A9BA3104F24FDE66413D8A3036FBED74A1E990"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Xaml.Internal.dll",
+        "Name":  "Microsoft.UI.Xaml.Internal.dll",
+        "Length":  936800,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.2947741Z",
+        "SHA256":  "1AAB9CF0EEC4C1DC3D046D03C8A38B4DC214DC2B7BD892DC41095B4A4BECA4F0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.UI.Xaml.Phone.dll",
+        "Name":  "Microsoft.UI.Xaml.Phone.dll",
+        "Length":  1103672,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.4181779Z",
+        "SHA256":  "C0C69BE1DAC4E8EAEA8034B62311DEDB95C10EAAC26E7A09733B384C248C393B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.ui.xaml.resources.19h1.dll",
+        "Name":  "Microsoft.ui.xaml.resources.19h1.dll",
+        "Length":  1120568,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.4834254Z",
+        "SHA256":  "7E5EF86A91DCBBFB2BCFFDF54E2D823843C00FAA7769AB8372D8AB88577815D8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.ui.xaml.resources.common.dll",
+        "Name":  "Microsoft.ui.xaml.resources.common.dll",
+        "Length":  55096,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.4873872Z",
+        "SHA256":  "264D608D09742590FF5C0413395DC8AC8D1A3F0D3580D49DEE3658E38C8C4E5C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.VisualBasic.Core.dll",
+        "Name":  "Microsoft.VisualBasic.Core.dll",
+        "Length":  1255208,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.7681906Z",
+        "SHA256":  "BC4E761A87608FF14CE6800DCF7E2EA441334EBE033D185102332829C817592B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.VisualBasic.dll",
+        "Name":  "Microsoft.VisualBasic.dll",
+        "Length":  17192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.7887591Z",
+        "SHA256":  "A73E05ED63FA09BF540CFB5675A3B1314895D01E1863A1A9A0A4A74AC29660D2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Web.WebView2.Core.dll",
+        "Name":  "Microsoft.Web.WebView2.Core.dll",
+        "Length":  793704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.8610053Z",
+        "SHA256":  "17CCD9141C486D7A3689ED38D72D3BD8BB0E216B7990FCC76C132DC9102C6320"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Web.WebView2.Core.Projection.dll",
+        "Name":  "Microsoft.Web.WebView2.Core.Projection.dll",
+        "Length":  1486144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.9651261Z",
+        "SHA256":  "316A1142C0F8F8F9E6CFEDB7B29BAE3BBDC94D4FFC2BED978D1BE0785034F29E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Win32.Primitives.dll",
+        "Name":  "Microsoft.Win32.Primitives.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:24.9766200Z",
+        "SHA256":  "4E57D60CE238D54C644A6B1D22762B4D4D4D44B453FC53BC241175763E979F9F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Win32.Registry.dll",
+        "Name":  "Microsoft.Win32.Registry.dll",
+        "Length":  120616,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.0029494Z",
+        "SHA256":  "C2B7DAA0F9F3FBCE054DBE7E7E08E0DC3EE0B11E591C5FAE46D434318CDAA9C2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.AICapabilities.dll",
+        "Name":  "Microsoft.Windows.AI.AICapabilities.dll",
+        "Length":  112408,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.0190233Z",
+        "SHA256":  "FE7750A2760838D0A57C3A8BDB8CDC5BDE7995C85ACB8FE3234D55DA09B6E1F7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.ContentSafety.dll",
+        "Name":  "Microsoft.Windows.AI.ContentSafety.dll",
+        "Length":  104752,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.0551312Z",
+        "SHA256":  "D570C34390774C059EE64DA71242AC7F8B206696202196016E2B07478EACBC1D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.ContentSafety.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.ContentSafety.Projection.dll",
+        "Length":  81216,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.0718999Z",
+        "SHA256":  "4F8EEE98FCB1FDB3AFD89DE6D0489FF64B2D70A59B57356B3E0AE11670BE0896"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Foundation.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.Foundation.Projection.dll",
+        "Length":  52544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.1222134Z",
+        "SHA256":  "1EAC5064D9BD8E06E560940BE97BB89E356EB491AC75C47C6B69547FB1700E22"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Imaging.dll",
+        "Name":  "Microsoft.Windows.AI.Imaging.dll",
+        "Length":  769312,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.2273840Z",
+        "SHA256":  "98A56F5605D8ECA567C724C8373899898CDCC7DA5F338F456A72C44A02DFF9F8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Imaging.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.Imaging.Projection.dll",
+        "Length":  191808,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.2534489Z",
+        "SHA256":  "24265220082E6F6B2130179583BFF613D3AD8172C32872E4C4DF5733FB52C2E7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.MachineLearning.dll",
+        "Name":  "Microsoft.Windows.AI.MachineLearning.dll",
+        "Length":  903464,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.3479165Z",
+        "SHA256":  "BBBB34415D8CE303F8A2A2C524C46BD749E21423CCABEB7D38C5FC7334A7848F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.MachineLearning.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.MachineLearning.Projection.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.3618393Z",
+        "SHA256":  "D61262D6FB114497ABC87B5563CFE10F5EC29EA64F0B069206E2AFF37F99886C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.Projection.dll",
+        "Length":  52544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.3701711Z",
+        "SHA256":  "C417F068006F352389EC1B4657FFD85FF95CBAA83571802417C34D6915AE158C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Search.Experimental.dll",
+        "Name":  "Microsoft.Windows.AI.Search.Experimental.dll",
+        "Length":  748832,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.4160438Z",
+        "SHA256":  "6B14FB942A6C47364C4A1A8F98466D4B2B441AE79408F8B001C0342459DBCDA6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Text.dll",
+        "Name":  "Microsoft.Windows.AI.Text.dll",
+        "Length":  804120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.4993955Z",
+        "SHA256":  "3E505A478EB4ADA3E8D431AB5074CDDA005317C4D440198FF422899F6873E21B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Text.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.Text.Projection.dll",
+        "Length":  253248,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.5352760Z",
+        "SHA256":  "06FA97D4D550753299009620662F17BED83AE5BB9BE8590F1FFEFC3EBF655115"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Video.dll",
+        "Name":  "Microsoft.Windows.AI.Video.dll",
+        "Length":  547608,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.6163628Z",
+        "SHA256":  "47BA6307AEA4BDD5BD78DF9709D2CB60BFF0724AC56CE9448A26F4A0FAD70AE7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AI.Video.Projection.dll",
+        "Name":  "Microsoft.Windows.AI.Video.Projection.dll",
+        "Length":  93504,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.6320437Z",
+        "SHA256":  "E862AABF05CB3C4965CA7CF4EAE0C8A102BD7CAA66C80BFEC40FC15EE9A3D9CF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.ApplicationModel.Background.Projection.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.Background.Projection.dll",
+        "Length":  52544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.7007870Z",
+        "SHA256":  "1E74C3CAB7E8228703420F84D7E69681723E2054FDD796D1AB7E774B66C39054"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll",
+        "Length":  96056,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.7490403Z",
+        "SHA256":  "E673E036E8CA3134984103EC188A4A288E5738849D4CDEEC8D912B8A64C6956B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll",
+        "Length":  93504,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.8630259Z",
+        "SHA256":  "1AA9B2CF2E5402762D6CD58632220A1A6631555B98DE1DF7B8FB6C1990ED7C48"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.ApplicationModel.Resources.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.Resources.dll",
+        "Length":  158048,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.9412568Z",
+        "SHA256":  "E8065B297EE6B15F81D92B16A9E60BF08BCD971917ACCD5863620DBB35A56060"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+        "Length":  154944,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:25.9809300Z",
+        "SHA256":  "8AA25A7CE61510516AF8296C19B5F924571D335AB287A0DB7F82D79AE3537F1A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll",
+        "Name":  "Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll",
+        "Length":  101696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.0239997Z",
+        "SHA256":  "77E32C74FC1DF6CA2E83430FF759A55906F0ED7B1D07D9F25BEC63744CA7C63A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AppLifecycle.Projection.dll",
+        "Name":  "Microsoft.Windows.AppLifecycle.Projection.dll",
+        "Length":  93504,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.1212783Z",
+        "SHA256":  "9C8560AA5A67A5F2586D421070E9FC1A2A5A14172FC89E0915E9F14C6395E836"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AppNotifications.Builder.Projection.dll",
+        "Name":  "Microsoft.Windows.AppNotifications.Builder.Projection.dll",
+        "Length":  167232,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.1723787Z",
+        "SHA256":  "E551CFE0908CA890235382357F77264AE7040C629C8C3DCCF0DEBEF43DEDDC04"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.AppNotifications.Projection.dll",
+        "Name":  "Microsoft.Windows.AppNotifications.Projection.dll",
+        "Length":  146752,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.2410529Z",
+        "SHA256":  "43DE2FA0ED4D747BC9745611F2F83A534A1BDE5449210D86C8B0E4BEB3015EF1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.BadgeNotifications.Projection.dll",
+        "Name":  "Microsoft.Windows.BadgeNotifications.Projection.dll",
+        "Length":  48448,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.3370928Z",
+        "SHA256":  "D79D5CEF345EF1EEB1E40FFF628BF1ED9349F769B6618FBD3B0933D6FBDCFF41"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Foundation.Projection.dll",
+        "Name":  "Microsoft.Windows.Foundation.Projection.dll",
+        "Length":  68928,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.3719645Z",
+        "SHA256":  "DBFDE181416B01570C1894876291B65038E17415A0D511CD3A4C174525403C0F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Management.Deployment.Projection.dll",
+        "Name":  "Microsoft.Windows.Management.Deployment.Projection.dll",
+        "Length":  429376,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.6150357Z",
+        "SHA256":  "C20CE2029D7FE40EFC98230889F2F9C83F53F160348169AF1E3767FBC3E9D680"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Media.Capture.Projection.dll",
+        "Name":  "Microsoft.Windows.Media.Capture.Projection.dll",
+        "Length":  81216,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.6742663Z",
+        "SHA256":  "1617BD7C268B79E18A026D330F35A4B40F67F0A91571125A7134118C2EC777CD"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.PushNotifications.Projection.dll",
+        "Name":  "Microsoft.Windows.PushNotifications.Projection.dll",
+        "Length":  97600,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:26.7528593Z",
+        "SHA256":  "844FA67E06E5AB3B1614BE313A85E761281B9EF7AB2C41C89E79A307A1FF57EE"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.SDK.NET.dll",
+        "Name":  "Microsoft.Windows.SDK.NET.dll",
+        "Length":  59231552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:28.9347131Z",
+        "SHA256":  "C66B03428FEF00ACD7686F33FC93B725A3F5EE127083B1066AC3A219022F469F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Search.dll",
+        "Name":  "Microsoft.Windows.Search.dll",
+        "Length":  3472160,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.1583069Z",
+        "SHA256":  "4C7DCF110C0417D6B4081254B30C6594A3161D339BCF5C9C4A55E25A74D728ED"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Search.Projection.dll",
+        "Name":  "Microsoft.Windows.Search.Projection.dll",
+        "Length":  445760,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.1914069Z",
+        "SHA256":  "B005ED5B3DD29335FA947B885407C838C542F4C3FCB953D0FEC5F5F32454322B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Security.AccessControl.Projection.dll",
+        "Name":  "Microsoft.Windows.Security.AccessControl.Projection.dll",
+        "Length":  44352,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.2531333Z",
+        "SHA256":  "2D4B951DEDBCE60FD660F5EF606D0822779A0F2A60ACB5186CF0E1F26B2F4264"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Storage.Pickers.Projection.dll",
+        "Name":  "Microsoft.Windows.Storage.Pickers.Projection.dll",
+        "Length":  163136,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.3409728Z",
+        "SHA256":  "D70520988E15C5EB3BFB82442F667B2631951AF1BF44D7062DB4217C1B2E48E1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Storage.Projection.dll",
+        "Name":  "Microsoft.Windows.Storage.Projection.dll",
+        "Length":  89408,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.3829603Z",
+        "SHA256":  "E903294A6916DF3702A57EA6705925CE12BBEBA9786D98E9F17E347685FB5C34"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.System.Power.Projection.dll",
+        "Name":  "Microsoft.Windows.System.Power.Projection.dll",
+        "Length":  68928,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.4130391Z",
+        "SHA256":  "11B18AE9E518B2835425701C64EE260FFEBBD29115CF0B70DBF050A9036269BA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.System.Projection.dll",
+        "Name":  "Microsoft.Windows.System.Projection.dll",
+        "Length":  60736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.4455116Z",
+        "SHA256":  "F240FA6AA4448D0A6B687192C5EED4BA23C048CCC39535BF816993A79240A05E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Widgets.dll",
+        "Name":  "Microsoft.Windows.Widgets.dll",
+        "Length":  2469688,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.6349799Z",
+        "SHA256":  "86AA4B3FC152ADBC8BB10B58C069D5423C03542A9794BFFBED27F7605AA32B81"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Widgets.Projection.dll",
+        "Name":  "Microsoft.Windows.Widgets.Projection.dll",
+        "Length":  396608,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.6810408Z",
+        "SHA256":  "652424B6320A30B517090E4F910EAEFEFC44A6D403A55B2E2279713D7361E044"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Workloads.dll",
+        "Name":  "Microsoft.Windows.Workloads.dll",
+        "Length":  400664,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.6931923Z",
+        "SHA256":  "407B6F8627B0469BF5B0434B76E0E8F6004048CD91021495557ED86BC86EBAC7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Workloads.Resources.dll",
+        "Name":  "Microsoft.Windows.Workloads.Resources.dll",
+        "Length":  162072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.7012678Z",
+        "SHA256":  "B4B0288A548426E47B8416E394CDB7A8C3A0E42B86CE754A4F8B4532F9B47258"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.Windows.Workloads.Resources_ec.dll",
+        "Name":  "Microsoft.Windows.Workloads.Resources_ec.dll",
+        "Length":  174872,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.7012678Z",
+        "SHA256":  "639F7DD3130D22C0929E5A86FB722B754BE6457CBF65593303E257178D5AEBE7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.WindowsAppRuntime.Bootstrap.dll",
+        "Name":  "Microsoft.WindowsAppRuntime.Bootstrap.dll",
+        "Length":  394040,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.7113992Z",
+        "SHA256":  "E4ACD665FF39F8A0D591459BD5901482E71B4FFBE644F421FFAD9431B5FED438"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll",
+        "Name":  "Microsoft.WindowsAppRuntime.Bootstrap.Net.dll",
+        "Length":  36160,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:29.7175752Z",
+        "SHA256":  "546A0C8CF0CA94800E79EEB40D893A10E52A729A5415F9EFD96FA4943C1EDA66"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.WindowsAppRuntime.dll",
+        "Name":  "Microsoft.WindowsAppRuntime.dll",
+        "Length":  2608480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:30.0136322Z",
+        "SHA256":  "FF2139E2E4A454A23EA624717CD7F867FD8ED92B54F718657159452CD59440FF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Microsoft.WinUI.dll",
+        "Name":  "Microsoft.WinUI.dll",
+        "Length":  16776512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:30.7044040Z",
+        "SHA256":  "5CFC3A25F3F8FFD10868F2D83B1A8A94A1E97281A4805EC6EDF6F58B165A80BE"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\MRM.dll",
+        "Name":  "MRM.dll",
+        "Length":  290104,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:30.8236565Z",
+        "SHA256":  "BB00B556B012276ED1DF7EB310B95B95CA26CC7CA84257BA0DDCAE694B762BC2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\mscordaccore.dll",
+        "Name":  "mscordaccore.dll",
+        "Length":  1362264,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:30.9609439Z",
+        "SHA256":  "B868EBD657B3B8270FEFA7A6BB772563CDE8841900E385EE924B1740A1098E74"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\mscordaccore_amd64_amd64_9.0.2226.52218.dll",
+        "Name":  "mscordaccore_amd64_amd64_9.0.2226.52218.dll",
+        "Length":  1362264,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.0830493Z",
+        "SHA256":  "B868EBD657B3B8270FEFA7A6BB772563CDE8841900E385EE924B1740A1098E74"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\mscordbi.dll",
+        "Name":  "mscordbi.dll",
+        "Length":  1239936,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.1911003Z",
+        "SHA256":  "2FC6418CFEB41C0B8974BDFF5431687073C73803699EBED245FAD2B00B79F5F0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\mscorlib.dll",
+        "Name":  "mscorlib.dll",
+        "Length":  59688,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.2045381Z",
+        "SHA256":  "250D14B6CDA39A004439AFDF1AB273BDF38A30CF2DF8B2A3318A4218115D01E1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\mscorrc.dll",
+        "Name":  "mscorrc.dll",
+        "Length":  135504,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.2075595Z",
+        "SHA256":  "52ACA03CC7A330F77500EB6610B6B92007F8836D0F913E5752CD82C094B49D11"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\msquic.dll",
+        "Name":  "msquic.dll",
+        "Length":  537920,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.2534727Z",
+        "SHA256":  "4D9BC762B1CB41402201AB097B52CCCAA5540E928649D678F657CB1C0B2702C3"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\netstandard.dll",
+        "Name":  "netstandard.dll",
+        "Length":  100648,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.4480766Z",
+        "SHA256":  "CCA9E59D7D19A683C67CCEC6874D977F882778092FD5D163D0089B6DEFABF668"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Newtonsoft.Json.dll",
+        "Name":  "Newtonsoft.Json.dll",
+        "Length":  1854784,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.6321990Z",
+        "SHA256":  "38E4748F5158239A91778057DF6DE4014139091C08A397FF14AD69EA39410747"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\NPUDetect.dll",
+        "Name":  "NPUDetect.dll",
+        "Length":  287512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:31.7287427Z",
+        "SHA256":  "3A07028D690C9A4B537CB1918F913E59E02F45621A124B6E595708DA40B79F4F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\onnxruntime.dll",
+        "Name":  "onnxruntime.dll",
+        "Length":  21659280,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:33.2647540Z",
+        "SHA256":  "3CFFEFF2D7C25B247A814212BAAB70EB1F37D727335D4C813ED73785DF80A794"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\PerceptiveStreaming.dll",
+        "Name":  "PerceptiveStreaming.dll",
+        "Length":  1759024,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:33.4108713Z",
+        "SHA256":  "E174999ABBE3CD062BBBC873B3AAD0D3F4797330E02C76D51897D0C4529D0D97"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\PushNotificationsLongRunningTask.ProxyStub.dll",
+        "Name":  "PushNotificationsLongRunningTask.ProxyStub.dll",
+        "Length":  33080,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:33.7669000Z",
+        "SHA256":  "612AC217D28A2931C1033FAA058404AC0F6220B80698CE58D8AC219010F2ACC6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\RestartAgent.exe",
+        "Name":  "RestartAgent.exe",
+        "Length":  77624,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:33.8178506Z",
+        "SHA256":  "C0D146FA48DBB765DF0829AB9578FA81D3C3D9E694C5F0872172C0718E489A4B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Sentry.dll",
+        "Name":  "Sentry.dll",
+        "Length":  2047296,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.0853397Z",
+        "SHA256":  "3F717AC6E27E01AECEAC11853B5891135917D77319C2B3FE561576988B1AF5D3"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\SessionHandleIPCProxyStub.dll",
+        "Name":  "SessionHandleIPCProxyStub.dll",
+        "Length":  34080,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.0994583Z",
+        "SHA256":  "EF64DCCF3C3AA180F5040A9617F8E8AFAFA9125228411FA85BFF0D9DC7C3A3F9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\SharpGen.Runtime.COM.dll",
+        "Name":  "SharpGen.Runtime.COM.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1475017Z",
+        "SHA256":  "834D5680AA7003A8468D9429E8F43E5C8D4EDE3D287501586230E75E72DD2CF6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\SharpGen.Runtime.dll",
+        "Name":  "SharpGen.Runtime.dll",
+        "Length":  208192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.1939692Z",
+        "SHA256":  "2EECD2ED6B1DB438196F2311EC695A24EB0939D35ABB10CEF410EE58FFD4028A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.AppContext.dll",
+        "Name":  "System.AppContext.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.7965315Z",
+        "SHA256":  "D50BDD930E97FD1490EB3442CAE0A9128DFC579F1A3215DABD5E08C1E100DDBB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Buffers.dll",
+        "Name":  "System.Buffers.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.8289982Z",
+        "SHA256":  "9AB404CC916E19E5CB8F45A7FD0C533B180AC389D554BF9195ABBF0E0C339AC6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Collections.Concurrent.dll",
+        "Name":  "System.Collections.Concurrent.dll",
+        "Length":  292648,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.8610409Z",
+        "SHA256":  "B18994D645E046038DA55FA2CAC2DAE7D61CDAB2387075C885D6F00AF42A7078"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Collections.dll",
+        "Name":  "System.Collections.dll",
+        "Length":  333608,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:34.9489168Z",
+        "SHA256":  "D5AA3C6C8710641744257DF5B9E4D4AB9C82163FA890944665FFEBF3DA4A5C2C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Collections.Immutable.dll",
+        "Name":  "System.Collections.Immutable.dll",
+        "Length":  902952,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.0970253Z",
+        "SHA256":  "CC40C2806C71F7806A9DDE1EF681EFDD8ABCAD5EFDCEB95E9EF6D7AB9180D008"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Collections.NonGeneric.dll",
+        "Name":  "System.Collections.NonGeneric.dll",
+        "Length":  108328,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.2450997Z",
+        "SHA256":  "A2708492CA8389857B472076753D7DEF4814CAD10CAB4E3756622431B2C681D0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Collections.Specialized.dll",
+        "Name":  "System.Collections.Specialized.dll",
+        "Length":  104232,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.3210739Z",
+        "SHA256":  "B149877BAE5DEDC75B49BEF1EFF3EFC1192B5DD682BC6DC73A0259ADFD994813"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ComponentModel.Annotations.dll",
+        "Name":  "System.ComponentModel.Annotations.dll",
+        "Length":  198440,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.4020062Z",
+        "SHA256":  "0B6E5BB0DB3638FE669C06FC5994D211E9ABFD843382E492E07AB2F1E8CD6B01"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ComponentModel.DataAnnotations.dll",
+        "Name":  "System.ComponentModel.DataAnnotations.dll",
+        "Length":  16680,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.4601116Z",
+        "SHA256":  "C47FBE146C01B3FA90A6F6F11322D9B42CCBF2E2F4475BE4DC20AD3784AD83C0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ComponentModel.dll",
+        "Name":  "System.ComponentModel.dll",
+        "Length":  30504,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.4901465Z",
+        "SHA256":  "FAC591426AE5683A1A798401A298A07E94B926E6123DE5D9A91F1115250EC742"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ComponentModel.EventBasedAsync.dll",
+        "Name":  "System.ComponentModel.EventBasedAsync.dll",
+        "Length":  46888,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.5173960Z",
+        "SHA256":  "8B0221DED8B124CA1E56FD24E61BB0B5153B7D4CB2E155C7A26CA54D44746AD8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ComponentModel.Primitives.dll",
+        "Name":  "System.ComponentModel.Primitives.dll",
+        "Length":  79656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.5239152Z",
+        "SHA256":  "D0A73DA8D4D208C3F032A484332C3728C8F06ADDC638ED72191BBCD3E56DE6D0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ComponentModel.TypeConverter.dll",
+        "Name":  "System.ComponentModel.TypeConverter.dll",
+        "Length":  771880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.6453527Z",
+        "SHA256":  "91B2BBFB09331AB8DC1BCCE9EF2ED6B96E2FB4D16BCD36BFC42B6AAE18168C44"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Configuration.dll",
+        "Name":  "System.Configuration.dll",
+        "Length":  19240,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.6619440Z",
+        "SHA256":  "438AEAB74DECC882A1374EEEE6661C906147B4531AC78F993F35E7F591417992"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Console.dll",
+        "Name":  "System.Console.dll",
+        "Length":  173864,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.6990067Z",
+        "SHA256":  "0E2692036C32183B3B9321C1F5EA8400F5EEA579B21C63B93FDEA7475D48961D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Core.dll",
+        "Name":  "System.Core.dll",
+        "Length":  23336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:35.7271775Z",
+        "SHA256":  "CB4D31B591E2FEC8B3F1D4DBFFE6DCC9B8116F0DEB8F707AABC59403F9E18B35"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Data.Common.dll",
+        "Name":  "System.Data.Common.dll",
+        "Length":  2848552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.1786964Z",
+        "SHA256":  "3E40B648FE1D1904680DEB95C53C52963F44043FC76FB382129E812FB83712F5"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Data.DataSetExtensions.dll",
+        "Name":  "System.Data.DataSetExtensions.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.1850152Z",
+        "SHA256":  "0229918BC6084491B77CB38E54D0496C89DE0DCC2B6728AD9B5EC8C4CF33EABB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Data.dll",
+        "Name":  "System.Data.dll",
+        "Length":  24872,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.1969317Z",
+        "SHA256":  "42D3A79CF321729030EB00118A50F97E0E25B50DA30BA61033EE412C1156201B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.Contracts.dll",
+        "Name":  "System.Diagnostics.Contracts.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.2053428Z",
+        "SHA256":  "660203516622F6CEB4795F514EDDA54BBD9C2A02075C622241AB957001A64C3A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.Debug.dll",
+        "Name":  "System.Diagnostics.Debug.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.2180419Z",
+        "SHA256":  "0B2DEBE1DE86009F1BB55116EC819819108735B13AB7E678EAAD35BD0FBD689F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.DiagnosticSource.dll",
+        "Name":  "System.Diagnostics.DiagnosticSource.dll",
+        "Length":  452392,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.2641696Z",
+        "SHA256":  "DF87E69F4C6E6450C201348C8DA6C080DE38966EB3DD3807D5FE9B2CDEA477CD"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.FileVersionInfo.dll",
+        "Name":  "System.Diagnostics.FileVersionInfo.dll",
+        "Length":  46928,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.2810507Z",
+        "SHA256":  "8CC40E8A2169F0FF0197F83F41F58D44612721FF7A8E59EABFD8F804EE635BE9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.Process.dll",
+        "Name":  "System.Diagnostics.Process.dll",
+        "Length":  337704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.3204500Z",
+        "SHA256":  "3567DF1CCDBA84EC0D65D0DCA5059D45DDA13AEA797094CC4A3290AF6DC3BF7F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.StackTrace.dll",
+        "Name":  "System.Diagnostics.StackTrace.dll",
+        "Length":  46888,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.3327778Z",
+        "SHA256":  "5D63644CE6520A1FAE3C34F99206923E5F154BCB97FA6F7306B955FC6BDCE195"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.TextWriterTraceListener.dll",
+        "Name":  "System.Diagnostics.TextWriterTraceListener.dll",
+        "Length":  67368,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.3461450Z",
+        "SHA256":  "658AEE135ECE437661DD9CF978AEAFBFA466F47FA2EB28511C072EB94AA695AA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.Tools.dll",
+        "Name":  "System.Diagnostics.Tools.dll",
+        "Length":  15184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.3525085Z",
+        "SHA256":  "A70E42C610DAC19BDAB95A7CE4831B16912767452AACC8CEA9A64FB012262A9F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.TraceSource.dll",
+        "Name":  "System.Diagnostics.TraceSource.dll",
+        "Length":  145232,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.3711702Z",
+        "SHA256":  "B9BA6A33F2215199521F2FDA2E7A3AA80B38F02CFA8337791F4069C56DB3CD95"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Diagnostics.Tracing.dll",
+        "Name":  "System.Diagnostics.Tracing.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.3809117Z",
+        "SHA256":  "360061CF065337DCCFC5913CE2953A66EB3CD9661BDCD657491FE24891E1207A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.dll",
+        "Name":  "System.dll",
+        "Length":  50512,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4089685Z",
+        "SHA256":  "3F93097BB4FD93D238860B6B214CC17C6B3A703A1F879E3B7B9021805047C308"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Drawing.dll",
+        "Name":  "System.Drawing.dll",
+        "Length":  20264,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4280214Z",
+        "SHA256":  "A0BDC87FC132558176553FE205FF78472910E18C24010A1C743FD004376304D9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Drawing.Primitives.dll",
+        "Name":  "System.Drawing.Primitives.dll",
+        "Length":  137000,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4342463Z",
+        "SHA256":  "2D50E3C449411DD4739CF1E7639F7564FF64C3C78E0532D6BEFAC16E957BE4A0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Dynamic.Runtime.dll",
+        "Name":  "System.Dynamic.Runtime.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4493361Z",
+        "SHA256":  "790DBA18BAFE27CF03A177648E5D6F26A8F85FC07CFF9E490878AB1EB9173242"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Formats.Asn1.dll",
+        "Name":  "System.Formats.Asn1.dll",
+        "Length":  239440,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4655670Z",
+        "SHA256":  "95D73A8D17A5561C219C94E3FCEA9941FFF60DF4364AC4850C46F7283F7C8523"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Formats.Tar.dll",
+        "Name":  "System.Formats.Tar.dll",
+        "Length":  292688,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4866807Z",
+        "SHA256":  "0D3175CBFC04B2CAD51229702E1B042E9F217DFC2B4C174DA1BF5241774FC147"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Globalization.Calendars.dll",
+        "Name":  "System.Globalization.Calendars.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.4977516Z",
+        "SHA256":  "380F6D49BDFACA41810458DF6D9B179610514EDA34F7091B51EA9FDFBD0FAF63"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Globalization.dll",
+        "Name":  "System.Globalization.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.5258655Z",
+        "SHA256":  "8C58873D507914CEF0452428C02E8D6E6C732AF2FC960B282442B1FFBF5CB1D9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Globalization.Extensions.dll",
+        "Name":  "System.Globalization.Extensions.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.5421295Z",
+        "SHA256":  "0A9DAC63AFA53B8BA2762CC1B92ABDF15633D5040F284BF4014E5D1424619B45"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Compression.Brotli.dll",
+        "Name":  "System.IO.Compression.Brotli.dll",
+        "Length":  87848,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.6126268Z",
+        "SHA256":  "E35C195A3166AF88FB1F3860F5434AC968DC366CFF6B1F11FDF94D48C6557734"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Compression.dll",
+        "Name":  "System.IO.Compression.dll",
+        "Length":  268112,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.6386222Z",
+        "SHA256":  "89F8EEBAE595C9679A419BF0DB69787B41346754AC69288FCAA18F1D0BFE5440"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Compression.FileSystem.dll",
+        "Name":  "System.IO.Compression.FileSystem.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.6502164Z",
+        "SHA256":  "BCB1F3BB89C31DC4628ED2DDDE511F7698C076106BBC607F1ED2CD19CCFCE061"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Compression.Native.dll",
+        "Name":  "System.IO.Compression.Native.dll",
+        "Length":  925480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.7503434Z",
+        "SHA256":  "9050B57FF0A21165E2B5EFA67565A50DD4E13346284206056D3E04686699B21D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Compression.ZipFile.dll",
+        "Name":  "System.IO.Compression.ZipFile.dll",
+        "Length":  55080,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.7778842Z",
+        "SHA256":  "4FBB910FBFE8D2924447F0A9882B25B5200A2C7925575D2A3E76D14F64D7378C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.dll",
+        "Name":  "System.IO.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.7951754Z",
+        "SHA256":  "55E440F05366422185309B3DDBA97959D4FFDECE4744EE9E41E744E11EBD7E34"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.FileSystem.AccessControl.dll",
+        "Name":  "System.IO.FileSystem.AccessControl.dll",
+        "Length":  104232,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.8519122Z",
+        "SHA256":  "EF517623B56A156969A6A0DFD9BAA60FE4B63970CCFC18DA63911022CA380AE1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.FileSystem.dll",
+        "Name":  "System.IO.FileSystem.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.8559246Z",
+        "SHA256":  "3EDD1FF78D53A8DDB458AF311B0D33BCB52749E0005655B9EB11D58EADF8CE69"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.FileSystem.DriveInfo.dll",
+        "Name":  "System.IO.FileSystem.DriveInfo.dll",
+        "Length":  55120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.8793014Z",
+        "SHA256":  "A330A7EEBE7FA14AC82C6F69712C21FE317F1A265B78A3956202F9B5A75B445F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.FileSystem.Primitives.dll",
+        "Name":  "System.IO.FileSystem.Primitives.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.8893337Z",
+        "SHA256":  "7DAB8C347E6A1E14409FB7153F8F24FDDD59D1E3ED5916768A83B1E1A7E11B81"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.FileSystem.Watcher.dll",
+        "Name":  "System.IO.FileSystem.Watcher.dll",
+        "Length":  87848,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.9347190Z",
+        "SHA256":  "8959D03B57EA4D60585C4D990743F7960C42C71469E3C7CA6B157A6CE282E171"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.IsolatedStorage.dll",
+        "Name":  "System.IO.IsolatedStorage.dll",
+        "Length":  91984,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.9528779Z",
+        "SHA256":  "7B670612D0966C1964C8B1DE6D521BF0E604EC702119E4FC7BF4B5D4E13F8DCF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.MemoryMappedFiles.dll",
+        "Name":  "System.IO.MemoryMappedFiles.dll",
+        "Length":  83752,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:36.9942318Z",
+        "SHA256":  "5AB3CC3F550AF5C8149E1E92CA792D90274A0806562831C729D3DB1AB4405E49"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Pipelines.dll",
+        "Name":  "System.IO.Pipelines.dll",
+        "Length":  194344,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.0220147Z",
+        "SHA256":  "1682F692F080DB76DDC40F4F7323C6925184C5A310E199AD2DDB9D97451132E7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Pipes.AccessControl.dll",
+        "Name":  "System.IO.Pipes.AccessControl.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.0459911Z",
+        "SHA256":  "21ABC5E657666A1BA234E050CE3CB4430BDAF32CD0482D0F4B0BD6A2963959D0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.Pipes.dll",
+        "Name":  "System.IO.Pipes.dll",
+        "Length":  169808,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.0632300Z",
+        "SHA256":  "E21ED53A50FFD1B8179C89A6D587F023708FDB7DE543E4E058D253086DE51AC7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.IO.UnmanagedMemoryStream.dll",
+        "Name":  "System.IO.UnmanagedMemoryStream.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.0691982Z",
+        "SHA256":  "AD1349AED02C56FFA7734C0A1676810FA034FE80FB5E54F91B2FCBA9EEB3A88B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Linq.dll",
+        "Name":  "System.Linq.dll",
+        "Length":  657192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.1361846Z",
+        "SHA256":  "7098726338EE64B986798B9FE2DE67034D68EF60050086FF0F7DFFF60E823A2E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Linq.Expressions.dll",
+        "Name":  "System.Linq.Expressions.dll",
+        "Length":  3667792,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.4676424Z",
+        "SHA256":  "D66BC20A52A97862D21B5EEC77E57B5235AD9DD4A0E2A28FCA82C0FCF1498C37"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Linq.Parallel.dll",
+        "Name":  "System.Linq.Parallel.dll",
+        "Length":  800552,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.5330357Z",
+        "SHA256":  "DF50E8680ABCF95935DAF3F831CAEBA4C6D099391E35F8EB64B2431028055648"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Linq.Queryable.dll",
+        "Name":  "System.Linq.Queryable.dll",
+        "Length":  177960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.5579769Z",
+        "SHA256":  "E7BA9718331CC2AD94C2A74180F19DEAFA1090BBC8F90A4E873D2542EBC2A469"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Memory.dll",
+        "Name":  "System.Memory.dll",
+        "Length":  161576,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.5944889Z",
+        "SHA256":  "FD1BFF7B71B2E007E325ABEDC7219C8AA756A8B99E9256FE023F74A9EB7086A2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.dll",
+        "Name":  "System.Net.dll",
+        "Length":  17192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.6062682Z",
+        "SHA256":  "8D472FE19EFB531479B6CC8D44706E0626046F14ACA4765380BF1EAFF19B1E38"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Http.dll",
+        "Name":  "System.Net.Http.dll",
+        "Length":  1787728,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.7188949Z",
+        "SHA256":  "520FC7D379861AF3F7FCFA950FAC3E8D91E2F5254B4BBEAD417D6167F591D047"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Http.Json.dll",
+        "Name":  "System.Net.Http.Json.dll",
+        "Length":  132944,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.7281410Z",
+        "SHA256":  "8132192EF45E8E41F89DB434CDC6165C12A754F45ADD872040C438CAE774E2D4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.HttpListener.dll",
+        "Name":  "System.Net.HttpListener.dll",
+        "Length":  550736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.7692270Z",
+        "SHA256":  "D86BF1D82949D1A926485B9EDAF3C139B7841872F301C274236E78A6D47E770D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Mail.dll",
+        "Name":  "System.Net.Mail.dll",
+        "Length":  431912,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.8063512Z",
+        "SHA256":  "D22F8E44B52FF19AA59B5D7B756AAF696F64668190B1B093B131DE7A816FC4B1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.NameResolution.dll",
+        "Name":  "System.Net.NameResolution.dll",
+        "Length":  124712,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.8211627Z",
+        "SHA256":  "D5A5CDE9C6F8B0FF0ADE0EB95155B5258F494C633154F520AC5484DD417FBF02"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.NetworkInformation.dll",
+        "Name":  "System.Net.NetworkInformation.dll",
+        "Length":  157520,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.8317967Z",
+        "SHA256":  "82749518010C9BFDFC68697D90E69AD9B2CD00C57CE079ACC44B1F19EEB57929"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Ping.dll",
+        "Name":  "System.Net.Ping.dll",
+        "Length":  96040,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.8426190Z",
+        "SHA256":  "B70E4A0B2493E0C639BF234A6BF17123B4D2185A6AC7CF7E6776496921AC6CE4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Primitives.dll",
+        "Name":  "System.Net.Primitives.dll",
+        "Length":  227112,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.8609057Z",
+        "SHA256":  "B32C0CD15399EA353065EA28B9FEE05411C060F674889011B164F4E8E759A282"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Quic.dll",
+        "Name":  "System.Net.Quic.dll",
+        "Length":  370472,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.8970332Z",
+        "SHA256":  "3FF2F21BA832A6B99DC1584DAA18C8C4CCC90030CDC7E627C8C54DDCA2AA3C99"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Requests.dll",
+        "Name":  "System.Net.Requests.dll",
+        "Length":  382760,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.9347104Z",
+        "SHA256":  "96EE9ED14E72BB394A0D7F11684112E2F0243BA73FD8D3714FEB48812E6932F4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Security.dll",
+        "Name":  "System.Net.Security.dll",
+        "Length":  677672,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.9911422Z",
+        "SHA256":  "F27F5E878E7F260DFFE41FB8000BA87924A85915FCED7291F2480B4902873D6E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.ServicePoint.dll",
+        "Name":  "System.Net.ServicePoint.dll",
+        "Length":  15184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:37.9982104Z",
+        "SHA256":  "39EDF0BD32EF4BCD664147541B95C59CDE3D6464C8DDCCC8BFF7F1AA9816DB53"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.Sockets.dll",
+        "Name":  "System.Net.Sockets.dll",
+        "Length":  546640,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.0445232Z",
+        "SHA256":  "C90D93733CE4DF24679CA0ABD6407F7C771F3FD8B51E7BB9BFFAF13C39FBA1CD"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.WebClient.dll",
+        "Name":  "System.Net.WebClient.dll",
+        "Length":  169768,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.0703797Z",
+        "SHA256":  "C924DAA6A7E808305670A957BBD2B98D1D31E4AB357624C17F161397B0CEA6A1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.WebHeaderCollection.dll",
+        "Name":  "System.Net.WebHeaderCollection.dll",
+        "Length":  63272,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.0902212Z",
+        "SHA256":  "0ABBAA841A2D08418AD7DB6BCD153E1C2F71548A91272070B7A945D5BF4A8E02"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.WebProxy.dll",
+        "Name":  "System.Net.WebProxy.dll",
+        "Length":  42832,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.1048070Z",
+        "SHA256":  "2C774B7515620AF264F10B4DDA5C4D541E5577DF448D83C4FE738788A9C06BE8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.WebSockets.Client.dll",
+        "Name":  "System.Net.WebSockets.Client.dll",
+        "Length":  104232,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.1369230Z",
+        "SHA256":  "F55BA839313DDAEA398AEDE98096984F69D6E1A4738BA7502C7ABFCA7CFC45FA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Net.WebSockets.dll",
+        "Name":  "System.Net.WebSockets.dll",
+        "Length":  239400,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.1741064Z",
+        "SHA256":  "95E31C5CCF4570C88F910239B7CA17FF14166A538214B1046D9D71EF90CFB8E9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Numerics.dll",
+        "Name":  "System.Numerics.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.1873214Z",
+        "SHA256":  "FAE80192CA963182D394DF5234E9785AF063C821A4F85EC2AF28B0E579101F96"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Numerics.Tensors.dll",
+        "Name":  "System.Numerics.Tensors.dll",
+        "Length":  990528,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.2809342Z",
+        "SHA256":  "A506AD65D4A2844DA70AE8754A33CB2551BC0939207D0597A5080E8C7478F83A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Numerics.Vectors.dll",
+        "Name":  "System.Numerics.Vectors.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.3121424Z",
+        "SHA256":  "95630A3DDBED7B659980D4411156B81BE5950A995EF0E4A02FD586E4A71F40AC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ObjectModel.dll",
+        "Name":  "System.ObjectModel.dll",
+        "Length":  83752,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:38.3310801Z",
+        "SHA256":  "C8BD030D9EC7512A79C9F3ADB177E261793DAD55D937CE52622BD784848419E3"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Private.CoreLib.dll",
+        "Name":  "System.Private.CoreLib.dll",
+        "Length":  15263528,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.2043037Z",
+        "SHA256":  "7B12C94D393ECB9978A40A54B676FB0EEEAC0D91C6B46171196958F354E54E3E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Private.DataContractSerialization.dll",
+        "Name":  "System.Private.DataContractSerialization.dll",
+        "Length":  2070312,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.3039598Z",
+        "SHA256":  "41A25FDFC5625F2D8C37A5676786D364DDFA2B4A61686DDAA6B42DECE2048FEE"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Private.Uri.dll",
+        "Name":  "System.Private.Uri.dll",
+        "Length":  259880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.3253312Z",
+        "SHA256":  "7D9C075CC06B2455A375B67D9FA268BE7A9D9EC36871531D8305524BA5BAF15D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Private.Xml.dll",
+        "Name":  "System.Private.Xml.dll",
+        "Length":  7927592,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.5817371Z",
+        "SHA256":  "2AC06C9544AA5942B70F765969EF9F9C9EEB42692B6F998C133DCCCD6728845D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Private.Xml.Linq.dll",
+        "Name":  "System.Private.Xml.Linq.dll",
+        "Length":  399144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.6131174Z",
+        "SHA256":  "4D490B777430BCC794848EF45E51C4FC86BF7A4CA2F233D435E05760F1308247"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.DispatchProxy.dll",
+        "Name":  "System.Reflection.DispatchProxy.dll",
+        "Length":  75600,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.6273524Z",
+        "SHA256":  "4216E1C2876E1FF5EAE6820D7A71352D7F7885290C58A3A39C9E46C6F426DAE7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.dll",
+        "Name":  "System.Reflection.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.6374952Z",
+        "SHA256":  "7CE982B901EF668342716F97787F415491A7862191886D6E58E8C68AF58F137A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.Emit.dll",
+        "Name":  "System.Reflection.Emit.dll",
+        "Length":  300840,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.6765269Z",
+        "SHA256":  "51A23CC1711C3707D6B5CA21E3C06F1C7B049A30FE2EE78D3DCC4A5E892AEA4D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.Emit.ILGeneration.dll",
+        "Name":  "System.Reflection.Emit.ILGeneration.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.6951045Z",
+        "SHA256":  "4085B7D489F876CD211EAEAF53C09530B31F0C5CC5B7FD3F47FD515AD3B8D6A3"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.Emit.Lightweight.dll",
+        "Name":  "System.Reflection.Emit.Lightweight.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.7042890Z",
+        "SHA256":  "2E6A1B702F7F9750FD5633971638BB06BF5430FC7AB6E446CB145C68F19C0437"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.Extensions.dll",
+        "Name":  "System.Reflection.Extensions.dll",
+        "Length":  15184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.7151353Z",
+        "SHA256":  "43233BDEFE35968851E56C09919E93A13E56477F63158B82D047DF5BD4C845FB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.Metadata.dll",
+        "Name":  "System.Reflection.Metadata.dll",
+        "Length":  1173288,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.8409487Z",
+        "SHA256":  "949A05B9F2B139BF0A55641F028049C6F91829F4114F00C8F34EFE9D2348B0D7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.Primitives.dll",
+        "Name":  "System.Reflection.Primitives.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.8449906Z",
+        "SHA256":  "236CC8F3ED8E5153E1FA4BF1CCF1A7300DCEA4EB78E4A62679E6B7F40F9D5E03"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Reflection.TypeExtensions.dll",
+        "Name":  "System.Reflection.TypeExtensions.dll",
+        "Length":  42832,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.8533117Z",
+        "SHA256":  "B2385EC1ACEC4DFD4DD0CFBED54D6B9C06F7BE5B177DA93B1E51BBCCABB65F70"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Resources.Reader.dll",
+        "Name":  "System.Resources.Reader.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.8691775Z",
+        "SHA256":  "0053B10F96FD02F473250E4ECC3CC8C46ADE15B24BD70489AE6E58F2A84E555C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Resources.ResourceManager.dll",
+        "Name":  "System.Resources.ResourceManager.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.8750845Z",
+        "SHA256":  "56FFD7AC08A3724E2487EADAFC34E55C765EF2913FAC8B5CB0139F400FCCE66D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Resources.Writer.dll",
+        "Name":  "System.Resources.Writer.dll",
+        "Length":  51024,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.8824935Z",
+        "SHA256":  "8E3CFE6E3FCE6C44CD1C4A6BE5B2ED8A4242BE752DCC1DE7F66C98BACCAC54C3"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.CompilerServices.Unsafe.dll",
+        "Name":  "System.Runtime.CompilerServices.Unsafe.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9068284Z",
+        "SHA256":  "3E1749CCAE8B92744173E42FAD857C72784956BA274A8C6BF6231D818169B40A"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.CompilerServices.VisualC.dll",
+        "Name":  "System.Runtime.CompilerServices.VisualC.dll",
+        "Length":  30544,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9258240Z",
+        "SHA256":  "287D65E4B71072767FD0545061CB2B732F8823DDBF67AFA133FE3A49C613AEFC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.dll",
+        "Name":  "System.Runtime.dll",
+        "Length":  44328,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9372347Z",
+        "SHA256":  "495D77D7F1D7E95AE36F9B48470E6FD87BC9F3C1661260C6DBA1145B82E5DF8B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Extensions.dll",
+        "Name":  "System.Runtime.Extensions.dll",
+        "Length":  17744,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9445700Z",
+        "SHA256":  "9E173AB7911A85A876923DC26101F626E0F630DB13A3744C305220D45DCE7973"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Handles.dll",
+        "Name":  "System.Runtime.Handles.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9645475Z",
+        "SHA256":  "8CB88847451E169EC9E1055F64B10C1002945E4BE68175C5A748ADAFEBD648EA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.InteropServices.dll",
+        "Name":  "System.Runtime.InteropServices.dll",
+        "Length":  112424,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9865463Z",
+        "SHA256":  "87E38BDFD5BA160755A573CAC1DF928A9E7FE2C952353096F7524F04690A4D17"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.InteropServices.JavaScript.dll",
+        "Name":  "System.Runtime.InteropServices.JavaScript.dll",
+        "Length":  51024,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:39.9981082Z",
+        "SHA256":  "81727C4A9E1022102EF4FA0E3B6E60218EC8D3210674D83AE58F713CE7C86C5B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.InteropServices.RuntimeInformation.dll",
+        "Name":  "System.Runtime.InteropServices.RuntimeInformation.dll",
+        "Length":  15184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.0234227Z",
+        "SHA256":  "06F14DAF3A1AA815B54D38B69A80C7FA56D0E7D3B45A1303464ACABC0E7CF783"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Intrinsics.dll",
+        "Name":  "System.Runtime.Intrinsics.dll",
+        "Length":  17192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.0321399Z",
+        "SHA256":  "081BACF884F69D830D2D265BE3382900FB541073FB6D43D0AE9D6474ABBD9BAC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Loader.dll",
+        "Name":  "System.Runtime.Loader.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.0467328Z",
+        "SHA256":  "6CCB7CD43441ACF13851AFAB241791DC254CC6F4C1BF5FFF1CAC38EBBB3C94E0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Numerics.dll",
+        "Name":  "System.Runtime.Numerics.dll",
+        "Length":  354088,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.0958969Z",
+        "SHA256":  "1A072C7CB21CEEA6204EC660D0A655F28DCB0523C8C7DA3D674C3640EC01CE73"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Serialization.dll",
+        "Name":  "System.Runtime.Serialization.dll",
+        "Length":  16680,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.0979891Z",
+        "SHA256":  "4AB04A1DFBE4FD4510B2516AB23451DC5A3BF1682E2F947C9C57321A1AA1A266"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Serialization.Formatters.dll",
+        "Name":  "System.Runtime.Serialization.Formatters.dll",
+        "Length":  124752,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.1292568Z",
+        "SHA256":  "C9C5EDD9C4CC2920F49602B6EB93D0CC7D0084BAFD81803E93BAA3C4F7AB08A2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Serialization.Json.dll",
+        "Name":  "System.Runtime.Serialization.Json.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.1483682Z",
+        "SHA256":  "0194C8982A50502F09A8C976F4A83E6126ADF16A08E0717BE1D6E7B943BC47AB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Serialization.Primitives.dll",
+        "Name":  "System.Runtime.Serialization.Primitives.dll",
+        "Length":  38736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.1679297Z",
+        "SHA256":  "8CAB4F4AB478498028BC78BF0A2C63AB63DB05D3EE90B909F92B9C37F6ABE0E4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Runtime.Serialization.Xml.dll",
+        "Name":  "System.Runtime.Serialization.Xml.dll",
+        "Length":  16680,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.1932731Z",
+        "SHA256":  "250C26D54DBD0B8B1484163D13382A5075CE04D3E17AA20E9DE90DE344DCD0BF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.AccessControl.dll",
+        "Name":  "System.Security.AccessControl.dll",
+        "Length":  231208,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.2240834Z",
+        "SHA256":  "7ACB0E0DD3F135D61F364EBDC417A004204CFD5C0DE4EE02C1E15266CBB19F79"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Claims.dll",
+        "Name":  "System.Security.Claims.dll",
+        "Length":  100136,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.2472969Z",
+        "SHA256":  "10DA525A2C3459D51B61246B63BD4D259331A206ABFDB7789C56493CE35A252D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.Algorithms.dll",
+        "Name":  "System.Security.Cryptography.Algorithms.dll",
+        "Length":  17192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.2639900Z",
+        "SHA256":  "3782262E6F0FD39D2D60EC4319E9275EB967767819E46347068491F2B97925C4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.Cng.dll",
+        "Name":  "System.Security.Cryptography.Cng.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.2730993Z",
+        "SHA256":  "F8795319187A2742E66E024B035A4C99FA03159BFAEF844202183E15E550ACD9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.Csp.dll",
+        "Name":  "System.Security.Cryptography.Csp.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.2939609Z",
+        "SHA256":  "28FBE2C548D486C60AB8FC9D61381DCB9DF13B221D8CE68B238DA9B5E35EF0C9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.dll",
+        "Name":  "System.Security.Cryptography.dll",
+        "Length":  2127656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4120127Z",
+        "SHA256":  "D428CCB2153FE1D871E2BE4759A55DFB5C7C7E9C8AAE880AEF73BF531C6CD62E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.Encoding.dll",
+        "Name":  "System.Security.Cryptography.Encoding.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4341883Z",
+        "SHA256":  "9C2945B63C3B9019E48FC45BE0CE18A28D20B8707FA3B2F7148EC408AA484974"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.OpenSsl.dll",
+        "Name":  "System.Security.Cryptography.OpenSsl.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4549066Z",
+        "SHA256":  "54A4BB0B723D9E7937D8E1E25D23D004111FD5CC23DAB78FBEABDE9D1C18BAFB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.Primitives.dll",
+        "Name":  "System.Security.Cryptography.Primitives.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4690406Z",
+        "SHA256":  "1463644671C2280CA0EAB583FD1F6285F0668061F221ED6743DDE6F8B42A6BB3"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.ProtectedData.dll",
+        "Name":  "System.Security.Cryptography.ProtectedData.dll",
+        "Length":  60736,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4888415Z",
+        "SHA256":  "6228273D96AC1B27DE8ED72473C42E920E650527D91E40F9EB9F122F4EBB98BB"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Cryptography.X509Certificates.dll",
+        "Name":  "System.Security.Cryptography.X509Certificates.dll",
+        "Length":  16680,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.4979535Z",
+        "SHA256":  "62EC1363D0E51C1F979F9FACB201F07C111A3052ACE7757D8E6AC9DB4446DA66"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.dll",
+        "Name":  "System.Security.dll",
+        "Length":  18256,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.5206815Z",
+        "SHA256":  "E7B0A7C50BB3B048A908706BF87B28FBC2F5DE0F3BC36896AAEA2000E052DA92"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Principal.dll",
+        "Name":  "System.Security.Principal.dll",
+        "Length":  15184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.5326141Z",
+        "SHA256":  "3DCED80CD57ED199D6EEA415BBE5FF3B4A8954B107B052AC4F133A8151F4D7C1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.Principal.Windows.dll",
+        "Name":  "System.Security.Principal.Windows.dll",
+        "Length":  186192,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.5609980Z",
+        "SHA256":  "7BED083CBE4CCD44085C6E2ABF44BD67DD8438DEC089EB8CA188208AFBB675FC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Security.SecureString.dll",
+        "Name":  "System.Security.SecureString.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.5902290Z",
+        "SHA256":  "C07780590F5D0E97F55AF3C9C6723BE33BF295BA9AD5F3394016AE072E775AF5"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ServiceModel.Web.dll",
+        "Name":  "System.ServiceModel.Web.dll",
+        "Length":  16720,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.6038479Z",
+        "SHA256":  "B3700161A942803D593A3FA3581EE32F816AF98AB49889627BF31C38BA374C42"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ServiceProcess.dll",
+        "Name":  "System.ServiceProcess.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.6204940Z",
+        "SHA256":  "BE4C7DA9A646F66DF5456E74EBEC4DCD929C6BEA9ED9DC4F5EAE57F99E62B47C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Text.Encoding.CodePages.dll",
+        "Name":  "System.Text.Encoding.CodePages.dll",
+        "Length":  861992,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.6791168Z",
+        "SHA256":  "2B0C02BA403D33E4363E7CEA1244DDFAEB4C6157A5BBC5C6677FA6C3798325C8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Text.Encoding.dll",
+        "Name":  "System.Text.Encoding.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.6850752Z",
+        "SHA256":  "420B225A7231316C31C37D21AF2D8DB1AF79822D03F76E7093165F9BE3A538AF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Text.Encoding.Extensions.dll",
+        "Name":  "System.Text.Encoding.Extensions.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.7012503Z",
+        "SHA256":  "8E26824D3B0256A290841DBC9A28DB6EDB63BF99C5EC061A8CD4EF50F330F6A4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Text.Encodings.Web.dll",
+        "Name":  "System.Text.Encodings.Web.dll",
+        "Length":  132904,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.7219071Z",
+        "SHA256":  "277B961919340D7EB53E2229F3E2E859CDFE4F99F88302CBA100DFE665E23787"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Text.Json.dll",
+        "Name":  "System.Text.Json.dll",
+        "Length":  1795880,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.8175877Z",
+        "SHA256":  "B3749330589DB535E39BB243589BBA3C7526D03C71ADEC67CF3D1C62575363A0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Text.RegularExpressions.dll",
+        "Name":  "System.Text.RegularExpressions.dll",
+        "Length":  1021776,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.8932609Z",
+        "SHA256":  "E375E17880A5CDAE068593070BA97BDEE380D83B506353995C0DE02EC1D94167"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Channels.dll",
+        "Name":  "System.Threading.Channels.dll",
+        "Length":  141096,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9124907Z",
+        "SHA256":  "68EEC62B32B79F52A86453CF11D5C05A46E22D27154A5E1B61F65A0C8940A8C0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.dll",
+        "Name":  "System.Threading.dll",
+        "Length":  83792,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9175124Z",
+        "SHA256":  "3895E93A2413A7296D91DC8BDF622E68907A3CCB5212BB67E2965412A11428DF"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Overlapped.dll",
+        "Name":  "System.Threading.Overlapped.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9195068Z",
+        "SHA256":  "2337359D72F33BBC12CEE13FAE5B1EAC9D07124DD0A490BC2C23418E8DA95092"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Tasks.Dataflow.dll",
+        "Name":  "System.Threading.Tasks.Dataflow.dll",
+        "Length":  493352,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9290590Z",
+        "SHA256":  "59184CA4616339F0D6A8D7410C2145B49B6D4D45C02F06EC08CB20585BEDFE68"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Tasks.dll",
+        "Name":  "System.Threading.Tasks.dll",
+        "Length":  16680,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9321960Z",
+        "SHA256":  "097DD900D74B2D3E41A7ADFF21900E3D3FE1463DF28D0169C0190DFADD7427C5"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Tasks.Extensions.dll",
+        "Name":  "System.Threading.Tasks.Extensions.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9341942Z",
+        "SHA256":  "3B7F787957D31C86AC4307854458945C57F39C79B4ABDE1630588875A20893E1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Tasks.Parallel.dll",
+        "Name":  "System.Threading.Tasks.Parallel.dll",
+        "Length":  132904,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9423106Z",
+        "SHA256":  "831FF96E35FEFBADCD49B38F5B3398A731ABD74529470559A5E15056B8BDC903"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Thread.dll",
+        "Name":  "System.Threading.Thread.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9443114Z",
+        "SHA256":  "A5EC301FD3CA7B22DA6AA710CFAF8645B2A0D97D11BE144AAD60D39E727D09B6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.ThreadPool.dll",
+        "Name":  "System.Threading.ThreadPool.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9473098Z",
+        "SHA256":  "662809DB359113D78C30CAF16359E141236538E9E9AE9AFFC85E30BC85FCEC0B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Threading.Timer.dll",
+        "Name":  "System.Threading.Timer.dll",
+        "Length":  15184,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9493218Z",
+        "SHA256":  "9A2039D139BD48FB04C6851086D51FDA79E06C53FE6F8CA37F0EB78FE039A2D0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Transactions.dll",
+        "Name":  "System.Transactions.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:40.9656862Z",
+        "SHA256":  "878E7D110E7EB00D808E8C6893C3D27893E52FADC01C243CDE4AA5FAFF5A591F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Transactions.Local.dll",
+        "Name":  "System.Transactions.Local.dll",
+        "Length":  653136,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.0039300Z",
+        "SHA256":  "EDC11F84F2D8D1771FB773B7EA7FB1DEA5EFF9F4C874A1B08ED8278D96CACCE8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.ValueTuple.dll",
+        "Name":  "System.ValueTuple.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.0120495Z",
+        "SHA256":  "AA54725E90C22EF3C3BD080BDDB2AEC0360D62668D7372466A364E86A0ED68A8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Web.dll",
+        "Name":  "System.Web.dll",
+        "Length":  15144,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.0320817Z",
+        "SHA256":  "999C478FB48F57EFF6FEBB4978BD6BA23DF0481824B78759B58A524C2BCFA9A6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Web.HttpUtility.dll",
+        "Name":  "System.Web.HttpUtility.dll",
+        "Length":  63272,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.0580799Z",
+        "SHA256":  "EF3E87D4BEE2374804AB267A6124CE47D53F6C23C4F90214D12B0B7251260C0F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Windows.dll",
+        "Name":  "System.Windows.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.0732917Z",
+        "SHA256":  "B8107E970340F4CED865CCEF62E6CA26BE9134CC139A4826B673F3B411F9F95D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.dll",
+        "Name":  "System.Xml.dll",
+        "Length":  23336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.0903842Z",
+        "SHA256":  "A9330F41E4FA81D7242E4543B59D11D733423E16C8EE91A6DB594B91008546F2"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.Linq.dll",
+        "Name":  "System.Xml.Linq.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.1031846Z",
+        "SHA256":  "8A9B7073FAE705A77423ED1DA24C543108D46DD186AF76A267037DA80B0373A8"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.ReaderWriter.dll",
+        "Name":  "System.Xml.ReaderWriter.dll",
+        "Length":  21800,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.1183129Z",
+        "SHA256":  "7956732CBC5EE58480975118C5EB3520A480322DA5C5EA4D0CCF9E42CC14E31B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.Serialization.dll",
+        "Name":  "System.Xml.Serialization.dll",
+        "Length":  16168,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.1330353Z",
+        "SHA256":  "C48E1F94215A6DE0DEE0BA7754450623D010CC3935F1E44DFAA43DD8F5A3569C"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.XDocument.dll",
+        "Name":  "System.Xml.XDocument.dll",
+        "Length":  15696,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.1512338Z",
+        "SHA256":  "727D362CE230A4FAA54A8C70DA4232BE0AA9ECBE8842BE5374E0FABA1F6E33C7"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.XmlDocument.dll",
+        "Name":  "System.Xml.XmlDocument.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.1819590Z",
+        "SHA256":  "13B6F3E1EE2C266A75FDB0E7D761DA3BD18AB7BE774CD106A4A2B790555588A0"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.XmlSerializer.dll",
+        "Name":  "System.Xml.XmlSerializer.dll",
+        "Length":  17744,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.1950676Z",
+        "SHA256":  "56CFEB0E6899530AF0B0617ABBD539E141C5FDA83E7F2CC3F0EDF93FC3765990"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.XPath.dll",
+        "Name":  "System.Xml.XPath.dll",
+        "Length":  15656,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.2140598Z",
+        "SHA256":  "602C8C9C9AE931DCF181E574029E99EA665F698BD11D2BF227B9A2BB1DDB49A6"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\System.Xml.XPath.XDocument.dll",
+        "Name":  "System.Xml.XPath.XDocument.dll",
+        "Length":  30504,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.2282088Z",
+        "SHA256":  "9971BB964CF4685407EE9E5333C8DB7947AE73BAD3439A4335E2A0C9BDE39849"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Velopack.dll",
+        "Name":  "Velopack.dll",
+        "Length":  712000,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.4220520Z",
+        "SHA256":  "2A3E763021364E307E5ECF95A7AB9C7BE65AC652D1FA49F44EADA91B057A9AB9"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.D3DCompiler.dll",
+        "Name":  "Vortice.D3DCompiler.dll",
+        "Length":  77120,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.4843206Z",
+        "SHA256":  "DA2A53402A4372C99ACB6A31C23037636D1514903473CFB4380CE0C13419C05F"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.Direct2D1.dll",
+        "Name":  "Vortice.Direct2D1.dll",
+        "Length":  1350976,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.5838655Z",
+        "SHA256":  "A432031B97834053015E89DF68A6D6A038D1AF15F077A0BAFA8C087603BB6EF4"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.Direct3D11.dll",
+        "Name":  "Vortice.Direct3D11.dll",
+        "Length":  732480,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6379468Z",
+        "SHA256":  "76E0FDA5F5CF09A9DAE58E9A9E06F3806CE2F9DADB99B6CA51A934FA34C9CCE1"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.DirectComposition.dll",
+        "Name":  "Vortice.DirectComposition.dll",
+        "Length":  195904,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.6572321Z",
+        "SHA256":  "5B53A6ADD1FD4CD5396C15B20CBBD40F53B44FE1BAAE1882DB0EC38655FE9762"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.DirectX.dll",
+        "Name":  "Vortice.DirectX.dll",
+        "Length":  470336,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7040190Z",
+        "SHA256":  "84B53A06EDAE2ADCFC41BF5FFD4AFA6AC5EFD99148C1AA8CCAE45A5D31471DCA"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.DXGI.dll",
+        "Name":  "Vortice.DXGI.dll",
+        "Length":  240960,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.7689663Z",
+        "SHA256":  "5DB4B93F757E0016FABEAEF147725C5FF66D8DBF523559C9109A0361A7223D58"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.Mathematics.dll",
+        "Name":  "Vortice.Mathematics.dll",
+        "Length":  331072,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8203871Z",
+        "SHA256":  "754824F6D371982B6F8F9E326D815DDBD7433B142CB7FD2EC5AD8B87BAC05A06"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\Vortice.XAudio2.dll",
+        "Name":  "Vortice.XAudio2.dll",
+        "Length":  150848,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8466949Z",
+        "SHA256":  "203C3749B93592E0F33683F32FF4948D0D704ED1DD71144DF758C7CCE1D9668E"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\WebView2Loader.dll",
+        "Name":  "WebView2Loader.dll",
+        "Length":  160368,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.8645092Z",
+        "SHA256":  "AE69309C5E356350EA28D6B71A900BC43EE7E3F7A457D80A1F82EFE6C419CC08"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\WindowsBase.dll",
+        "Name":  "WindowsBase.dll",
+        "Length":  16208,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:41.9015527Z",
+        "SHA256":  "1CF9AEC275512175B2789F0D409EF26331BE240F0A6615695FAE03E1E4BDE798"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\WinRT.Runtime.dll",
+        "Name":  "WinRT.Runtime.dll",
+        "Length":  1424704,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.0562527Z",
+        "SHA256":  "3000722F8BFA29312469F3CC8A104202507327125A587DD21FB391C989E2D29B"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\WinUIEdit.dll",
+        "Name":  "WinUIEdit.dll",
+        "Length":  3419448,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4141350Z",
+        "SHA256":  "C4E7F1EFF4E35D98E7ADE013DB3F300E98F37DF6A58FC478802C24F7B6449E9D"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\workloads.365.json",
+        "Name":  "workloads.365.json",
+        "Length":  10851,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4167146Z",
+        "SHA256":  "0C8D58B1FBE553942CA56BE06FD0C9F867FBBC013816E74DB29335EC4A16E778"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\workloads.j32.json",
+        "Name":  "workloads.j32.json",
+        "Length":  17297,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4273796Z",
+        "SHA256":  "850E01C9806F1E4A7ED6F5940FE2AA68980B4C85413303E6E0094650BCF870EC"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\workloads.json",
+        "Name":  "workloads.json",
+        "Length":  10638,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4361162Z",
+        "SHA256":  "520AC5806E5ECD9C1E7D0705D39A1D13308A90D3D69A6477887903A015C0C440"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\workloads.lnl.json",
+        "Name":  "workloads.lnl.json",
+        "Length":  17305,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4471528Z",
+        "SHA256":  "258DFDE1099DFBC56904DC913EFB87C1AB13556A743D0CE37B704590717D1654"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\workloads.qnn.json",
+        "Name":  "workloads.qnn.json",
+        "Length":  17297,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4567890Z",
+        "SHA256":  "F9E41F66344D93CEC67D49170B299B79404E554FEB51406FF67ACB1B31C91D41"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\workloads.stx.json",
+        "Name":  "workloads.stx.json",
+        "Length":  17305,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.4680621Z",
+        "SHA256":  "CA7DCAEA3BD653170A13FCA37B9257CDBBF67F5446A4CBCC00A16D9932BEDE04"
+    },
+    {
+        "Source":  "dist/kursor-desktop",
+        "RelPath":  "dist\\kursor-desktop\\wuceffectsi.dll",
+        "Name":  "wuceffectsi.dll",
+        "Length":  497456,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:42.5265120Z",
+        "SHA256":  "590403DCDC0AC4FC326D56460DBFC9600F1739594C5370A513E67CFCEE1C6FD6"
+    }
+]

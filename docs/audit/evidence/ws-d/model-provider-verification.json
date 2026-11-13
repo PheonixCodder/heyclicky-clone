@@ -1,0 +1,223 @@
+{
+  "openRouterCatalogStatus": 200,
+  "openRouterCatalogSize": 472,
+  "groqModelsStatus": 200,
+  "groqCatalogModels": [
+    "allam-2-7b",
+    "canopylabs/orpheus-arabic-saudi",
+    "canopylabs/orpheus-v1-english",
+    "meta-llama/llama-prompt-guard-2-22m",
+    "meta-llama/llama-prompt-guard-2-86m",
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "openai/gpt-oss-safeguard-20b",
+    "qwen/qwen3.8-27b",
+    "whisper-large-v3",
+    "whisper-large-v3-turbo"
+  ],
+  "hardcodedModelInventory": [
+    {
+      "modelId": "qwen/qwen3.8-27b",
+      "provider": "groq",
+      "locations": [
+        "src/backend/src/routes/brain.ts:433 (runGroqVisionEye)",
+        "src/backend/src/routes/brain.ts:590 (groq-qwen-vision)"
+      ],
+      "inGroqCatalog": true,
+      "inOpenRouterCatalog": true,
+      "liveGroqVisionProbe": {
+        "httpStatus": 200,
+        "ok": true,
+        "errorMessage": null,
+        "errorCode": null,
+        "returnedModel": "qwen/qwen3.8-27b"
+      },
+      "liveGroqTextProbe": {
+        "httpStatus": 200,
+        "ok": true,
+        "errorMessage": null,
+        "errorCode": null,
+        "returnedModel": "qwen/qwen3.8-27b"
+      }
+    },
+    {
+      "modelId": "openai/gpt-oss-120b",
+      "provider": "groq",
+      "locations": [
+        "src/backend/src/routes/brain.ts:582 (groq-120b)"
+      ],
+      "inGroqCatalog": true,
+      "inOpenRouterCatalog": true,
+      "liveGroqTextProbe": {
+        "httpStatus": 200,
+        "ok": true,
+        "errorMessage": null,
+        "errorCode": null,
+        "returnedModel": "openai/gpt-oss-120b"
+      }
+    },
+    {
+      "modelId": "baidu/ernie-5.5-flash-preview:free",
+      "provider": "openrouter",
+      "locations": [
+        "src/backend/src/routes/brain.ts:601 (openrouter fallback default)"
+      ],
+      "inOpenRouterCatalog": true,
+      "isUnreachableDeadCode": true,
+      "deadCodeReason": "requestedModel at brain.ts:962 defaults to 'anthropic/claude-sonnet-4.6' (always truthy), so 'requestedModel || \"baidu/ernie-5.5-flash-preview:free\"' at brain.ts:600-601 can never evaluate to 'baidu/ernie-5.5-flash-preview:free'!",
+      "liveOpenRouterProbe": {
+        "httpStatus": 200,
+        "ok": true,
+        "inPublicModelsCatalog": true,
+        "errorMessage": null,
+        "errorCode": null
+      }
+    },
+    {
+      "modelId": "anthropic/claude-sonnet-4.6",
+      "provider": "openrouter",
+      "locations": [
+        "src/backend/src/routes/brain.ts:962 (defaultModel)"
+      ],
+      "inOpenRouterCatalog": true,
+      "liveOpenRouterProbe": {
+        "httpStatus": 200,
+        "ok": true,
+        "inPublicModelsCatalog": true,
+        "errorMessage": null,
+        "errorCode": null
+      }
+    },
+    {
+      "modelId": "meta-llama/llama-4-maverick:free",
+      "provider": "openrouter",
+      "locations": [
+        "src/backend/src/routes/brain.ts:701 (openrouter :free retry list)"
+      ],
+      "inOpenRouterCatalog": false,
+      "liveOpenRouterProbe": {
+        "httpStatus": 404,
+        "ok": false,
+        "inPublicModelsCatalog": false,
+        "errorMessage": "This model is unavailable for free. The paid version is available now - use this slug instead: meta-llama/llama-4-maverick",
+        "errorCode": 404
+      }
+    },
+    {
+      "modelId": "qwen/qwen2.5-vl-72b-instruct:free",
+      "provider": "openrouter",
+      "locations": [
+        "src/backend/src/routes/brain.ts:702 (openrouter :free retry list)"
+      ],
+      "inOpenRouterCatalog": false,
+      "liveOpenRouterProbe": {
+        "httpStatus": 404,
+        "ok": false,
+        "inPublicModelsCatalog": false,
+        "errorMessage": "This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen2.5-vl-72b-instruct",
+        "errorCode": 404
+      }
+    },
+    {
+      "modelId": "mistralai/mistral-small-3.1-24b-instruct:free",
+      "provider": "openrouter",
+      "locations": [
+        "src/backend/src/routes/brain.ts:703 (openrouter :free retry list)"
+      ],
+      "inOpenRouterCatalog": false,
+      "liveOpenRouterProbe": {
+        "httpStatus": 404,
+        "ok": false,
+        "inPublicModelsCatalog": false,
+        "errorMessage": "This model is unavailable for free. The paid version is available now - use this slug instead: mistralai/mistral-small-3.1-24b-instruct",
+        "errorCode": 404
+      }
+    },
+    {
+      "modelId": "google/gemma-3-27b-it:free",
+      "provider": "openrouter",
+      "locations": [
+        "src/backend/src/routes/brain.ts:700 (openrouter :free retry list)"
+      ],
+      "inOpenRouterCatalog": false,
+      "liveOpenRouterProbe": {
+        "httpStatus": 404,
+        "ok": false,
+        "inPublicModelsCatalog": false,
+        "errorMessage": "This model is unavailable for free. The paid version is available now - use this slug instead: google/gemma-3-27b-it",
+        "errorCode": 404
+      }
+    }
+  ],
+  "readmeEnvMismatch": {
+    "documentedInReadme": "ONEBRAIN_MODEL",
+    "setDuringTest": "google/gemini-2.5-pro",
+    "actualModelUsedByBrainTs": "anthropic/claude-sonnet-4.6",
+    "ignoredOneBrainModelEnv": true
+  },
+  "fallbackChainWithScreenshotAndTools": {
+    "groqVisionEyeCalledTwiceBeforeOpenRouter": false,
+    "groq120bSkippedWhenVisionEyeFails": true,
+    "toolsOmittedOnGroqAndOpenRouter": true,
+    "toolsIncludedOnOpenAiAndGemini": true,
+    "calls": [
+      {
+        "step": 1,
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "model": "qwen/qwen3.8-27b",
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": false
+      },
+      {
+        "step": 2,
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "model": "qwen/qwen3.8-27b",
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": false
+      },
+      {
+        "step": 3,
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "model": "qwen/qwen3.8-27b",
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": false
+      },
+      {
+        "step": 4,
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "model": "anthropic/claude-sonnet-4.6",
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": false
+      },
+      {
+        "step": 5,
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "model": "openrouter/free",
+        "modelsArray": [
+          "google/gemma-3-27b-it:free",
+          "meta-llama/llama-4-maverick:free",
+          "qwen/qwen2.5-vl-72b-instruct:free",
+          "mistralai/mistral-small-3.1-24b-instruct:free",
+          "openrouter/free"
+        ],
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": false
+      },
+      {
+        "step": 6,
+        "url": "https://api.openai.com/v1/chat/completions",
+        "model": "gpt-4o",
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": true
+      },
+      {
+        "step": 7,
+        "url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "model": "gemini-2.5-flash",
+        "hasImagesInPayload": true,
+        "hasToolsInPayload": true
+      }
+    ],
+    "fellBackToLocalProgram": true
+  }
+}

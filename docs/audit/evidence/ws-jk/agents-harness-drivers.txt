@@ -1,0 +1,187 @@
+﻿_){let r=this.nextId++;return new Promise((n,s)=>{let i=setTimeout(()=>{this.pending.delete(r),s(Error(`the ${this.definition.name} connector didn't answer ${A} in ${Math.round(t/1000)} s`))},t);this.
+pending.set(r,{resolve:n,reject:s,timer:i,method:A});try{this.write({jsonrpc:"2.0",id:r,method:A,...e!==void 0?{params:e}:{}})}catch(o){clearTimeout(i),this.pending.delete(r),s(o)}})}forward(A,e){let 
+t=this.nextId++,r=new Promise((n,s)=>{let i=setTimeout(()=>{this.pending.delete(t),s(Error(`the ${this.definition.name} connector didn't answer ${A}`))},b_);this.pending.set(t,{resolve:n,reject:s,time
+r:i,method:A,raw:!0});try{this.write({jsonrpc:"2.0",id:t,method:A,...e!==void 0?{params:e}:{}})}catch(o){clearTimeout(i),this.pending.delete(t),s(o)}});return{id:t,promise:r}}cancel(A){if(!this.pendin
+g.has(A))return;let e=this.pending.get(A);clearTimeout(e.timer),this.pending.delete(A),e.reject(Error("cancelled"));try{this.write({jsonrpc:"2.0",method:"notifications/cancelled",params:{requestId:A,r
+eason:"the caller stopped waiting"}})}catch{}}read(A){if(this.buffer+=typeof A==="string"?A:A.toString("utf8"),this.buffer.length>U2){this.buffer="",this.failAll(Error(`the ${this.definition.name} con
+nector sent a message too large to read`));return}let e;while((e=this.buffer.indexOf(`
+`))>=0){let t=this.buffer.slice(0,e).replace(/\r$/,"");if(this.buffer=this.buffer.slice(e+1),!t.trim())continue;l
+et r;try{r=JSON.parse(t)}catch{continue}for(let n of Array.isArray(r)?r:[r])this.handle(n)}}handle(A){if(!A||typeof A!=="object")return;if(A.method&&A.id!==void 0&&A.id!==null){let t=A.method==="ping"
+?{jsonrpc:"2.0",id:A.id,result:{}}:{jsonrpc:"2.0",id:A.id,error:{code:-32601,message:`${A.method} isn't supported`}};try{this.write(t)}catch{}return}if(A.method)return;let e=this.pending.get(A.id);if(
+!e)return;if(clearTimeout(e.timer),this.pending.delete(A.id),e.raw)e.resolve(A);else if(A.error)e.reject(Error(`the ${this.definition.name} connector refused ${e.method}: ${String(A.error.message||JSO
+N.stringify(A.error)).slice(0,300)}`));else e.resolve(A.result)}failAll(A){for(let[e,t]of this.pending)clearTimeout(t.timer),t.reject(A),this.pending.delete(e)}exited(A,e,t){if(this.child!==A)return;t
+his.child=null,this.initializeResult=null;let r=this.errorTail();console.error(`[local-mcp] ${this.definition.name} stopped (${t||`exit ${e}`})`),this.failAll(Error(`the ${this.definition.name} connec
+tor stopped (${t||`exit code ${e}`})${r?`: ${r}`:""}`))}kill(A=this.child){if(!A||A.exitCode!==null||A.signalCode!==null)return;try{A.stdin.end()}catch{}if($o){try{K2("taskkill",["/pid",String(A.pid),
+"/T","/F"],{windowsHide:!0,stdio:"ignore"})}catch{A.kill()}return}try{process.kill(-A.pid,"SIGTERM")}catch{try{A.kill("SIGTERM")}catch{}}}stop(){this.stopped=!0,this.failAll(Error(`the ${this.definiti
+on.name} connector was stopped`));let A=this.child;this.child=null,this.initializeResult=null,this.kill(A)}rest(){let A=this.child;this.child=null,this.initializeResult=null,this.kill(A)}idle(){return
+!this.pending.size&&!this.starting&&Date.now()-this.lastUsed>P2}async answer(A,e){if(A.method==="initialize"&&A.id!==void 0)return await this.ensureStarted(),{jsonrpc:"2.0",id:A.id,result:this.initial
+izeResult};if(A.method==="notifications/initialized")return null;if(await this.ensureStarted(),A.id===void 0||A.id===null){if(A.method)this.write({jsonrpc:"2.0",method:A.method,...A.params!==void 0?{p
+arams:A.params}:{}});return null}let{id:t,promise:r}=this.forward(A.method,A.params);e(()=>this.cancel(t));try{let n=await r;return this.lastUsed=Date.now(),{jsonrpc:"2.0",id:A.id,...n.error?{error:n.
+error}:{result:n.result??{}}}}finally{this.lastUsed=Date.now()}}}var yc=new Map,Cf=new Map,Co=null;function J2(A){let e=Object.entries(A.env||{}).sort(([t],[r])=>t.localeCompare(r));return JSON.string
+ify([A.command,(A.args||[]).map(String),e])}function rs(A,e,t){if(A.headersSent)return;let r=t===null?"":JSON.stringify(t);A.writeHead(e,{"content-type":"application/json"}),A.end(r)}async function Q2
+(){if(Co)return Co;Co=(async()=>{let A=I_(24).toString("hex"),e=Buffer.from(`Bearer ${A}`),t=X2.createServer((n,s)=>{let i=Buffer.from(String(n.headers.authorization||""));if(i.length!==e.length||!Y2(
+i,e))return rs(s,401,{error:"unauthorized"});let o=/^\/mcp\/([a-f0-9]{24})$/.exec(new URL(n.url,"http://local-mcp").pathname),a=o?Cf.get(o[1]):null;if(!a)return rs(s,404,{error:"this local connector i
+s no longer running here"});if(n.method!=="POST")return rs(s,405,{error:"POST only"});let j=[];n.on("data",(c)=>j.push(c)),n.on("end",async()=>{let c;try{c=JSON.parse(Buffer.concat(j).toString("utf8")
+)}catch{return rs(s,200,{jsonrpc:"2.0",id:null,error:{code:-32700,message:"parse error"}})}if(!c||typeof c!=="object"||Array.isArray(c))return rs(s,200,{jsonrpc:"2.0",id:null,error:{code:-32600,messag
+e:"one JSON-RPC message per request"}});let l=null;s.on("close",()=>{if(!s.writableEnded)l?.()});try{let u=await a.answer(c,(m)=>{l=m});if(u===null){s.writeHead(202),s.end();return}rs(s,200,u)}catch(u
+){rs(s,502,{error:String(u?.message||u).slice(0,500)})}})});return t.requestTimeout=0,t.headersTimeout=0,await new Promise((n,s)=>{t.once("error",s),t.listen(0,"127.0.0.1",n)}),t.unref(),setInterval((
+)=>{for(let[n,s]of yc){if(!s.server.idle()||!s.server.child)continue;console.error(`[local-mcp] ${n} idle, stopping it`),s.server.rest()}},60000).unref(),process.on("exit",()=>{for(let{server:n}of yc.
+values())n.kill()}),{base:`http://127.0.0.1:${t.address().port}`,token:A,server:t}})();try{return await Co}catch(A){throw Co=null,A}}async function q_(A){let e=Array.isArray(A)?A:[];if(!e.some(x_))ret
+urn e;let{base:t,token:r}=await Q2();return e.map((n)=>{if(!x_(n))return n;let s=String(n.name),i={name:s,command:String(n.command),args:Array.isArray(n.args)?n.args.map(String):[],env:n.env&&typeof n
+.env==="object"?Object.fromEntries(Object.entries(n.env).filter(([,j])=>typeof j==="string")):{}},o=J2(i),a=yc.get(s);if(a&&a.fingerprint!==o)Cf.delete(a.server.id),a.server.stop(),a=null;if(!a){let j
+=I_(12).toString("hex");a={fingerprint:o,server:new k_(j,i)},yc.set(s,a),Cf.set(j,a.server)}return a.server.ensureStarted().catch((j)=>console.error(`[local-mcp] ${s}: ${String(j?.message||j).slice(0,
+300)}`)),{name:s,url:`${t}/mcp/${a.server.id}`,token:r,optional:!0}})}var e5=new Set([".git","node_modules","tmp",".venv","__pycache__",".DS_Store"]),t5=2097152,r5=31457280,w_=new Set(["gpt-6-astra","
+gpt-6.1-sol","gpt-6.1-terra","gpt-6-luna"]),n5=new Set(["claude-fable-5-1","claude-opus-5-5","claude-sonnet-5-5","claude-haiku-5-5"]);function C_(A,e){if(A==="claude-haiku-5-5")return"claude-haiku-5-5
+";if(e!=="cloud")return n5.has(A)||w_.has(A)?A:"gpt-6-luna";return A==="gpt-6-luna"?"gpt-6-luna":"gpt-6-sol"}function $_(A,e){return{...A.leaseMetadata||{},clicky_harness:"h1",...e.pickedModel?{clicky
+_h1_model:e.pickedModel}:{}}}function s5(A){try{return ne.readFileSync(A,"utf8").trim().length>0}catch{return!1}}async function St(A,e,t,r,n=!1){let s=await fetch(`${A.base}${t}`,{method:e,headers:{au
+thorization:`Bearer ${A.token}`,...r!==void 0&&!n?{"content-type":"application/json"}:{}},body:r===void 0?void 0:n?r:JSON.stringify(r)});if(n==="download")return s;let i=await s.text(),o;try{o=JSON.pa
+rse(i)}catch{o={text:i}}if(!s.ok)throw Error(`H1 ${t.split("?")[0]}: ${s.status} ${(o.error||i).slice(0,300)}`);return o}function i5(){return{rounds:0,modelMs:0,inputTokens:0,cachedTokens:0,outputToke
+ns:0,reasoningTokens:0,toolCalls:0,toolErrors:0,earlyStarts:0,compactions:0}}function o5(A,e){if(e.kind==="model_request"&&e.purpose!=="compaction")A.rounds+=1,A.modelMs+=Math.max(0,(e.t_end??0)-(e.t_
+send??0)),A.inputTokens+=e.usage?.input||0,A.cachedTokens+=e.usage?.cached||0,A.outputTokens+=e.usage?.output||0,A.reasoningTokens+=e.usage?.reasoning||0;else if(e.kind==="tool_call"){if(A.toolCalls+=
+1,e.ok===!1)A.toolErrors+=1;if(e.early)A.earlyStarts+=1}else if(e.kind==="program_step"&&e.phase==="end"){if(A.toolCalls+=1,e.ok===!1)A.toolErrors+=1}else if(e.kind==="compaction")A.compactions+=1}fun
+ction a5(A,e){let t=null;if(e.kind==="model_request"){let r=(e.t_end??Date.now())-(e.t_send??Date.now()),n=e.t_first_output&&e.t_send?e.t_first_output-e.t_send:null,s=e.usage||{};t={kind:"round",t:e.t
+_send,ms:r,firstOutputMs:n,model:e.model,effort:e.effort,input:s.input,cached:s.cached,output:s.output,reasoning:s.reasoning,calls:e.function_calls||[],requestBytes:e.request_bytes,error:e.error||null
+},A.log(`H1 round: ${(r/1000).toFixed(1)} s${n!=null?` (first output ${(n/1000).toFixed(1)} s)`:""} \xB7 ${s.input??"?"} in (${s.cached??0} cached) \xB7 ${s.output??"?"} out \xB7 ${(e.function_calls||
+[]).join(", ")||"no calls"}${e.error?` \xB7 ${e.error}`:""}`)}else if(e.kind==="tool_call"){let r=e.t_end&&e.t?e.t_end-e.t:null;t={kind:"tool",t:e.t,ms:r,name:e.name,server:e.server,ok:e.ok,resultChar
+s:e.result_chars,error:e.error||null,...e.name==="COMPOSIO_MULTI_EXECUTE_TOOL"?{slugs:(e.args?.tools||[]).map((n)=>n?.tool_slug).filter(Boolean)}:{}}}if(!t)return;try{ne.appendFileSync(Bt.join(A.state
+,"h1-rounds.jsonl"),`${JSON.stringify(t)}
+`)}catch{}}function j5(A){try{return JSON.parse(ne.readFileSync(Bt.join(A.state,"h1.json"),"utf8"))}catch{return{jobId:null,turn:0,lastSeq:0,pendingAsk:null}}
+}function wc(A,e){ne.writeFileSync(Bt.join(A.state,"h1.json"),JSON.stringify(e,null,2))}function O_(A){let e=[],t=0,r=(n)=>{let s;try{s=ne.readdirSync(n,{withFileTypes:!0})}catch{return}for(let i of s
+){if(e5.has(i.name))continue;let o=Bt.join(n,i.name);if(i.isDirectory()){r(o);continue}if(!i.isFile())continue;let a=ne.statSync(o);if(a.size>t5||t+a.size>r5)continue;t+=a.size,e.push({path:o,b64:ne.r
+eadFileSync(o).toString("base64"),mtimeMs:a.mtimeMs})}};return r(A),e}function v_(A){return/`composio`/.test(A)}function y_(A,e){let t=/^name:\s*(.+)$/m.exec(e)?.[1]?.trim()||Bt.basename(A),r=/^descri
+ption:\s*(.+)$/m.exec(e)?.[1]?.trim()||"";return{name:t,description:r}}function T_(A,e=[]){let t=[],r=[],n=[],s=[];for(let o of e||[]){let a=Bt.join(o,"SKILL.md"),j;try{j=ne.readFileSync(a,"utf8")}cat
+ch{continue}let{name:c,description:l}=y_(o,j);s.push(`- ${c}: ${l.slice(0,300)} (read ${a} with the read tool before using it)`)}for(let o of A||[]){let a=Bt.join(o,"SKILL.md");if(!ne.existsSync(a))co
+ntinue;let j=ne.readFileSync(a,"utf8"),{name:c,description:l}=y_(o,j);(v_(j)?n:r).push(`- ${c}: ${l} (read ${a} with the read tool ${v_(j)?"before that app's first call":"before using it"})`),t.push(.
+..O_(o))}let i=[n.length?`<connected_app_skills>
+How to use the user's connected apps (through the composio server): read an app's skill before your first call to that app; it names the tools and argu
+ments that work.
+${n.join(`
+`)}
+</connected_app_skills>`:"",r.length?`<skills>
+Skills you can read when a task needs them:
+${r.join(`
+`)}
+</skills>`:"",s.length?`<their_skills>
+The user's own skills, 
+kept on this Mac (they wrote or chose these: how they write, how they like work done). When the work touches what one covers (writing as them, their messages, their process), read it first and follow 
+it over your own habits:
+${s.join(`
+`)}
+</their_skills>`:""].filter(Boolean).join(`
+
+`);return{seeds:t,catalog:i}}var F_=`<working_fast>
+Every round you take costs the user time: batch.
+- Before you c
+all a tool, decide everything you can already know you'll need, and ask for all of it at once: independent searches, page reads and app calls go together in one exec program with Promise.allSettled (d
+irect tools: as parallel calls in the same response). Go one at a time only when a call needs the last one's result.
+- Connected apps: COMPOSIO_MULTI_EXECUTE_TOOL runs every item of its "tools" list i
+n parallel, so put all the independent reads of a step in one call (several searches, or the 3 messages you want to open). COMPOSIO_SEARCH_TOOLS takes several "queries" at once and its results carry m
+ost tools' schemas: search once for everything a job needs and never search again for a tool you already found. Call COMPOSIO_GET_TOOL_SCHEMAS only for the tools it returned with a schemaRef instead o
+f a schema, all of them in one call, before you use them. When an app has a skill below, read it before that app's first call, in the same round as your first search, and use the tools and arguments i
+t names.
+- Read light first: list with headers or ids only (Gmail: GMAIL_FETCH_EMAILS with verbose false, include_payload false and max_results set), choose the few that matter, then open those few to
+gether.
+- Stop gathering as soon as you can answer: when what you found agrees, or you can name the answer and its reasons, write it. Look again only when something is missing or contradicts.
+- Networ
+k commands get a short limit (curl --max-time 45, one retry at most): a server that doesn't answer is read another way (fetch_url) or skipped, never waited on.
+- Never search the whole disk (find /, a
+ recursive search of the home folder): it takes minutes. Look where you were told, in your folder, or with Spotlight (mdfind) when you must.
+- When a library or tool you need is missing, install it an
+d keep going (Python: a venv in tmp/ and pip install there; Node: npm install in tmp/; brew for command-line tools) instead of switching to another language or a weaker way to avoid it.
+</working_fast
+>`,c5=F_.replace("- Network commands get a short limit (curl --max-time 45, one retry at most)","- Network commands get a short limit (curl.exe --max-time 45 or Invoke-WebRequest -TimeoutSec 45, one r
+etry at most)").replace("- Never search the whole disk (find /, a recursive search of the home folder): it takes minutes. Look where you were told, in your folder, or with Spotlight (mdfind) when you 
+must.","- Never search the whole disk (Get-ChildItem C:\\ -Recurse, a recursive search of the user folder): it takes minutes. Look where you were told, in your folder, or in the one folder that should
+ hold it (Get-ChildItem -Recurse -Filter there).").replace("(Python: a venv in tmp/ and pip install there; Node: npm install in tmp/; brew for command-line tools)","(Python: a venv in tmp\\ and pip in
+stall there; Node: npm install in tmp\\; winget for command-line tools)"),$f=!0;function l5(A,e){return B_({log:e,probe:async(t)=>{let r=await fetch(`${A.worker.base}/agent/harness/lab/h1/probe?url=${
+encodeURIComponent(t)}`,{headers:{authorization:`Bearer ${A.worker.sessionToken}`}});return r.ok?r.json():{status:0}}})}async function M_(A,e,t){if(A.place!=="cloud"||A.deviceHelper===!1)return null;t
+ry{let r=await l5(A,e.log),n=Object.fromEntries((A.mcp||[]).map((i)=>[i.name,{url:i.url,token:i.token}]));return{...r.register({key:t.replace(/[^A-Za-z0-9_.-]/g,"_"),upstreams:n,workspaceDir:A.workspa
+ce}),tunnelBase:r.base}}catch(r){return e.log(`device helper unavailable: ${r.message}`),null}}function S_(A,e,t,r){let n=Bt.join(A.workspace,"AGENTS.md"),s=ne.existsSync(n)?ne.readFileSync(n,"utf8"):
+"",i=t==="cloud"?`<environment>
+You work in a Linux cloud workspace at ${A.workspace}. It is a copy of this work's folder on the user's Mac and is copied back after each turn, so files you make there 
+appear on their Mac at the same path. You can't see their screen, and there is no Spotlight (mdfind) here: use find and rg.${r?" Their Mac is reachable only through the device_* tools (bring a file in
+ with device_read_file, put one of yours on their Mac with device_save_file, show them something with device_open).":" You can't reach their Mac, its other files, their connected apps or their browser
+ from here."}
+</environment>`:`<environment>
+You work on the user's ${$f?"Windows PC":"Mac"}, in this work's folder ${A.workspace}.${$f?" Your shell tool (bash) runs Windows PowerShell commands, not b
+ash: paths use backslashes (C:\\Users\\\u2026), and ~ is $env:USERPROFILE.":""} Change files with your edit and write tools (only the lines that change, or a new file)${A.planTool?"":", and the job's 
+note with the note tools when you have them"}.${A.planTool?" Your plan (update_plan) is your progress: there is no separate progress line to send, and a message without a tool call ends your turn.":A.
+note?.tools?" The note's plan is your progress: there is no separate progress line to send, and a message without a tool call ends your turn.":""}
+</environment>`;return[A.instructions||"",i,$f?c5:F_,
+s?`<workspace_instructions path="${n}">
+${s}
+</workspace_instructions>`:"",e].filter(Boolean).join(`
+
+`)}var Oc=new Map;async function u5(A){let e=A.worker?.base;if(!e)return"hosted";if(!Oc.has(e))Oc.
+set(e,(async()=>{try{let t=await fetch(`${e}/agent/web-search`,{headers:{authorization:`Bearer ${A.worker.sessionToken}`},signal:AbortSignal.timeout(4000)});return t.ok&&(await t.json()).available===!
+0?"exa":"hosted"}catch{return Oc.delete(e),"hosted"}})());return Oc.get(e)}async function d5(A,e){if(A.place==="cloud")return{base:`${A.worker.base}/agent/harness/lab/h1`,token:A.worker.sessionToken};
+return l_(A,e)}var G_=1800000;function f5(){return`It worked for ${Math.round(G_/60000)} minutes, the most it gets in one go. Retry picks up where it stopped.`}function D_(A,e){return`${A}${e?`-r${e}`
+:""}`.slice(0,100)}var vf=24000;function p5(A,e,t){let r=[];if(e.restarts){let n=Array.from({length:e.restarts},(o,a)=>D_(A.job,a)),s=[],i=0;for(let o of j_(n).reverse()){if(i+o.length>vf&&s.length)br
+eak;s.unshift(o.length>vf?`\u2026${o.slice(-vf)}`:o),i+=o.length}if(s.length)r.push(`[HeyClicky] This conversation was closed and reopened, so its earlier turns aren't above. Here they are, oldest fir
+st (the newest, if it was long):
+
+${s.join(`
+
+---
+
+`)}`)}if(t){let n="";try{n=ne.readFileSync(Bt.join(t,".clicky","memory.md"),"utf8").trim()}catch{}if(n)r.push(`[HeyClicky] Your memory file (.clicky/
+memory.md), as you last wrote it:
+${n}`)}return r}async function m5(A,e,t,r){let n=D_(t.job,r.restarts);r.pickedModel=e.place!=="cloud"&&w_.has(e.model)?e.model:null;let{seeds:s,catalog:i}=T_(e.skills
+,e.place!=="cloud"?e.userSkills:[]),o=await M_(e,t,n);r.helperBase=o?.tunnelBase??null;let a=e.place!=="cloud"?(e.mcp||[]).map((u)=>({name:u.name,url:u.url,...u.token?{token:u.token}:{},...u.headers?{
+headers:u.headers}:{},...u.meta?{meta:u.meta}:{},...u.name!=="composio"?{optional:!0}:{runsWithout:!0}})):o?[...(e.mcp||[]).map((u)=>({name:u.name,url:`${o.base}/mcp/${u.name}`,token:o.token})),{name:
+"device",url:`${o.base}/mcp/device`,token:o.token}]:[],j={model:C_(e.model,e.place),effort:"medium",web:e.place==="cloud"?"brave":await u5(e),instructions:S_(e,i,e.place,!!o),cacheKey:n.slice(0,64),mc
+p:a,workspace:e.workspace,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,instance:"standard-2",limits:{maxSteps:120,wallMs:G_,bashTimeoutS:300},env:{},tunnel:o?{base:o.base,token:o.token,po
+rts:[]}:null,stripOlderUserImages:!1,prewarm:!0,earlyStart:!1,reasoningSummary:!0,asyncTools:sl(C_(e.model,e.place)),...e.place!=="cloud"?{scriptMode:"only"}:{},...e.place!=="cloud"?{noRoutinesTool:!0
+}:{}},c=e.place!=="cloud"&&e.note?.tools?wp(e.note.path,e.workspace):null;if(c)j.noteTools={path:c,async:sl(j.model)},j.noProgressTool=!0;if(r.noteTools=c?{path:c}:null,e.planTool)j.planTool=!0,j.noPr
+ogressTool=!0;await St(A,"POST","/jobs",{job:n,cfg:j});let l=e.place==="cloud"?[...O_(e.workspace),...s]:[];for(let u=0;u<l.length;){let m=[],f=0;while(u<l.length&&(m.length===0||f+l[u].b64.length<400
+0000))f+=l[u].b64.length,m.push(l[u++]);await St(A,"POST",`/jobs/${n}/files`,{files:m})}return t.log(`H1 job ${n} created (${j.model}, ${l.length} seed files)`),n}async function h5(A,e,t,r){let n=awai
+t St(A,"GET",`/jobs/${e}/workspace.tgz`,void 0,"download");if(n.status===409||!n.ok)return;let s=ne.mkdtempSync(Bt.join(Z2.tmpdir(),"clicky-h1-"));try{let i=Bt.join(s,"ws.tgz");ne.writeFileSync(i,Buff
+er.from(await n.arrayBuffer()));let o=Bt.join(s,"out");ne.mkdirSync(o),A5("/usr/bin/tar",["-xzf",i,"-C",o],{stdio:"ignore"});let a=Bt.join(o,t.replace(/^\/+/,""));if(ne.existsSync(a))ne.cpSync(a,t,{re
+cursive:!0,force:!0});r.log("workspace copied back")}catch(i){r.log(`workspace copy failed: ${i.message}`)}finally{ne.rmSync(s,{recursive:!0,force:!0})}}var vo=new Map;async function yf(A,e){A={...A,m
+cp:await q_(A.mcp)};let t=await d5(A,e),r=j5(e);if(r.jobId&&!r.dead&&A.place==="cloud"){if(((await M_(A,e,r.jobId))?.tunnelBase??null)!==(r.helperBase??null))e.log("the device helper changed since thi
+s H1 job started; starting a new job"),r.dead=!0}if(!r.jobId||r.dead){if(r.dead)r.restarts=(r.restarts||0)+1;r.jobId=await m5(t,A,e,r),r.turn=0,r.lastSeq=0,r.pendingAsk=null,r.dead=!1,r.started=!1,wc(
+e,r)}let n=r.jobId,s={endpoint:t,jobId:n,turn:null};vo.set(e.job,s);try{if(r.pendingAsk){let c=A.place!=="cloud"?$_(A,r):void 0;s.turn=r.turn,await St(t,"POST",`/jobs/${n}/answer`,{ask:r.pendingAsk,te
+xt:A.text,...c?{metadata:c}:{}}),r.pendingAsk=null}else{r.turn+=1,s.turn=r.turn;let c=[];for(let[B,q]of(A.images||[]).entries()){if(!ne.existsSync(q))continue;let I=`turn${r.turn}-img${B}`;await St(t,
+"PUT",`/jobs/${n}/blob/${I}`,ne.readFileSync(q),!0),c.push({blob:I,mime:q.endsWith(".png")?"image/png":"image/jpeg"})}if(!r.started)await St(t,"POST",`/jobs/${n}/start`,{}),r.started=!0;let l=r.noteTo
+ols?Op({isFirstRun:!s5(r.noteTools.path),isKept:A.note?.kept===!0}):"",u=r.noteTools?l?`${A.text}
+
+${l}`:A.text:A.note?.tools?`${A.text}
+
+This conversation has no note tools: save note.md with your fi
+le tools (write or edit) as you work.`:A.text,m=r.turn===1&&A.place!=="cloud"?[...p5(e,r,A.workspace),u].join(`
+
+`):u,f=A.place!=="cloud"?(A.mcp||[]).map((B)=>({name:B.name,url:B.url,...B.token?{token
+:B.token}:{},...B.headers?{headers:B.headers}:{},...B.meta?{meta:B.meta}:{},...B.name!=="composio"?{optional:!0}:{runsWithout:!0}})):void 0,h=A.place!=="cloud"?$_(A,r):void 0,g=A.place!=="cloud"?S_(A,
+T_(A.skills,A.userSkills).catalog,A.place,!1):void 0;await St(t,"POST",`/jobs/${n}/turn`,{n:r.turn,turn:{text:m,images:c,clock:"turn"},...f?{mcp:f}:{},...g?{instructions:g}:{},...h?{metadata:h}:{}})}}
+catch(c){if(!/: (404|410) /.test(String(c.message))||e.retriedGoneJob)throw c;return e.retriedGoneJob=!0,r.dead=!0,wc(e,r),vo.delete(e.job),e.log(`H1 job ${n} is gone; starting a new one`),yf(A,e)}wc(
+e,r);let i="",o=null,a=i5(),j=new Map;while(!o){let{events:c=[],done:l}=await St(t,"GET",`/jobs/${n}/events?after=${r.lastSeq}&wait=20000`);if(l&&c.length===0){r.dead=!0,o={status:"failed",error:"The 
+H1 job ended."};break}for(let u of c){if(r.lastSeq=u.seq,(u.kind==="turn_end"||u.kind==="message")&&typeof u.turn==="number"&&u.turn!==r.turn)continue;switch(a5(e,u),o5(a,u),u.kind){case"commentary":i
+f(u.text?.trim())e.emit({kind:"commentary",text:as(u.text)});break;case"reasoning":{let m=b5(u.text);if(m)e.emit({kind:"thinking",text:m});break}case"tool_call":{if(u.name==="progress"||u.name==="rout
+ines"||u.name==="update_plan"||kr.has(u.name))break;let m=!u.server||["box","fs","harness","worker","user","web"].includes(String(u.server)),f=u.name==="web_search"?Array.isArray(u.args?.query)?u.args
+.query.join(" \xB7 "):u.args?.query:void 0,h=u.name==="fetch_url"&&typeof u.args?.url==="string"?u.args.url:void 0,g={id:String(u.id),name:String(u.name),server:m?void 0:String(u.server),command:u.nam
+e==="bash"?String(u.args?.command??""):void 0,...f?{query:String(f)}:{},...h?{url:h}:{}};e.emit({kind:"tool",phase:"start",...g}),e.emit({kind:"tool",phase:"end",...g});break}case"message":if(u.phase=
+=="final"&&u.text)i=u.text;break;case"program_step":{let m=g5(j,u);if(m)e.emit({kind:"batch",...m});break}case"plan":if(Array.isArray(u.plan)&&u.plan.length)e.emit({kind:"plan",plan:u.plan});break;cas
+e"compaction":e.emit({kind:"compacted"});break;case"note":e.emit({kind:"note",phase:u.phase==="preview"?"preview":"saved",path:String(u.path),...u.phase==="preview"?{text:String(u.text??"")}:{}});brea
+k;case"mcp_tools":{let m=(u.servers||[]).find((f)=>f.server==="composio"&&f.ok===!1);if(m)e.log(`H1 job ${n} runs without connected apps: ${m.error}`),e.emit({kind:"apps_unreachable"});e.emit({kind:"t
+ools_listed",servers:(u.servers||[]).map((f)=>({server:String(f.server),ok:f.ok!==!1,tools:Number(f.tools)||0,...f.error?{error:String(f.error).slice(0,200)}:{}}))});break}case"log":if(u.text)e.log(St
+ring(u.text));break;case"question":r.pendingAsk=String(u.ask),i=[u.text,...Array.isArray(u.choices)&&u.choices.length?[`Options: ${u.choices.join(" \xB7 ")}`]:[]].join(`
+
+`),o={status:"completed"};bre
+ak;case"turn_end":if(!i&&u.finalText)i=u.finalText;o=u.status==="interrupted"?{status:"interrupted"}:u.status==="timeout"?{status:"failed",error:f5()}:{status:u.status==="completed"?"completed":"faile
+d",error:u.status==="completed"?void 0:u.reason||u.status};break;case"cancelled":r.dead=!0,o={status:"interrupted"};break;case"error":e.log(`H1 error at ${u.where}: ${u.message}`);break;default:break}
+if(o)break}wc(e,r)}if(vo.delete(e.job),!r.pendingAsk&&A.place==="cloud")await h5(t,n,A.workspace,e);if(i)e.emit({kind:"answer",text:as(i)});e.emit({kind:"stats",...a}),e.emit({kind:"turn_end",...o})}f
+unction g5(A,e){let t=String(e.program||"");if(!t)return null;let r=A.get(t)??{id:t,searches:{count:0,done:0,query:null},sites:[],apps:[]};A.set(t,r);let n=e.phase==="start",s=e.what||{},i=!1;if(e.nam
+e==="web_search"){if(n)r.searches.count+=1,r.searches.query??=s.query||null;else r.searches.done+=1;i=!0}else if(e.name==="fetch_url"||e.name==="browser"&&s.url){let a=E5(s.url);if(a){let j=r.sites.fi
+nd((c)=>c.host===a);if(n&&!j)j={host:a,done:!1},r.sites.push(j),i=!0;if(!n&&j&&!j.done)j.done=!0,i=!0}}else if(e.name==="COMPOSIO_MULTI_EXECUTE_TOOL")for(let a of s.actions||[]){let j=String(a).split(
+"_")[0].toLowerCase(),c=B5(a),l=r.apps.find((u)=>u.toolkit===j&&u.kind===c);if(!l)l={toolkit:j,kind:c,count:0,done:0,slug:String(a)},r.apps.push(l);if(n)l.count+=1;else l.done+=1;i=!0}if(!i)return nul
+l;let o={phase:n?"start":"end",name:String(e.name),...s.query?{query:String(s.query)}:{},...s.url?{url:String(s.url)}:{}};return{id:r.id,searches:{...r.searches},sites:r.sites.slice(0,24).map((a)=>({.
+..a})),siteCount:r.sites.length,sitesDone:r.sites.filter((a)=>a.done).length,apps:r.apps.map((a)=>({...a})),latest:o}}function E5(A){try{return new URL(String(A)).hostname.replace(/^www\./,"").toLower
+Case()||null}catch{return null}}function B5(A){let e=String(A).toUpperCase().split("_").slice(1);if(e.some((t)=>t==="SEND"||t==="REPLY"||t==="FORWARD"||t==="POST"))return"send";if(e.some((t)=>t==="DEL
+ETE"||t==="REMOVE"||t==="TRASH"||t==="ARCHIVE"))return"delete";if(e.some((t)=>t==="CREATE"||t==="ADD"||t==="INSERT"||t==="NEW"||t==="DRAFT"||t==="UPLOAD"))return"create";if(e.some((t)=>t==="UPDATE"||t
+==="EDIT"||t==="PATCH"||t==="REPLACE"||t==="MODIFY"||t==="MOVE"||t==="LABEL"||t==="APPEND"))return"update";return"read"}function b5(A){let e=/^\s*\*\*([^*\n]{1,80})\*\*/.exec(String(A||""));return e?e
+[1].trim():null}async function X_(A,e){let t=vo.get(e.job);if(!t||t.turn===null)return!1;let r=[],n=`t${t.turn}-steer${Date.now().toString(36)}`;for(let[i,o]of(Array.isArray(A.images)?A.images:[]).sli
+ce(0,8).entries()){if(typeof o!=="string"||!ne.existsSync(o))continue;let a=`${n}-img${i}`;await St(t.endpoint,"PUT",`/jobs/${t.jobId}/blob/${a}`,ne.readFileSync(o),!0),r.push({blob:a,mime:o.endsWith(
+".png")?"image/png":"image/jpeg"})}return(await St(t.endpoint,"POST",`/jobs/${t.jobId}/steer`,{text:A.text,turn:t.turn,...A.info===!0?{info:!0}:{},...r.length?{images:r}:{}}))?.ok!==!1}async function 
+R_(A,e){let t=vo.get(e.job);if(!t)return;if(A?.place==="cloud"||t.endpoint.base.includes("/agent/harness/lab/"))await St(t.endpoint,"POST",`/jobs/${t.jobId}/cancel`,{});else await St(t.endpoint,"POST"
+,`/jobs/${t.jobId}/interrupt`,{})}await Promise.resolve().then(() => (P_(),{}));Yf({drivers:{"h1-mac":{run:yf,steer:X_,cancel:R_}}});
+

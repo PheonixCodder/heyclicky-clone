@@ -1,0 +1,457 @@
+[
+  {
+    "id": "AUD-J-001",
+    "workstream": "WS-J",
+    "severity": "Critical",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Autonomous Agents (clicky-harness.exe) Completely Non-Functional Against Local Kursor Backend Due to 7 Missing Worker & MCP Proxy Routes (HTTP 404)",
+    "component": "Agent Harness Sidecar <-> Local Kursor Backend (src/backend/src/routes/agents.ts)",
+    "location": "src/backend/src/routes/agents.ts:943; dist/kursor-desktop/HarnessRuntime/clicky-harness.exe (embedded H1 runtime l_ / d5 / u5); src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerRuntime.cs:402-407",
+    "description": "When AgentService starts a turn via AgentHarnessRunnerRuntime.RunAsync (AgentHarnessRunnerRuntime.cs:356-411), it passes worker: { base: 'http://127.0.0.1:8787', sessionToken } to clicky-harness.exe POST /turn. Inside clicky-harness.exe, the embedded H1 driver (l_ in agents-harness-drivers.txt) rewrites globalThis.H1_RESPONSES_URL to `${worker.base}/agent/openai/v1/responses` and Anthropic requests to `${worker.base}/agent/anthropic/v1/messages`, probes `${worker.base}/agent/web-search` (GET and POST), routes cloud H1 jobs to `${worker.base}/agent/harness/lab/h1/jobs` and `/agent/harness/lab/h1/probe`, and connects to the Composio MCP proxy URL (`http://127.0.0.1:8787/mcp/composio`) returned by POST /agent/composio/session (src/backend/src/routes/agents.ts:943). None of these 7 routes are implemented anywhere in src/backend/src/routes/*. Every live agent turn against Kursor's local backend immediately fails with HTTP 404 ('model: model: 404: 404 Not Found').",
+    "reproductionSteps": [
+      "Start the Kursor local backend on http://127.0.0.1:8787.",
+      "Run powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/audit/ws-jk/test-agents-harness.ps1 (Scenarios 1 & 2 and Section 5 Live Backend Probes).",
+      "Observe that POST /agent/openai/v1/responses, POST /agent/anthropic/v1/messages, GET /agent/web-search, POST /agent/web-search, POST /agent/harness/lab/h1/jobs, GET /agent/harness/lab/h1/probe, and POST /mcp/composio all return HTTP 404 Not Found.",
+      "Observe that clicky-harness.exe emits turn_end with status='failed' and error='model: model: 404: 404 Not Found'."
+    ],
+    "observedResult": "All 7 backend proxy routes required by clicky-harness.exe return HTTP 404 Not Found; every autonomous agent turn fails on its first model call.",
+    "expectedResult": "src/backend/src/routes/agents.ts must implement POST /agent/openai/v1/responses (SSE proxy to OpenAI/OpenRouter), POST /agent/anthropic/v1/messages (SSE proxy to Anthropic/OpenRouter), GET & POST /agent/web-search, and POST /mcp/composio (JSON-RPC MCP handler).",
+    "impact": "100% of autonomous agent jobs, background tasks, and scheduled routines in Kursor fail immediately when executed against the local backend.",
+    "remediation": "Implement POST /agent/openai/v1/responses, POST /agent/anthropic/v1/messages, GET/POST /agent/web-search, and POST /mcp/composio in src/backend/src/routes/agents.ts, forwarding streaming Responses/Messages SSE payloads to the configured LLM provider.",
+    "effort": "L",
+    "evidence": [
+      "src/backend/src/routes/agents.ts:936-949",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerRuntime.cs:356-411",
+      "docs/audit/evidence/ws-jk/agents-harness-drivers.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-test-results.json"
+    ]
+  },
+  {
+    "id": "AUD-J-002",
+    "workstream": "WS-J",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unregistered Harness Drivers (pi-mac, h1-cloud, codex-cloud) and Hardcoded /usr/bin/tar in clicky-harness.exe Cause Immediate HTTP 500 Failures",
+    "component": "Agent Harness Sidecar & Runtime Selection (AgentHarnessRuntimes / clicky-harness.exe)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRuntimes.cs:14-28; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessNames.cs:14-68; dist/kursor-desktop/HarnessRuntime/clicky-harness.exe (agents-harness-drivers.txt:139, 186)",
+    "description": "Although clicky-harness.exe bundles @earendil-works/pi-coding-agent dead code in its Bun bundle, its entrypoint registers ONLY a single driver: Yf({drivers:{\"h1-mac\":{run:yf,steer:X_,cancel:R_}}}) (agents-harness-drivers.txt:186). However, AgentHarnessRuntimes.Create() (AgentHarnessRuntimes.cs:14-28) routes AgentHarness.Pi (both Mac and Cloud), AgentHarness.H1 with AgentHarnessPlace.Cloud, and AgentHarness.Codex with AgentHarnessPlace.Cloud to AgentHarnessRunnerRuntime (clicky-harness.exe). Selecting any of these in Developer Settings or agent defaults causes POST /turn to return HTTP 500 {\"error\":\"No <harness>-<place> harness in this runner.\"}. Furthermore, h5() in clicky-harness.exe (agents-harness-drivers.txt:139) hardcodes A5(\"/usr/bin/tar\", [\"-xzf\", i, \"-C\", o]) when unpacking cloud workspaces, which always fails on Windows because /usr/bin/tar does not exist.",
+    "reproductionSteps": [
+      "Launch clicky-harness.exe and send POST /turn with {harness:'h1', place:'cloud'}, {harness:'codex', place:'cloud'}, or {harness:'pi', place:'mac'} (Scenarios 3 & 4 in tests/audit/ws-jk/test-agents-harness.ps1).",
+      "Inspect agents-harness-drivers.txt line 186 (Yf({drivers:{\"h1-mac\":...}})) and line 139 (A5(\"/usr/bin/tar\", ...))."
+    ],
+    "observedResult": "clicky-harness.exe returns HTTP 500 with {\"error\":\"No h1-cloud harness in this runner.\"}, {\"error\":\"No codex-cloud harness in this runner.\"}, and {\"error\":\"No pi-mac harness in this runner.\"}.",
+    "expectedResult": "Either clicky-harness.exe must register drivers for all harness/place combinations routed to AgentHarnessRunnerRuntime (and use Windows tar.exe instead of /usr/bin/tar), or AgentHarnessRuntimes / SettingsContent must restrict selection to supported runtimes.",
+    "impact": "Selecting Pi or Cloud harness modes in Developer Settings breaks all agent execution with an unhandled HTTP 500 runner error.",
+    "remediation": "Restrict AgentHarness / AgentHarnessPlace options in Kursor.Agents to supported local drivers ('h1-mac' and local Codex), or implement the missing drivers in an open-source replacement harness runner and replace '/usr/bin/tar' with 'tar.exe'.",
+    "effort": "M",
+    "evidence": [
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRuntimes.cs:14-28",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessNames.cs:14-68",
+      "docs/audit/evidence/ws-jk/agents-harness-drivers.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-test-results.json"
+    ]
+  },
+  {
+    "id": "AUD-J-003",
+    "workstream": "WS-J",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unrestricted PowerShell (bash Tool) and Filesystem Write Access Outside Job Workspace Without Sandbox or User Approval",
+    "component": "Agent Harness Tool Execution & Safety Boundary",
+    "location": "dist/kursor-desktop/HarnessRuntime/clicky-harness.exe (agents-harness-bundle-excerpt.txt:123, agents-harness-drivers.txt:106-107); src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexSession.cs:88-115",
+    "description": "In clicky-harness.exe ('h1-mac'), the local box tools ('bash', 'write', 'edit', 'read') execute directly with the user's full Windows account privileges. On Windows ($f = true), the 'bash' tool executes arbitrary Windows PowerShell commands with a 300-second timeout (bashTimeoutS: 300, agents-harness-drivers.txt:106, 133), and the 'write' and 'edit' tools resolve any absolute or relative path on disk without enforcing that the target path stays within A.workspace (agents-harness-bundle-excerpt.txt:123: We(n, a?.cwd || A)). There is no user confirmation/approval gate for shell execution or file writes outside the job workspace. Because agents routinely ingest untrusted external content via fetch_url, web_search, browser tabs, and Composio emails/messages, indirect prompt injection can execute arbitrary PowerShell commands or overwrite arbitrary user files.",
+    "reproductionSteps": [
+      "Run Scenario 13 and Scenario 26 in tests/audit/ws-jk/test-agents-harness.ps1.",
+      "Observe that in Scenario 26, a model response invoking write with path='<tempStateDir>/outside-sandbox-proof.txt' (outside the job's workspace directory) succeeds without error or approval prompt and creates the file on disk."
+    ],
+    "observedResult": "The 'write', 'edit', and 'bash' (PowerShell) tools execute arbitrary filesystem modifications outside the job workspace and arbitrary PowerShell commands with zero sandboxing or user approval.",
+    "expectedResult": "File write/edit operations should be confined to the job's workspace directory unless explicitly approved by the user, and shell command execution should require user approval or run inside a restricted sandbox.",
+    "impact": "High risk of arbitrary code execution and data exfiltration via indirect prompt injection when agents process untrusted web pages, emails, or documents.",
+    "remediation": "Enforce canonical path prefix validation against the job workspace directory for write/edit tools and gate PowerShell command execution or out-of-workspace writes behind a user approval prompt (similar to TakeOverConsentCard / UploadApprovalCard).",
+    "effort": "M",
+    "evidence": [
+      "docs/audit/evidence/ws-jk/agents-harness-bundle-excerpt.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-drivers.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-test-results.json"
+    ]
+  },
+  {
+    "id": "AUD-J-004",
+    "workstream": "WS-J",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Opaque Proprietary Sidecar Binaries (clicky-harness.exe & ClickyBrowserHost.exe) Signed by Humansongs, Inc With No Source in Repository",
+    "component": "Agent Sidecar Binaries (HarnessRuntime & ClickyBrowserHost)",
+    "location": "dist/kursor-desktop/HarnessRuntime/clicky-harness.exe; dist/kursor-desktop/ClickyBrowserHost/ClickyBrowserHost.exe",
+    "description": "Kursor relies on two precompiled sidecar executables in dist/kursor-desktop/ that have no source code in src/: (1) dist/kursor-desktop/HarnessRuntime/clicky-harness.exe (88,566,080 bytes, SHA-256 31DFAF8C74BAB71F07607EAFA3D9940B82C7E5540FA0E825169278AC8E7A30DA), a Bun 1.3.11 standalone executable containing an embedded minified JS bundle and photon_rs_bg.wasm; and (2) dist/kursor-desktop/ClickyBrowserHost/ClickyBrowserHost.exe (4,685,632 bytes, SHA-256 E7BD3FD9179313B98C10A79B18E6631BBB8EE6C7FB264FA4825106F4DB084A86), a Go-compiled binary (Go build ID '3l8p8J3eH5R-_tF52U0r/...') that bridges Chrome Native Messaging to the local TCP socket in %LOCALAPPDATA%\\HeyClicky\\browser-bridge.port. Both binaries carry valid Authenticode signatures from CN=\"Humansongs, Inc\" (Thumbprint 3F234731E458612EFEE78459EBC9FA556F198582) and hardcode HeyClicky paths/strings.",
+    "reproductionSteps": [
+      "Run Get-FileHash and Get-AuthenticodeSignature on dist/kursor-desktop/HarnessRuntime/clicky-harness.exe and dist/kursor-desktop/ClickyBrowserHost/ClickyBrowserHost.exe (Section 1 of tests/audit/ws-jk/test-agents-harness.ps1).",
+      "Inspect docs/audit/evidence/ws-jk/agents-browserhost-strings.txt and docs/audit/evidence/ws-jk/agents-harness-test-results.json."
+    ],
+    "observedResult": "Both sidecars are closed-source binaries signed by Humansongs, Inc; ClickyBrowserHost.exe hardcodes %LOCALAPPDATA%\\HeyClicky\\browser-bridge.port and clicky-harness.exe hardcodes [HeyClicky] prompts and H1_PHOTON_WASM_PATH.",
+    "expectedResult": "Kursor should build both sidecars from first-party TypeScript/C# source in src/ so they can be audited, customized, and rebranded cleanly.",
+    "impact": "Cannot patch bugs (such as AUD-J-002 and AUD-J-003) or rebrand paths in the harness runner or browser native messaging host without replacing the binaries from source.",
+    "remediation": "Replace ClickyBrowserHost.exe with a lightweight C# or Node native messaging proxy built from src/, and replace clicky-harness.exe with a TypeScript/Node or C# harness runner built from src/.",
+    "effort": "L",
+    "evidence": [
+      "docs/audit/evidence/ws-jk/agents-browserhost-strings.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-drivers.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-test-results.json"
+    ]
+  },
+  {
+    "id": "AUD-J-005",
+    "workstream": "WS-J",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Hardcoded Author Workstation Path (C:\\Users\\niles\\...) and Unreachable Node Launch Fallback in AgentHarnessRunnerProcess.cs",
+    "component": "Agent Harness Process Launcher",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:61-78, 200-263",
+    "description": "In AgentHarnessRunnerProcess.cs:255-263, ResolveLaunch() checks only BundledRunnerPath() (HarnessRuntime\\clicky-harness.exe) and returns null if it does not exist. Meanwhile, lines 200-253 define private helpers RunnerScriptPath() and NodeExecutablePath() (along with the Launch.Node enum variant at line 61) that are never called anywhere in the class (dead code). Additionally, line 75 hardcodes the original developer's source path 'C:\\Users\\niles\\code\\clicky-closed\\windows\\src\\HeyClicky.Agents\\Harness\\AgentHarnessRunnerRuntime.cs' as the [CallerFilePath] default in RunnerScriptFromSourceTree().",
+    "reproductionSteps": [
+      "Inspect src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs lines 61-78 and 200-263."
+    ],
+    "observedResult": "ResolveLaunch() never calls RunnerScriptPath() or NodeExecutablePath(), leaving 55 lines of dead code and a hardcoded C:\\Users\\niles\\code\\clicky-closed\\... path.",
+    "expectedResult": "ResolveLaunch() should either wire up the Node.js script fallback (allowing Kursor to run an open-source JS/TS harness runner when clicky-harness.exe is absent) or remove the dead methods and hardcoded workstation path.",
+    "impact": "Prevents falling back to a source-tree Node.js harness script during development and leaks upstream developer path metadata.",
+    "remediation": "Wire RunnerScriptPath() + NodeExecutablePath() into ResolveLaunch() as a fallback (or primary dev runner) and remove the hardcoded C:\\Users\\niles\\... path.",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:61-78, 200-263"
+    ]
+  },
+  {
+    "id": "AUD-J-006",
+    "workstream": "WS-J",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unadapted macOS Tool Name (mac_step) and Platform References Across TurnPromptBuilder, ClickyBrowserBridge, and clicky-harness.exe",
+    "component": "Agent Prompt Builder, Browser Bridge & Harness Instructions",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/TurnPromptBuilder.cs:38; src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:261, 879, 962; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessNames.cs:55; dist/kursor-desktop/HarnessRuntime/clicky-harness.exe (agents-harness-drivers.txt:65-66)",
+    "description": "Although WindowsInstructionAdapter.Adapt() (WindowsInstructionAdapter.cs:11-56) scrubs 'macOS'/'Mac'/'mdfind' from BundledResources/clicky-model-instructions.md, several runtime prompt builders bypass WindowsInstructionAdapter and inject macOS-specific tool names and strings directly into Windows agent turns: (1) TurnPromptBuilder.BuildFirstTurnPrompt() (TurnPromptBuilder.cs:38) injects 'To use any other desktop app on the user's computer, call the mac_step tool (HeyClicky's screen agent)'; (2) ClickyBrowserBridge.cs:261, 879, 962 returns tool guidance referencing 'mac_step' when Chrome is unavailable or on a restricted page; (3) AgentHarnessNames.WireValue(AgentHarnessPlace.Mac) (AgentHarnessNames.cs:55) uses the wire token 'mac' on Windows; (4) clicky-harness.exe (agents-harness-drivers.txt:65-66) injects '<their_skills> The user's own skills, kept on this Mac' even when $f (Windows) is true, and its fetch_url tool sends a hardcoded 'Macintosh; Intel Mac OS X 10_15_7' User-Agent header.",
+    "reproductionSteps": [
+      "Run Scenario 27 in tests/audit/ws-jk/test-agents-harness.ps1.",
+      "Inspect TurnPromptBuilder.cs:38, ClickyBrowserBridge.cs:261, 879, 962, and agents-harness-drivers.txt:65-66."
+    ],
+    "observedResult": "Windows agent prompts instruct the model to call 'mac_step' and state that user skills are 'kept on this Mac'.",
+    "expectedResult": "All Windows prompt builders and browser bridge error messages should use platform-appropriate terminology and pass through WindowsInstructionAdapter.",
+    "impact": "Confuses the LLM regarding the host OS and causes failed tool calls when the model attempts to invoke an unregistered 'mac_step' tool locally.",
+    "remediation": "Update TurnPromptBuilder.cs:38 and ClickyBrowserBridge.cs:261, 879, 962 to reference the actual registered computer-use mechanism (<COMPUTER_USE_REQUEST> or Windows screen tool) and sanitize '<their_skills>' in the harness.",
+    "effort": "S",
+    "evidence": [
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/TurnPromptBuilder.cs:38",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:261, 879, 962",
+      "docs/audit/evidence/ws-jk/agents-harness-drivers.txt",
+      "docs/audit/evidence/ws-jk/agents-harness-test-results.json"
+    ]
+  },
+  {
+    "id": "AUD-J-007",
+    "workstream": "WS-J",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "RoutineScheduler Holds Indefinite Win32 System Sleep Lock (PowerRequestSystemRequired) Whenever Any Routine Is Unpaused on AC Power",
+    "component": "Scheduled Routines & Power Management (RoutineScheduler / RoutineKeepAwake)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineScheduler.cs:112, 307-309; src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineKeepAwake.cs:46-88",
+    "description": "In RoutineScheduler.cs:112 and 307-309, RefreshKeepAwake() calls RoutineKeepAwake.Update(routines.Any((ClickyRoutine r) => !r.IsPaused)). Inside RoutineKeepAwake.Reconcile() (lines 46-68), whenever _hasUnpausedRoutines && OnAcPower() is true, it creates a Win32 power request ('HeyClicky scheduled routines') and calls PowerSetRequest(_request, PowerRequestType.PowerRequestSystemRequired) (value 1) and holds it indefinitely. Consequently, if a user has even a single weekly or daily routine enabled while plugged into AC power, Kursor prevents the Windows PC from ever entering system sleep—even when no routine is running and the next scheduled run is days away.",
+    "reproductionSteps": [
+      "Run Scenario 29 in tests/audit/ws-jk/test-agents-harness.ps1.",
+      "Inspect RoutineScheduler.cs:112, 307-309 and RoutineKeepAwake.cs:46-68.",
+      "With one unpaused routine and AC power connected, run 'powercfg /requests' in an elevated prompt to observe the persistent SYSTEM power request."
+    ],
+    "observedResult": "PowerSetRequest(PowerRequestSystemRequired) is held continuously 24/7 whenever any routine is unpaused on AC power.",
+    "expectedResult": "PowerRequestSystemRequired should only be held while a routine turn is actively executing (or within a short window around a due run), or wake timers should be used instead of blocking system sleep indefinitely.",
+    "impact": "Prevents desktop and laptop PCs on AC power from ever sleeping once a user creates any scheduled routine, wasting energy and violating Windows power management expectations.",
+    "remediation": "Acquire PowerRequestSystemRequired only while a routine is actively running in FireAsync() (or make 'Prevent sleep on AC power for routines' an explicit opt-in toggle in Settings).",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineScheduler.cs:112, 307-309",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineKeepAwake.cs:46-88",
+      "docs/audit/evidence/ws-jk/agents-harness-test-results.json"
+    ]
+  },
+  {
+    "id": "AUD-J-008",
+    "workstream": "WS-J",
+    "severity": "Low",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Severe Architectural Documentation Drift in docs/06-agents-proactive-and-memory.md vs. Actual Kursor.Agents Codebase",
+    "component": "Agent Architecture Documentation (docs/06-agents-proactive-and-memory.md)",
+    "location": "docs/06-agents-proactive-and-memory.md:1-320; src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs:1-147; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarness.cs:1-8",
+    "description": "docs/06-agents-proactive-and-memory.md contains major inaccuracies compared to the actual 122 C# files in src/desktop/Kursor.Agents/: (1) It lists non-existent namespaces HeyClicky.Agents.Codex, HeyClicky.Agents.Worker, HeyClicky.Agents.Integrations, and HeyClicky.Agents.Prompt (actual namespaces are HeyClicky.Agents, HeyClicky.Agents.Harness, HeyClicky.Agents.Jobs, HeyClicky.Agents.Memory, HeyClicky.Agents.Proactive, HeyClicky.Agents.Routines, HeyClicky.Agents.Runtime, HeyClicky.Agents.Sidecar, and HeyClicky.Agents.Turns); (2) §2.3 claims CodexHomeManager.cs writes config.toml with base_url = 'https://api.heyclicky.com/agent/codex', approval_policy = 'never', and sandbox_mode = 'danger-full-access', whereas CodexHomeManager.cs (147 lines) only writes AGENTS.md, skills/, and skills-manifest.json and never writes config.toml (those flags are passed via CLI arguments -c approval_policy=\"never\" -s danger-full-access in CodexSession.cs:96-99); (3) §1.2 claims AgentHarness has 27 enum values, whereas AgentHarness.cs has only 3 (Codex, Pi, H1) and the 27-value enum is AgentModelOption.cs.",
+    "reproductionSteps": [
+      "Compare docs/06-agents-proactive-and-memory.md §1–§2 against src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs, CodexSession.cs, AgentHarness.cs, and AgentModelOption.cs."
+    ],
+    "observedResult": "Documentation references non-existent file paths/namespaces, attributes Codex CLI flags to a non-existent config.toml generator in CodexHomeManager.cs, and confuses AgentHarness (3 values) with AgentModelOption (27 values).",
+    "expectedResult": "docs/06-agents-proactive-and-memory.md should accurately reflect the 9 namespaces and class responsibilities in src/desktop/Kursor.Agents/.",
+    "impact": "Misleads engineers and security auditors inspecting Codex/H1 configuration and namespace layout.",
+    "remediation": "Update docs/06-agents-proactive-and-memory.md to match the actual 9 namespaces in src/desktop/Kursor.Agents/, document CodexSession.BuildExecArgs() as the source of '-c approval_policy=\"never\" -s danger-full-access', and distinguish AgentHarness from AgentModelOption.",
+    "effort": "XS",
+    "evidence": [
+      "docs/06-agents-proactive-and-memory.md:1-120",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs:1-147",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexSession.cs:88-115",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarness.cs:1-8",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentModelOption.cs:1-33"
+    ]
+  },
+  {
+    "id": "AUD-K-001",
+    "workstream": "WS-K",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Dead/Orphaned FriendCodeGroup() UI on Referral Settings Page Prevents Claiming Referral Codes",
+    "component": "Settings Window / Invite & Earn (Referral Page)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:6142-6172, 6940-7019",
+    "description": "SettingsContent.cs fully implements FriendCodeGroup() (lines 6940-6988) and ClaimFriendCodeAsync() (lines 6990-7019) to provide a text input and 'Apply' button that calls host.ClaimReferralCodeAsync(text) (POST /me/referral/claim). However, BuildReferralPage() (lines 6142-6172) constructs a fixed 7-element FrameworkElement[] array containing HeldCodeCard(), NegativeBalanceNote(), TermsCard(), EarningsGroup(), FriendsGroup(), EstimatorGroup(), and PayoutGroup(), and never adds FriendCodeGroup() to the visual tree.",
+    "reproductionSteps": [
+      "Open Kursor Settings and navigate to the 'Invite & Earn' (Referral) page.",
+      "Scroll through the entire Referral page looking for the 'Friend's code' input box and 'Apply' button.",
+      "Inspect BuildReferralPage() at src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:6142-6172 and search for callers of FriendCodeGroup() (defined at line 6940)."
+    ],
+    "observedResult": "FriendCodeGroup() has zero callers in the codebase; the 'Friend's code' input group is never rendered on the Referral page.",
+    "expectedResult": "BuildReferralPage() should include FriendCodeGroup() so signed-in users without an existing claimed referral can enter and apply a friend's referral code.",
+    "impact": "Users cannot manually enter or redeem a friend's referral code from the Settings UI, making the POST /me/referral/claim manual redemption flow unreachable.",
+    "remediation": "Include FriendCodeGroup() in the FrameworkElement[] array returned by BuildReferralPage() in SettingsContent.cs (e.g., immediately after HeldCodeCard() or FriendsGroup()).",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:6142-6172",
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:6940-7019",
+      "docs/audit/evidence/ws-jk/ui-static-analysis.json"
+    ]
+  },
+  {
+    "id": "AUD-K-002",
+    "workstream": "WS-K",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Universal Pressable Control Lacks Keyboard Focus (IsTabStop) and Enter/Space Key Handling",
+    "component": "App-Wide UI Primitives / Accessibility",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.UI/Pressable.cs:18, 181-242; src/desktop/Kursor.App/HeyClicky.App.UI/PressableAutomationPeer.cs:8-112",
+    "description": "Pressable is the universal interactive control used for buttons, toggle switches, sidebar navigation rows, cards, and action chips across Settings, Notch, ArcDock, Home, Paywall, and Onboarding. Pressable inherits from Microsoft.UI.Xaml.Controls.Grid (Pressable.cs:18), where UIElement.IsTabStop defaults to false. Its constructor (Pressable.cs:181-242) only subscribes to PointerEntered, PointerExited, PointerPressed, PointerReleased, and PointerCaptureLost; it never sets IsTabStop = true, never displays a keyboard focus visual, and never handles KeyDown for VirtualKey.Enter or VirtualKey.Space. Across all 885 C# files in Kursor.App, IsTabStop = true is set in only 6 places.",
+    "reproductionSteps": [
+      "Open Kursor Settings (or Intro/Tutorial/Paywall/Home window).",
+      "Press the Tab key repeatedly to navigate between sidebar items, toggle switches, and action buttons, and press Enter or Space to activate a control.",
+      "Inspect src/desktop/Kursor.App/HeyClicky.App.UI/Pressable.cs:181-242 and docs/audit/evidence/ws-jk/ui-static-analysis.json."
+    ],
+    "observedResult": "Tab navigation skips all Pressable controls (sidebar items, GelButton, GelToggle, cards, close buttons), and pressing Enter or Space does not trigger Click.",
+    "expectedResult": "Interactive Pressable controls should set IsTabStop = true (when enabled), UseSystemFocusVisuals = true, and invoke RaiseClick() on KeyDown for VirtualKey.Enter and VirtualKey.Space.",
+    "impact": "Severe accessibility failure (WCAG 2.1.1 Keyboard): keyboard-only and assistive-technology users cannot navigate or operate the Settings window, Onboarding flows, Paywall cards, or Notch/Dock actions via keyboard.",
+    "remediation": "In Pressable(bool handCursor = true), set IsTabStop = handCursor; UseSystemFocusVisuals = true; update IsTabStop when Enabled changes; and add a KeyDown handler that invokes RaiseClick() when Enabled && (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space).",
+    "effort": "S",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.UI/Pressable.cs:18, 181-242",
+      "src/desktop/Kursor.App/HeyClicky.App.UI/PressableAutomationPeer.cs:8-112",
+      "docs/audit/evidence/ws-jk/ui-static-analysis.json"
+    ]
+  },
+  {
+    "id": "AUD-K-003",
+    "workstream": "WS-K",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "DeveloperFlags.FullAgentActivity Getter Hardcoded to false and Developer Settings Page Hidden Behind Server Flag",
+    "component": "Settings Window / Developer Page & DeveloperFlags",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/DeveloperFlags.cs:17-42; src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsHost.cs:64; src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:4195-4203, 8771",
+    "description": "In DeveloperFlags.cs:17-27, the property FullAgentActivity has a getter that unconditionally returns false ('get { return false; }') while its setter writes 'full_agent_activity_debug' to %LOCALAPPDATA%\\HeyClicky\\developer-flags.json via Write(\"full_agent_activity_debug\", value). Because the getter never calls DeveloperFlags.Read(\"full_agent_activity_debug\"), the private Read(string key) helper (lines 31-42) is completely dead code and the 'Full agent activity' toggle in SettingsContent.cs:4195-4203 can never read back true. Additionally, SettingsContent.cs:8771 only adds the Developer page to the sidebar when host.ShowsDeveloperSection is true (SettingsHost.cs:64: Agents?.AllowsDeveloperModelSelection ?? false).",
+    "reproductionSteps": [
+      "Inspect src/desktop/Kursor.App/HeyClicky.App.Settings/DeveloperFlags.cs lines 17-42.",
+      "Observe that FullAgentActivity.get returns literal false instead of Read(\"full_agent_activity_debug\").",
+      "Inspect SettingsContent.cs:8771 and SettingsHost.cs:64 to see that SettingsWindow.Page.Developer is omitted from the sidebar unless Agents.AllowsDeveloperModelSelection is true."
+    ],
+    "observedResult": "DeveloperFlags.FullAgentActivity always returns false regardless of developer-flags.json contents, and the Developer settings section is hidden for standard/local accounts unless AllowsDeveloperModelSelection is true.",
+    "expectedResult": "DeveloperFlags.FullAgentActivity.get should return Read(\"full_agent_activity_debug\"), and developer/debug builds or local dev mode should allow accessing the Developer settings page.",
+    "impact": "Toggling 'Full agent activity' in Developer settings has no effect at runtime because every caller reading DeveloperFlags.FullAgentActivity receives false.",
+    "remediation": "Change DeveloperFlags.FullAgentActivity.get to 'return Read(\"full_agent_activity_debug\");' and allow ShowsDeveloperSection when running in local dev mode or when a developer environment variable/flag is set.",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/DeveloperFlags.cs:17-42",
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsHost.cs:64",
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:4195-4203, 8771"
+    ]
+  },
+  {
+    "id": "AUD-K-004",
+    "workstream": "WS-K",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "BugReport.Run() Hardcodes Gmail Webmail URL to hi@heyclicky.com and Uploads Local Logs/State to Sentry",
+    "component": "Settings Window / General & System Tray Bug Reporting",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/BugReport.cs:75, 91-168; src/desktop/Kursor.App/HeyClicky.App.Services/CrashReporting.cs:235-265, 484-497",
+    "description": "Clicking 'Report a bug' in Settings -> General (SettingsContent.cs:4598-4601) or the System Tray context menu (TrayIcon.cs:299) invokes BugReport.Run(host) (BugReport.cs:27-97). BugReport.Run() constructs a hardcoded Google Mail web compose URL ('https://mail.google.com/mail/?view=cm&fs=1&to=hi%40heyclicky.com&su=...' at line 75) and opens it in the browser, failing for users who do not use Gmail webmail and directing reports to HeyClicky's support address. Simultaneously, if CrashReporter.Current.IsEnabled is true, SendToSentry() (lines 99-168) bundles up to 3 MB of local log files and state-<id>.json (containing full settings, audio devices, permissions, and user email) and uploads them to Sentry alongside CrashReporting.cs (which sets SendDefaultPii = true and uploads minidumps up to 20 MB on startup).",
+    "reproductionSteps": [
+      "Click 'Report a bug' in Settings -> General or right-click the system tray icon and click 'Report a bug...'.",
+      "Inspect src/desktop/Kursor.App/HeyClicky.App.Settings/BugReport.cs lines 75 and 91-168."
+    ],
+    "observedResult": "Opens mail.google.com addressed to hi@heyclicky.com with subject 'hey clicky — bug report (#<id>)' and uploads logs/state-<id>.json to Sentry.",
+    "expectedResult": "Bug reporting should use a configurable Kursor support URL or standard mailto: URI and obtain explicit user consent before uploading local logs and state snapshots.",
+    "impact": "Users without Gmail webmail cannot submit the prefilled bug report email, reports go to hi@heyclicky.com instead of Kursor, and diagnostic logs/PII are uploaded without a consent prompt.",
+    "remediation": "Replace the hardcoded Gmail compose URL and hi@heyclicky.com address in BugReport.cs with a configurable support endpoint or mailto: link, and gate log/state attachment uploads behind user confirmation.",
+    "effort": "S",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/BugReport.cs:75, 91-168",
+      "src/desktop/Kursor.App/HeyClicky.App.Services/CrashReporting.cs:235-265, 484-497",
+      "docs/audit/evidence/ws-jk/ui-static-analysis.json"
+    ]
+  },
+  {
+    "id": "AUD-K-005",
+    "workstream": "WS-K",
+    "severity": "Low",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Incomplete Kursor Rebranding and Unported macOS Holdovers (⌘, mac_step, HEYCLICKY) Across UI Surfaces",
+    "component": "App-Wide UI Copy, Window Titles, and Browser/Agent Steering",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:2040, 8769; src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeSetupFlow.cs:55, 57, 65, 364; src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeAutoInstall.cs:103; src/desktop/Kursor.App/HeyClicky.App.Billing/BillingUi.cs:146, 503",
+    "description": "Rebranding from HeyClicky to Kursor was applied to SettingsWindow.cs:35 ('Kursor Settings'), IntroWindow.cs:207 ('Kursor'), and TrayIcon.cs:297, 304 ('Pause Kursor', 'Quit Kursor'), but dozens of UI surfaces still display 'HeyClicky' or macOS-specific symbols/tools: (1) SettingsContent.cs:8769 renders the main sidebar header as 'HEYCLICKY'; (2) SettingsContent.cs:2040, 8769, 8937 uses the macOS Command glyph ('⌘') for the Windows Shortcuts page; (3) SettingsHost.cs:71 formats the footer as 'HeyClicky {version}'; (4) ChromeSetupFlow.cs:55, 57, 65 instructs the agent to 'call mac_step (HeyClicky does it on their screen while they watch)' when Chrome is not connected, and line 364 logs 'jobs aren't ported on Windows yet'; (5) ChromeAutoInstall.cs:103 hardcodes 'https://chromewebstore.google.com/detail/heyclicky/bphdnlcghkpiaoiplkhfofpfboddahce'; (6) OverlayWindow titles in NotchView.cs:190 ('HeyClicky Notch'), PaywallWindow.cs:41 ('HeyClicky'), TakeOverOverlay.cs:77, 438 ('HeyClicky drive' / 'HeyClicky is driving'), and OneBrainStatsPanel.cs:91 ('HeyClicky one brain stats') retain HeyClicky naming.",
+    "reproductionSteps": [
+      "Open Kursor Settings and inspect the top-left sidebar group header ('HEYCLICKY'), the Shortcuts icon ('⌘'), the footer ('HeyClicky ...'), General page ('Pause HeyClicky'), and Account page ('Quit HeyClicky').",
+      "Inspect ChromeSetupFlow.cs:55-65 and ChromeAutoInstall.cs:103.",
+      "Review the full list of occurrences in docs/audit/evidence/ws-jk/ui-static-analysis.json."
+    ],
+    "observedResult": "UI surfaces mix 'Kursor' and 'HeyClicky' branding, display macOS '⌘' glyphs on Windows, and steer agents to call the macOS tool name 'mac_step'.",
+    "expectedResult": "All user-facing titles, sidebar headers, support links, Windows glyphs, and agent steering prompts should consistently use Kursor branding and Windows tool names.",
+    "impact": "Inconsistent product identity across windows/menus and confusing macOS references ('⌘', 'mac_step') on Windows.",
+    "remediation": "Centralize brand constants (product name, support email, web store URL) and replace 'HEYCLICKY', '⌘', and 'mac_step' across SettingsContent.cs, SettingsHost.cs, ChromeSetupFlow.cs, BillingUi.cs, UpdateService.cs, and overlay windows.",
+    "effort": "M",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:2040, 2309, 4247, 4524, 4556, 8769, 8937",
+      "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeSetupFlow.cs:55, 57, 65, 364",
+      "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeAutoInstall.cs:103",
+      "docs/audit/evidence/ws-jk/ui-static-analysis.json"
+    ]
+  },
+  {
+    "id": "AUD-K-006",
+    "workstream": "WS-K",
+    "severity": "Low",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "CustomConnectorStore Filename (connectors.json vs custom-connectors.json) and Env-Var Prefix Drift",
+    "component": "Settings / Custom MCP Connectors Storage",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/CustomConnectorStore.cs:977-985, 1427",
+    "description": "CustomConnectorStore.cs:983-985 persists custom MCP connector definitions in %LOCALAPPDATA%\\HeyClicky\\connectors.json and DPAPI-encrypted secrets in %LOCALAPPDATA%\\HeyClicky\\connectors.secrets using entropy 'HeyClicky.Connectors.v1' (line 977), whereas docs/05-platform-win32-and-ui-shell.md §8 documents the file as custom-connectors.json. Additionally, CustomConnectorStore.Registrations() (line 1427) prefixes injected environment variables for stdio/HTTP MCP servers with 'HEYCLICKY_' + item.ServerKey.ToUpperInvariant().",
+    "reproductionSteps": [
+      "Inspect src/desktop/Kursor.App/HeyClicky.App.Settings/CustomConnectorStore.cs lines 977-985 and 1427.",
+      "Compare with docs/05-platform-win32-and-ui-shell.md §8 and docs/audit/evidence/ws-jk/ui-storage-dpapi-test.json."
+    ],
+    "observedResult": "CustomConnectorStore writes connectors.json and connectors.secrets (with DPAPI entropy 'HeyClicky.Connectors.v1') and injects HEYCLICKY_<SERVERKEY>_HEADER_* environment variables.",
+    "expectedResult": "Documentation and implementation should agree on connectors.json + connectors.secrets and Kursor environment variable prefixes.",
+    "impact": "Tools or migration scripts looking for custom-connectors.json will miss user-configured MCP connectors.",
+    "remediation": "Align documentation with connectors.json / connectors.secrets and support KURSOR_ (with fallback to HEYCLICKY_) environment variable prefixes.",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/CustomConnectorStore.cs:977-985, 1427",
+      "docs/audit/evidence/ws-jk/ui-storage-dpapi-test.json"
+    ]
+  },
+  {
+    "id": "AUD-K-007",
+    "workstream": "WS-K",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Dead/Duplicate JsonAppSettings Class Uses Incompatible settings.json Schema and --background Startup Flag",
+    "component": "App Services / Settings Persistence",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Services/JsonAppSettings.cs:12-651; src/desktop/Kursor.App/HeyClicky.App.Services/CoreAppSettings.cs:8-272; src/desktop/Kursor.Core/HeyClicky.Core.Settings/SettingsStore.cs:37-45",
+    "description": "Kursor.App contains two competing IAppSettings implementations: CoreAppSettings (which wraps HeyClicky.Core.Settings.SettingsStore and persists the full AppSettings schema to %LOCALAPPDATA%\\HeyClicky\\settings.json) and JsonAppSettings (a 651-line standalone class with its own source-generated serializer for a 10-field Data class that also defaults to Path.Combine(AppPaths.Root, \"settings.json\")). If JsonAppSettings is instantiated with its default directory and Save() is called (line 643), it overwrites %LOCALAPPDATA%\\HeyClicky\\settings.json with only 10 PascalCase properties, wiping out hotkeys, audio devices, dictation words, and agent preferences. Furthermore, JsonAppSettings.LaunchAtLogin (line 611) writes '\"<exe>\" --background' to HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run, whereas Program.cs / LaunchAtLogin.cs expects '--autostart'.",
+    "reproductionSteps": [
+      "Inspect src/desktop/Kursor.App/HeyClicky.App.Services/JsonAppSettings.cs lines 14-35, 600-618, and 623-649.",
+      "Compare with CoreAppSettings.cs and SettingsStore.cs."
+    ],
+    "observedResult": "JsonAppSettings targets the same settings.json filename with an incompatible 10-field schema and writes '--background' to the Windows Run registry key.",
+    "expectedResult": "Only CoreAppSettings / SettingsStore should manage %LOCALAPPDATA%\\HeyClicky\\settings.json, or JsonAppSettings should be removed/isolated to a test-only filename.",
+    "impact": "Accidental use of JsonAppSettings clobbers the user's primary settings.json file and writes an unrecognized startup flag to the registry.",
+    "remediation": "Remove JsonAppSettings.cs (or restrict it to an isolated test file name like 'devfakes-settings.json') so SettingsStore is the sole owner of settings.json.",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Services/JsonAppSettings.cs:12-35, 600-650",
+      "src/desktop/Kursor.App/HeyClicky.App.Services/CoreAppSettings.cs:8-272",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Settings/SettingsStore.cs:37-45"
+    ]
+  },
+  {
+    "id": "AUD-K-008",
+    "workstream": "WS-K",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unguarded async void UI Entrypoints and Fire-and-Forget Spreadsheet Loader Risk Unhandled Exceptions and Infinite Spinner",
+    "component": "Notch Drawing Viewer / AppHost Cursor Dock / Spreadsheet Document View",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowViewer.cs:28-77; src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:2190-2204; src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetDocumentView.cs:22-44",
+    "description": "Three UI async paths lack exception handling: (1) ClickyDrawingWindowViewer.Present(StoredLesson, LessonService) (line 28) is declared 'public async void Present(...)' with no try/catch around 'await newPlayer.LoadAsync(...)' or subsequent OverlayWindow creation; (2) AppHost.SetCursorDocked(bool) (line 2190) is 'public async void SetCursorDocked(bool dock)' and awaits Services.Cursor.DockAsync(default(PointD)) at line 2201 outside any try/catch block; (3) SpreadsheetDocumentView (line 26) invokes 'LoadAsync(fallback)' fire-and-forget from its constructor without a try/catch inside LoadAsync (lines 29-44), so any exception thrown by SpreadsheetAssetCache.LoadAsync(Path) faults unobserved and leaves the 'Loading document…' ProgressRing spinning forever.",
+    "reproductionSteps": [
+      "Inspect ClickyDrawingWindowViewer.cs:28-77, AppHost.cs:2190-2204, and SpreadsheetDocumentView.cs:22-44.",
+      "Pass a corrupt or inaccessible spreadsheet path to SpreadsheetDocumentView where SpreadsheetAssetCache.LoadAsync throws."
+    ],
+    "observedResult": "Exceptions in Present() or SetCursorDocked() propagate as unhandled async void exceptions on the UI synchronization context; exceptions in SpreadsheetDocumentView.LoadAsync() leave the loading spinner active indefinitely.",
+    "expectedResult": "All async void methods and fire-and-forget UI loaders should wrap awaits in try/catch blocks and render fallback error states.",
+    "impact": "Potential UI thread crash or permanently stuck loading spinner when opening a corrupt lesson or spreadsheet.",
+    "remediation": "Wrap the body of ClickyDrawingWindowViewer.Present(), the early return branch of AppHost.SetCursorDocked(), and SpreadsheetDocumentView.LoadAsync() in try/catch blocks that log the error and display the fallback view.",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowViewer.cs:28-77",
+      "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:2190-2204",
+      "src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetDocumentView.cs:22-44"
+    ]
+  },
+  {
+    "id": "AUD-K-009",
+    "workstream": "WS-K",
+    "severity": "Low",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Trailing null Element in SettingsContent.AgentsPage() Autonomy Group Array",
+    "component": "Settings Window / Agents Page",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:2711-2728",
+    "description": "In SettingsContent.AgentsPage() (lines 2711-2728), the 'Autonomy' settings group is constructed by passing 'new FrameworkElement[3]' to SK.Group(\"Autonomy\", ...), where elements 0 and 1 are populated (' Use my browser' and 'Work across my apps') but element 2 is left as null after a third toggle was removed.",
+    "reproductionSteps": [
+      "Inspect src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs lines 2711-2728."
+    ],
+    "observedResult": "new FrameworkElement[3] is allocated with index 2 uninitialized (null).",
+    "expectedResult": "The array passed to SK.Group(\"Autonomy\", ...) should have length 2 with no trailing null element.",
+    "impact": "Minor code hygiene hazard; any group layout helper that does not filter null entries would throw a NullReferenceException.",
+    "remediation": "Change 'new FrameworkElement[3]' to 'new FrameworkElement[2]' at SettingsContent.cs:2711.",
+    "effort": "XS",
+    "evidence": [
+      "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:2711-2728"
+    ]
+  },
+  {
+    "id": "AUD-K-010",
+    "workstream": "WS-K",
+    "severity": "Low",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Architectural Documentation Class & Namespace Drift Across Kursor.App UI Surfaces",
+    "component": "Architecture Documentation vs. Kursor.App Codebase",
+    "location": "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:1; src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ActivitySurface.cs:17; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkSheetView.cs:16",
+    "description": "Several class names and file locations documented in docs/05-platform-win32-and-ui-shell.md and docs/04-drawing-2d-3d-and-ink-engine.md differ from the actual decompiled Kursor.App codebase: (1) AppHost.cs is in HeyClicky.App/AppHost.cs (8,601 lines), not HeyClicky.App.Wiring/AppHost.cs; (2) Notch listening/thinking/speaking states are implemented by ActivitySurface.cs (not ListeningSurface.cs), text replies by TextResponseSurface.cs (not ResponseSurface.cs), mic errors by MicrophoneTroubleSurface.cs (not MicrophoneDisconnectedSurface.cs), and permission prompts by OnboardingCardSurface.cs and DocumentAccessSurface.cs (not PermissionPromptSurface.cs); (3) Notch chat transcript is NotchChatView.cs (not NotchChatTranscriptView.cs); (4) Screen Ink Notebook sheet view is ClickyInkSheetView.cs (857 lines, not ClickyInkInteractiveSheetView.cs); (5) Home views are implemented inside HeyClickyWindow.cs + HeyClicky.App.Home/* sources rather than standalone HomeWindow.cs / HomeView.cs classes.",
+    "reproductionSteps": [
+      "Compare class names in docs/05-platform-win32-and-ui-shell.md and docs/04-drawing-2d-3d-and-ink-engine.md against docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json."
+    ],
+    "observedResult": "Multiple documented UI surface filenames do not match the actual filenames in src/desktop/Kursor.App/.",
+    "expectedResult": "Architecture docs should reference the exact namespace and class names present in src/desktop/Kursor.App/.",
+    "impact": "Engineers and automated scripts navigating the 885-file Kursor.App project by documented class names encounter missing file paths.",
+    "remediation": "Update docs/04-drawing-2d-3d-and-ink-engine.md and docs/05-platform-win32-and-ui-shell.md with the exact class names from ui-namespace-surface-inventory.json.",
+    "effort": "XS",
+    "evidence": [
+      "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+      "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:1",
+      "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchSurfaces.cs:20-138",
+      "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkSheetView.cs:16"
+    ]
+  }
+]

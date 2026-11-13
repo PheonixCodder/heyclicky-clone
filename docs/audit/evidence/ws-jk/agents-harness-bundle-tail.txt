@@ -1,0 +1,50 @@
+﻿_){let r=this.nextId++;return new Promise((n,s)=>{let i=setTimeout(()=>{this.pending.delete(r),s(Error(`the ${this.definition.name} connector didn't answer ${A} in ${Math.round(t/1000)} s`))},t);this.pending.set(r,{resolve:n,reject:s,timer:i,method:A});try{this.write({jsonrpc:"2.0",id:r,method:A,...e!==void 0?{params:e}:{}})}catch(o){clearTimeout(i),this.pending.delete(r),s(o)}})}forward(A,e){let t=this.nextId++,r=new Promise((n,s)=>{let i=setTimeout(()=>{this.pending.delete(t),s(Error(`the ${this.definition.name} connector didn't answer ${A}`))},b_);this.pending.set(t,{resolve:n,reject:s,time
+`))>=0){let t=this.buffer.slice(0,e).replace(/\r$/,"");if(this.buffer=this.buffer.slice(e+1),!t.trim())continue;let r;try{r=JSON.parse(t)}catch{continue}for(let n of Array.isArray(r)?r:[r])this.handle(n)}}handle(A){if(!A||typeof A!=="object")return;if(A.method&&A.id!==void 0&&A.id!==null){let t=A.method==="ping"?{jsonrpc:"2.0",id:A.id,result:{}}:{jsonrpc:"2.0",id:A.id,error:{code:-32601,message:`${A.method} isn't supported`}};try{this.write(t)}catch{}return}if(A.method)return;let e=this.pending.get(A.id);if(!e)return;if(clearTimeout(e.timer),this.pending.delete(A.id),e.raw)e.resolve(A);else if
+`)}catch{}}function j5(A){try{return JSON.parse(ne.readFileSync(Bt.join(A.state,"h1.json"),"utf8"))}catch{return{jobId:null,turn:0,lastSeq:0,pendingAsk:null}}}function wc(A,e){ne.writeFileSync(Bt.join(A.state,"h1.json"),JSON.stringify(e,null,2))}function O_(A){let e=[],t=0,r=(n)=>{let s;try{s=ne.readdirSync(n,{withFileTypes:!0})}catch{return}for(let i of s){if(e5.has(i.name))continue;let o=Bt.join(n,i.name);if(i.isDirectory()){r(o);continue}if(!i.isFile())continue;let a=ne.statSync(o);if(a.size>t5||t+a.size>r5)continue;t+=a.size,e.push({path:o,b64:ne.readFileSync(o).toString("base64"),mtimeMs:
+How to use the user's connected apps (through the composio server): read an app's skill before your first call to that app; it names the tools and arguments that work.
+${n.join(`
+`)}
+</connected_app_skills>`:"",r.length?`<skills>
+Skills you can read when a task needs them:
+${r.join(`
+`)}
+</skills>`:"",s.length?`<their_skills>
+The user's own skills, kept on this Mac (they wrote or chose these: how they write, how they like work done). When the work touches what one covers (writing as them, their messages, their process), read it first and follow it over your own habits:
+${s.join(`
+`)}
+</their_skills>`:""].filter(Boolean).join(`
+
+`);return{seeds:t,catalog:i}}var F_=`<working_fast>
+Every round you take costs the user time: batch.
+- Before you call a tool, decide everything you can already know you'll need, and ask for all of it at once: independent searches, page reads and app calls go together in one exec program with Promise.allSettled (direct tools: as parallel calls in the same response). Go one at a time only when a call needs the last one's result.
+- Connected apps: COMPOSIO_MULTI_EXECUTE_TOOL runs every item of its "tools" list in parallel, so put all the independent reads of a step in one call (several searches, or the 3 messages you want to open). COMPOSIO_SEARCH_TOOLS takes several "queries" at once and its results carry most tools' schemas: search once for everything a job needs and never search again for a tool you already found. Call COMPOSIO_GET_TOOL_SCHEMAS only for the tools it returned with a schemaRef instead of a schema, all of them in one call, before you use them. When an app has a skill below, read it before that app's fi
+- Read light first: list with headers or ids only (Gmail: GMAIL_FETCH_EMAILS with verbose false, include_payload false and max_results set), choose the few that matter, then open those few together.
+- Stop gathering as soon as you can answer: when what you found agrees, or you can name the answer and its reasons, write it. Look again only when something is missing or contradicts.
+- Network commands get a short limit (curl --max-time 45, one retry at most): a server that doesn't answer is read another way (fetch_url) or skipped, never waited on.
+- Never search the whole disk (find /, a recursive search of the home folder): it takes minutes. Look where you were told, in your folder, or with Spotlight (mdfind) when you must.
+- When a library or tool you need is missing, install it and keep going (Python: a venv in tmp/ and pip install there; Node: npm install in tmp/; brew for command-line tools) instead of switching to another language or a weaker way to avoid it.
+</working_fast>`,c5=F_.replace("- Network commands get a short limit (curl --max-time 45, one retry at most)","- Network commands get a short limit (curl.exe --max-time 45 or Invoke-WebRequest -TimeoutSec 45, one retry at most)").replace("- Never search the whole disk (find /, a recursive search of the home folder): it takes minutes. Look where you were told, in your folder, or with Spotlight (mdfind) when you must.","- Never search the whole disk (Get-ChildItem C:\\ -Recurse, a recursive search of the user folder): it takes minutes. Look where you were told, in your folder, or in the one fold
+You work in a Linux cloud workspace at ${A.workspace}. It is a copy of this work's folder on the user's Mac and is copied back after each turn, so files you make there appear on their Mac at the same path. You can't see their screen, and there is no Spotlight (mdfind) here: use find and rg.${r?" Their Mac is reachable only through the device_* tools (bring a file in with device_read_file, put one of yours on their Mac with device_save_file, show them something with device_open).":" You can't reach their Mac, its other files, their connected apps or their browser from here."}
+</environment>`:`<environment>
+You work on the user's ${$f?"Windows PC":"Mac"}, in this work's folder ${A.workspace}.${$f?" Your shell tool (bash) runs Windows PowerShell commands, not bash: paths use backslashes (C:\\Users\\\u2026), and ~ is $env:USERPROFILE.":""} Change files with your edit and write tools (only the lines that change, or a new file)${A.planTool?"":", and the job's note with the note tools when you have them"}.${A.planTool?" Your plan (update_plan) is your progress: there is no separate progress line to send, and a message without a tool call ends your turn.":A.note?.tools?" The note's plan is your progres
+</environment>`;return[A.instructions||"",i,$f?c5:F_,s?`<workspace_instructions path="${n}">
+${s}
+</workspace_instructions>`:"",e].filter(Boolean).join(`
+
+`)}var Oc=new Map;async function u5(A){let e=A.worker?.base;if(!e)return"hosted";if(!Oc.has(e))Oc.set(e,(async()=>{try{let t=await fetch(`${e}/agent/web-search`,{headers:{authorization:`Bearer ${A.worker.sessionToken}`},signal:AbortSignal.timeout(4000)});return t.ok&&(await t.json()).available===!0?"exa":"hosted"}catch{return Oc.delete(e),"hosted"}})());return Oc.get(e)}async function d5(A,e){if(A.place==="cloud")return{base:`${A.worker.base}/agent/harness/lab/h1`,token:A.worker.sessionToken};return l_(A,e)}var G_=1800000;function f5(){return`It worked for ${Math.round(G_/60000)} minutes, the 
+
+${s.join(`
+
+---
+
+`)}`)}if(t){let n="";try{n=ne.readFileSync(Bt.join(t,".clicky","memory.md"),"utf8").trim()}catch{}if(n)r.push(`[HeyClicky] Your memory file (.clicky/memory.md), as you last wrote it:
+${n}`)}return r}async function m5(A,e,t,r){let n=D_(t.job,r.restarts);r.pickedModel=e.place!=="cloud"&&w_.has(e.model)?e.model:null;let{seeds:s,catalog:i}=T_(e.skills,e.place!=="cloud"?e.userSkills:[]),o=await M_(e,t,n);r.helperBase=o?.tunnelBase??null;let a=e.place!=="cloud"?(e.mcp||[]).map((u)=>({name:u.name,url:u.url,...u.token?{token:u.token}:{},...u.headers?{headers:u.headers}:{},...u.meta?{meta:u.meta}:{},...u.name!=="composio"?{optional:!0}:{runsWithout:!0}})):o?[...(e.mcp||[]).map((u)=>({name:u.name,url:`${o.base}/mcp/${u.name}`,token:o.token})),{name:"device",url:`${o.base}/mcp/device
+
+${l}`:A.text:A.note?.tools?`${A.text}
+
+This conversation has no note tools: save note.md with your file tools (write or edit) as you work.`:A.text,m=r.turn===1&&A.place!=="cloud"?[...p5(e,r,A.workspace),u].join(`
+
+`):u,f=A.place!=="cloud"?(A.mcp||[]).map((B)=>({name:B.name,url:B.url,...B.token?{token:B.token}:{},...B.headers?{headers:B.headers}:{},...B.meta?{meta:B.meta}:{},...B.name!=="composio"?{optional:!0}:{runsWithout:!0}})):void 0,h=A.place!=="cloud"?$_(A,r):void 0,g=A.place!=="cloud"?S_(A,T_(A.skills,A.userSkills).catalog,A.place,!1):void 0;await St(t,"POST",`/jobs/${n}/turn`,{n:r.turn,turn:{text:m,images:c,clock:"turn"},...f?{mcp:f}:{},...g?{instructions:g}:{},...h?{metadata:h}:{}})}}catch(c){if(!/: (404|410) /.test(String(c.message))||e.retriedGoneJob)throw c;return e.retriedGoneJob=!0,r.dead=!
+
+`),o={status:"completed"};break;case"turn_end":if(!i&&u.finalText)i=u.finalText;o=u.status==="interrupted"?{status:"interrupted"}:u.status==="timeout"?{status:"failed",error:f5()}:{status:u.status==="completed"?"completed":"failed",error:u.status==="completed"?void 0:u.reason||u.status};break;case"cancelled":r.dead=!0,o={status:"interrupted"};break;case"error":e.log(`H1 error at ${u.where}: ${u.message}`);break;default:break}if(o)break}wc(e,r)}if(vo.delete(e.job),!r.pendingAsk&&A.place==="cloud")await h5(t,n,A.workspace,e);if(i)e.emit({kind:"answer",text:as(i)});e.emit({kind:"stats",...a}),e.e
+

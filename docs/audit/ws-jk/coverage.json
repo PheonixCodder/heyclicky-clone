@@ -1,0 +1,254 @@
+[
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents (root namespace: AgentService, AgentWorkerApi, AgentIntegrationsApi, AgentSkillsService, AgentCatalog)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents/AgentService.cs:1-1474; src/desktop/Kursor.Agents/HeyClicky.Agents/AgentWorkerApi.cs:1-385; src/desktop/Kursor.Agents/HeyClicky.Agents/AgentIntegrationsApi.cs:1-180",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 19 files in HeyClicky.Agents audited. AgentService orchestrates jobs, routines, memory, and Composio sessions, but live turns against the local Kursor backend fail because the 7 Worker/MCP proxy routes called by clicky-harness.exe (/agent/openai/v1/responses, /agent/anthropic/v1/messages, /agent/web-search, /agent/harness/lab/h1/*, /mcp/composio) return HTTP 404 (AUD-J-001)."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents.Harness (AgentHarnessRunnerRuntime, AgentHarnessRunnerProcess, AgentHarnessRuntimes, AgentHarnessNames, AgentHarness, AgentHarnessPlace, AgentModelOption)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerRuntime.cs:1-603; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:1-334; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRuntimes.cs:1-30",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 9 files in HeyClicky.Agents.Harness audited. AgentHarnessRuntimes routes Pi, H1-Cloud, and Codex-Cloud to clicky-harness.exe, which only registers 'h1-mac' and rejects all others with HTTP 500 (AUD-J-002); AgentHarnessRunnerProcess.cs:75 hardcodes C:\\Users\\niles\\... and leaves Node launch fallback unreachable (AUD-J-005); AgentHarnessPlace.Mac uses wire value 'mac' on Windows (AUD-J-006)."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents.Runtime (CodexSession, CodexHomeManager, WindowsInstructionAdapter, KillOnCloseJob, CodexExecutableResolver, CodexAuthWatcher, AgentSkillInstaller)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexSession.cs:1-512; src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/CodexHomeManager.cs:1-147; src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/WindowsInstructionAdapter.cs:1-58; src/desktop/Kursor.Agents/HeyClicky.Agents.Runtime/KillOnCloseJob.cs:1-88",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 11 files in HeyClicky.Agents.Runtime audited. KillOnCloseJob properly assigns JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE (0x2000), and WindowsInstructionAdapter.Adapt() scrubs macOS terms from clicky-model-instructions.md, but CodexSession.BuildExecArgs() runs with '-c approval_policy=\"never\" -s danger-full-access' (AUD-J-003) and docs/06 misattributes config.toml generation to CodexHomeManager.cs (AUD-J-008)."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents.Jobs (ClickyJobStore, ClickyWorkFolderFiles, ClickyJob, ClickyArtifact, ClickyMessage)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyJobStore.cs:1-415; src/desktop/Kursor.Agents/HeyClicky.Agents.Jobs/ClickyWorkFolderFiles.cs:1-118",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 13 files in HeyClicky.Agents.Jobs audited and verified (Scenario 30). ClickyJobStore uses atomic tmp-file + File.Move persistence and sanitizes folder titles to [a-z0-9-]; ClickyWorkFolderFiles skips hidden dotfiles (.clicky, .git), excluded dirs (tmp, node_modules, __pycache__, .venv), and FileAttributes.ReparsePoint symlinks."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents.Turns (TurnPromptBuilder, StructuredFinalReply, TurnRunner, TurnEvent, RoutineDirective, ComputerUseRequest, WaitForDirective)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/TurnPromptBuilder.cs:1-312; src/desktop/Kursor.Agents/HeyClicky.Agents.Turns/StructuredFinalReply.cs:1-395",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 16 files in HeyClicky.Agents.Turns audited. StructuredFinalReply.Parse() accurately parses all 9 XML blocks (<SUMMARY>..<LEARNED>, Scenario 28), but TurnPromptBuilder.cs:38 injects unadapted macOS tool instructions ('call the mac_step tool', Scenario 27 / AUD-J-006)."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents.Routines (RoutineScheduler, ClickyRoutine, ClickyRoutineStore, RoutineKeepAwake, RoutineWakeGate)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineScheduler.cs:1-314; src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/ClickyRoutine.cs:1-195; src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineKeepAwake.cs:1-115; src/desktop/Kursor.Agents/HeyClicky.Agents.Routines/RoutineWakeGate.cs:1-108",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 7 files in HeyClicky.Agents.Routines audited. ClickyRoutine.NextSetTime handles TimeZoneInfo / DST transitions and RoutineWakeGate delays runs by 25s after PBT_APMRESUMEAUTOMATIC, but RoutineScheduler.RefreshKeepAwake() holds a permanent Win32 PowerRequestSystemRequired sleep lock whenever any routine is unpaused on AC power (Scenario 29 / AUD-J-007)."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "HeyClicky.Agents.Memory, HeyClicky.Agents.Proactive, and HeyClicky.Agents.Sidecar (UserMemoryCache, ProactiveDeciderClient, SidecarRecorder, SidecarTurnSync)",
+    "location": "src/desktop/Kursor.Agents/HeyClicky.Agents.Memory/UserMemoryCache.cs:1-95; src/desktop/Kursor.Agents/HeyClicky.Agents.Proactive/ProactiveDeciderClient.cs:1-240; src/desktop/Kursor.Agents/HeyClicky.Agents.Sidecar/SidecarRecorder.cs:1-310",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "All 46 files across HeyClicky.Agents.Memory (2), HeyClicky.Agents.Proactive (30), and HeyClicky.Agents.Sidecar (14) audited."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "Kursor.Core AgentTools & ClickyBrowserBridge (AgentTools.cs, ClickyBrowserBridge.cs)",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Conversation/AgentTools.cs:1-603; src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:1-1185",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "AgentTools.Definitions() registers 6 voice/companion tools (delegate_to_agent, list_agent_tasks, get_agent_task_status, send_agent_followup, stop_agent_task, create_scheduled_routine). ClickyBrowserBridge.cs:261, 879, 962 contains unadapted 'mac_step' tool guidance on Windows (AUD-J-006)."
+  },
+  {
+    "category": "WS-J: Autonomous Agents & Sidecars",
+    "item": "Sidecar binaries: dist/kursor-desktop/HarnessRuntime/clicky-harness.exe & dist/kursor-desktop/ClickyBrowserHost/ClickyBrowserHost.exe",
+    "location": "dist/kursor-desktop/HarnessRuntime/clicky-harness.exe; dist/kursor-desktop/ClickyBrowserHost/ClickyBrowserHost.exe",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/agents-harness-test-results.json",
+    "notes": "Binary provenance, Authenticode signatures (CN='Humansongs, Inc'), SHA-256 hashes, embedded JS/Go bundles, loopback HTTP endpoints (/turn, /events, /steer, /cancel, /prewarm), and 30 agent/tool/safety scenarios executed and verified. Marked FAIL due to AUD-J-001, AUD-J-002, AUD-J-003, and AUD-J-004."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "AppHost lifecycle, single-instance orchestration, service wiring, and quit/reset flows",
+    "location": "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:1-8601; src/desktop/Kursor.App/HeyClicky.App/Program.cs:1-198",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-static-analysis.json",
+    "notes": "AppHost is located in HeyClicky.App/AppHost.cs (not HeyClicky.App.Wiring/AppHost.cs as documented: AUD-K-010). SetCursorDocked(bool) at AppHost.cs:2190-2204 is an async void method that awaits Services.Cursor.DockAsync() at line 2201 outside a try/catch block (AUD-K-008)."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "OverlayWindow Win32 styles (WS_EX_LAYERED, WS_EX_TRANSPARENT, WS_EX_TOPMOST, WS_EX_TOOLWINDOW, WS_EX_NOACTIVATE) and SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Shell/OverlayWindow.cs:1-688",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-hwnd-inventory.json",
+    "notes": "OverlayWindow subclasses HWND via SetWindowLongPtr(-4), strips caption/thickframe, sets WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE, applies SetWindowDisplayAffinity(hwnd, 0x11) (WDA_EXCLUDEFROMCAPTURE) when excludeFromCapture is true, and routes hit-testing over interactive regions via SetInteractiveRectsPx."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "PanelWindow borderless rounded panel shell, WM_DPICHANGED scaling, and custom drag region",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Shell/PanelWindow.cs:1-333",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-hwnd-inventory.json",
+    "notes": "PanelWindow strips standard Win32 chrome, handles WM_DPICHANGED (msg 736) by rescaling widthDip/heightDip with Displays.ForWindow(hwnd).Scale, and implements custom pointer drag on the 44px top bar."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "TrayIcon system tray Shell_NotifyIconW, context menu, and Explorer restart recovery (TaskbarCreated)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Shell/TrayIcon.cs:1-442",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-hwnd-inventory.json",
+    "notes": "TrayIcon properly creates message-only window (HWND_MESSAGE = -3) with class 'HeyClickyTray' and handles WM_TASKBARCREATED and NIN_SELECT/WM_CONTEXTMENU, but 'Report a bug...' (line 299) triggers BugReport.Run() which opens a hardcoded Gmail URL to hi@heyclicky.com (AUD-K-004)."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "TaskbarButton off-screen (-32000, -32000) ITaskbarList tab and Alt+Tab visibility",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Shell/TaskbarButton.cs:1-454",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-hwnd-inventory.json",
+    "notes": "TaskbarButton registers 'HeyClickyTaskbarButton', parks the iconic window at (-32000, -32000) via WM_WINDOWPOSCHANGING, and manages the taskbar tab via COM ITaskbarList."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "OneBrainStatsPanel live HUD overlay",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Shell/OneBrainStatsPanel.cs:1-200",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "Renders a 340x380 DIP click-through OverlayWindow at top-left of primary monitor work area when ShowOneBrainStats is enabled in settings.json, refreshing every 1s."
+  },
+  {
+    "category": "App Shell & Window Management",
+    "item": "Multi-monitor DPI scaling and Z-order management (Displays.cs, ZOrder.cs, FocusWatch.cs)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Shell/Displays.cs:1-71; src/desktop/Kursor.App/HeyClicky.App.Shell/ZOrder.cs:1-94; src/desktop/Kursor.App/HeyClicky.App.Shell/FocusWatch.cs:1-125",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "Displays.From() queries GetMonitorInfo and GetDpiForMonitor (MDT_EFFECTIVE_DPI) to compute per-monitor scale (dpiX / 96.0); ZOrder.ForeignWindowAbove() checks DWMWA_CLOAKED and extended styles before raising overlays."
+  },
+  {
+    "category": "Notch & Peek Surfaces",
+    "item": "NotchView top-screen pill silhouette, system visual layer, corner glow, hover dwell, and file drag-and-drop",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchView.cs:1-1332; src/desktop/Kursor.App/HeyClicky.App.Notch/NotchSilhouette.cs:1-183; src/desktop/Kursor.App/HeyClicky.App.Notch/NotchCornerGlow.cs:1-322",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-hwnd-inventory.json",
+    "notes": "NotchView creates 'HeyClicky Notch' OverlayWindow (820xenvH DIP), attaches NotchSystemShape + NotchCornerGlow + NotchWorkingSweep, and handles file drag-and-drop in OnDrop (lines 596-632) with try/catch/finally deferral completion."
+  },
+  {
+    "category": "Notch & Peek Surfaces",
+    "item": "Notch live & interactive surfaces (ActivitySurface, TextInputSurface, TextResponseSurface, DictationClipboardSurface, MicrophoneTroubleSurface, DocumentAccessSurface, OnboardingCardSurface, TutorialInviteSurface)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Notch/NotchSurfaces.cs:1-139; src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/ActivitySurface.cs:1-491; src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/TextInputSurface.cs:1-313; src/desktop/Kursor.App/HeyClicky.App.Notch.Surfaces/TextResponseSurface.cs:1-630",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "All 22 NotchSurface subclasses are wired in NotchSurfaces.Create(), but documented class names (ListeningSurface, ResponseSurface, MicrophoneDisconnectedSurface, PermissionPromptSurface) differ from actual codebase names (AUD-K-010), and Pressable buttons inside Notch surfaces lack keyboard focus/activation (AUD-K-002)."
+  },
+  {
+    "category": "Notch & Peek Surfaces",
+    "item": "Notch Peek, Chat Transcript, Drawing Window Viewer, and Document Renderers",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/NotchPeekSurface.cs:1-669; src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/NotchChatView.cs:1-912; src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowViewer.cs:1-122; src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowView.cs:1-919; src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/NotchDocumentRenderers.cs:1-336",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-static-analysis.json",
+    "notes": "ClickyDrawingWindowViewer.Present(StoredLesson, LessonService) at line 28 is async void without a try/catch around await newPlayer.LoadAsync() or window creation (AUD-K-008)."
+  },
+  {
+    "category": "Notch & Peek Surfaces",
+    "item": "HeyClickyWindow expanded conversation/workspace window and opening flight animation",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindow.cs:1-3108; src/desktop/Kursor.App/HeyClicky.App.Notch.Window/HeyClickyWindowOpeningFlight.cs:1-520",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "HeyClickyWindow persists window frame & sidebar/document split width to %LOCALAPPDATA%\\HeyClicky\\heyclicky-window.json (lines 158-198) and animates morphing from the Notch via HeyClickyWindowOpeningFlight."
+  },
+  {
+    "category": "ArcDock (Top-Right Agent Deck)",
+    "item": "ArcDock, ArcDockView, ArcCardView, TopArcLayout, PaperStock, DeckScrollGestures, and CardFooterRequest",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Dock/ArcDock.cs:1-2373; src/desktop/Kursor.App/HeyClicky.App.Dock/ArcDockView.cs:1-742; src/desktop/Kursor.App/HeyClicky.App.Dock/ArcCardView.cs:1-1248; src/desktop/Kursor.App/HeyClicky.App.Dock/TopArcLayout.cs:1-127; src/desktop/Kursor.App/HeyClicky.App.Dock/PaperStock.cs:1-13; src/desktop/Kursor.App/HeyClicky.App.Dock/DeckScrollGestures.cs:1-170; src/desktop/Kursor.App/HeyClicky.App.Dock/CardFooterRequest.cs:1-157",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "ArcDock manages up to 30 agent cards (MaximumFaces = 30), persists unpinned docked slugs in AgentDefaults ('clicky.clickyApps.dockedUnpinnedSlugs.v1'), and supports wheel/trackpad fan scrolling via DeckScrollGestures and action footers via CardFooterRequest."
+  },
+  {
+    "category": "Settings Window (14 Pages + Storage)",
+    "item": "SettingsWindow shell and 14-page navigation (General, Shortcuts, Audio, Appearance, Dictation, OneBrain, Agents, ConnectedApps, Browser, CustomConnectors, Account, Referral, Updates, Developer)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsWindow.cs:1-49; src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:1-9083; src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsHost.cs:1-210",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-static-analysis.json",
+    "notes": "All 14 SettingsWindow.Page enum values are wired in BuildPage() (SettingsContent.cs:8951-8972), but: (1) Referral page omits FriendCodeGroup() (AUD-K-001); (2) Pressable controls lack keyboard focus/Enter/Space activation (AUD-K-002); (3) DeveloperFlags.FullAgentActivity getter is hardcoded to false and Developer page is hidden unless AllowsDeveloperModelSelection is true (AUD-K-003); (4) BugReport.Run() hardcodes Gmail webmail to hi@heyclicky.com (AUD-K-004); (5) Sidebar header says 'HEYCLICKY' and uses macOS '⌘' glyph (AUD-K-005); (6) AgentsPage() Autonomy group has a trailing null element (AUD-K-009)."
+  },
+  {
+    "category": "Settings Window (14 Pages + Storage)",
+    "item": "CustomConnectorStore (connectors.json + DPAPI connectors.secrets), ConnectorAuth OAuth PKCE loopback, AuthTokenStore DPAPI, and ObsidianVault resolution",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Settings/CustomConnectorStore.cs:1-1483; src/desktop/Kursor.App/HeyClicky.App.Settings/ConnectorAuth.cs:1-685; src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthTokenStore.cs:1-125; src/desktop/Kursor.App/HeyClicky.App.Settings/ObsidianVault.cs:1-119",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-storage-dpapi-test.json",
+    "notes": "DPAPI round-trip encryption/decryption and wrong-entropy rejection verified for both CustomConnectorStore ('HeyClicky.Connectors.v1') and AuthTokenStore ('HeyClicky.Auth.v1' / 'HeyClicky.PendingSignIn.v1'), and ObsidianVault.ResolveVaultPath() verified. Marked FAIL due to filename drift (connectors.json vs documented custom-connectors.json) and HEYCLICKY_ env-var prefix in CustomConnectorStore (AUD-K-006), plus duplicate JsonAppSettings schema conflict (AUD-K-007)."
+  },
+  {
+    "category": "Home, Documents & Viewers",
+    "item": "Home sources, lesson store/service, MarkdownViewerContent, and SpreadsheetDocumentView / SpreadsheetGridRenderer",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Home/LessonService.cs:1-612; src/desktop/Kursor.App/HeyClicky.App.Documents/MarkdownViewerContent.cs:1-171; src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetDocumentView.cs:1-67; src/desktop/Kursor.App/HeyClicky.App.Documents/SpreadsheetGridRenderer.cs:1-698",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "SpreadsheetDocumentView invokes LoadAsync(fallback) fire-and-forget from its constructor (line 26) without a try/catch around await SpreadsheetAssetCache.LoadAsync(Path), risking an unobserved task exception and an infinite loading spinner (AUD-K-008)."
+  },
+  {
+    "category": "Screen Ink Notebook & Interactive Widgets",
+    "item": "ClickyInkSheetView and 8 interactive ink widgets (Todo, Quiz, Form, QuestionAnswers, Criteria, Event, Connect, GalleryTile)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkSheetView.cs:1-857; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkTodo.cs:1-256; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkQuiz.cs:1-295; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkForm.cs:1-282; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkQuestionAnswers.cs:1-80; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkCriteria.cs:1-215; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkEvent.cs:1-253; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkConnect.cs:1-258; src/desktop/Kursor.App/HeyClicky.App.Ink/ClickyInkGalleryTile.cs:1-299",
+    "owner": "ws-jk-agents-ui",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-jk/ui-namespace-surface-inventory.json",
+    "notes": "All 269 files in HeyClicky.App.Ink verified; ClickyInkSheetView caches frozen rows at rest via ClickyInkRowMotion.Table and renders all 8 interactive ink widget families through ClickyInkSheetRowView.Make()."
+  },
+  {
+    "category": "Drive & Browser Takeover UI",
+    "item": "TakeOverOverlay, TakeOverConsentCard, UploadApprovalCard, ChromeSetupFlow, and ChromeAutoInstall",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Drive/TakeOverOverlay.cs:1-547; src/desktop/Kursor.App/HeyClicky.App.Drive/TakeOverConsentCard.cs:1-333; src/desktop/Kursor.App/HeyClicky.App.Drive/UploadApprovalCard.cs:1-47; src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeSetupFlow.cs:1-693; src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeAutoInstall.cs:1-137",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-static-analysis.json",
+    "notes": "TakeOverOverlay (Win2D conic edge glow + 'esc to stop' pill), TakeOverConsentCard (45s auto-decline timer), and UploadApprovalCard (120s timeout) are complete, but ChromeSetupFlow.cs:55,57,65 steers the agent to call the unported macOS tool name 'mac_step' and ChromeAutoInstall.cs:103 hardcodes the HeyClicky Chrome Web Store URL (AUD-K-005)."
+  },
+  {
+    "category": "Onboarding & Billing",
+    "item": "IntroWindow (5 pre-signin steps), TutorialWindow (10 interactive steps), PaywallWindow, PaywallCard, and BillingUi",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/IntroWindow.cs:1-1452; src/desktop/Kursor.App/HeyClicky.App.Onboarding/TutorialWindow.cs:1-2372; src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallWindow.cs:1-192; src/desktop/Kursor.App/HeyClicky.App.Billing/PaywallCard.cs:1-1056; src/desktop/Kursor.App/HeyClicky.App.Billing/BillingUi.cs:1-598",
+    "owner": "ws-jk-agents-ui",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-jk/ui-static-analysis.json",
+    "notes": "IntroWindow, TutorialWindow, PaywallWindow, PaywallCard, and BillingUi (including presentation-mode/call quiet holdback and Stripe checkout/portal launches) are structurally complete, but BillingUi.cs:146,503 hardcodes https://team.heyclicky.com and hi@heyclicky.com (AUD-K-005) and Pressable buttons lack keyboard Tab/Enter/Space support (AUD-K-002)."
+  },
+  {
+    "category": "Interactive GUI Runtime Verification",
+    "item": "Live interactive GUI click-through of authenticated/voice/hardware-gated surfaces (OAuth sign-in, live mic check, live Stripe checkout, live Chrome Web Store drive)",
+    "location": "src/desktop/Kursor.App/HeyClicky.App.Onboarding/TutorialWindow.cs:38-50; src/desktop/Kursor.App/HeyClicky.App.Billing/BillingUi.cs:415-456",
+    "owner": "ws-jk-agents-ui",
+    "status": "UNVERIFIED",
+    "evidence": "docs/audit/evidence/ws-jk/ui-hwnd-inventory.json",
+    "notes": "Running HeyClicky.exe (PID 20080) is in Session 1 while automated audit shell runs in a non-interactive window station where GDI CopyFromScreen / cross-desktop UIA injection cannot click through live OAuth/mic/Stripe flows without disturbing the user's desktop. Step-by-step manual verification checklist documented in REPORT.md."
+  }
+]

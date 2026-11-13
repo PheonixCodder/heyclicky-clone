@@ -1,0 +1,88 @@
+﻿{
+    "timestampUtc":  "2026-11-13T20:05:45.6767970Z",
+    "workstream":  "WS-K",
+    "summary":  {
+                    "totalChecks":  8,
+                    "passed":  8,
+                    "failed":  0,
+                    "passRate":  "100.0%"
+                },
+    "checks":  [
+                   {
+                       "id":  "AUD-K-001",
+                       "title":  "FriendCodeGroup() wired into SettingsContent.cs",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "FriendCodeGroup() occurrences in SettingsContent.cs: 4"
+                   },
+                   {
+                       "id":  "AUD-K-002",
+                       "title":  "DemoAgentMomentRows() is a clean iterator without compiler state-machine artifact _003CDemoAgentMomentRows_003Ed__65",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "cleanIterator=True, stateMachineArtifactPresent=False"
+                   },
+                   {
+                       "id":  "AUD-K-003",
+                       "title":  "Pressable.cs sets IsTabStop and handles KeyDown for VirtualKey.Enter and VirtualKey.Space",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "hasIsTabStop=True, hasKeyDownEnterSpace=True"
+                   },
+                   {
+                       "id":  "AUD-K-004",
+                       "title":  "DeveloperFlags.cs reads and writes \u0027full_agent_activity_debug\u0027",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "usesFullAgentActivityDebug=True"
+                   },
+                   {
+                       "id":  "AUD-K-005",
+                       "title":  "BugReport.cs uses GitHub issues URL and gates Sentry upload behind KURSOR_ALLOW_SENTRY_UPLOAD",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "usesGitHubIssuesUrl=True, gatesSentryBehindEnv=True"
+                   },
+                   {
+                       "id":  "AUD-K-006",
+                       "title":  "JsonAppSettings.cs persists to \u0027legacy-ui-settings.json\u0027 without colliding with SettingsService",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "usesLegacyUiSettingsJson=True"
+                   },
+                   {
+                       "id":  "AUD-K-007",
+                       "title":  "DPAPI storage round-trip (HeyClicky.Connectors.v1 \u0026 HeyClicky.Auth.v1) and wrong-entropy rejection",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "connRoundTrip=True, authRoundTrip=True, wrongEntropyRejected=True"
+                   },
+                   {
+                       "id":  "WS-K-SURFACE-INV",
+                       "title":  "Kursor.App namespace surface inventory and packaged binary verification",
+                       "status":  "PASS",
+                       "passed":  true,
+                       "details":  "csFiles=884, namespaceBuckets=35, distExeExists=True"
+                   }
+               ],
+    "dpapiStorage":  {
+                         "connectorEntropyRoundTrip":  true,
+                         "authEntropyRoundTrip":  true,
+                         "wrongEntropyRejected":  true
+                     },
+    "surfaceInventory":  {
+                             "totalCsFiles":  884,
+                             "namespaceCount":  35,
+                             "distBinary":  {
+                                                "exists":  true,
+                                                "path":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                                                "sizeBytes":  420352,
+                                                "fileVersion":  "1.1.5.0",
+                                                "productVersion":  "1.1.5+b7760017dd5ec6b66958eac23e8532d8652b89cf",
+                                                "productName":  "Kursor"
+                                            },
+                             "runningProcs":  1,
+                             "enumeratedHwnds":  0,
+                             "uiaRootCount":  0
+                         }
+}

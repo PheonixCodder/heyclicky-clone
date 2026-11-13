@@ -1,0 +1,135 @@
+﻿[
+    {
+        "Project":  "Kursor.Contracts",
+        "DllName":  "HeyClicky.Contracts.dll",
+        "SourceFileCount":  55,
+        "NewestSourceFile":  "src\\desktop\\Kursor.Contracts\\Properties\\AssemblyInfo.cs",
+        "NewestSourceTimeUtc":  "2026-11-11T17:24:51.9141249Z",
+        "ProjBinTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "AppBinTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "DistDllTimeUtc":  "2026-11-11T17:58:03.8513417Z",
+        "ProjBinSHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929",
+        "AppBinSHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929",
+        "DistSHA256":  "4A274B53E32856A173C707F85CCC739744E26D73C19B1C9D9011980A6C355929",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  0,
+        "FilesNewerThanDist":  [
+
+                               ]
+    },
+    {
+        "Project":  "Kursor.Drawing3D",
+        "DllName":  "HeyClicky.Drawing3D.dll",
+        "SourceFileCount":  41,
+        "NewestSourceFile":  "src\\desktop\\Kursor.Drawing3D\\Kursor.Drawing3D.csproj",
+        "NewestSourceTimeUtc":  "2026-11-13T10:59:36.2889059Z",
+        "ProjBinTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "AppBinTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "DistDllTimeUtc":  "2026-11-11T17:58:31.2690999Z",
+        "ProjBinSHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254",
+        "AppBinSHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254",
+        "DistSHA256":  "2DCEF8B172403E99DB0738973ADADFFE39DC72B4B8DD752600CE133DD7525254",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  1,
+        "FilesNewerThanDist":  [
+                                   "src\\desktop\\Kursor.Drawing3D\\Kursor.Drawing3D.csproj (2026-11-13T10:59:36.2889059Z)"
+                               ]
+    },
+    {
+        "Project":  "Kursor.Drawing",
+        "DllName":  "HeyClicky.Drawing.dll",
+        "SourceFileCount":  85,
+        "NewestSourceFile":  "src\\desktop\\Kursor.Drawing\\Kursor.Drawing.csproj",
+        "NewestSourceTimeUtc":  "2026-11-13T10:59:36.2681168Z",
+        "ProjBinTimeUtc":  "2026-11-12T11:32:35.7786739Z",
+        "AppBinTimeUtc":  "2026-11-12T11:32:35.7786739Z",
+        "DistDllTimeUtc":  "2026-11-12T11:32:35.7786739Z",
+        "ProjBinSHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE",
+        "AppBinSHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE",
+        "DistSHA256":  "A95A7BB2F3067DA17FC5C2A9A9CC1B3BF920AA779B8E130CAFEFD9BBF6FD4ACE",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  1,
+        "FilesNewerThanDist":  [
+                                   "src\\desktop\\Kursor.Drawing\\Kursor.Drawing.csproj (2026-11-13T10:59:36.2681168Z)"
+                               ]
+    },
+    {
+        "Project":  "Kursor.Platform",
+        "DllName":  "HeyClicky.Platform.dll",
+        "SourceFileCount":  345,
+        "NewestSourceFile":  "src\\desktop\\Kursor.Platform\\Kursor.Platform.csproj",
+        "NewestSourceTimeUtc":  "2026-11-13T10:59:36.3035265Z",
+        "ProjBinTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "AppBinTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "DistDllTimeUtc":  "2026-11-11T18:02:10.0933154Z",
+        "ProjBinSHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251",
+        "AppBinSHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251",
+        "DistSHA256":  "DA859A0A248F936FD4597A09440EDD7CA0A5A7BA344768FC235615EFDE4CB251",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  1,
+        "FilesNewerThanDist":  [
+                                   "src\\desktop\\Kursor.Platform\\Kursor.Platform.csproj (2026-11-13T10:59:36.3035265Z)"
+                               ]
+    },
+    {
+        "Project":  "Kursor.Core",
+        "DllName":  "HeyClicky.Core.dll",
+        "SourceFileCount":  564,
+        "NewestSourceFile":  "src\\desktop\\Kursor.Core\\Kursor.Core.csproj",
+        "NewestSourceTimeUtc":  "2026-11-13T10:59:36.2671098Z",
+        "ProjBinTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "AppBinTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "DistDllTimeUtc":  "2026-11-12T06:07:44.5793779Z",
+        "ProjBinSHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D",
+        "AppBinSHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D",
+        "DistSHA256":  "EAADB3E47CECA2997FCB7CAEEFD4A78F7EFA737833E2539435CD2A4C8531605D",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  1,
+        "FilesNewerThanDist":  [
+                                   "src\\desktop\\Kursor.Core\\Kursor.Core.csproj (2026-11-13T10:59:36.2671098Z)"
+                               ]
+    },
+    {
+        "Project":  "Kursor.Agents",
+        "DllName":  "HeyClicky.Agents.dll",
+        "SourceFileCount":  122,
+        "NewestSourceFile":  "src\\desktop\\Kursor.Agents\\HeyClicky.Agents\\AgentService.cs",
+        "NewestSourceTimeUtc":  "2026-11-11T18:40:05.0434632Z",
+        "ProjBinTimeUtc":  "2026-11-11T18:40:37.3293807Z",
+        "AppBinTimeUtc":  "2026-11-11T18:40:37.3293807Z",
+        "DistDllTimeUtc":  "2026-11-11T18:40:37.3293807Z",
+        "ProjBinSHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537",
+        "AppBinSHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537",
+        "DistSHA256":  "2369271F5D10E54695DCDCFC7D817F7B03DFE198606667D943A2F885B11F2537",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  0,
+        "FilesNewerThanDist":  [
+
+                               ]
+    },
+    {
+        "Project":  "Kursor.App",
+        "DllName":  "HeyClicky.dll",
+        "SourceFileCount":  884,
+        "NewestSourceFile":  "src\\desktop\\Kursor.App\\Kursor.App.csproj",
+        "NewestSourceTimeUtc":  "2026-11-13T10:59:36.2548283Z",
+        "ProjBinTimeUtc":  "2026-11-12T11:40:30.0875059Z",
+        "AppBinTimeUtc":  "2026-11-12T11:40:30.0875059Z",
+        "DistDllTimeUtc":  "2026-11-12T11:40:30.0875059Z",
+        "ProjBinSHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8",
+        "AppBinSHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8",
+        "DistSHA256":  "577418BF6F368784196F907C32580A18922F7D21CB755A420FADECB9DBCA4FA8",
+        "ProjBinEqualsDist":  true,
+        "AppBinEqualsDist":  true,
+        "FilesNewerThanDistCount":  1,
+        "FilesNewerThanDist":  [
+                                   "src\\desktop\\Kursor.App\\Kursor.App.csproj (2026-11-13T10:59:36.2548283Z)"
+                               ]
+    }
+]

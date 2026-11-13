@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>preview</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Nullable>annotations</Nullable>
+    <NoWarn>$(NoWarn);SYSLIB1050;SYSLIB1043;CS0649;CS0169;CS0414;CS8632;CS8981;CS8500;CS9191;CA1416</NoWarn>
+    <HeyClickyRuntimeDir Condition="Exists('$(MSBuildThisFileDirectory)..\..\..\dist\kursor-desktop\HeyClicky.Core.dll')">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\..\dist\kursor-desktop'))</HeyClickyRuntimeDir>
+    <HeyClickyRuntimeDir Condition="'$(HeyClickyRuntimeDir)' == ''">$(LOCALAPPDATA)\HeyClickyApp\current</HeyClickyRuntimeDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HeyClicky.Contracts">
+      <HintPath>$(HeyClickyRuntimeDir)\HeyClicky.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Core">
+      <HintPath>$(HeyClickyRuntimeDir)\HeyClicky.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="HeyClicky.Platform">
+      <HintPath>$(HeyClickyRuntimeDir)\HeyClicky.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.SDK.NET">
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Windows.SDK.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="WinRT.Runtime">
+      <HintPath>$(HeyClickyRuntimeDir)\WinRT.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>$(HeyClickyRuntimeDir)\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,95 @@
+﻿{
+    "SetupInstaller":  {
+                           "Exists":  true,
+                           "Length":  4315432,
+                           "SHA256":  "1EA46A45D1FB52B0BB4E514AB96336A726770F90C73AB2BC400BD98CD9024DCA",
+                           "SignatureStatus":  "Valid",
+                           "SignerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US"
+                       },
+    "ReferenceDecompiledCsFiles":  2096,
+    "DistTotalFiles":  751,
+    "DistTotalBytes":  545968562,
+    "DistExecutables":  [
+                            {
+                                "RelPath":  "ClickyBrowserHost\\ClickyBrowserHost.exe",
+                                "Length":  4685632,
+                                "SHA256":  "E7BD3FD9179313B98C10A79B18E6631BBB8EE6C7FB264FA4825106F4DB084A86",
+                                "SignatureStatus":  "Valid",
+                                "SignerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+                                "CompanyName":  "HeyClicky",
+                                "ProductName":  "HeyClicky",
+                                "FileDescription":  "ClickyBrowserHost",
+                                "FileVersion":  "0.1.0.0"
+                            },
+                            {
+                                "RelPath":  "HarnessRuntime\\clicky-harness.exe",
+                                "Length":  88566080,
+                                "SHA256":  "31DFAF8C74BAB71F07607EAFA3D9940B82C7E5540FA0E825169278AC8E7A30DA",
+                                "SignatureStatus":  "Valid",
+                                "SignerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+                                "CompanyName":  "Oven",
+                                "ProductName":  "Bun",
+                                "FileDescription":  "Bun",
+                                "FileVersion":  "1.4.1"
+                            },
+                            {
+                                "RelPath":  "HeyClicky-Update.exe",
+                                "Length":  4315456,
+                                "SHA256":  "390E2FB0BC190A4A756ECCBED074F1B08B562223A3035F6CEAC2CE46D626229F",
+                                "SignatureStatus":  "Valid",
+                                "SignerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+                                "CompanyName":  "Humansongs, Inc",
+                                "ProductName":  "HeyClicky",
+                                "FileDescription":  "HeyClicky Setup",
+                                "FileVersion":  "1.0.0.0"
+                            },
+                            {
+                                "RelPath":  "HeyClicky.exe",
+                                "Length":  436032,
+                                "SHA256":  "26AB779203881266FB8FC0BD4664D26D7167C0C185C3B63638C79EA7EEE3F4F9",
+                                "SignatureStatus":  "Valid",
+                                "SignerSubject":  "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+                                "CompanyName":  "HeyClicky",
+                                "ProductName":  "HeyClicky",
+                                "FileDescription":  "HeyClicky",
+                                "FileVersion":  "1.1.5.0"
+                            },
+                            {
+                                "RelPath":  "RestartAgent.exe",
+                                "Length":  77624,
+                                "SHA256":  "C0D146FA48DBB765DF0829AB9578FA81D3C3D9E694C5F0872172C0718E489A4B",
+                                "SignatureStatus":  "Valid",
+                                "SignerSubject":  "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                                "CompanyName":  "Microsoft Corporation",
+                                "ProductName":  "Windows App SDK",
+                                "FileDescription":  "RestartAgent.exe",
+                                "FileVersion":  "2.0"
+                            }
+                        ],
+    "DistAssetFolders":  [
+                             {
+                                 "Folder":  "Assets",
+                                 "FileCount":  171,
+                                 "TotalBytes":  89439081,
+                                 "Extensions":  ".ico:1, .m4a:1, .wav:80, .js:5, .ttf:4, .svg:26, .png:11, .mp4:3, .mp3:40"
+                             },
+                             {
+                                 "Folder":  "BundledResources",
+                                 "FileCount":  26,
+                                 "TotalBytes":  82183,
+                                 "Extensions":  ".md:21, .txt:1, .yaml:1, .svg:1, .png:1, .sh:1"
+                             },
+                             {
+                                 "Folder":  "HarnessRuntime",
+                                 "FileCount":  1,
+                                 "TotalBytes":  88566080,
+                                 "Extensions":  ".exe:1"
+                             },
+                             {
+                                 "Folder":  "ClickyBrowserHost",
+                                 "FileCount":  1,
+                                 "TotalBytes":  4685632,
+                                 "Extensions":  ".exe:1"
+                             }
+                         ]
+}

@@ -1,0 +1,386 @@
+{
+  "timestamp": "2026-11-13T12:23:00Z",
+  "binaries": {
+    "clicky-harness.exe": {
+      "path": "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HarnessRuntime\\clicky-harness.exe",
+      "sizeBytes": 88566080,
+      "sha256": "31DFAF8C74BAB71F07607EAFA3D9940B82C7E5540FA0E825169278AC8E7A30DA",
+      "signatureStatus": "Valid",
+      "signatureStatusMessage": "Signature verified",
+      "signerSubject": "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+      "signerIssuer": "CN=DigiCert Trusted G4 Code Signing RSA4096 SHA384 2021 CA1, O=\"DigiCert, Inc.\", C=US",
+      "signerThumbprint": "3F234731E458612EFEE78459EBC9FA556F198582"
+    },
+    "ClickyBrowserHost.exe": {
+      "path": "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\ClickyBrowserHost\\ClickyBrowserHost.exe",
+      "sizeBytes": 4685632,
+      "sha256": "E7BD3FD9179313B98C10A79B18E6631BBB8EE6C7FB264FA4825106F4DB084A86",
+      "signatureStatus": "Valid",
+      "signatureStatusMessage": "Signature verified",
+      "signerSubject": "CN=\"Humansongs, Inc\", O=\"Humansongs, Inc\", L=San Francisco, S=California, C=US",
+      "signerIssuer": "CN=DigiCert Trusted G4 Code Signing RSA4096 SHA384 2021 CA1, O=\"DigiCert, Inc.\", C=US",
+      "signerThumbprint": "3F234731E458612EFEE78459EBC9FA556F198582"
+    }
+  },
+  "browserHostTests": [
+    {
+      "test": "NativeMessaging stdio frame without browser-bridge.port",
+      "exitCode": 1,
+      "stdoutBytes": 0,
+      "frames": [],
+      "stderr": ""
+    }
+  ],
+  "harnessHttpTests": [
+    {
+      "endpoint": "GET /events (no auth)",
+      "status": 401,
+      "response": "{\"error\":\"unauthorized\"}"
+    },
+    {
+      "endpoint": "GET /events (wrong token)",
+      "status": 401,
+      "response": "{\"error\":\"unauthorized\"}"
+    },
+    {
+      "endpoint": "GET /nonexistent",
+      "status": 404,
+      "response": "{\"error\":\"not found\"}"
+    },
+    {
+      "endpoint": "POST /prewarm",
+      "status": 200,
+      "response": "{\"ok\":true,\"started\":false}"
+    },
+    {
+      "endpoint": "POST /turn (missing harness/place)",
+      "status": 500,
+      "response": "{\"error\":\"No undefined-undefined harness in this runner.\"}"
+    },
+    {
+      "endpoint": "POST /turn (harness=h1, place=cloud)",
+      "status": 500,
+      "response": "{\"error\":\"No h1-cloud harness in this runner.\"}"
+    },
+    {
+      "endpoint": "POST /turn (harness=codex, place=cloud)",
+      "status": 500,
+      "response": "{\"error\":\"No codex-cloud harness in this runner.\"}"
+    },
+    {
+      "endpoint": "POST /turn (harness=pi, place=mac)",
+      "status": 500,
+      "response": "{\"error\":\"No pi-mac harness in this runner.\"}"
+    },
+    {
+      "endpoint": "POST /steer (not running)",
+      "status": 200,
+      "response": "{\"ok\":false,\"reason\":\"not running\"}"
+    },
+    {
+      "endpoint": "POST /cancel (not running)",
+      "status": 200,
+      "response": "{\"ok\":true}"
+    }
+  ],
+  "liveBackendProbes": [
+    {
+      "method": "POST",
+      "path": "/agent/openai/v1/responses",
+      "purpose": "H1 & Pi OpenAI Responses SSE proxy",
+      "status": 404,
+      "body": "404 Not Found"
+    },
+    {
+      "method": "POST",
+      "path": "/agent/anthropic/v1/messages",
+      "purpose": "H1 & Pi Anthropic Messages SSE proxy",
+      "status": 404,
+      "body": "404 Not Found"
+    },
+    {
+      "method": "GET",
+      "path": "/agent/web-search",
+      "purpose": "H1 Exa/Brave web search availability check",
+      "status": 404,
+      "body": "404 Not Found"
+    },
+    {
+      "method": "POST",
+      "path": "/agent/web-search",
+      "purpose": "H1/Pi web search execution proxy",
+      "status": 404,
+      "body": "404 Not Found"
+    },
+    {
+      "method": "POST",
+      "path": "/agent/harness/lab/h1/jobs",
+      "purpose": "H1 cloud job creation",
+      "status": 404,
+      "body": "404 Not Found"
+    },
+    {
+      "method": "GET",
+      "path": "/agent/harness/lab/h1/probe?url=http://127.0.0.1",
+      "purpose": "H1 cloud device tunnel probe",
+      "status": 404,
+      "body": "404 Not Found"
+    },
+    {
+      "method": "POST",
+      "path": "/mcp/composio",
+      "purpose": "Composio MCP proxy returned by POST /agent/composio/session",
+      "status": 404,
+      "body": "404 Not Found"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": 1,
+      "category": "LiveBackend",
+      "name": "h1-mac OpenAI turn against live Kursor backend (127.0.0.1:8787)",
+      "status": "FAIL",
+      "observed": "turn_end status=failed, error='model: model: 404: 404 Not Found'",
+      "expected": "turn_end status=completed via POST /agent/openai/v1/responses"
+    },
+    {
+      "id": 2,
+      "category": "LiveBackend",
+      "name": "h1-mac Anthropic turn against live Kursor backend (127.0.0.1:8787)",
+      "status": "FAIL",
+      "observed": "turn_end status=failed, error='model: model: 404: 404 Not Found'",
+      "expected": "turn_end status=completed via POST /agent/anthropic/v1/messages"
+    },
+    {
+      "id": 3,
+      "category": "HarnessDrivers",
+      "name": "POST /turn with harness='h1', place='cloud' (AgentHarness.H1 + AgentHarnessPlace.Cloud)",
+      "status": "FAIL",
+      "observed": "HTTP 500: {\"error\":\"No h1-cloud harness in this runner.\"}",
+      "expected": "HTTP 200 ok:true or cloud execution via /agent/harness/lab/h1"
+    },
+    {
+      "id": 4,
+      "category": "HarnessDrivers",
+      "name": "POST /turn with harness='codex' (place='cloud') and harness='pi' (place='mac')",
+      "status": "FAIL",
+      "observed": "codex-cloud HTTP 500: {\"error\":\"No codex-cloud harness in this runner.\"} | pi-mac HTTP 500: {\"error\":\"No pi-mac harness in this runner.\"}",
+      "expected": "HTTP 200 ok:true for exposed AgentHarness Runtimes (Codex Cloud and Pi Mac)"
+    },
+    {
+      "id": 5,
+      "category": "H1Runtime",
+      "name": "h1-mac basic turn lifecycle & long-poll event stream (answer -> stats -> turn_end)",
+      "status": "PASS",
+      "observed": "status=completed, answerLen=114",
+      "expected": "status=completed and answer emitted"
+    },
+    {
+      "id": 6,
+      "category": "H1Runtime",
+      "name": "h1-mac multi-turn state persistence in h1-mac/<job>/h1.json",
+      "status": "PASS",
+      "observed": "h1.json turn=2, lastSeq=10, jobId=scen-05-basic-qa",
+      "expected": "h1.json turn=2 with persisted jobId and lastSeq"
+    },
+    {
+      "id": 7,
+      "category": "Tools",
+      "name": "h1-mac update_plan tool emission",
+      "status": "PASS",
+      "observed": "plan event steps=2",
+      "expected": "plan event with 2 steps (completed, in_progress)"
+    },
+    {
+      "id": 8,
+      "category": "Tools",
+      "name": "h1-mac progress tool commentary emission",
+      "status": "PASS",
+      "observed": "commentary='Scanning workspace files now'",
+      "expected": "commentary='Scanning workspace files now'"
+    },
+    {
+      "id": 9,
+      "category": "H1Runtime",
+      "name": "h1-mac reasoning summary heading extraction -> thinking event",
+      "status": "PASS",
+      "observed": "thinking='Analyzing system architecture'",
+      "expected": "thinking='Analyzing system architecture'"
+    },
+    {
+      "id": 10,
+      "category": "Tools",
+      "name": "h1-mac write tool creating file in workspace",
+      "status": "PASS",
+      "observed": "fileExists=True, content='Hello from H1 write tool | Line 2'",
+      "expected": "created-by-agent.txt created with expected content"
+    },
+    {
+      "id": 11,
+      "category": "Tools",
+      "name": "h1-mac read tool reading workspace file",
+      "status": "PASS",
+      "observed": "tool event name=read, phase=start",
+      "expected": "tool event name=read emitted and completed"
+    },
+    {
+      "id": 12,
+      "category": "Tools",
+      "name": "h1-mac edit tool modifying workspace file in place",
+      "status": "PASS",
+      "observed": "content='Hello from H1 write tool | Line 2 Edited'",
+      "expected": "Line 2 replaced with Line 2 Edited"
+    },
+    {
+      "id": 13,
+      "category": "Tools",
+      "name": "h1-mac bash tool executing Windows PowerShell command",
+      "status": "PASS",
+      "observed": "tool name=bash, command='Write-Output \"PS_EXEC_OK:$($PSVersionTable.PSVersion.Major)\"'",
+      "expected": "bash tool invokes PowerShell and emits command in tool event"
+    },
+    {
+      "id": 14,
+      "category": "NoteTools",
+      "name": "h1-mac note tool composing note.md and emitting note saved event",
+      "status": "PASS",
+      "observed": "noteSavedEvent=True, noteDiskLen=87",
+      "expected": "note.md written and {kind:'note', phase:'saved'} emitted"
+    },
+    {
+      "id": 15,
+      "category": "NoteTools",
+      "name": "h1-mac note_add incremental markdown edit on note.md",
+      "status": "PASS",
+      "observed": "note.md contains 'Added via note_add'=True",
+      "expected": "note_add inserts bullet under ## Findings in note.md"
+    },
+    {
+      "id": 16,
+      "category": "Tools",
+      "name": "h1-mac exec JS program sandbox (store/load/progress/text)",
+      "status": "PASS",
+      "observed": "progressEmitted=True, execOk=True",
+      "expected": "exec runs JS body, emits progress commentary, and logs ok:true in h1-rounds.jsonl"
+    },
+    {
+      "id": 17,
+      "category": "Tools",
+      "name": "h1-mac fetch_url HTML extraction & program_step batch event",
+      "status": "PASS",
+      "observed": "batch siteCount=1, sitesDone=1",
+      "expected": "fetch_url extracts HTML and emits batch event with siteCount=1, sitesDone=1"
+    },
+    {
+      "id": 18,
+      "category": "Tools",
+      "name": "h1-mac web_search tool via Worker /agent/web-search & batch event",
+      "status": "PASS",
+      "observed": "searches count=1, done=1, query='Kursor agent audit'",
+      "expected": "web_search queries Worker /agent/web-search and emits batch searches count=1, done=1"
+    },
+    {
+      "id": 19,
+      "category": "Tools",
+      "name": "h1-mac ask_user pause (pendingAsk in h1.json) and answer resumption",
+      "status": "PASS",
+      "observed": "turn1 pendingAsk='1-0', question='Which environment should we target?  Options: Staging · Production', turn2 pendingAsk=''",
+      "expected": "turn1 sets pendingAsk and emits question+options; turn2 answers pendingAsk and clears it"
+    },
+    {
+      "id": 20,
+      "category": "MCP",
+      "name": "h1-mac HTTP MCP server initialize, tools/list, and tools/call",
+      "status": "PASS",
+      "observed": "server=mock_mcp, ok=True, tools=1",
+      "expected": "tools_listed event with mock_mcp ok=true, tools=1, and successful tool call"
+    },
+    {
+      "id": 21,
+      "category": "MCP",
+      "name": "h1-mac Composio MCP failure -> emits apps_unreachable and completes turn without connected apps",
+      "status": "PASS",
+      "observed": "apps_unreachable=True, turn_end=completed",
+      "expected": "apps_unreachable emitted and turn_end=completed"
+    },
+    {
+      "id": 22,
+      "category": "MCP",
+      "name": "h1-mac local stdio custom MCP connector bridged via loopback HTTP proxy",
+      "status": "PASS",
+      "observed": "server=custom-stdio-123456, ok=True, tools=1",
+      "expected": "stdio MCP child spawned, bridged over HTTP, tools=1"
+    },
+    {
+      "id": 23,
+      "category": "H1Runtime",
+      "name": "POST /steer mid-turn injection while turn is running",
+      "status": "PASS",
+      "observed": "steer HTTP=200, ok=True, turn_end=completed",
+      "expected": "POST /steer returns 200 ok:true and turn completes after applying steered note"
+    },
+    {
+      "id": 24,
+      "category": "H1Runtime",
+      "name": "POST /cancel mid-turn cancellation -> turn_end status=interrupted",
+      "status": "PASS",
+      "observed": "cancel HTTP=200, turn_end status=interrupted",
+      "expected": "POST /cancel aborts active model call and emits turn_end status=interrupted"
+    },
+    {
+      "id": 25,
+      "category": "H1Runtime",
+      "name": "h1-mac Anthropic Messages SSE adapter (claude-sonnet-5-5 -> /agent/anthropic/v1/messages)",
+      "status": "PASS",
+      "observed": "turn_end=completed, answer='<SUMMARY>Claude model turn succeeded.</SUMMARY> <ANSWER>Anthropic SSE stream verified.</ANSWER>'",
+      "expected": "h1-mac translates OpenAI format to Anthropic Messages SSE and completes turn"
+    },
+    {
+      "id": 26,
+      "category": "Security",
+      "name": "Filesystem sandbox boundary check (write outside job workspace)",
+      "status": "FAIL",
+      "observed": "outsideFileCreated=True outside workspace without sandbox or approval prompt",
+      "expected": "Agent write tool should be restricted to workspace or require user approval outside workspace"
+    },
+    {
+      "id": 27,
+      "category": "Portability",
+      "name": "WindowsInstructionAdapter.Adapt & TurnPromptBuilder macOS leftover check",
+      "status": "FAIL",
+      "observed": "adaptedInstrHasMac=False, TurnPromptBuilderHasMacStep=True (TurnPromptBuilder.cs:38 'call the mac_step tool')",
+      "expected": "Zero macOS tool/platform leftovers in Windows agent prompt builder and instructions"
+    },
+    {
+      "id": 28,
+      "category": "Turns",
+      "name": "StructuredFinalReply.Parse all 9 XML blocks (<SUMMARY>..<LEARNED>)",
+      "status": "PASS",
+      "observed": "Summary='Audited all 9 tags', Artifacts=1, NextActions=2, Routine='Daily Check', ComputerUse='Excel', WaitFor='dashboard'",
+      "expected": "All 9 structured reply blocks parsed accurately and stripped from display text"
+    },
+    {
+      "id": 29,
+      "category": "Routines",
+      "name": "ClickyRoutine.NextSetTime & RoutineKeepAwake system sleep lock behavior",
+      "status": "FAIL",
+      "observed": "NextSetTime(08:00->09:00)=2026-11-13 09:00:00 -08:00, IndefiniteWakeLockWhenAnyRoutineUnpaused=True",
+      "expected": "NextSetTime computes 09:00 local; system wake lock should only be held during active routine execution, not indefinitely while any routine is unpaused"
+    },
+    {
+      "id": 30,
+      "category": "Jobs",
+      "name": "ClickyWorkFolderFiles.List workspace scanning & hidden folder exclusion",
+      "status": "PASS",
+      "observed": "filesListed=2 (created-by-agent.txt, note.md), dotClickyExcluded=True",
+      "expected": "Lists user artifacts in workspace while excluding .clicky, tmp, node_modules, .git"
+    }
+  ],
+  "summary": {
+    "totalScenarios": 30,
+    "passed": 23,
+    "failed": 7,
+    "harnessHttpTestsCount": 10,
+    "liveBackendProbesCount": 7
+  }
+}

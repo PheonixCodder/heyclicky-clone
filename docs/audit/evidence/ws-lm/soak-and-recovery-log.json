@@ -1,0 +1,268 @@
+{
+  "generatedAt": "2026-11-13T12:48:10.767Z",
+  "coldStart": {
+    "samplesMs": [
+      10993.96,
+      826.28,
+      794.31
+    ],
+    "stats": {
+      "count": 3,
+      "errors": 0,
+      "minMs": 794.31,
+      "p50Ms": 826.28,
+      "p95Ms": 10993.96,
+      "p99Ms": 10993.96,
+      "maxMs": 10993.96,
+      "meanMs": 4204.85
+    }
+  },
+  "processBaselines": {
+    "beforeSuite": [
+      {
+        "error": "spawnSync C:\\Windows\\system32\\cmd.exe ETIMEDOUT"
+      }
+    ],
+    "afterSuite": [
+      {
+        "role": "desktop-heyclicky",
+        "pid": 20080,
+        "name": "HeyClicky.exe",
+        "workingSetMB": 454.7
+      },
+      {
+        "role": "backend-node",
+        "pid": 17448,
+        "name": "node.exe",
+        "workingSetMB": 95.4
+      },
+      {
+        "role": "powershell-host-or-tts",
+        "pid": 15308,
+        "name": "powershell.exe",
+        "workingSetMB": 44.18
+      },
+      {
+        "role": "powershell-host-or-tts",
+        "pid": 21520,
+        "name": "powershell.exe",
+        "workingSetMB": 50.07
+      },
+      {
+        "role": "powershell-host-or-tts",
+        "pid": 14364,
+        "name": "powershell.exe",
+        "workingSetMB": 61.67
+      }
+    ]
+  },
+  "latencies": {
+    "/health": {
+      "count": 50,
+      "errors": 0,
+      "minMs": 1.28,
+      "p50Ms": 2.82,
+      "p95Ms": 18.56,
+      "p99Ms": 145.82,
+      "maxMs": 145.82,
+      "meanMs": 7.52
+    },
+    "/plan": {
+      "count": 50,
+      "errors": 0,
+      "minMs": 1.17,
+      "p50Ms": 2.87,
+      "p95Ms": 10.26,
+      "p99Ms": 13.49,
+      "maxMs": 13.49,
+      "meanMs": 4.23
+    },
+    "/brain/turn (local_fallback_isolated)": {
+      "count": 15,
+      "errors": 0,
+      "minMs": 2.89,
+      "p50Ms": 4.91,
+      "p95Ms": 12.68,
+      "p99Ms": 12.68,
+      "maxMs": 12.68,
+      "meanMs": 6.45
+    },
+    "/brain/turn (live_llm_8787)": {
+      "count": 3,
+      "errors": 0,
+      "minMs": 792.78,
+      "p50Ms": 905.53,
+      "p95Ms": 1075.89,
+      "p99Ms": 1075.89,
+      "maxMs": 1075.89,
+      "meanMs": 924.73
+    },
+    "/brain/turn (force_local_fallback_flag_on_8787_bug)": {
+      "count": 2,
+      "errors": 0,
+      "minMs": 903.24,
+      "p50Ms": 3652.79,
+      "p95Ms": 3652.79,
+      "p99Ms": 3652.79,
+      "maxMs": 3652.79,
+      "meanMs": 2278.01
+    },
+    "/v2/dictation/cleanup (fast_empty_path)": {
+      "count": 20,
+      "errors": 0,
+      "minMs": 1.52,
+      "p50Ms": 5.19,
+      "p95Ms": 16.03,
+      "p99Ms": 16.03,
+      "maxMs": 16.03,
+      "meanMs": 6
+    },
+    "/v2/dictation/cleanup (live_groq_llm)": {
+      "count": 5,
+      "errors": 0,
+      "minMs": 4.57,
+      "p50Ms": 9.11,
+      "p95Ms": 9.88,
+      "p99Ms": 9.88,
+      "maxMs": 9.88,
+      "meanMs": 7.95
+    },
+    "/agent/realtime/speak (warm_sapi_tts)": {
+      "count": 3,
+      "errors": 0,
+      "minMs": 18.38,
+      "p50Ms": 19.87,
+      "p95Ms": 35.45,
+      "p99Ms": 35.45,
+      "maxMs": 35.45,
+      "meanMs": 24.57
+    },
+    "analyzeScreenLayout (1280x720_jpeg)": {
+      "count": 10,
+      "errors": 0,
+      "minMs": 1441.3,
+      "p50Ms": 3131.54,
+      "p95Ms": 5497.43,
+      "p99Ms": 5497.43,
+      "maxMs": 5497.43,
+      "meanMs": 3123.75,
+      "jpegBytes": 37816,
+      "detectedTables": 1,
+      "detectedAnswerLines": 0
+    }
+  },
+  "soakTest": {
+    "totalBrainTurnsSent": 215,
+    "completedTurns": 200,
+    "abortedSseTurns": 15,
+    "dictationCleanupsSent": 43,
+    "proactivePollsSent": 30,
+    "turnErrors": 6,
+    "turnLatencyStats": {
+      "count": 194,
+      "errors": 6,
+      "minMs": 26.96,
+      "p50Ms": 251.96,
+      "p95Ms": 5552.44,
+      "p99Ms": 7581.12,
+      "maxMs": 7678.57,
+      "meanMs": 1431.22
+    },
+    "ProgressionSnapshots": [
+      {
+        "turn": 0,
+        "sqlite": {
+          "dbBytes": 4096,
+          "walBytes": 453232,
+          "shmBytes": 32768
+        },
+        "process": {
+          "wsMB": 58.09
+        }
+      },
+      {
+        "turn": 50,
+        "sqlite": {
+          "dbBytes": 4096,
+          "walBytes": 2406112,
+          "shmBytes": 32768
+        },
+        "process": {
+          "wsMB": 56.63
+        }
+      },
+      {
+        "turn": 100,
+        "sqlite": {
+          "dbBytes": 704512,
+          "walBytes": 4128272,
+          "shmBytes": 32768
+        },
+        "process": null
+      },
+      {
+        "turn": 150,
+        "sqlite": {
+          "dbBytes": 704512,
+          "walBytes": 4128272,
+          "shmBytes": 32768
+        },
+        "process": {
+          "wsMB": 56.57
+        }
+      },
+      {
+        "turn": 200,
+        "sqlite": {
+          "dbBytes": 704512,
+          "walBytes": 4128272,
+          "shmBytes": 32768
+        },
+        "process": {
+          "wsMB": 56.57
+        }
+      },
+      {
+        "turn": 215,
+        "sqlite": {
+          "dbBytes": 1413120,
+          "walBytes": 4128272,
+          "shmBytes": 32768
+        },
+        "process": {
+          "wsMB": 56.57
+        },
+        "backendAliveAfterSseAborts": true
+      }
+    ],
+    "sqliteGrowthBytes": {
+      "initialTotalBytes": 457328,
+      "finalTotalBytes": 5541392,
+      "deltaBytes": 5084064
+    },
+    "memoryGrowthMB": {
+      "initialWorkingSetMB": 58.09,
+      "finalWorkingSetMB": 56.57,
+      "deltaWorkingSetMB": -1.52,
+      "initialPrivateMB": null,
+      "finalPrivateMB": null,
+      "deltaPrivateMB": null
+    }
+  },
+  "crashAndKillRecovery": {
+    "warmTtsDaemonKillMidRequest": {
+      "preKillWavBytes": 73419,
+      "warmTtsPidBefore": 27232,
+      "inFlightMidKillOutcome": {
+        "status": 200,
+        "bytes": 569099
+      },
+      "postKillStatus": 200,
+      "postKillWavBytes": 157259,
+      "postKillLatencyMs": 919.22,
+      "warmTtsPidAfter": 14364,
+      "respawnedNewDaemonProcess": true,
+      "recoveredWithRealSpeechWav": false
+    }
+  }
+}

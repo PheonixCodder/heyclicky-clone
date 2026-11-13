@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-11-13T12:08:00Z",
+  "workstream": "WS-D",
+  "component": "Generated-JS V8 Sandbox & Watchdog (Kursor.Drawing & Kursor.Drawing3D)",
+  "inspectedFiles": [
+    "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs",
+    "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/HostBridge.cs",
+    "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs",
+    "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js",
+    "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js",
+    "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs",
+    "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js"
+  ],
+  "watchdogAndResourceVectors": [
+    {
+      "vector": "infinite_loop_in_2d_feed_or_renderwhole",
+      "examplePayload": "startOver(); step(1); while (true) {}",
+      "status": "FAIL",
+      "findingId": "AUD-D-004",
+      "locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:145-148",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:249-289",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:347-350",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs:204-220",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:650-660",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1079-1096"
+      ],
+      "analysis": "NativeEngine creates a ClearScript V8ScriptEngine without any execution timeout or background watchdog timer that calls v8.Interrupt(). In clicky-draw-native.js:650, ClickyDraw.live(...) is instantiated without 'sandbox: \"worker\"' (ClearScript V8 has no Web Worker API anyway) and without 'budgetMs', leaving sink.deadline = 0 (disabled) in clicky-draw-engine.js:1080. Even if budgetMs were passed, checkDeadline (clicky-draw-engine.js:1066-1071) is only checked inside push() when emitting a drawing primitive, never inside a pure JS loop. Consequently, while(true){} inside NativeEngine.Feed, NativeEngine.RenderWhole, or NativeEngine.Evaluate permanently freezes the dedicated DrawingThread and deadlocks any synchronous caller waiting on DrawingThread.Invoke's unguarded ManualResetEventSlim.Wait() (DrawingThread.cs:220)."
+    },
+    {
+      "vector": "infinite_loop_in_tick3d_animation_callback",
+      "examplePayload": "const f = scene3d(680, 90, 520, 440, '3D'); f.tick((dt, t) => { while (true) {} });",
+      "status": "FAIL",
+      "findingId": "AUD-D-004",
+      "locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:617-649",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:835-851"
+      ],
+      "analysis": "In clicky-draw-native.js:835-851, globalThis.__tickFigures measures elapsed time AFTER fn(dt, t, f.api) returns ('if (nowMs() - t0 > 8.0) { f.tickFn = null; }'). This post-hoc check only drops slow callbacks that return after >8ms; an infinite loop inside f.tick(...) never returns, hanging NativeEngine.RunFigureTicks and freezing DrawingThread permanently."
+    },
+    {
+      "vector": "infinite_loop_or_oom_in_3d_kernel_recipe",
+      "examplePayload": "ClickyThreeKernel.Build('{\"kind\":\"custom\",\"loop\":true}') or huge subdivision segments in clicky-three-parts.js",
+      "status": "FAIL",
+      "findingId": "AUD-D-004",
+      "locations": [
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:288-295",
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:349"
+      ],
+      "analysis": "Unlike NativeEngine.cs:145 (which sets MaxOldSpaceSize = 256 MB), ClickyThreeKernel.cs:290 creates new V8ScriptEngine(\"Clicky 3D kernel\", V8ScriptEngineFlags.DisableGlobalMembers) with NO V8RuntimeConstraints (no MaxOldSpaceSize heap cap) and invokes buildFunction.Invoke(false, recipeJson) inside lock(gate) with no execution timeout or interrupt."
+    },
+    {
+      "vector": "massive_array_allocation_in_2d_engine",
+      "examplePayload": "const a = []; while(true) a.push(new Float64Array(1024 * 1024));",
+      "status": "FAIL",
+      "findingId": "AUD-D-004",
+      "locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:141-148",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:270-289"
+      ],
+      "analysis": "NativeEngine.cs:143 sets V8RuntimeConstraints { MaxOldSpaceSize = 256, MaxNewSpaceSize = 32 }. However, when V8 hits the 256 MB old-space limit, ClearScript/V8 either triggers a fatal V8 OOM or leaves the single long-lived V8ScriptEngine instance in an exhausted heap state because NativeEngine.Clear() (lines 296-306) never recreates or resets the V8ScriptEngine."
+    },
+    {
+      "vector": "settimeout_and_setinterval_flood",
+      "examplePayload": "for (let i = 0; i < 50000; i++) setInterval(() => {}, 1);",
+      "status": "FAIL",
+      "findingId": "AUD-D-005",
+      "locations": [
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:128-167",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:859-887",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs:303-336"
+      ],
+      "analysis": "clicky-draw-native.js:128-167 exposes globalThis.setTimeout, setInterval, and requestAnimationFrame directly backed by __host.schedule(id, delaySec). Neither clicky-draw-native.js nor NativeEngine.ScheduleTimer (lines 859-868) nor DrawingThread.ScheduleTimer (lines 303-312) enforces any cap on active timer count or minimum delay (> 0.001s = 1ms). Worse, setInterval in clicky-draw-native.js:146-156 is implemented as a recursive setTimeout chain that re-schedules on every tick, and NativeEngine.Clear() (lines 296-306) only calls ClickyDraw.clear() without clearing globalThis.setTimeout/setInterval timers registered directly by LLM scripts! A timer flood permanently saturates DrawingThread's message queue and leaks entries in timerCallbacks, NativeEngine.timerTokens, and DrawingThread.timers."
+    },
+    {
+      "vector": "malicious_host_bridge_and_global_scope_access",
+      "examplePayload": "globalThis.__hostRaw.Log('...'); globalThis.__host.cancel(1); globalThis.__drainRender = () => null;",
+      "status": "FAIL",
+      "findingId": "AUD-D-005",
+      "locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:150-151",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/HostBridge.cs:12-127",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:9-21",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1057-1059",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1089-1091"
+      ],
+      "analysis": "In clicky-draw-engine.js:1057 and 1089, LLM-generated code is compiled via new Function('__api', '__c', 'with (__api) { return eval(__c); }'), which runs in the shared global V8 context where globalThis.__hostRaw (the .NET HostBridge instance added via v8.AddHostObject(\"__hostRaw\", new HostBridge(this)) at NativeEngine.cs:150), globalThis.__host, globalThis.__win, globalThis.clickyCanvas, and engine entry points (__feed, __drainRender, __clear, __tickFigures) are all writable globals! LLM code can: (1) invoke __hostRaw.Schedule(id, sec) / __hostRaw.Cancel(id) to cancel internal engine animation timers or schedule millions of C# CancellationTokenSources; (2) call __hostRaw.PlaySound / Speak / Caption / Prewarm3D in a tight loop; (3) invoke System.Object.GetType() on __hostRaw; and (4) overwrite globalThis.__drainRender, globalThis.__feed, or Object.prototype, corrupting the overlay engine across all future turns until the desktop app is restarted."
+    }
+  ]
+}

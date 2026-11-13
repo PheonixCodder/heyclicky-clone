@@ -1,0 +1,121 @@
+{
+  "timestamp": "2026-11-13T12:45:19.698Z",
+  "sqlite": {
+    "dbFileBytes": 4222976,
+    "walFileBytes": 5838072,
+    "shmFileBytes": 32768,
+    "tableStats": {
+      "users": {
+        "count": 1
+      },
+      "devices": {
+        "count": 2
+      },
+      "memory": {
+        "count": 1
+      },
+      "sessions": {
+        "count": 47
+      },
+      "threads": {
+        "count": 22
+      },
+      "notifications": {
+        "count": 2
+      },
+      "proactive_cards": {
+        "count": 4
+      }
+    },
+    "totalThreadBytes": {
+      "c": 22,
+      "total_bytes": 27785
+    },
+    "threadsWithBase64": {
+      "c": 0,
+      "total_bytes": 0
+    },
+    "memoriesInfo": [
+      {
+        "user_id": "00000000-0000-0000-0000-000000000001",
+        "len": 42,
+        "updated_at": "2026-11-13T11:39:43.449Z"
+      }
+    ],
+    "errorReportsSample": []
+  },
+  "localAppData": {
+    "dictationTranscriptsPlaintextJsonl": [
+      {
+        "file": "2026-11-03.jsonl",
+        "bytes": 289,
+        "lineCount": 2,
+        "keys": [
+          "at",
+          "text",
+          "app"
+        ]
+      },
+      {
+        "file": "2026-11-04.jsonl",
+        "bytes": 397,
+        "lineCount": 3,
+        "keys": [
+          "at",
+          "text",
+          "app"
+        ]
+      },
+      {
+        "file": "2026-11-08.jsonl",
+        "bytes": 419,
+        "lineCount": 2,
+        "keys": [
+          "at",
+          "text",
+          "app"
+        ]
+      },
+      {
+        "file": "2026-11-10.jsonl",
+        "bytes": 135,
+        "lineCount": 1,
+        "keys": [
+          "at",
+          "text",
+          "app"
+        ]
+      }
+    ],
+    "oneBrainFilesPlaintext": [
+      {
+        "relPath": "87e8a4d1-1480-4340-a3e9-5e80714b2ad0\\2836FD7E-1A66-48A8-8A1A-727939982766.jsonl",
+        "bytes": 7945,
+        "hasInputImage": false,
+        "hasUserLayer": false
+      },
+      {
+        "relPath": "87e8a4d1-1480-4340-a3e9-5e80714b2ad0\\D59DB252-1B38-4312-A4A7-98D4A5976897.jsonl",
+        "bytes": 1126,
+        "hasInputImage": false,
+        "hasUserLayer": false
+      },
+      {
+        "relPath": "87e8a4d1-1480-4340-a3e9-5e80714b2ad0\\threads\\2836FD7E-1A66-48A8-8A1A-727939982766.json",
+        "bytes": 28233,
+        "hasInputImage": false,
+        "hasUserLayer": true
+      },
+      {
+        "relPath": "87e8a4d1-1480-4340-a3e9-5e80714b2ad0\\threads\\D59DB252-1B38-4312-A4A7-98D4A5976897.json",
+        "bytes": 1998,
+        "hasInputImage": false,
+        "hasUserLayer": true
+      }
+    ],
+    "plaintextSessionJsonExists": true,
+    "plaintextBrowserBridgeConnectionJsonExists": true,
+    "dpapiAuthBinExists": true,
+    "dpapiAuthLocalDevBinExists": true
+  }
+}

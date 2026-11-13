@@ -1,0 +1,1982 @@
+{
+  "totalRoutes": 111,
+  "passed": 111,
+  "failed": 0,
+  "routes": [
+    {
+      "file": "src/backend/src/index.ts",
+      "line": 24,
+      "method": "GET",
+      "path": "/",
+      "testedUrl": "/",
+      "happyStatus": 200,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "service",
+        "version",
+        "status",
+        "user_id",
+        "db_path"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/index.ts",
+      "line": 34,
+      "method": "GET",
+      "path": "/health",
+      "testedUrl": "/health",
+      "happyStatus": 200,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "status",
+        "timestamp"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 100,
+      "method": "GET",
+      "path": "/auth/v1/authorize",
+      "testedUrl": "/auth/v1/authorize",
+      "happyStatus": 302,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 128,
+      "method": "GET",
+      "path": "/auth/start",
+      "testedUrl": "/auth/start",
+      "happyStatus": 302,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 181,
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "testedUrl": "/auth/v1/token",
+      "happyStatus": 200,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "access_token",
+        "refresh_token",
+        "expires_in",
+        "expires_at",
+        "token_type",
+        "grant_type",
+        "user"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 228,
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "testedUrl": "/auth/v1/user",
+      "happyStatus": 200,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "id",
+        "aud",
+        "role",
+        "email",
+        "email_confirmed_at",
+        "created_at",
+        "updated_at",
+        "app_metadata",
+        "user_metadata"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/auth.ts",
+      "line": 236,
+      "method": "POST",
+      "path": "/auth/v1/logout",
+      "testedUrl": "/auth/v1/logout",
+      "happyStatus": 200,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "ok"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 91,
+      "method": "GET",
+      "path": "/plan",
+      "testedUrl": "/plan",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 92,
+      "method": "GET",
+      "path": "/me/plan",
+      "testedUrl": "/me/plan",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 109,
+      "method": "GET",
+      "path": "/config",
+      "testedUrl": "/config",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 110,
+      "method": "GET",
+      "path": "/app-config",
+      "testedUrl": "/app-config",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 195,
+      "method": "GET",
+      "path": "/config/runtime-models",
+      "testedUrl": "/config/runtime-models",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 198,
+      "method": "GET",
+      "path": "/runtime/model-policy",
+      "testedUrl": "/runtime/model-policy",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 342,
+      "method": "POST",
+      "path": "/devices/register",
+      "testedUrl": "/devices/register",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 343,
+      "method": "POST",
+      "path": "/me/devices",
+      "testedUrl": "/me/devices",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 344,
+      "method": "GET",
+      "path": "/devices",
+      "testedUrl": "/devices",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 345,
+      "method": "GET",
+      "path": "/me/devices",
+      "testedUrl": "/me/devices",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 401,
+      "method": "GET",
+      "path": "/onboarding/discovery-channel",
+      "testedUrl": "/onboarding/discovery-channel",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 402,
+      "method": "GET",
+      "path": "/me/discovery-channel",
+      "testedUrl": "/me/discovery-channel",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 403,
+      "method": "POST",
+      "path": "/onboarding/discovery-channel",
+      "testedUrl": "/onboarding/discovery-channel",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 404,
+      "method": "POST",
+      "path": "/me/discovery-channel",
+      "testedUrl": "/me/discovery-channel",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 406,
+      "method": "POST",
+      "path": "/onboarding/starter-plan",
+      "testedUrl": "/onboarding/starter-plan",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 555,
+      "method": "GET",
+      "path": "/memory",
+      "testedUrl": "/memory",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 556,
+      "method": "GET",
+      "path": "/me/memory",
+      "testedUrl": "/me/memory",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 557,
+      "method": "PUT",
+      "path": "/memory",
+      "testedUrl": "/memory",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 558,
+      "method": "POST",
+      "path": "/memory",
+      "testedUrl": "/memory",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 559,
+      "method": "PUT",
+      "path": "/me/memory",
+      "testedUrl": "/me/memory",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 560,
+      "method": "POST",
+      "path": "/me/memory/save",
+      "testedUrl": "/me/memory/save",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 774,
+      "method": "POST",
+      "path": "/search/web",
+      "testedUrl": "/search/web",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 775,
+      "method": "POST",
+      "path": "/web-search",
+      "testedUrl": "/web-search",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 879,
+      "method": "POST",
+      "path": "/search/images",
+      "testedUrl": "/search/images",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 880,
+      "method": "POST",
+      "path": "/image-search",
+      "testedUrl": "/image-search",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 960,
+      "method": "GET",
+      "path": "/referral",
+      "testedUrl": "/referral",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 961,
+      "method": "GET",
+      "path": "/me/referral",
+      "testedUrl": "/me/referral",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 962,
+      "method": "POST",
+      "path": "/referral/claim",
+      "testedUrl": "/referral/claim",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 963,
+      "method": "POST",
+      "path": "/me/referral/claim",
+      "testedUrl": "/me/referral/claim",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 964,
+      "method": "POST",
+      "path": "/referral/code",
+      "testedUrl": "/referral/code",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 965,
+      "method": "POST",
+      "path": "/me/referral/code",
+      "testedUrl": "/me/referral/code",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 971,
+      "method": "POST",
+      "path": "/billing/checkout",
+      "testedUrl": "/billing/checkout",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 988,
+      "method": "POST",
+      "path": "/billing/portal",
+      "testedUrl": "/billing/portal",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1002,
+      "method": "POST",
+      "path": "/account/delete",
+      "testedUrl": "/account/delete",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1003,
+      "method": "POST",
+      "path": "/me/account/delete",
+      "testedUrl": "/me/account/delete",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1019,
+      "method": "POST",
+      "path": "/telemetry/client-error",
+      "testedUrl": "/telemetry/client-error",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1020,
+      "method": "POST",
+      "path": "/report-error",
+      "testedUrl": "/report-error",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1042,
+      "method": "GET",
+      "path": "/voice/language-hints",
+      "testedUrl": "/voice/language-hints",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1043,
+      "method": "GET",
+      "path": "/onboarding/language-hints",
+      "testedUrl": "/onboarding/language-hints",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1045,
+      "method": "GET",
+      "path": "/me/companion-history",
+      "testedUrl": "/me/companion-history",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/worker.ts",
+      "line": 1048,
+      "method": "POST",
+      "path": "/me/companion-history",
+      "testedUrl": "/me/companion-history",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 34,
+      "method": "POST",
+      "path": "/deepgram/token",
+      "testedUrl": "/deepgram/token",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 35,
+      "method": "POST",
+      "path": "/v2/dictation/deepgram-token",
+      "testedUrl": "/v2/dictation/deepgram-token",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 86,
+      "method": "POST",
+      "path": "/v2/dictation/gemini-token",
+      "testedUrl": "/v2/dictation/gemini-token",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 87,
+      "method": "POST",
+      "path": "/brain/ears/token",
+      "testedUrl": "/brain/ears/token",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 215,
+      "method": "POST",
+      "path": "/realtime/token",
+      "testedUrl": "/realtime/token",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 216,
+      "method": "POST",
+      "path": "/agent/realtime/session",
+      "testedUrl": "/agent/realtime/session",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 218,
+      "method": "HEAD",
+      "path": "/agent/realtime/warmup",
+      "testedUrl": "/agent/realtime/warmup",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 218,
+      "method": "GET",
+      "path": "/agent/realtime/warmup",
+      "testedUrl": "/agent/realtime/warmup",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 413,
+      "method": "POST",
+      "path": "/agent/realtime/speak",
+      "testedUrl": "/agent/realtime/speak",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 485,
+      "method": "POST",
+      "path": "/v2/dictation/cleanup",
+      "testedUrl": "/v2/dictation/cleanup",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 829,
+      "method": "POST",
+      "path": "/v2/dictation/transcribe",
+      "testedUrl": "/v2/dictation/transcribe",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 830,
+      "method": "POST",
+      "path": "/brain/ears/transcribe",
+      "testedUrl": "/brain/ears/transcribe",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/voice.ts",
+      "line": 831,
+      "method": "POST",
+      "path": "/ears/transcribe",
+      "testedUrl": "/ears/transcribe",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 932,
+      "method": "POST",
+      "path": "/brain/turn",
+      "testedUrl": "/brain/turn",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 400,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 1177,
+      "method": "POST",
+      "path": "/brain/compact",
+      "testedUrl": "/brain/compact",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 1257,
+      "method": "POST",
+      "path": "/brain/session-end",
+      "testedUrl": "/brain/session-end",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/brain.ts",
+      "line": 1301,
+      "method": "POST",
+      "path": "/brain/prewarm",
+      "testedUrl": "/brain/prewarm",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 360,
+      "method": "POST",
+      "path": "/proactive/jobs",
+      "testedUrl": "/proactive/jobs",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 361,
+      "method": "POST",
+      "path": "/proactive-agents/jobs",
+      "testedUrl": "/proactive-agents/jobs",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 362,
+      "method": "GET",
+      "path": "/proactive/jobs/:jobId",
+      "testedUrl": "/proactive/jobs/job_default_morning_brief",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 363,
+      "method": "GET",
+      "path": "/proactive-agents/jobs/:jobId",
+      "testedUrl": "/proactive-agents/jobs/job_default_morning_brief",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 364,
+      "method": "POST",
+      "path": "/proactive/cards/resolve",
+      "testedUrl": "/proactive/cards/resolve",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 365,
+      "method": "POST",
+      "path": "/proactive-agents/resolution",
+      "testedUrl": "/proactive-agents/resolution",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 366,
+      "method": "POST",
+      "path": "/proactive/cards/status",
+      "testedUrl": "/proactive/cards/status",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 367,
+      "method": "POST",
+      "path": "/proactive-agents/suggestions/statuses",
+      "testedUrl": "/proactive-agents/suggestions/statuses",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 371,
+      "method": "POST",
+      "path": "/proactive/morning/claim",
+      "testedUrl": "/proactive/morning/claim",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 372,
+      "method": "POST",
+      "path": "/proactive-agents/invitation-claim",
+      "testedUrl": "/proactive-agents/invitation-claim",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 488,
+      "method": "GET",
+      "path": "/agents/notifications/unread",
+      "testedUrl": "/agents/notifications/unread",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 489,
+      "method": "GET",
+      "path": "/agent/notifications",
+      "testedUrl": "/agent/notifications",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 490,
+      "method": "POST",
+      "path": "/agents/notifications/:id/read",
+      "testedUrl": "/agents/notifications/card_seed_01/read",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 494,
+      "method": "POST",
+      "path": "/agent/notifications/:id/read",
+      "testedUrl": "/agent/notifications/card_seed_01/read",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 495,
+      "method": "POST",
+      "path": "/agents/notifications/read-all",
+      "testedUrl": "/agents/notifications/read-all",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 499,
+      "method": "POST",
+      "path": "/agent/notifications/read-all",
+      "testedUrl": "/agent/notifications/read-all",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 503,
+      "method": "GET",
+      "path": "/agents/crons/:id",
+      "testedUrl": "/agents/crons/card_seed_01",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 504,
+      "method": "GET",
+      "path": "/agent/cron/:id",
+      "testedUrl": "/agent/cron/card_seed_01",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 507,
+      "method": "POST",
+      "path": "/agent/session-token",
+      "testedUrl": "/agent/session-token",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 536,
+      "method": "POST",
+      "path": "/agent/record-agent-launch",
+      "testedUrl": "/agent/record-agent-launch",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 575,
+      "method": "GET",
+      "path": "/agent/turn-lease/:id/status",
+      "testedUrl": "/agent/turn-lease/card_seed_01/status",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 598,
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/continue",
+      "testedUrl": "/agent/turn-lease/card_seed_01/continue",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 622,
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/continue-after-computer-use-consent",
+      "testedUrl": "/agent/turn-lease/card_seed_01/continue-after-computer-use-consent",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 644,
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/complete",
+      "testedUrl": "/agent/turn-lease/card_seed_01/complete",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 653,
+      "method": "POST",
+      "path": "/agent/turn-lease/:id/refund-early-stop",
+      "testedUrl": "/agent/turn-lease/card_seed_01/refund-early-stop",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 657,
+      "method": "POST",
+      "path": "/codex-thread-title",
+      "testedUrl": "/codex-thread-title",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 672,
+      "method": "POST",
+      "path": "/codex-thread-launch",
+      "testedUrl": "/codex-thread-launch",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 678,
+      "method": "POST",
+      "path": "/agent-messages",
+      "testedUrl": "/agent-messages",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 910,
+      "method": "GET",
+      "path": "/connectors/status",
+      "testedUrl": "/connectors/status",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 911,
+      "method": "GET",
+      "path": "/agent/integrations",
+      "testedUrl": "/agent/integrations",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 912,
+      "method": "POST",
+      "path": "/connectors/connect",
+      "testedUrl": "/connectors/connect",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 913,
+      "method": "POST",
+      "path": "/agent/integrations/connect",
+      "testedUrl": "/agent/integrations/connect",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 914,
+      "method": "POST",
+      "path": "/agent/integrations/:toolkit/connect",
+      "testedUrl": "/agent/integrations/gmail/connect",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 918,
+      "method": "POST",
+      "path": "/agent/integrations/:toolkit/disconnect",
+      "testedUrl": "/agent/integrations/gmail/disconnect",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 929,
+      "method": "POST",
+      "path": "/agent/integrations/:toolkit/accounts/:connectionId/label",
+      "testedUrl": "/agent/integrations/gmail/accounts/conn_gmail_local_01/label",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 936,
+      "method": "POST",
+      "path": "/agent/composio/session",
+      "testedUrl": "/agent/composio/session",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1037,
+      "method": "GET",
+      "path": "/calendar/upcoming",
+      "testedUrl": "/calendar/upcoming",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1038,
+      "method": "GET",
+      "path": "/me/calendar/upcoming",
+      "testedUrl": "/me/calendar/upcoming",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1039,
+      "method": "GET",
+      "path": "/agent/realtime/google-calendar/events",
+      "testedUrl": "/agent/realtime/google-calendar/events",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1043,
+      "method": "POST",
+      "path": "/agent/realtime/google-calendar/events",
+      "testedUrl": "/agent/realtime/google-calendar/events",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1047,
+      "method": "POST",
+      "path": "/agent/realtime/google-calendar/create-event",
+      "testedUrl": "/agent/realtime/google-calendar/create-event",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1051,
+      "method": "POST",
+      "path": "/agent/realtime/google-calendar/events/create",
+      "testedUrl": "/agent/realtime/google-calendar/events/create",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1057,
+      "method": "POST",
+      "path": "/tools/search-connectors",
+      "testedUrl": "/tools/search-connectors",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1112,
+      "method": "POST",
+      "path": "/tools/execute-connector",
+      "testedUrl": "/tools/execute-connector",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1172,
+      "method": "POST",
+      "path": "/tools/spotify/search",
+      "testedUrl": "/tools/spotify/search",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    },
+    {
+      "file": "src/backend/src/routes/agents.ts",
+      "line": 1173,
+      "method": "POST",
+      "path": "/agent/realtime/spotify/search",
+      "testedUrl": "/agent/realtime/spotify/search",
+      "happyStatus": 401,
+      "noAuthStatus": 403,
+      "malformedJsonStatus": 200,
+      "corsHeader": "http://127.0.0.1:8787",
+      "responseSampleKeys": [
+        "error"
+      ],
+      "contractStatus": "PASS",
+      "notes": [
+        "External Origin blocked with 403 Forbidden (loopback-only CORS enforced)"
+      ]
+    }
+  ]
+}

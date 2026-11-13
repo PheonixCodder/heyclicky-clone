@@ -1,0 +1,200 @@
+﻿[
+    {
+        "id":  "AUD-A-001",
+        "workstream":  "WS-A",
+        "title":  "Global compiler warning suppression in Directory.Build.props",
+        "status":  "FAIL",
+        "observed":  "Directory.Build.props suppresses 9 warning codes globally (SYSLIB1050;SYSLIB1043;CS0649;CS0169;CS0414;CS8632;CS8981;CS8500;CS9191) and all 7 csproj files set \u003cNullable\u003eannotations\u003c/Nullable\u003e and \u003cAllowUnsafeBlocks\u003eTrue\u003c/AllowUnsafeBlocks\u003e.",
+        "expected":  "Compiler warnings (unassigned fields CS0649, unused fields CS0169/CS0414, unsafe pointers CS8500, refness mismatch CS9191) should not be globally masked across all projects.",
+        "location":  "src/desktop/Directory.Build.props:3"
+    },
+    {
+        "id":  "AUD-A-002",
+        "workstream":  "WS-A",
+        "title":  "Zero NuGet PackageReferences; all 3rd-party dependencies bound via local HintPath DLLs",
+        "status":  "FAIL",
+        "observed":  "PackageReference count = 0; raw \u003cHintPath\u003e binary reference count = 49 across 7 .csproj files (dotnet list package --vulnerable cannot audit any 3rd-party dependencies).",
+        "expected":  "Third-party libraries (Sentry, Velopack, ClearScript, Vortice, WebView2, WinAppSDK) should be managed via pinned NuGet PackageReferences so vulnerability scanners can audit them.",
+        "location":  "src/desktop/Kursor.App/Kursor.App.csproj:39-145"
+    },
+    {
+        "id":  "AUD-A-003",
+        "workstream":  "WS-A",
+        "title":  "build-dist.ps1 ships Debug assemblies + PDBs and omits HeyClicky.exe apphost",
+        "status":  "FAIL",
+        "observed":  "build-dist.ps1:34 compiles \u0027-c Debug\u0027, copies .pdb debug symbols into dist/kursor-desktop/, and omits HeyClicky.exe from  (bin HeyClicky.exe SHA256=32C071E81A0677191F9160A5BC116E5E0B49BA60FFBF817A4EC659088679034D vs dist HeyClicky.exe SHA256=26AB779203881266FB8FC0BD4664D26D7167C0C185C3B63638C79EA7EEE3F4F9).",
+        "expected":  "Distribution script should build Release configuration, exclude debug PDBs unless requested, and keep apphost executable synchronized.",
+        "location":  "scripts/build-dist.ps1:34,72-87"
+    },
+    {
+        "id":  "AUD-A-004",
+        "workstream":  "WS-A",
+        "title":  "build-dist.ps1 and overlay-and-launch.ps1 reference non-existent Kursor.Drawing3D/Assets/Engine",
+        "status":  "FAIL",
+        "observed":  "Directory src/desktop/Kursor.Drawing3D/Assets/Engine does not exist; all 5 V8 JS files reside in src/desktop/Kursor.Drawing/Assets/Engine.",
+        "expected":  "Asset directory layout and staging scripts should agree on where 3D engine JS assets live.",
+        "location":  "scripts/build-dist.ps1:105"
+    },
+    {
+        "id":  "AUD-A-005",
+        "workstream":  "WS-A",
+        "title":  "Vulnerable @hono/node-server (\u003c2.1.3, GHSA-rmxm-3fg6-px4f) \u0026 Node engine version mismatch",
+        "status":  "FAIL",
+        "observed":  "@hono/node-server is \u0027^1.14.0\u0027 (installed 1.19.19, vulnerable to GHSA-rmxm-3fg6-px4f). package.json engines requires \u0027node \u003e=24.0.0\u0027, whereas setup-kursor.ps1:29 and README.md:127 say \u0027Node.js v22+\u0027 and setup-kursor.ps1 does not check major version.",
+        "expected":  "@hono/node-server upgraded to \u003e=2.1.3 and consistent Node.js engine version checks across package.json, setup-kursor.ps1, and README.md.",
+        "location":  "src/backend/package.json:14,25"
+    },
+    {
+        "id":  "AUD-A-006",
+        "workstream":  "WS-A",
+        "title":  "Hardcoded developer path C:\\Users\\ubaid\\... in src/backend/src/routes/worker.ts",
+        "status":  "FAIL",
+        "observed":  "LOCAL_APP_CONFIG_PATH hardcodes \u0027C:\\\\Users\\\\ubaid\\\\AppData\\\\Local\\\\HeyClicky\\\\app-config.json\u0027 at worker.ts:7-8.",
+        "expected":  "Resolve %LOCALAPPDATA% dynamically via process.env.LOCALAPPDATA or os.homedir().",
+        "location":  "src/backend/src/routes/worker.ts:7-8"
+    },
+    {
+        "id":  "AUD-A-007",
+        "workstream":  "WS-A",
+        "title":  "start-kursor.ps1 -Restart ignores backend/sidecars and fails silently if port 8787 is occupied by another service",
+        "status":  "FAIL",
+        "observed":  "start-kursor.ps1 -Restart only kills \u0027HeyClicky\u0027, leaving backend node.exe on :8787 and sidecars running; if a non-Kursor service occupies :8787, Test-BackendRunning returns false and spawns a conflicting node process without verifying health after 3s sleep.",
+        "expected":  "-Restart should stop both desktop/sidecar processes and the port 8787 backend, and verify /health after spawning.",
+        "location":  "start-kursor.ps1:76-120"
+    },
+    {
+        "id":  "AUD-A-008",
+        "workstream":  "WS-A",
+        "title":  "Duplicate/conflicting Windows autostart registrations across install-autostart.ps1 and LaunchAtLogin.cs",
+        "status":  "FAIL",
+        "observed":  "install-autostart.ps1 registers BOTH HKCU\\...\\Run\\Kursor AND Startup\\Kursor.lnk (launching start-kursor-hidden.vbs twice simultaneously at login), while in-app LaunchAtLogin.cs:12 writes HKCU\\...\\Run\\HeyClicky (launching HeyClicky.exe without backend). uninstall-autostart.ps1 leaves Run\\HeyClicky and Desktop\\Kursor.lnk behind.",
+        "expected":  "Use a single canonical autostart mechanism and registry value name shared between scripts and LaunchAtLogin.cs.",
+        "location":  "scripts/install-autostart.ps1:21-38"
+    },
+    {
+        "id":  "AUD-A-009",
+        "workstream":  "WS-A",
+        "title":  "%LOCALAPPDATA%\\HeyClicky vs %LOCALAPPDATA%\\Kursor split between AppPaths.cs and setup scripts",
+        "status":  "FAIL",
+        "observed":  "seed-local-auth.ps1 and setup-kursor.ps1 seed both %LOCALAPPDATA%\\HeyClicky and %LOCALAPPDATA%\\Kursor, but AppPaths.cs:12 defaults to %LOCALAPPDATA%\\HeyClicky and start-kursor.ps1 never sets KURSOR_DATA_DIR.",
+        "expected":  "Desktop AppPaths.cs and setup/launcher scripts should use a single unified data directory.",
+        "location":  "src/desktop/Kursor.Contracts/HeyClicky/AppPaths.cs:7-28"
+    },
+    {
+        "id":  "AUD-A-010",
+        "workstream":  "WS-A",
+        "title":  "Missing LICENSE / THIRD_PARTY_NOTICES and unanchored Release/Debug rules in .gitignore",
+        "status":  "FAIL",
+        "observed":  "No LICENSE or THIRD_PARTY_NOTICES file exists in repo root; 4,260 tracked files include 2,096 decompiled files in reference/decompiled/; .gitignore:38 has unanchored [Rr]elease/ and [Dd]ebug/ patterns.",
+        "expected":  "Repository should include explicit licensing/attribution documentation and properly scoped .gitignore rules.",
+        "location":  ".gitignore:38"
+    },
+    {
+        "id":  "AUD-B-001",
+        "workstream":  "WS-B",
+        "title":  "All 7 desktop .csproj files compile HeyClicky*.dll/exe with HeyClicky AssemblyInfo metadata",
+        "status":  "FAIL",
+        "observed":  "All 7 .csproj files specify \u003cAssemblyName\u003eHeyClicky*\u003c/AssemblyName\u003e; AssemblyInfo.cs sets AssemblyCompany/Product/Title to \u0027HeyClicky\u0027 and leaks original developer path \u0027C:\\Users\\niles\\code\\clicky-closed\\windows\\src\\HeyClicky.App\\\u0027.",
+        "expected":  "Assemblies and PE metadata should be rebranded to Kursor.",
+        "location":  "src/desktop/Kursor.App/Properties/AssemblyInfo.cs:8-17"
+    },
+    {
+        "id":  "AUD-B-002",
+        "workstream":  "WS-B",
+        "title":  "Production HeyClicky endpoints, Supabase anon JWT, Sentry DSN, PostHog key, and Velopack feed baked into binary",
+        "status":  "FAIL",
+        "observed":  "AssemblyInfo.cs bakes in HeyClicky\u0027s live PostHog key, Sentry DSN (with SendDefaultPii=true in CrashReporting.cs:233), and GitHub UpdateFeedUrl; AppBundleConfiguration.cs:36-43 switches to api.heyclicky.com + mrpvynsdsnimuisyhkow.supabase.co if use-production-backend.flag exists; ClickyInkImages.cs:60 defaults WorkerBaseUrl to https://api.heyclicky.com.",
+        "expected":  "Remove third-party production telemetry keys, update feeds, and cloud fallback URLs so Kursor cannot phone home to HeyClicky infrastructure.",
+        "location":  "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:36-43"
+    },
+    {
+        "id":  "AUD-B-003",
+        "workstream":  "WS-B",
+        "title":  "OS-level mutex, named pipe, process killer, URI scheme (heyclicky://), and file association collisions",
+        "status":  "FAIL",
+        "observed":  "SingleInstance.cs:80 uses appId=\u0027HeyClicky\u0027 (mutex Local\\HeyClicky-\u003cSID\u003e, pipe HeyClicky-\u003cSID\u003e-args) and kills processes named \u0027HeyClicky\u0027 (line 322); ProtocolRegistration.cs hijacks heyclicky:// and clicky://; FileOpenRegistration.cs registers HeyClicky.Document across 22 extensions.",
+        "expected":  "Use isolated Kursor mutex/pipe names, kursor:// URI protocol, and Kursor.Document ProgId.",
+        "location":  "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:80,312-341"
+    },
+    {
+        "id":  "AUD-B-004",
+        "workstream":  "WS-B",
+        "title":  "Incomplete UI \u0026 prompt rebranding (4,712 \u0027HeyClicky\u0027 and 19,632 \u0027Clicky\u0027 occurrences in src/desktop)",
+        "status":  "FAIL",
+        "observed":  "App.cs:111, SingleInstance.cs:345, BillingUi.cs:503, SettingsContent.cs:1205,2540 show \u0027HeyClicky\u0027 dialogs and \u0027hi@heyclicky.com\u0027; TrayIcon.cs:232 registers \u0027HeyClickyTray\u0027; TrayTooltip.cs:25 says \u0027N Clickys working\u0027; CodexHomeManager.cs:74-91 instructs agents to tell users \u0027HeyClicky Settings -\u003e Integrations\u0027.",
+        "expected":  "User-facing dialogs, support contacts, tray classes, and agent system instructions should consistently use Kursor.",
+        "location":  "src/desktop/Kursor.App/HeyClicky.App/App.cs:111"
+    },
+    {
+        "id":  "AUD-B-005",
+        "workstream":  "WS-B",
+        "title":  "Direct IP/copyright exposure: 2,096 decompiled C# files tracked in git + Humansongs-signed binaries \u0026 proprietary assets",
+        "status":  "FAIL",
+        "observed":  "Repo tracks 2,096 ILSpy-decompiled C# files in reference/decompiled/ and 2,097 in src/desktop/, plus executable-file/HeyClicky-Setup.exe and dist/kursor-desktop/ binaries signed by \u0027CN=Humansongs, Inc\u0027 (HeyClicky.exe, HeyClicky-Update.exe, clicky-harness.exe, ClickyBrowserHost.exe) and 171 proprietary audio/video/font/sprite assets (89.4 MB).",
+        "expected":  "Clean-room implementation with original/licensed assets and zero redistribution of third-party proprietary binaries or decompiled source.",
+        "location":  "scripts/install-runtime.ps1:11"
+    },
+    {
+        "id":  "AUD-N-001",
+        "workstream":  "WS-N",
+        "title":  "Env var drift between README.md (ONEBRAIN_MODEL), .env.example (6 unused vars), and backend code (KURSOR_BRAIN_MODEL)",
+        "status":  "FAIL",
+        "observed":  "README.md:84 documents ONEBRAIN_MODEL which is never read in src/backend/src/ (brain.ts:598 reads KURSOR_BRAIN_MODEL || OPENROUTER_DEFAULT_MODEL); .env.example omits KURSOR_BRAIN_MODEL and lists 6 env vars (KURSOR_DEV_BYPASS_AUTH, ANTHROPIC_API_KEY, COMPOSIO_API_KEY, WEB_SEARCH_PROVIDER, BRAVE_API_KEY, SERPER_API_KEY) never read in backend code.",
+        "expected":  "README.md, .env.example, and src/backend/src/ should use identical environment variable names and honor documented flags like KURSOR_DEV_BYPASS_AUTH.",
+        "location":  "README.md:84"
+    },
+    {
+        "id":  "AUD-N-002",
+        "workstream":  "WS-N",
+        "title":  "README.md documents non-existent writeOnPage primitive and claims setup-kursor seeds session.json",
+        "status":  "FAIL",
+        "observed":  "README.md:20-21 claims \u0027openPage + writeOnPage\u0027 spawn study cards (writeOnPage does not exist anywhere in V8 JS or brain.ts; openPage opens browser URLs); README.md:133 claims setup-kursor.cmd writes session.json (seed-local-auth.ps1:83-88 actually writes DPAPI auth.localdev.bin and auth.bin).",
+        "expected":  "README.md should accurately describe drawing primitives (receipt/clipping/paper/sticky) and DPAPI auth files (auth.localdev.bin / auth.bin).",
+        "location":  "README.md:20-21,133"
+    },
+    {
+        "id":  "AUD-N-003",
+        "workstream":  "WS-N",
+        "title":  "C# file count discrepancies in README.md (2,102), AGENTS.md (2,098), and docs/INDEX.md vs ground truth",
+        "status":  "FAIL",
+        "observed":  "Actual .cs file counts are reference/decompiled = 2096 (docs claim 2,098 because 6 .csproj files were counted as .cs) and src/desktop = 2097 (docs claim 2,102).",
+        "expected":  "Documentation file counts should match actual .cs file counts (2096 in reference/decompiled, 2097 in src/desktop).",
+        "location":  "docs/INDEX.md:24-34,55-62"
+    },
+    {
+        "id":  "AUD-N-004",
+        "workstream":  "WS-N",
+        "title":  "17 broken file:/// source links in docs/06-agents-proactive-and-memory.md",
+        "status":  "FAIL",
+        "observed":  "17 file:/// links in docs/06-agents-proactive-and-memory.md point to non-existent paths (e.g., HeyClicky.Agents.Codex, HeyClicky.Agents.Worker, HeyClicky.Agents.Prompt, HeyClicky.Core.Services/WorkerClient.cs).",
+        "expected":  "All file:/// markdown links in docs/ should resolve to existing files in the repository.",
+        "location":  "docs/06-agents-proactive-and-memory.md:27-35,445-580"
+    },
+    {
+        "id":  "AUD-N-005",
+        "workstream":  "WS-N",
+        "title":  "Fabricated/stale asset paths and byte sizes in docs/01 and unimplemented items marked COMPLETED in docs/07",
+        "status":  "FAIL",
+        "observed":  "docs/01:155-177 places Engine/*.js under BundledResources\\ with wrong byte sizes, cites non-existent ClickyBrowserExtensionID.txt, Assets\\Clicky\\*.png, Assets\\Squad\\*.png, PlusJakartaSans-*.ttf; docs/07:32,98-132 marks Phases 4-7 COMPLETED including namespace rebranding, kursor:// URI, .kursor file extension, and %LOCALAPPDATA%\\Kursor\\ migration.",
+        "expected":  "Architecture inventory (docs/01) and roadmap completion table (docs/07) must reflect actual repository files and implementation state.",
+        "location":  "docs/01-architecture-overview.md:155-177"
+    },
+    {
+        "id":  "WS-A-CTRL-001",
+        "workstream":  "WS-A",
+        "title":  "Backend .env is gitignored and contains no live user API keys",
+        "status":  "FAIL",
+        "observed":  "src/backend/.env is covered by .gitignore and all *_KEY= entries are empty.",
+        "expected":  "No developer API keys committed to git history or working tree.",
+        "location":  "src/backend/.env"
+    },
+    {
+        "id":  "WS-N-CTRL-001",
+        "workstream":  "WS-N",
+        "title":  "Backend test suite counts in docs/INDEX.md (18 + 7 = 25) match test-phase1.ts and test-phase2.ts",
+        "status":  "PASS",
+        "observed":  "test-phase1.ts has 18 testEndpoint calls; test-phase2.ts has 7 testEndpoint calls (total = 25).",
+        "expected":  "18 tests in test-phase1.ts and 7 tests in test-phase2.ts (25 total).",
+        "location":  "docs/INDEX.md:40,51"
+    }
+]

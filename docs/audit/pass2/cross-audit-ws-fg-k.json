@@ -1,0 +1,352 @@
+{
+  "pass": 2,
+  "auditor": "ws-ab-build-brand",
+  "reviewed_workstreams": [
+    "WS-F (2D Drawing Engine, ClearScript V8 & Overlays)",
+    "WS-G (3D Procedural Engine, Shaders & GPU Pipeline)",
+    "WS-K (UI Surfaces, Settings, Ink, Tray & App Shell)"
+  ],
+  "reviewed_reports": [
+    "docs/audit/ws-fg/REPORT.md",
+    "docs/audit/ws-fg/findings.json",
+    "docs/audit/ws-jk/ws-k-report.md",
+    "docs/audit/ws-jk/ws-k-findings.json"
+  ],
+  "test_harnesses_re_executed": [
+    {
+      "script": "tests/audit/ws-fg/test-2d-engine.mjs",
+      "exit_code": 0,
+      "summary": "57 2D engine programs executed: 54 PASS, 3 EXPECTED_FAIL_CONFIRMED (proving AUD-F-001, AUD-F-002, and syntax-error recovery), 0 UNEXPECTED."
+    },
+    {
+      "script": "tests/audit/ws-fg/test-3d-engine.mjs",
+      "exit_code": 0,
+      "summary": "17/17 normal shapes PASS, 6/6 modifiers PASS, 17/17 parameter extremes PASS, coneTopParameterIgnoredByteIdentical: true (proving AUD-G-001)."
+    },
+    {
+      "script": "tests/audit/ws-jk/test-ui-surfaces.ps1",
+      "exit_code": 0,
+      "summary": "Verified DPAPI round-trips (connectors.secrets with HeyClicky.Connectors.v1 and auth.bin with HeyClicky.Auth.v1), 33-namespace 886-file inventory, 10 async void callers, 15 heyclicky.com URL/email refs, 0 IsTabStop=true on Pressable."
+    }
+  ],
+  "summary": {
+    "total_pass1_findings_reviewed": 22,
+    "confirmed": 22,
+    "disputed": 0,
+    "precision_notes_added": 2,
+    "new_findings_discovered": 4
+  },
+  "verdicts": [
+    {
+      "id": "AUD-F-001",
+      "workstream": "WS-F",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js:1-1410",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1221-1255",
+        "docs/04-drawing-2d-3d-and-ink-engine.md:107-121"
+      ],
+      "verification_notes": "Independently verified by source inspection and executing test-2d-engine.mjs: writeOnPage, callout, brace, table, and chart do not exist in clicky-draw-pieces.js or the sandboxed ctx; openPage(url) opens a browser URL rather than an ink page."
+    },
+    {
+      "id": "AUD-F-002",
+      "workstream": "WS-F",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/brain.ts:94",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js:61-74",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1225-1240"
+      ],
+      "verification_notes": "Confirmed: brain.ts:94 documents spot, whereas clicky-draw-pieces.js:61-74 only defines point(target, opts). Calling spot() throws ReferenceError: spot is not defined."
+    },
+    {
+      "id": "AUD-F-003",
+      "workstream": "WS-F",
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/brain.ts:85",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:718-724"
+      ],
+      "verification_notes": "Critical/High verification: brain.ts:85 instructs the LLM to pass around: { count: 10, axis: \"x\"|\"y\"|\"z\", at: [0,0,0] }, whereas expandFigurePart() in clicky-draw-engine.js:720 reads const center = v3(around.center, [0, 0, 0]) and completely ignores around.at, collapsing off-origin radial arrays to [0,0,0]."
+    },
+    {
+      "id": "AUD-F-004",
+      "workstream": "WS-F",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/brain.ts:88",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:561-562,670-689"
+      ],
+      "verification_notes": "Confirmed: FIGURE_MATERIALS at clicky-draw-engine.js:561-562 defines 'iron' and 'black', not 'cast' or 'carbon' as taught in brain.ts:88. readPartAppearance() falls back to mat: 'gloss', tint: 'cast'|'carbon', which resolves to white."
+    },
+    {
+      "id": "AUD-F-005",
+      "workstream": "WS-F",
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/SystemComposition.cs:99-188",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/ScreenPainter.cs:45-48",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Figures/StageSwapChain.cs:147-159"
+      ],
+      "verification_notes": "Critical/High verification: SystemComposition.cs:165,180 calls Marshal.ThrowExceptionForHR directly on BeginDraw/EndDraw/Present/Commit, and neither SystemComposition, ScreenPainter, nor StageSwapChain handles DXGI_ERROR_DEVICE_REMOVED (0x887A0005), DXGI_ERROR_DEVICE_RESET (0x887A0007), D2DERR_RECREATE_TARGET (0x8899000C), or CanvasDevice.DeviceLost."
+    },
+    {
+      "id": "AUD-F-006",
+      "workstream": "WS-F",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/OverlayWindow.cs:220-226,338-407,462-466"
+      ],
+      "verification_notes": "Confirmed: OverlayWindow caches scale once at creation via GetDpiForWindow(hwnd), does not refresh scale in MoveTo(), and WndProc ignores WM_DPICHANGED (0x02E0)."
+    },
+    {
+      "id": "AUD-F-007",
+      "workstream": "WS-F",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/OverlayWindow.cs:91-97,111-125"
+      ],
+      "verification_notes": "Confirmed: ShowInScreenRecordings setter invokes _ = ApplyCapturePolicyToAllAsync() fire-and-forget via DrawingThread.RunAsync without awaiting completion."
+    },
+    {
+      "id": "AUD-F-008",
+      "workstream": "WS-F",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Video/Mp4VideoWriter.cs:41-60"
+      ],
+      "verification_notes": "Confirmed: Mp4VideoWriter constructor does not validate even width/height for NV12/H.264 and computes width * height * 6 in 32-bit signed int before widening to long."
+    },
+    {
+      "id": "AUD-G-001",
+      "workstream": "WS-G",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/backend/src/routes/brain.ts:74",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js:373-377",
+        "src/desktop/Kursor.Drawing3D/Assets/Engine/clicky-three-parts.js:373-377"
+      ],
+      "verification_notes": "Confirmed by source inspection and test-3d-engine.mjs execution: SHAPES.cone(o) only reads o.r and o.h and calls ConeGeometry(r, h, 36, 16), ignoring o.top (byte-identical 5220 floats / 3456 indices with or without top)."
+    },
+    {
+      "id": "AUD-G-002",
+      "workstream": "WS-G",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ThreeStage.cs:1089-1126"
+      ],
+      "verification_notes": "Confirmed: ThreeStage.Dispose() queues a ThreadPool work item that runs if (!running.Join(5000)) { Log.Warn(...); } followed unconditionally by Release(), which disposes d2dTarget, d2dContext, backBufferView, backBuffer, renderer, and wake while frameThread may still be rendering."
+    },
+    {
+      "id": "AUD-G-003",
+      "workstream": "WS-G",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:18,30,226-238,244-274,311"
+      ],
+      "verification_notes": "Confirmed with precision note: ClickyThreeKernel.failed (HashSet<string> at line 30) is unbounded and never cleared in ReleaseCachedGpuBuffers(), and loadFailed = true (line 311) permanently disables 3D kernel loading. Precision correction: shapes is bounded by byte budget CacheByteBudget = 50331648L (48 MB, line 18/226), not a 256-entry count cap."
+    },
+    {
+      "id": "AUD-G-004",
+      "workstream": "WS-G",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Pipelines.cs:145-165",
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuDevice.cs:19-45"
+      ],
+      "verification_notes": "Confirmed: Pipelines.EnsureBuilt() sets buildFailed = true permanently with no reset path, and GpuDevice.Shared caches a single static Device without device-removed recreation."
+    },
+    {
+      "id": "AUD-K-001",
+      "workstream": "WS-K",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:6142-6172,6940-6989"
+      ],
+      "verification_notes": "Confirmed: BuildReferralPage() at lines 6142-6172 constructs a 7-element FrameworkElement[] array and never includes FriendCodeGroup() (defined at line 6940), making FriendCodeGroup() and UseFriendCode() dead code."
+    },
+    {
+      "id": "AUD-K-002",
+      "workstream": "WS-K",
+      "severity": "HIGH",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.UI/Pressable.cs:18,181-242"
+      ],
+      "verification_notes": "Critical/High verification: Pressable inherits from Grid (line 18) and only hooks PointerEntered, PointerExited, PointerPressed, PointerReleased, and PointerCaptureLost (lines 181-185). It never sets IsTabStop = true or UseSystemFocusVisuals = true and has no KeyDown handler for Enter/Space, breaking keyboard accessibility across custom UI controls."
+    },
+    {
+      "id": "AUD-K-003",
+      "workstream": "WS-K",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/DeveloperFlags.cs:17-42",
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:8771",
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsHost.cs:64"
+      ],
+      "verification_notes": "Confirmed with precision note: DeveloperFlags.FullAgentActivity getter at line 19 unconditionally returns false while the setter writes to developer-flags.json, making DeveloperFlags.Read(string key) at lines 31-42 unreachable dead code. Also confirmed SettingsContent.cs:8771 gates the Developer page on host.ShowsDeveloperSection. Precision note: SettingsContent.cs:4195-4203 is ProactiveDeveloperGroups() and 'Show agent names', not a FullAgentActivity toggle."
+    },
+    {
+      "id": "AUD-K-004",
+      "workstream": "WS-K",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/BugReport.cs:20-21,75,91-168"
+      ],
+      "verification_notes": "Confirmed: BugReport.Run() opens Gmail compose to hi@heyclicky.com (line 75) and spawns Task.Run(() => SendToSentry(...)) (line 72/91) which packages up to 3 MB of recent logs plus state-<id>.json and calls SentrySdk.CaptureEvent."
+    },
+    {
+      "id": "AUD-K-005",
+      "workstream": "WS-K",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:1564-1567,6042-6052",
+        "src/desktop/Kursor.App/HeyClicky.App.Onboarding/OnboardingView.cs:1451-1457",
+        "src/desktop/Kursor.App/HeyClicky.App.UI/KbdChip.cs:13"
+      ],
+      "verification_notes": "Confirmed via ui-static-analysis.json and source inspection: mac_step onboarding steps and CommandGlyph = \"\\u2318\" remain in the Windows desktop client."
+    },
+    {
+      "id": "AUD-K-006",
+      "workstream": "WS-K",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/CustomConnectorStore.cs:25-33",
+        "docs/01-architecture-overview.md:191"
+      ],
+      "verification_notes": "Confirmed via CustomConnectorStore.cs and ui-storage-dpapi-test.json: code stores connectors.json and connectors.secrets (with DPAPI entropy HeyClicky.Connectors.v1), whereas docs/01-architecture-overview.md:191 states custom-connectors.json."
+    },
+    {
+      "id": "AUD-K-007",
+      "workstream": "WS-K",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Services/JsonAppSettings.cs:370-427"
+      ],
+      "verification_notes": "Confirmed: JsonAppSettings.Save() catches IOException/UnauthorizedAccessException quietly and writes directly to settingsPath without atomic temp-file + File.Replace."
+    },
+    {
+      "id": "AUD-K-008",
+      "workstream": "WS-K",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Notch.Peek/ClickyDrawingWindowViewer.cs:28-55",
+        "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:2003,2190,2385,6432"
+      ],
+      "verification_notes": "Confirmed via ui-static-analysis.json (10 async void methods across Kursor.App): ClickyDrawingWindowViewer.Present is async void and awaits service.LoadCodeAsync without a try/catch around the await."
+    },
+    {
+      "id": "AUD-K-009",
+      "workstream": "WS-K",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Ink.Views/SpreadsheetDocumentView.cs:245,863-918"
+      ],
+      "verification_notes": "Confirmed: SpreadsheetDocumentView caps DefaultRows = 28 and DefaultColumns = 8 with no UI controls to add/insert rows or columns and silently ignores pasted cells beyond the grid bounds."
+    },
+    {
+      "id": "AUD-K-010",
+      "workstream": "WS-K",
+      "severity": "LOW",
+      "status": "CONFIRMED",
+      "verified_locations": [
+        "src/desktop/Kursor.App/HeyClicky.App/AppHost.cs:3819",
+        "src/desktop/Kursor.App/HeyClicky.App.Billing/BillingUi.cs:146,503",
+        "src/desktop/Kursor.App/HeyClicky.App.Browser/ChromeAutoInstall.cs:103"
+      ],
+      "verification_notes": "Confirmed via ui-static-analysis.json: 15 occurrences of hi@heyclicky.com, team.heyclicky.com, and the upstream Chrome Web Store extension URL remain hardcoded in Kursor.App."
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "NEW-FG-001",
+      "workstream": "WS-F",
+      "title": "In-Process ClearScript V8 NativeEngine Runs LLM-Generated JavaScript Synchronously on DrawingThread Without the Web Worker Sandbox or Any Execution Timeout / Interrupt() Watchdog",
+      "severity": "HIGH",
+      "priority": "P1",
+      "category": "Reliability / Hang / Sandbox Bypass",
+      "component": "Kursor.Drawing / NativeEngine & DrawingThread",
+      "locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:145-174,280-291",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs:102-125",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1129-1187"
+      ],
+      "description": "In browser mode, clicky-draw-engine.js:1149-1187 executes untrusted LLM-generated drawing code inside a Web Worker (WorkerRunner) with a 1500 ms watchdog timer (setTimeout(() => w.terminate(), limit)) to terminate infinite loops. However, in the native desktop app, NativeEngine.cs:145-174 loads clicky-draw-native.js + clicky-draw-engine.js directly inside an in-process ClearScript V8ScriptEngine on the single STA DrawingThread and invokes engine functions synchronously via value.Invoke(asConstructor: false, arguments) (line 284) with no watchdog timer calling V8ScriptEngine.Interrupt() and no V8RuntimeConstraints heap limit. Any LLM-generated drawing script or tick() callback that enters an infinite or long loop permanently freezes DrawingThread, locking up all 2D/3D screen overlays, captions, and cursor animations for the lifetime of the process.",
+      "reproduction": "1. Inspect src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs lines 145-174 and 280-291.\n2. Compare with WorkerRunner in src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js lines 1149-1187.\n3. Observe that NativeEngine invokes __nativeRun / __nativeFrame synchronously on DrawingThread with no Timer/CancellationToken calling engine.Interrupt().",
+      "expected": "NativeEngine should configure V8RuntimeConstraints (max heap size) and arm a background timer (e.g., 1500 ms for initial run, 100 ms per tick) that calls engine.Interrupt() if LLM-generated JavaScript exceeds the execution budget.",
+      "observed": "Zero calls to engine.Interrupt() or V8RuntimeConstraints exist anywhere in NativeEngine.cs; an infinite while(true){} loop in an LLM drawing script permanently hangs DrawingThread.",
+      "remediation": "Arm a lightweight System.Threading.Timer around NativeEngine.Invoke calls that invokes engine.Interrupt() after 1500 ms (initial script execution) or 100 ms (per-frame tick), catch ScriptInterruptedException, and reset the scene."
+    },
+    {
+      "id": "NEW-FG-002",
+      "workstream": "WS-G",
+      "title": "ClickyThreeKernel Thread-Safety Race on V8ScriptEngine Disposal, Missing V8 Heap/Execution Constraints, and Unconditional Disposal of Active Stage GPU Buffers on Idle Timeout",
+      "severity": "MEDIUM",
+      "priority": "P2",
+      "category": "Concurrency / GPU Lifecycle / Resource Safety",
+      "component": "Kursor.Drawing3D / ClickyThreeKernel",
+      "locations": [
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:67-79,96-106,179-189,244-274,290-311,349"
+      ],
+      "description": "ClickyThreeKernel has three compounding lifecycle defects: (1) Lock asymmetry on engine and loadFailed: WarmUp() (lines 98-105) reads engine and loadFailed under lock (gate), and HeapBytes (line 73) calls engine?.GetRuntimeHeapInfo().TotalHeapSize without any lock, while Run() (lines 181-186) disposes engine and sets engine = null and LoadIfNeeded() (lines 290-311) assigns engine and loadFailed on the worker thread without acquiring lock (gate). Calling HeapBytes while Run() disposes engine can throw ObjectDisposedException or access a torn reference. (2) Unbounded V8 execution: LoadIfNeeded() (line 290) creates V8ScriptEngine without V8RuntimeConstraints or an Interrupt() timeout around buildFunction.Invoke(false, kind, recipe) (line 349). (3) Premature GPU buffer disposal while stages are still live: When work.TryTake times out after IdleRelease (5 minutes without new shape builds), ReleaseCachedGpuBuffers() (lines 244-274) unconditionally disposes item.Gpu (ID3D11Buffer vertex/index buffers) and sets item.Gpu = null on every cached Mesh3D before checking if (ThreeStage.LiveCounts.Stages == 0) at line 269, racing with any open ThreeStage render thread reading mesh.Gpu.",
+      "reproduction": "1. Inspect src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs lines 67-79, 96-106, 179-189, 244-274, and 290-349.\n2. Observe that ReleaseCachedGpuBuffers() disposes item.Gpu on lines 255-267 before checking ThreeStage.LiveCounts.Stages == 0 on line 269.",
+      "expected": "All reads/writes/disposals of engine and loadFailed should be synchronized or marshaled onto the kernel thread; ReleaseCachedGpuBuffers() should skip disposing GPU buffers (or acquire GpuDevice.Shared.ContextLock) while ThreeStage.LiveCounts.Stages > 0.",
+      "observed": "engine is mutated/disposed outside lock (gate), HeapBytes reads engine lock-free, and ReleaseCachedGpuBuffers() disposes Mesh3D.Gpu even when active ThreeStage instances are rendering those meshes.",
+      "remediation": "Check if (ThreeStage.LiveCounts.Stages > 0) return; at the top of ReleaseCachedGpuBuffers(), synchronize Mesh3D.Gpu disposal under GpuDevice.Shared.ContextLock, and guard engine lifecycle transitions under lock (gate)."
+    },
+    {
+      "id": "NEW-FG-003",
+      "workstream": "WS-F",
+      "title": "PhotoLoader.IsPublic IPv6 SSRF Filter Bypass (Missing NAT64 64:ff9b::/96, 6to4 2002::/16, Teredo 2001::/32, and ::ffff:0:0/96) and Unreachable Decompiler Artifact",
+      "severity": "LOW",
+      "priority": "P3",
+      "category": "Security / SSRF Defense-in-Depth & Code Hygiene",
+      "component": "Kursor.Drawing / PhotoLoader",
+      "locations": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/PhotoLoader.cs:524-526,557-589"
+      ],
+      "description": "PhotoLoader.FetchByHttpAsync resolves DNS hostnames and filters each IP through PhotoLoader.IsPublic(IPAddress) (lines 557-589) to prevent LLM-generated photo() calls from fetching internal/loopback resources. While IsPublic handles IPv4 private/loopback ranges and IPv6 loopback/link-local/site-local/ULA (fc00::/7) and IsIPv4MappedToIPv6, it does not block IPv6unspecified (::), IPv6 documentation/benchmarking ranges (2001:db8::/32), or IPv6 transition prefixes that embed loopback/private IPv4 addresses (NAT64 64:ff9b::/96, 6to4 2002::/16, Teredo 2001:0000::/32). Additionally, lines 524-526 contain unreachable decompiler artifact code (IL_042f: byte[] result3; return result3;) that triggers CS0162/CS0164 when warnings are unmasked.",
+      "reproduction": "1. Inspect src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/PhotoLoader.cs lines 524-526 and 557-589.\n2. Trace IsPublic(IPAddress.Parse(\"64:ff9b::127.0.0.1\")) or IsPublic(IPAddress.IPv6Any): bytes[0] is 0x00 or 0x64, none of the IPv6 checks match, and IsPublic returns true.",
+      "expected": "IsPublic should reject IPAddress.IPv6Any (::), multicast (ff00::/8), NAT64 (64:ff9b::/96), 6to4 (2002::/16), and Teredo (2001::/32), and dead label IL_042f should be removed.",
+      "observed": "IPv6 transition/unspecified/multicast addresses return true from IsPublic(), and dead label IL_042f remains at lines 524-526.",
+      "remediation": "Reject IPAddress.IPv6Any, address.IsIPv6Multicast, and transition prefixes (0x2001/0x0000, 0x2002, 0x0064/0xff9b) in PhotoLoader.IsPublic, and delete lines 524-526."
+    },
+    {
+      "id": "NEW-K-001",
+      "workstream": "WS-K",
+      "title": "Decompiler-Damaged Iterator DemoAgentMomentRows() (Raw Compiler State Machine _003CDemoAgentMomentRows_003Ed__65) and Unbranded 'Relaunch HeyClicky' Action on Developer Settings Page",
+      "severity": "MEDIUM",
+      "priority": "P2",
+      "category": "Decompilation Artifact / Branding / Maintainability",
+      "component": "Kursor.App / SettingsContent",
+      "locations": [
+        "src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs:4247,4252-4260"
+      ],
+      "description": "In SettingsContent.cs:4252-4260, the iterator method DemoAgentMomentRows() failed ILSpy yield-return decompilation ('//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()') and directly instantiates a raw compiler-generated state machine class new _003CDemoAgentMomentRows_003Ed__65(-2) { _003C_003E4__this = this }. In addition, immediately above it at line 4247, BuildDeveloperPage() renders SK.ActionRow(\"Relaunch HeyClicky\", \"Quits and opens HeyClicky again, e.g. after switching the JIT.\", actions.Relaunch, null, null) with hardcoded upstream 'HeyClicky' branding.",
+      "reproduction": "1. Read src/desktop/Kursor.App/HeyClicky.App.Settings/SettingsContent.cs lines 4240-4265.\n2. Observe the raw _003CDemoAgentMomentRows_003Ed__65 state machine instantiation and the 'Relaunch HeyClicky' label.",
+      "expected": "DemoAgentMomentRows() should be reconstructed as a clean C# yield return iterator (eliminating the brittle compiler state machine class), and 'Relaunch HeyClicky' should be rebranded to 'Relaunch Kursor'.",
+      "observed": "Raw _003CDemoAgentMomentRows_003Ed__65 state machine and 'Relaunch HeyClicky' string are compiled into SettingsContent.cs.",
+      "remediation": "Replace _003CDemoAgentMomentRows_003Ed__65 with standard yield return statements in DemoAgentMomentRows() and update line 4247 to 'Relaunch Kursor'."
+    }
+  ]
+}

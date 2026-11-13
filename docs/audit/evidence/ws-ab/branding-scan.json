@@ -1,0 +1,922 @@
+﻿{
+    "DesktopFilesScanned":  2111,
+    "BackendFilesScanned":  12,
+    "ScriptFilesScanned":  0,
+    "HeyClickyMatchesInDesktop":  4712,
+    "ClickyMatchesInDesktop":  19632,
+    "HeyClickyMatchesInBackend":  25,
+    "HeyClickyMatchesInScripts":  0,
+    "PatternMatches":  {
+                           "api_heyclicky_com":  {
+                                                     "Count":  2,
+                                                     "Hits":  [
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Ink\\ClickyInkImages.cs",
+                                                                      "Line":  60,
+                                                                      "Text":  "public static string WorkerBaseUrl { get; set; } = \"https://api.heyclicky.com\";"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                      "Line":  42,
+                                                                      "Text":  "return new ClickyEndpoints(new Uri(\"https://api.heyclicky.com\"), new Uri(\"https://mrpvynsdsnimuisyhkow.supabase.co\"), \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ycHZ5bnNkc25pbXVpc3loa293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODAxNzgsImV4cCI6MjA5MTg1NjE3OH0.qf1-em-OB-OtyX4WTuGnSi28djq-5T0k0whKvcTtTAY\");"
+                                                                  }
+                                                              ]
+                                                 },
+                           "appdata_heyclicky":  {
+                                                     "Count":  2,
+                                                     "Hits":  [
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Contracts\\HeyClicky\\AppPaths.cs",
+                                                                      "Line":  12,
+                                                                      "Text":  "public static string Root { get; } = overrideRoot ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), \"HeyClicky\");"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Directory.Build.props",
+                                                                      "Line":  5,
+                                                                      "Text":  "\u003cHeyClickyRuntimeDir Condition=\"\u0027$(HeyClickyRuntimeDir)\u0027 == \u0027\u0027\"\u003e$(LOCALAPPDATA)\\HeyClickyApp\\current\u003c/HeyClickyRuntimeDir\u003e"
+                                                                  }
+                                                              ]
+                                                 },
+                           "posthog_key_or_ref":  {
+                                                      "Count":  26,
+                                                      "Hits":  [
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.App\\Properties\\AssemblyInfo.cs",
+                                                                       "Line":  15,
+                                                                       "Text":  "[assembly: AssemblyMetadata(\"HeyClicky.PostHogApiKey\", \"phc_xcQPygmhTMzzYh8wNW92CCwoXmnzqyChAixh8zgpqC3C\")]"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Brain\\BrainTurnTiming.cs",
+                                                                       "Line":  39,
+                                                                       "Text":  "private const double PostHogSampleRate = 0.1;"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  10,
+                                                                       "Text":  "public sealed record TelemetryConfiguration(string? PostHogApiKey, string PostHogHost, string? SentryDsn, string UpdateFeedUrl)"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  14,
+                                                                       "Text":  "public bool HasPostHogKey =\u003e !string.IsNullOrWhiteSpace(PostHogApiKey);"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  20,
+                                                                       "Text":  "public const string DefaultPostHogHost = \"https://us.i.posthog.com\";"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  35,
+                                                                       "Text":  "string postHogApiKey = Meta(\"HeyClicky.PostHogApiKey\");"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  36,
+                                                                       "Text":  "string text = Meta(\"HeyClicky.PostHogHost\") ?? \"https://us.i.posthog.com\";"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  55,
+                                                                       "Text":  "if (Read(rootElement, \"postHogApiKey\", out string value))"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  57,
+                                                                       "Text":  "postHogApiKey = value;"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  59,
+                                                                       "Text":  "if (Read(rootElement, \"postHogHost\", out string value2) \u0026\u0026 value2 != null)"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  77,
+                                                                       "Text":  "return new TelemetryConfiguration(postHogApiKey, text.TrimEnd(\u0027/\u0027), sentryDsn, updateFeedUrl);"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  116,
+                                                                       "Text":  "PostHogApiKey = original.PostHogApiKey;"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                       "Line":  117,
+                                                                       "Text":  "PostHogHost = original.PostHogHost;"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\AnalyticsEvent.cs",
+                                                                       "Line":  9,
+                                                                       "Text":  "public JsonObject ToPostHogJson()"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\ClickyAnalytics.cs",
+                                                                       "Line":  194,
+                                                                       "Text":  "public static bool IsSendingToPostHog =\u003e sink is PostHogAnalyticsSink;"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\ClickyAnalytics.cs",
+                                                                       "Line":  302,
+                                                                       "Text":  "else if (!config.HasPostHogKey)"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\ClickyAnalytics.cs",
+                                                                       "Line":  305,
+                                                                       "Text":  "value = \"no PostHog key configured\";"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\ClickyAnalytics.cs",
+                                                                       "Line":  314,
+                                                                       "Text":  "analyticsSink = new PostHogAnalyticsSink(http ?? new HttpClient(), config.PostHogHost, config.PostHogApiKey);"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\ClickyAnalytics.cs",
+                                                                       "Line":  315,
+                                                                       "Text":  "value = config.PostHogHost;"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\LogAnalyticsSink.cs",
+                                                                       "Line":  35,
+                                                                       "Text":  "Log.Info(\"analytics\", analyticsEvent.ToPostHogJson().ToJsonString());"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\PostHogAnalyticsSink.cs",
+                                                                       "Line":  13,
+                                                                       "Text":  "public sealed class PostHogAnalyticsSink : IAnalyticsSink, IDisposable"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\PostHogAnalyticsSink.cs",
+                                                                       "Line":  33,
+                                                                       "Text":  "public string Name =\u003e \"posthog\";"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\PostHogAnalyticsSink.cs",
+                                                                       "Line":  35,
+                                                                       "Text":  "public PostHogAnalyticsSink(HttpClient http, string host, string apiKey)"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\PostHogAnalyticsSink.cs",
+                                                                       "Line":  86,
+                                                                       "Text":  "jsonArray.Add(analyticsEvent.ToPostHogJson());"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\PostHogAnalyticsSink.cs",
+                                                                       "Line":  103,
+                                                                       "Text":  "Log.Warn(\"analytics\", $\"PostHog batch of {batch.Length} answered HTTP {httpResponseMessage.StatusCode}\");"
+                                                                   },
+                                                                   {
+                                                                       "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Telemetry\\PostHogAnalyticsSink.cs",
+                                                                       "Line":  112,
+                                                                       "Text":  "Log.Warn(\"analytics\", $\"PostHog batch of {batch.Length} not sent: {ex.Message}\");"
+                                                                   }
+                                                               ]
+                                                  },
+                           "supabase_anon_jwt":  {
+                                                     "Count":  5,
+                                                     "Hits":  [
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Contracts\\HeyClicky\\ClickyEndpoints.cs",
+                                                                      "Line":  11,
+                                                                      "Text":  "public const string DefaultSupabaseAnonKey = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0\";"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                      "Line":  14,
+                                                                      "Text":  "public const string ProductionSupabaseAnonKey = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0\";"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                      "Line":  20,
+                                                                      "Text":  "public const string LocalSupabaseAnonKey = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0\";"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                      "Line":  42,
+                                                                      "Text":  "return new ClickyEndpoints(new Uri(\"https://api.heyclicky.com\"), new Uri(\"https://mrpvynsdsnimuisyhkow.supabase.co\"), \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ycHZ5bnNkc25pbXVpc3loa293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODAxNzgsImV4cCI6MjA5MTg1NjE3OH0.qf1-em-OB-OtyX4WTuGnSi28djq-5T0k0whKvcTtTAY\");"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                      "Line":  125,
+                                                                      "Text":  "string text4 = ((text2 != null \u0026\u0026 IsLocalUrl(new Uri(text2))) ? \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0\" : endpoints.SupabaseAnonKey);"
+                                                                  }
+                                                              ]
+                                                 },
+                           "supabase_prod_url":  {
+                                                     "Count":  1,
+                                                     "Hits":  {
+                                                                  "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                  "Line":  42,
+                                                                  "Text":  "return new ClickyEndpoints(new Uri(\"https://api.heyclicky.com\"), new Uri(\"https://mrpvynsdsnimuisyhkow.supabase.co\"), \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ycHZ5bnNkc25pbXVpc3loa293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODAxNzgsImV4cCI6MjA5MTg1NjE3OH0.qf1-em-OB-OtyX4WTuGnSi28djq-5T0k0whKvcTtTAY\");"
+                                                              }
+                                                 },
+                           "heyclicky_domain":  {
+                                                    "Count":  35,
+                                                    "Hits":  [
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\App.cs",
+                                                                     "Line":  111,
+                                                                     "Text":  "MessageBoxW(0, $\"HeyClicky couldn\u0027t start.\\n\\n{ex.GetType().Name}: {ex.Message}\\n\\nWe\u0027ve been sent the details. If it keeps happening, email hi@heyclicky.com with a screenshot of this message.\", \"HeyClicky\", 65552u);"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                     "Line":  3819,
+                                                                     "Text":  "OpenUrl(\"https://mail.google.com/mail/?view=cm\u0026fs=1\u0026to=hi@heyclicky.com\u0026su=hi%20clicky%20team\u0026body=%3Cjk%20my%20twitter%20dm%27s%20got%20way%20too%20crazy%2C%20so%20email%20me%20here%3E\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Billing\\BillingUi.cs",
+                                                                     "Line":  146,
+                                                                     "Text":  "openUrl(\"https://team.heyclicky.com\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Billing\\BillingUi.cs",
+                                                                     "Line":  503,
+                                                                     "Text":  "return \"Couldn\u0027t start checkout — \" + text4 + \". Please email hi@heyclicky.com and we\u0027ll sort it out fast.\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\DemoRunner.cs",
+                                                                     "Line":  406,
+                                                                     "Text":  "P.Present(new NotchPresentation.TextResponse(\"why did revenue dip?\", \"Here\u0027s what I see on your screen:\\n\\n1. The **notch** sits top-center and grows on a spring.\\n2. Everything outside it stays *click-through*.\\n\\nTry `Ctrl+Alt` to talk, or double-tap **Ctrl** to type. More in the [docs](https://heyclicky.com).\", IsThinking: false));"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\DocumentGallery.cs",
+                                                                     "Line":  198,
+                                                                     "Text":  "private const string SampleBlocks = \"# Heading one\\n## Heading two\\n### Heading three\\n#### Heading four\\n##### Heading five\\n###### Heading six\\n\\nSetext heading\\n==============\\n\\nA paragraph with **bold**, *italic*, ***both***, `inline code`, ~~struck~~ and a [link](https://heyclicky.com).\\nLines of one paragraph join into one.\\n\\n\u003e A quote to lift out: a draft reply.\\n\u003e\\n\u003e - with a list\\n\u003e - and a second item\\n\u003e\\n\u003e ```\\n\u003e let x = 1\\n\u003e ```\\n\\n\u003e **Note** · A callout has no copy button.\\n\\n```swift\\nfunc greet(name: String) -\u003e String {\\n    return \\\"Hello, \\\\(name)! This line is long enough that it has to wrap inside the code block\u0027s plate on a narrow page.\\\"\\n}\\n```\\n\\n1. First\\n2. Second\\n    - nested bullet\\n        - deeper\\n3. Third\\n\\n***\\n\\nDone.\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\DocumentGallery.cs",
+                                                                     "Line":  255,
+                                                                     "Text":  "File.WriteAllText(blocks, \"# Heading one\\n## Heading two\\n### Heading three\\n#### Heading four\\n##### Heading five\\n###### Heading six\\n\\nSetext heading\\n==============\\n\\nA paragraph with **bold**, *italic*, ***both***, `inline code`, ~~struck~~ and a [link](https://heyclicky.com).\\nLines of one paragraph join into one.\\n\\n\u003e A quote to lift out: a draft reply.\\n\u003e\\n\u003e - with a list\\n\u003e - and a second item\\n\u003e\\n\u003e ```\\n\u003e let x = 1\\n\u003e ```\\n\\n\u003e **Note** · A callout has no copy button.\\n\\n```swift\\nfunc greet(name: String) -\u003e String {\\n    return \\\"Hello, \\\\(name)! This line is long enough that it has to wrap inside the code block\u0027s plate on a narrow page.\\\"\\n}\\n```\\n\\n1. First\\n2. Second\\n    - nested bullet\\n        - deeper\\n3. Third\\n\\n***\\n\\nDone.\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\DocumentGallery.cs",
+                                                                     "Line":  277,
+                                                                     "Text":  "Content = new MarkdownViewerInlineDocument(\"# Heading one\\n## Heading two\\n### Heading three\\n#### Heading four\\n##### Heading five\\n###### Heading six\\n\\nSetext heading\\n==============\\n\\nA paragraph with **bold**, *italic*, ***both***, `inline code`, ~~struck~~ and a [link](https://heyclicky.com).\\nLines of one paragraph join into one.\\n\\n\u003e A quote to lift out: a draft reply.\\n\u003e\\n\u003e - with a list\\n\u003e - and a second item\\n\u003e\\n\u003e ```\\n\u003e let x = 1\\n\u003e ```\\n\\n\u003e **Note** · A callout has no copy button.\\n\\n```swift\\nfunc greet(name: String) -\u003e String {\\n    return \\\"Hello, \\\\(name)! This line is long enough that it has to wrap inside the code block\u0027s plate on a narrow page.\\\"\\n}\\n```\\n\\n1. First\\n2. Second\\n    - nested bullet\\n        - deeper\\n3. Third\\n\\n***\\n\\nDone.\", dir)"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\ReferralFixture.cs",
+                                                                     "Line":  13,
+                                                                     "Text":  "[\"share_url\"] = \"https://heyclicky.com/@nilesh\","
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\ReferralFixture.cs",
+                                                                     "Line":  14,
+                                                                     "Text":  "[\"share_display_text\"] = \"heyclicky.com/@nilesh\","
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\ReferralFixture.cs",
+                                                                     "Line":  15,
+                                                                     "Text":  "[\"share_display_prefix\"] = \"heyclicky.com/@\","
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\ReferralFixture.cs",
+                                                                     "Line":  25,
+                                                                     "Text":  "[\"payout_contact_email\"] = \"hi@heyclicky.com\""
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.DevFakes\\FakeCompanionSession.cs",
+                                                                     "Line":  12,
+                                                                     "Text":  "public const string SampleAnswer = \"Here\u0027s what I see on your screen:\\n\\n1. The **notch** sits top-center and grows on a spring.\\n2. Everything outside it stays *click-through*.\\n\\nTry `Ctrl+Alt` to talk, or double-tap **Ctrl** to type. More in the [docs](https://heyclicky.com).\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.DevFakes\\FakeCompanionSession.cs",
+                                                                     "Line":  44,
+                                                                     "Text":  "return RunTurn(\"Here\u0027s what I see on your screen:\\n\\n1. The **notch** sits top-center and grows on a spring.\\n2. Everything outside it stays *click-through*.\\n\\nTry `Ctrl+Alt` to talk, or double-tap **Ctrl** to type. More in the [docs](https://heyclicky.com).\", voice: true);"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.DevFakes\\FakeCompanionSession.cs",
+                                                                     "Line":  50,
+                                                                     "Text":  "return RunTurn(\"Here\u0027s what I see on your screen:\\n\\n1. The **notch** sits top-center and grows on a spring.\\n2. Everything outside it stays *click-through*.\\n\\nTry `Ctrl+Alt` to talk, or double-tap **Ctrl** to type. More in the [docs](https://heyclicky.com).\", voice: false);"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.DevFakes\\FakeCompanionSession.cs",
+                                                                     "Line":  55,
+                                                                     "Text":  "return RunTurn(\"Here\u0027s what I see on your screen:\\n\\n1. The **notch** sits top-center and grows on a spring.\\n2. Everything outside it stays *click-through*.\\n\\nTry `Ctrl+Alt` to talk, or double-tap **Ctrl** to type. More in the [docs](https://heyclicky.com).\", voice: true);"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Ink\\ClickyInkImages.cs",
+                                                                     "Line":  60,
+                                                                     "Text":  "public static string WorkerBaseUrl { get; set; } = \"https://api.heyclicky.com\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Notch.Surfaces\\OnboardingCardSurface.cs",
+                                                                     "Line":  173,
+                                                                     "Text":  "base.Host.Actions.OpenUrl(\"https://heyclicky.com/download\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                     "Line":  592,
+                                                                     "Text":  "ClickyAnalytics.TrackAppError(\"crash_test\", new InvalidOperationException(\"HEYCLICKY_CRASH_TEST=report-error: a forced user-visible error\"), \"error, plz restart me. if still broken, send email to hi@heyclicky.com very srry!\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Settings\\BugReport.cs",
+                                                                     "Line":  75,
+                                                                     "Text":  "string url = \"https://mail.google.com/mail/?view=cm\u0026fs=1\u0026to=hi%40heyclicky.com\u0026su=\" + Uri.EscapeDataString(\"hey clicky\") + \"\u0026body=\" + Uri.EscapeDataString(stringToEscape);"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Settings\\SettingsContent.cs",
+                                                                     "Line":  1205,
+                                                                     "Text":  "(UIElement)Ui.Text(\"New people can\u0027t join through your link right now. Everything you have already earned is unchanged. Questions? Write to \" + (Str(terms[\"payout_contact_email\"]) ?? \"hi@heyclicky.com\") + \".\", 12.5, FontWeights.Normal, MessagesPalette.Current.SecondaryText, TextAlignment.Left, 0, wrap: true)"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Settings\\SettingsContent.cs",
+                                                                     "Line":  1240,
+                                                                     "Text":  "TextBlock textBlock = Ui.Text((text2.Length \u003e 0) ? text2 : \"heyclicky.com/\", 15.0, FontWeights.SemiBold, SK.TextTertiary);"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Settings\\SettingsContent.cs",
+                                                                     "Line":  2540,
+                                                                     "Text":  "text5 = (flag2 ? \"The connection dropped before we could confirm the deletion finished. Please try again. If this keeps happening, email hi@heyclicky.com.\" : \"Nothing was deleted. Please try again, or email hi@heyclicky.com.\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Settings\\SettingsContent.cs",
+                                                                     "Line":  6494,
+                                                                     "Text":  "string email = Str(terms[\"payout_contact_email\"]) ?? \"hi@heyclicky.com\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Settings\\SettingsContent.cs",
+                                                                     "Line":  6915,
+                                                                     "Text":  "string email = Str(terms[\"payout_contact_email\"]) ?? \"hi@heyclicky.com\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Billing\\BillingPlanCard.cs",
+                                                                     "Line":  12,
+                                                                     "Text":  "public const string TeamDashboardUrl = \"https://team.heyclicky.com\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Billing\\BillingPlanCard.cs",
+                                                                     "Line":  136,
+                                                                     "Text":  "return \"Oops, something\u0027s wrong. Email us at hi@heyclicky.com please.\";"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\AppBundleConfiguration.cs",
+                                                                     "Line":  42,
+                                                                     "Text":  "return new ClickyEndpoints(new Uri(\"https://api.heyclicky.com\"), new Uri(\"https://mrpvynsdsnimuisyhkow.supabase.co\"), \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ycHZ5bnNkc25pbXVpc3loa293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODAxNzgsImV4cCI6MjA5MTg1NjE3OH0.qf1-em-OB-OtyX4WTuGnSi28djq-5T0k0whKvcTtTAY\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Worker\\AppRemoteLinks.cs",
+                                                                     "Line":  7,
+                                                                     "Text":  "public static readonly AppRemoteLinks BakedInDefaults = new AppRemoteLinks(\"https://heyclicky.canny.io/feature-requests\", \"https://www.reddit.com/r/heyclicky_\", \"https://chat.whatsapp.com/KNyXe8etUWmFCdym6OWW8C?mode=gi_t\", \"https://heyclicky.com/changelog?p=windows\");"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\backend\\src\\test-phase1.ts",
+                                                                     "Line":  140,
+                                                                     "Text":  "\"https://heyclicky.com/changelog?p=windows\""
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\backend\\src\\routes\\worker.ts",
+                                                                     "Line":  15,
+                                                                     "Text":  "changelog: \"https://heyclicky.com/changelog?p=windows\","
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\backend\\src\\routes\\worker.ts",
+                                                                     "Line":  901,
+                                                                     "Text":  "share_url: `https://heyclicky.com/r/${code}`,"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\backend\\src\\routes\\worker.ts",
+                                                                     "Line":  902,
+                                                                     "Text":  "share_display_text: `heyclicky.com/r/${code}`,"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\backend\\src\\routes\\worker.ts",
+                                                                     "Line":  955,
+                                                                     "Text":  "share_url: `https://heyclicky.com/r/${code}`,"
+                                                                 },
+                                                                 {
+                                                                     "File":  "src\\backend\\src\\routes\\worker.ts",
+                                                                     "Line":  956,
+                                                                     "Text":  "share_display_text: `heyclicky.com/r/${code}`,"
+                                                                 }
+                                                             ]
+                                                },
+                           "mutex_pipe_mmf":  {
+                                                  "Count":  186,
+                                                  "Hits":  [
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.Agents\\HeyClicky.Agents.Harness\\AgentHarnessRunnerProcess.cs",
+                                                                   "Line":  70,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_AGENT_HARNESS_RUNNER\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\App.cs",
+                                                                   "Line":  7,
+                                                                   "Text":  "using HeyClicky.App.HeyClicky_App_XamlTypeInfo;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\App.cs",
+                                                                   "Line":  22,
+                                                                   "Text":  "[WinRTExposedType(typeof(HeyClicky_App_AppWinRTTypeDetails))]"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  187,
+                                                                   "Text":  "private static readonly bool EarconsMuted = Environment.GetEnvironmentVariable(\"HEYCLICKY_MUTE_AUDIO\") == \"1\";"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  818,
+                                                                   "Text":  "ClickyBrowserBridge bridge = ClickyBrowserBridge.Shared;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  853,
+                                                                   "Text":  "return ((object)agentBrowserTurn == null) ? null : new BrowserTurnContext(agentBrowserTurn.Title, ClickyBrowserBridge.GroupTitle(agentBrowserTurn.GroupLabel), ClickyBrowserBridge.ProgressLine(agentBrowserTurn.LatestCommentary, agentBrowserTurn.ThinkingHeading), agentBrowserTurn.IsActive);"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  2772,
+                                                                   "Text":  "ClickyBrowserBridge.Shared.WorkHandler = delegate(string thread, string tool, JsonObject arguments)"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  2793,
+                                                                   "Text":  "ClickyBrowserBridge.Shared.MacStepHandler = consent.AnswerMacStepToolCallAsync;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  2814,
+                                                                   "Text":  "ClickyBrowserBridge.Shared.JobFolderForThread = (string thread) =\u003e agents.Jobs.JobForThread(thread)?.FolderPath;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  3740,
+                                                                   "Text":  "if (!(Environment.GetEnvironmentVariable(\"HEYCLICKY_NO_VIDEO_CUES\") == \"1\"))"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  3873,
+                                                                   "Text":  "if (Environment.GetEnvironmentVariable(\"HEYCLICKY_MUTE_AUDIO\") == \"1\")"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  5971,
+                                                                   "Text":  "string text = Environment.GetEnvironmentVariable(\"HEYCLICKY_DEV_TEST_USER\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  5993,
+                                                                   "Text":  "Log.Warn(\"auth\", \"dev sign-in: test-user.json not found (set HEYCLICKY_DEV_TEST_USER)\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  6713,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_DEV_AUTH_URL_FILE\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  6871,
+                                                                   "Text":  "ClickyBrowserBridge.Shared.Shutdown();"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\AppHost.cs",
+                                                                   "Line":  7835,
+                                                                   "Text":  "FlowHooks.BrowserStateNote = (bool canDrive) =\u003e ClickyBrowserBridge.Shared.BrowserStateNote(canDrive);"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\Program.cs",
+                                                                   "Line":  39,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_TEST_CULTURE\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\Program.cs",
+                                                                   "Line":  44,
+                                                                   "Text":  "bool flag = Environment.GetEnvironmentVariable(\"HEYCLICKY_OFFSCREEN\") == \"1\";"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Billing\\PaywallPalette.cs",
+                                                                   "Line":  17,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_PAYWALL_THEME\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Browser\\ChromeAutoInstall.cs",
+                                                                   "Line":  26,
+                                                                   "Text":  "ClickyBrowserBridge bridge = ClickyBrowserBridge.Shared;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Browser\\ChromeAutoInstall.cs",
+                                                                   "Line":  118,
+                                                                   "Text":  "ClickyBrowserBridge shared = ClickyBrowserBridge.Shared;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Browser\\ChromeSetupFlow.cs",
+                                                                   "Line":  105,
+                                                                   "Text":  "private ClickyBrowserBridge Bridge =\u003e ClickyBrowserBridge.Shared;"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\AnalyticsEndToEnd.cs",
+                                                                   "Line":  472,
+                                                                   "Text":  "say(\"analytics: FAIL the debug sink is off (set HEYCLICKY_ANALYTICS_DEBUG=1)\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\AnalyticsEndToEnd.cs",
+                                                                   "Line":  475,
+                                                                   "Text":  "string only = Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_ONLY\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\AnalyticsEndToEnd.cs",
+                                                                   "Line":  580,
+                                                                   "Text":  "string noCues = Environment.GetEnvironmentVariable(\"HEYCLICKY_NO_VIDEO_CUES\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\AnalyticsEndToEnd.cs",
+                                                                   "Line":  603,
+                                                                   "Text":  "Environment.SetEnvironmentVariable(\"HEYCLICKY_NO_VIDEO_CUES\", noCues);"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\AnalyticsEndToEnd.cs",
+                                                                   "Line":  839,
+                                                                   "Text":  "Environment.SetEnvironmentVariable(\"HEYCLICKY_NO_VIDEO_CUES\", \"1\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\DemoRunner.cs",
+                                                                   "Line":  181,
+                                                                   "Text":  "if (double.TryParse(Environment.GetEnvironmentVariable(\"HEYCLICKY_DEMO_DWELL\"), CultureInfo.InvariantCulture, out var result))"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  104,
+                                                                   "Text":  "HashSet\u003cstring\u003e steps = (Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_STEPS\") ?? \"context,page,document,attach,tools,agent\").Split(\u0027,\u0027, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  121,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_IMAGE\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  152,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_ESCAPE_PROBE\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  155,
+                                                                   "Text":  "Say(\"escape: set HEYCLICKY_E2E_ESCAPE_PROBE\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  329,
+                                                                   "Text":  "string url = Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_PAGE\") ?? \"https://en.wikipedia.org/wiki/Darjeeling_tea\";"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  383,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_PDF\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  559,
+                                                                   "Text":  "HashSet\u003cstring\u003e steps = (Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_STEPS\") ?? \"highlight,save,escape,yield,exit,idle,muted,mouth\").Split(\u0027,\u0027, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  667,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_E2E_WAVS\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  668,
+                                                                   "Text":  "string environmentVariable2 = Environment.GetEnvironmentVariable(\"HEYCLICKY_TEST_MIC_WAV\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  671,
+                                                                   "Text":  "Say(\"bundle: no \" + name + \" (HEYCLICKY_E2E_WAVS / HEYCLICKY_TEST_MIC_WAV)\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  1084,
+                                                                   "Text":  "string environmentVariable = Environment.GetEnvironmentVariable(\"HEYCLICKY_TEST_SPEAKER_SILENT\");"
+                                                               },
+                                                               {
+                                                                   "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\EndToEnd.cs",
+                                                                   "Line":  1088,
+                                                                   "Text":  "Say(\"bundle: muted: set HEYCLICKY_TEST_SPEAKER_SILENT=muted to run this\");"
+                                                               }
+                                                           ]
+                                              },
+                           "velopack_update":  {
+                                                   "Count":  30,
+                                                   "Hits":  [
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\Program.cs",
+                                                                    "Line":  32,
+                                                                    "Text":  "UpdateService.ConfigureVelopack(args).Run();"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App\\Program.cs",
+                                                                    "Line":  36,
+                                                                    "Text":  "Log.Warn(\"updates\", \"Velopack startup: \" + ex.Message);"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Demo\\SettingsEndToEnd.cs",
+                                                                    "Line":  334,
+                                                                    "Text":  "Check(\"updates row (Velopack updater)\", (object)FindText(\"What\u0027s new\") != null \u0026\u0026 Descendants(View).OfType\u003cTextBlock\u003e().Any(delegate(TextBlock t)"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                    "Line":  252,
+                                                                    "Text":  "bool flag = UpdateService.IsVelopackInstall();"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  12,
+                                                                    "Text":  "using Velopack;"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  13,
+                                                                    "Text":  "using Velopack.Logging;"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  19,
+                                                                    "Text":  "private sealed class VelopackLog : IVelopackLogger"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  21,
+                                                                    "Text":  "public void Log(VelopackLogLevel level, string? message, Exception? exception)"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  23,
+                                                                    "Text":  "if (level \u003e= VelopackLogLevel.Information)"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  26,
+                                                                    "Text":  "if (level \u003e= VelopackLogLevel.Error)"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  28,
+                                                                    "Text":  "HeyClicky.Log.Warn(\"velopack\", message2);"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  32,
+                                                                    "Text":  "HeyClicky.Log.Info(\"velopack\", message2);"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  158,
+                                                                    "Text":  "VelopackAsset updatePendingRestart = manager.UpdatePendingRestart;"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  168,
+                                                                    "Text":  "public static bool IsVelopackInstall()"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  395,
+                                                                    "Text":  "VelopackAsset velopackAsset = pending?.TargetFullRelease ?? manager.UpdatePendingRestart;"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  396,
+                                                                    "Text":  "manager.WaitExitThenApplyUpdates(velopackAsset, silent: true, restart: true, Array.Empty\u003cstring\u003e());"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  400,
+                                                                    "Text":  "UpdateWindow.TryShow(velopackAsset?.FileName);"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  418,
+                                                                    "Text":  "VelopackAsset velopackAsset = pending?.TargetFullRelease ?? manager.UpdatePendingRestart;"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  419,
+                                                                    "Text":  "if ((object)velopackAsset == null)"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  425,
+                                                                    "Text":  "Log.Info(\"updates\", $\"quitting with v{velopackAsset.Version} downloaded: installing it as the app exits\");"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  426,
+                                                                    "Text":  "manager.WaitExitThenApplyUpdates(velopackAsset, silent: true, restart: false, Array.Empty\u003cstring\u003e());"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  529,
+                                                                    "Text":  "public static VelopackApp ConfigureVelopack(string[] args)"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateService.cs",
+                                                                    "Line":  531,
+                                                                    "Text":  "return VelopackApp.Build().SetArgs(args).SetLogger(new VelopackLog())"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateWindow.cs",
+                                                                    "Line":  13,
+                                                                    "Text":  "private const string ExeName = \"HeyClicky-Update.exe\";"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateWindow.cs",
+                                                                    "Line":  23,
+                                                                    "Text":  "string text3 = Path.Combine(text, \"HeyClicky-Update.exe\");"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateWindow.cs",
+                                                                    "Line":  31,
+                                                                    "Text":  "string text5 = Path.Combine(text4, \"HeyClicky-Update.exe\");"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services.Updates\\UpdateWindow.cs",
+                                                                    "Line":  38,
+                                                                    "Text":  "text5 = Path.Combine(text4, $\"HeyClicky-Update-{Environment.ProcessId}.exe\");"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\Properties\\AssemblyInfo.cs",
+                                                                    "Line":  17,
+                                                                    "Text":  "[assembly: AssemblyMetadata(\"HeyClicky.UpdateFeedUrl\", \"https://github.com/heyclicky/clicky-releases-windows/releases/latest/download\")]"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\Kursor.App.csproj",
+                                                                    "Line":  41,
+                                                                    "Text":  "\u003cReference Include=\"Velopack\"\u003e"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\Kursor.App.csproj",
+                                                                    "Line":  42,
+                                                                    "Text":  "\u003cHintPath\u003e$(HeyClickyRuntimeDir)\\Velopack.dll\u003c/HintPath\u003e"
+                                                                }
+                                                            ]
+                                               },
+                           "sentry_dsn_or_ref":  {
+                                                     "Count":  25,
+                                                     "Hits":  [
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  23,
+                                                                      "Text":  "private sealed class SentryCrashReporter : ICrashReporter"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  25,
+                                                                      "Text":  "public bool IsEnabled =\u003e SentrySdk.IsEnabled;"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  54,
+                                                                      "Text":  "SentrySdk.AddBreadcrumb(message ?? \"\", category, null, data2, Crumb(level));"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  59,
+                                                                      "Text":  "SentrySdk.CaptureMessage(message, delegate(Scope scope)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  81,
+                                                                      "Text":  "SentrySdk.CaptureException(exception);"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  86,
+                                                                      "Text":  "SentrySdk.ConfigureScope(delegate(Scope scope)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  99,
+                                                                      "Text":  "SentrySdk.ConfigureScope(delegate(Scope scope)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  107,
+                                                                      "Text":  "return SentrySdk.FlushAsync(timeout);"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  219,
+                                                                      "Text":  "if (text == null \u0026\u0026 !config.HasSentryDsn)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  235,
+                                                                      "Text":  "SentrySdk.Init(delegate(SentryOptions options)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  237,
+                                                                      "Text":  "options.Dsn = config.SentryDsn;"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  250,
+                                                                      "Text":  "SentrySdk.ConfigureScope(delegate(Scope scope)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  263,
+                                                                      "Text":  "CrashReporter.Install(new SentryCrashReporter());"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  306,
+                                                                      "Text":  "SentrySdk.Flush(TimeSpan.FromSeconds(2L));"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Services\\CrashReporting.cs",
+                                                                      "Line":  486,
+                                                                      "Text":  "SentrySdk.CaptureMessage(\"Crash in a previous run: \" + kind + \" \" + code, delegate(Scope scope)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\Properties\\AssemblyInfo.cs",
+                                                                      "Line":  16,
+                                                                      "Text":  "[assembly: AssemblyMetadata(\"HeyClicky.SentryDsn\", \"https://9e98b32e152dad3e7e5d30448fd929d9@o4511254886154240.ingest.us.sentry.io/4512274263572480\")]"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.App\\Kursor.App.csproj",
+                                                                      "Line":  39,
+                                                                      "Text":  "\u003cHintPath\u003e$(HeyClickyRuntimeDir)\\Sentry.dll\u003c/HintPath\u003e"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  10,
+                                                                      "Text":  "public sealed record TelemetryConfiguration(string? PostHogApiKey, string PostHogHost, string? SentryDsn, string UpdateFeedUrl)"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  16,
+                                                                      "Text":  "public bool HasSentryDsn =\u003e !string.IsNullOrWhiteSpace(SentryDsn);"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  37,
+                                                                      "Text":  "string sentryDsn = Meta(\"HeyClicky.SentryDsn\");"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  63,
+                                                                      "Text":  "if (Read(rootElement, \"sentryDsn\", out string value3))"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  65,
+                                                                      "Text":  "sentryDsn = value3;"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  77,
+                                                                      "Text":  "return new TelemetryConfiguration(postHogApiKey, text.TrimEnd(\u0027/\u0027), sentryDsn, updateFeedUrl);"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Configuration\\TelemetryConfiguration.cs",
+                                                                      "Line":  118,
+                                                                      "Text":  "SentryDsn = original.SentryDsn;"
+                                                                  },
+                                                                  {
+                                                                      "File":  "src\\desktop\\Kursor.Core\\HeyClicky.Core.Proactive\\IntegrationSuggestionRules.cs",
+                                                                      "Line":  152,
+                                                                      "Text":  "H(\"sentry\", \"Sentry\", \"sentry.io\"),"
+                                                                  }
+                                                              ]
+                                                 },
+                           "hardcoded_ubaid":  {
+                                                   "Count":  1,
+                                                   "Hits":  {
+                                                                "File":  "src\\backend\\src\\routes\\worker.ts",
+                                                                "Line":  8,
+                                                                "Text":  "\"C:\\\\Users\\\\ubaid\\\\AppData\\\\Local\\\\HeyClicky\\\\app-config.json\";"
+                                                            }
+                                               },
+                           "protocol_scheme":  {
+                                                   "Count":  5,
+                                                   "Hits":  [
+                                                                {
+                                                                    "File":  "src\\desktop\\Kursor.App\\HeyClicky.App.Wiring\\RealStack.cs",
+                                                                    "Line":  552,
+                                                                    "Text":  "Log.Info(\"startup\", \"clicky:// and Open-with registration skipped: the data folder is moved (a test run)\");"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\backend\\src\\test-phase1.ts",
+                                                                    "Line":  45,
+                                                                    "Text":  "`${url}/auth/v1/authorize?provider=google\u0026state=test_state_123\u0026redirect_to=heyclicky://auth/callback`,"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\backend\\src\\test-phase1.ts",
+                                                                    "Line":  50,
+                                                                    "Text":  "assert.ok(location.startsWith(\"heyclicky://auth/callback?\"));"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\backend\\src\\routes\\auth.ts",
+                                                                    "Line":  97,
+                                                                    "Text":  "* Immediately redirects to `heyclicky://auth/callback?code=kursor_local_code\u0026state=...`"
+                                                                },
+                                                                {
+                                                                    "File":  "src\\backend\\src\\routes\\auth.ts",
+                                                                    "Line":  105,
+                                                                    "Text":  "\"heyclicky://auth/callback\";"
+                                                                }
+                                                            ]
+                                               }
+                       }
+}

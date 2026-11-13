@@ -1,0 +1,793 @@
+﻿{
+    "timestampUtc":  "2026-11-13T18:40:29.4887262Z",
+    "currentSessionId":  1,
+    "userInteractive":  true,
+    "runningProcess":  [
+                           {
+                               "pid":  11960,
+                               "sessionId":  1,
+                               "name":  "HeyClicky",
+                               "path":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                               "mainWindowHandle":  "0x7E079A",
+                               "mainWindowTitle":  "HeyClicky Agents",
+                               "threadCount":  59,
+                               "workingSet":  465420288,
+                               "startTime":  "2026-11-13T18:39:54.5193719Z"
+                           },
+                           {
+                               "pid":  20080,
+                               "sessionId":  1,
+                               "name":  "HeyClicky",
+                               "path":  "C:\\Users\\ubaid\\AppData\\Local\\HeyClickyApp\\current\\HeyClicky.exe",
+                               "mainWindowHandle":  "0x0",
+                               "mainWindowTitle":  "",
+                               "threadCount":  1,
+                               "workingSet":  112336896,
+                               "startTime":  "2026-11-13T04:30:04.3263277Z"
+                           }
+                       ],
+    "distBinary":  {
+                       "exists":  true,
+                       "path":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                       "sizeBytes":  420352,
+                       "fileVersion":  "1.1.5.0",
+                       "productVersion":  "1.1.5+b7760017dd5ec6b66958eac23e8532d8652b89cf",
+                       "productName":  "Kursor"
+                   },
+    "windowCount":  27,
+    "windows":  [
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x7E079A",
+                        "title":  "HeyClicky Agents",
+                        "className":  "WinUIDesktopWin32WindowClass",
+                        "isVisible":  true,
+                        "isIconic":  false,
+                        "styleHex":  "0x94000000",
+                        "exStyleHex":  "0x080800A8",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST",
+                                             "WS_EX_TRANSPARENT",
+                                             "WS_EX_TOOLWINDOW",
+                                             "WS_EX_LAYERED",
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  1536,
+                                       "bottom":  864,
+                                       "width":  1536,
+                                       "height":  864
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x5B09CA",
+                        "title":  "HeyClicky Overlay",
+                        "className":  "HeyClickyOverlayWindow",
+                        "isVisible":  true,
+                        "isIconic":  false,
+                        "styleHex":  "0x94000000",
+                        "exStyleHex":  "0x082800A8",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST",
+                                             "WS_EX_TRANSPARENT",
+                                             "WS_EX_TOOLWINDOW",
+                                             "WS_EX_LAYERED",
+                                             "WS_EX_NOREDIRECTIONBITMAP",
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  1536,
+                                       "bottom":  864,
+                                       "width":  1536,
+                                       "height":  864
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x170574",
+                        "title":  "Clicky drawing",
+                        "className":  "HeyClickyDrawingWindow",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x84000000",
+                        "exStyleHex":  "0x082800A8",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST",
+                                             "WS_EX_TRANSPARENT",
+                                             "WS_EX_TOOLWINDOW",
+                                             "WS_EX_LAYERED",
+                                             "WS_EX_NOREDIRECTIONBITMAP",
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  13,
+                                       "bottom":  13,
+                                       "width":  13,
+                                       "height":  13
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x360600",
+                        "title":  "Kursor Notch",
+                        "className":  "WinUIDesktopWin32WindowClass",
+                        "isVisible":  true,
+                        "isIconic":  false,
+                        "styleHex":  "0x94000000",
+                        "exStyleHex":  "0x08000088",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST",
+                                             "WS_EX_TOOLWINDOW",
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  358,
+                                       "top":  0,
+                                       "right":  1178,
+                                       "bottom":  784,
+                                       "width":  820,
+                                       "height":  784
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x320862",
+                        "title":  "HeyClicky Agents Arc",
+                        "className":  "WinUIDesktopWin32WindowClass",
+                        "isVisible":  true,
+                        "isIconic":  false,
+                        "styleHex":  "0x94000000",
+                        "exStyleHex":  "0x080800A8",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST",
+                                             "WS_EX_TRANSPARENT",
+                                             "WS_EX_TOOLWINDOW",
+                                             "WS_EX_LAYERED",
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  1536,
+                                       "bottom":  864,
+                                       "width":  1536,
+                                       "height":  864
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x28065C",
+                        "title":  "HeyClicky page preview",
+                        "className":  "WinUIDesktopWin32WindowClass",
+                        "isVisible":  true,
+                        "isIconic":  false,
+                        "styleHex":  "0x94000000",
+                        "exStyleHex":  "0x08000080",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOOLWINDOW",
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  -1600,
+                                       "top":  0,
+                                       "right":  -320,
+                                       "bottom":  800,
+                                       "width":  1280,
+                                       "height":  800
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x1E06A8",
+                        "title":  "Kursor",
+                        "className":  "HeyClickyTaskbarButton",
+                        "isVisible":  true,
+                        "isIconic":  true,
+                        "styleHex":  "0x34CF0000",
+                        "exStyleHex":  "0x00040100",
+                        "exStyleFlags":  [
+                                             "WS_EX_APPWINDOW"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  -25600,
+                                       "top":  -25600,
+                                       "right":  -25441,
+                                       "bottom":  -25573,
+                                       "width":  159,
+                                       "height":  27
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x220910",
+                        "title":  "Default IME",
+                        "className":  "IME",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000008",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x404A0",
+                        "title":  "Default IME",
+                        "className":  "IME",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000008",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x230628",
+                        "title":  "Default IME",
+                        "className":  "IME",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000008",
+                        "exStyleFlags":  [
+                                             "WS_EX_TOPMOST"
+                                         ],
+                        "displayAffinityQueryOk":  true,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x570656",
+                        "title":  "OLEChannelWnd",
+                        "className":  "OleMainThreadWndClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000000",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x5082E",
+                        "title":  "KursorTray",
+                        "className":  "KursorTray",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x2406C8",
+                        "title":  "CicMarshalWnd",
+                        "className":  "CicMarshalWndClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000000",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0xD066E",
+                        "title":  "",
+                        "className":  "Chrome_MessageWindow",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x5C0990",
+                        "title":  "MIT Message Only Window",
+                        "className":  "MITMessageOnlyWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x84000000",
+                        "exStyleHex":  "0x08000000",
+                        "exStyleFlags":  [
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x3C0560",
+                        "title":  "HeyClicky raw input",
+                        "className":  "Message",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x1406B0",
+                        "title":  "MIT Message Only Window",
+                        "className":  "MITMessageOnlyWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x84000000",
+                        "exStyleHex":  "0x08000000",
+                        "exStyleFlags":  [
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x2A0682",
+                        "title":  "MIT Message Only Window",
+                        "className":  "MITMessageOnlyWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x84000000",
+                        "exStyleHex":  "0x08000000",
+                        "exStyleFlags":  [
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x804A2",
+                        "title":  "OLEChannelWnd",
+                        "className":  "OleMainThreadWndClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000000",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x83096E",
+                        "title":  "",
+                        "className":  "SystemUserAdapterWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0xF0686",
+                        "title":  "",
+                        "className":  "SystemUserAdapterWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x120670",
+                        "title":  "LiftedDMITCursorRecalculateWindow",
+                        "className":  "LiftedDMITCursorRecalculateClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x84000000",
+                        "exStyleHex":  "0x08000000",
+                        "exStyleFlags":  [
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x140602",
+                        "title":  "MIT Message Only Window",
+                        "className":  "MITMessageOnlyWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x84000000",
+                        "exStyleHex":  "0x08000000",
+                        "exStyleFlags":  [
+                                             "WS_EX_NOACTIVATE"
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x1B060C",
+                        "title":  "",
+                        "className":  "DcppUserAdapterWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0xB043E",
+                        "title":  "",
+                        "className":  "SystemUserAdapterWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x130490",
+                        "title":  "",
+                        "className":  "DcppUserAdapterWindowClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x04C00000",
+                        "exStyleHex":  "0x00000100",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  133,
+                                       "bottom":  38,
+                                       "width":  133,
+                                       "height":  38
+                                   }
+                    },
+                    {
+                        "pid":  11960,
+                        "processPath":  "C:\\dev\\heyclicky-clone\\dist\\kursor-desktop\\HeyClicky.exe",
+                        "hwnd":  "0x1200846",
+                        "title":  "OleMainThreadWndName",
+                        "className":  "OleMainThreadWndClass",
+                        "isVisible":  false,
+                        "isIconic":  false,
+                        "styleHex":  "0x8C000000",
+                        "exStyleHex":  "0x00000000",
+                        "exStyleFlags":  [
+
+                                         ],
+                        "displayAffinityQueryOk":  false,
+                        "displayAffinity":  0,
+                        "displayAffinityName":  "WDA_NONE",
+                        "dpi":  120,
+                        "scale":  1.25,
+                        "bounds":  {
+                                       "left":  0,
+                                       "top":  0,
+                                       "right":  0,
+                                       "bottom":  0,
+                                       "width":  0,
+                                       "height":  0
+                                   }
+                    }
+                ],
+    "recentRuntimeUiLogLines":  [
+
+                                ]
+}

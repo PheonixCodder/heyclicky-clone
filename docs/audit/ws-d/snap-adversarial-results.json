@@ -1,0 +1,325 @@
+{
+  "snapSummary": {
+    "totalCases": 35,
+    "passed": 35,
+    "failed": 0,
+    "failures": []
+  },
+  "snapResults": [
+    {
+      "id": "SNAP-01",
+      "title": "Receipt stripping regex with trailing inline comment wipes out subsequent beats",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 4.662,
+      "inputCode": "step(1);\nsay(\"Let us solve the table.\");\nreceipt(860, 150, \"Summary\", [\"Item 1\", \"Item 2\"]); // floating summary card\nstep(2);\nsay(\"Marking all four rows.\");\ncheck(640, 270);\ncheck(825, 330);\ncheck(640, 380);\ncheck(825, 440);",
+      "outputCode": "step(1);\nsay(\"Let us solve the table.\");\n\nstep(2);\nsay(\"Marking all four rows.\");\ncheck(650, 273);\ncheck(830, 328);\ncheck(650, 383);\ncheck(830, 438);"
+    },
+    {
+      "id": "SNAP-02",
+      "title": "Multi-line receipt() with function call at end of line leaves dangling syntax error",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 1.074,
+      "inputCode": "step(1);\nsay(\"Checking the table.\");\nreceipt(860, 150, String(123)\n  , [\"Step 1\", \"Step 2\"], { w: 390 });\ncheck(650, 273);",
+      "outputCode": "step(1);\nsay(\"Checking the table.\");\n\ncheck(650, 273);"
+    },
+    {
+      "id": "SNAP-03",
+      "title": "Two receipt() calls where first has trailing comment deletes code between them",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.407,
+      "inputCode": "step(1);\nsay(\"Beat one.\");\nreceipt(860, 150, \"Card 1\", [\"A\"]); // first card\ncheck(650, 273);\ncheck(830, 328);\nstep(2);\nsay(\"Beat two.\");\nclipping(860, 400, 380, \"Card 2\", \"Body\", \"Notes\");\ncheck(650, 383);",
+      "outputCode": "step(1);\nsay(\"Beat one.\");\n\ncheck(650, 273);\ncheck(830, 328);\nstep(2);\nsay(\"Beat two.\");\n\ncheck(650, 383);"
+    },
+    {
+      "id": "SNAP-04",
+      "title": "Case A: write() assigned to const variable produces 'const w2 = ;' SyntaxError when converted to receipt()",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 2.053,
+      "inputCode": "step(1);\nsay(\"Here is the derivation.\");\nconst w1 = write(200, 220, \"dy/dx = 2x + 3\");\nconst w2 = write(200, 260, \"At x = 1, dy/dx = 5\");",
+      "outputCode": "step(1);\nsay(\"Here is the derivation.\");\nconst w1 = receipt(860, 150, \"Step-by-Step Solution\", [\"dy/dx = 2x + 3\",\"At x = 1, dy/dx = 5\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-05",
+      "title": "Case A: write() with escaped quotes inside string truncates text and leaves invalid JS",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.228,
+      "inputCode": "step(1);\nsay(\"Solving for x.\");\nwrite(200, 220, \"The root \\\"x\\\" equals 42\", { size: 17 });",
+      "outputCode": "step(1);\nsay(\"Solving for x.\");\nreceipt(860, 150, \"Step-by-Step Solution\", [\"The root \\\"x\\\" equals 42\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-06",
+      "title": "Case A: write() with closing parenthesis inside options object fails regex match",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.074,
+      "inputCode": "step(1);\nsay(\"Writing part a.\");\nwrite(200, 220, \"x = pi / 6\", { label: \"a)\" });",
+      "outputCode": "step(1);\nsay(\"Writing part a.\");\nreceipt(860, 150, \"Step-by-Step Solution\", [\"x = pi / 6\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-07",
+      "title": "Case A: write() across multiple beats (step 1, step 2, step 3) collapses all into step 1 leaving empty beats",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.264,
+      "inputCode": "step(1);\nsay(\"First we differentiate.\");\nwrite(200, 220, \"dy/dx = 10 cos(2x)\");\nstep(2);\nsay(\"Next we set derivative to zero.\");\nwrite(200, 260, \"10 cos(2x) = 0 => x = pi/4\");",
+      "outputCode": "step(1);\nsay(\"First we differentiate.\");\nreceipt(860, 150, \"Step-by-Step Solution\", [\"dy/dx = 10 cos(2x)\"], { w: 390, title: \"solution\" });\nstep(2);\nsay(\"Next we set derivative to zero.\");\nreceipt(860, 150, \"Step-by-Step Solution\", [\"10 cos(2x) = 0 => x = pi/4\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-08",
+      "title": "Case A: 20 write() calls push cardY calculation negative (clamped to y=56, overflowing 720px canvas height)",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.4,
+      "inputCode": "write(200, 100, \"Step 1: algebraic transformation line\");\nwrite(200, 125, \"Step 2: algebraic transformation line\");\nwrite(200, 150, \"Step 3: algebraic transformation line\");\nwrite(200, 175, \"Step 4: algebraic transformation line\");\nwrite(200, 200, \"Step 5: algebraic transformation line\");\nwrite(200, 225, \"Step 6: algebraic transformation line\");\nwrite(200, 250, \"Step 7: algebraic transformation line\");\nwrite(200, 275, \"Step 8: algebraic transformation line\");\nwrite(200, 300, \"Step 9: algebraic transformation line\");\nwrite(200, 325, \"Step 10: algebraic transformation line\");\nwrite(200, 350, \"Step 11: algebraic transformation line\");\nwrite(200, 375, \"Step 12: algebraic transformation line\");\nwrite(200, 400, \"Step 13: algebraic transformation line\");\nwrite(200, 425, \"Step 14: algebraic transformation line\");\nwrite(200, 450, \"Step 15: algebraic transformation line\");\nwrite(200, 475, \"Step 16: algebraic transformation line\");\nwrite(200, 500, \"Step 17: algebraic transformation line\");\nwrite(200, 525, \"Step 18: algebraic transformation line\");\nwrite(200, 550, \"Step 19: algebraic transformation line\");\nwrite(200, 575, \"Step 20: algebraic transformation line\");",
+      "outputCode": "receipt(860, 16, \"Step-by-Step Solution\", [\"Step 1: algebraic transformation line\",\"Step 2: algebraic transformation line\",\"Step 3: algebraic transformation line\",\"Step 4: algebraic transformation line\",\"Step 5: algebraic transformation line\",\"Step 6: algebraic transformation line\",\"Step 7: algebraic transformation line\",\"Step 8: algebraic transformation line\",\"Step 9: algebraic transformation line\",\"Step 10: algebraic transformation line\",\"Step 11: algebraic transformation line\",\"Step 12: algebraic transformation line\",\"Step 13: algebraic transformation line\",\"Step 14: algebraic transformation line\",\"Step 15: algebraic transformation line\",\"Step 16: algebraic transformation line\",\"Step 17: algebraic transformation line\",\"Step 18: algebraic transformation line\",\"Step 19: algebraic transformation line\",\"Step 20: algebraic transformation line\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-09",
+      "title": "Off-screen extreme coordinates (-500, 9999) in check() unconditionally snapped into table cell",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.173,
+      "inputCode": "step(1);\nsay(\"Checking.\");\ncheck(-500, 9999);",
+      "outputCode": "step(1);\nsay(\"Checking.\");\ncheck(-500, 9999);"
+    },
+    {
+      "id": "SNAP-10",
+      "title": "Checkmarks intended for non-table multiple-choice boxes outside table get hijacked into table cells",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.127,
+      "inputCode": "step(1);\nsay(\"Ticking box A at the top of the page.\");\ncheck(120, 110);",
+      "outputCode": "step(1);\nsay(\"Ticking box A at the top of the page.\");\ncheck(120, 110);"
+    },
+    {
+      "id": "SNAP-11",
+      "title": "Hardcoded RISC/CISC column order assumption swaps columns when table has CISC in Col 2 and RISC in Col 3",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 1.303,
+      "inputCode": "step(1);\nsay(\"Marking RISC and CISC.\");\npoint(830, 273, \"RISC ✓ Row 1\");\npoint(650, 328, \"CISC ✓ Row 2\");",
+      "outputCode": "step(1);\nsay(\"Marking RISC and CISC.\");\ncheck(830, 273);\ncheck(650, 328);"
+    },
+    {
+      "id": "SNAP-12",
+      "title": "point() call pointing at 'Row 1' explanation outside table is converted into a table check()",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.211,
+      "inputCode": "step(1);\nsay(\"Look at the note about Row 1.\");\npoint(220, 120, \"See Row 1 instructions\");",
+      "outputCode": "step(1);\nsay(\"Look at the note about Row 1.\");\npoint(220, 120, \"See Row 1 instructions\");"
+    },
+    {
+      "id": "SNAP-13",
+      "title": "point() with label 'Check or Cross' defaults to check() even when describing both",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.054,
+      "inputCode": "step(1);\nsay(\"Header.\");\npoint(650, 223, \"Check or Cross column\");",
+      "outputCode": "step(1);\nsay(\"Header.\");\npoint(650, 223, \"Check or Cross column\");"
+    },
+    {
+      "id": "SNAP-14",
+      "title": "Bottom-up check() order (Row 4 -> Row 1) with >20px Y offset is overwritten to top-down (Row 1 -> Row 4) by checksOnePerRow heuristic",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.137,
+      "inputCode": "step(1);\nsay(\"Marking from bottom row to top row.\");\ncheck(650, 460);\ncheck(830, 405);\ncheck(650, 350);\ncheck(830, 295);",
+      "outputCode": "step(1);\nsay(\"Marking from bottom row to top row.\");\ncheck(650, 438);\ncheck(830, 383);\ncheck(650, 328);\ncheck(830, 273);"
+    },
+    {
+      "id": "SNAP-15",
+      "title": "ViT rescaling heuristic (avgX < minAnswerColX - 80) warps Y coordinates by 720/565 when 1st col is checked",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.084,
+      "inputCode": "step(1);\nsay(\"Checking.\");\ncheck(450, 383);",
+      "outputCode": "step(1);\nsay(\"Checking.\");\ncheck(650, 383);"
+    },
+    {
+      "id": "SNAP-16",
+      "title": "1-column table (cols.length === 1) snaps all checks to cols[0]",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.052,
+      "inputCode": "step(1);\nsay(\"Check.\");\ncheck(300, 270);",
+      "outputCode": "step(1);\nsay(\"Check.\");\ncheck(370, 273);"
+    },
+    {
+      "id": "SNAP-17",
+      "title": "Worksheet write() with long string wraps across consecutive dotted answer lines",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 1.51,
+      "inputCode": "step(1);\nsay(\"Writing answer.\");\nwrite(200, 240, \"RISC processors use a small set of simple fixed-length instructions that execute in a single clock cycle via pipelining.\");",
+      "outputCode": "step(1);\nsay(\"Writing answer.\");\nwrite(166, 236, \"RISC processors use a small set of simple fixed-length\", { size: 17, place: false });\nwrite(166, 281, \"instructions that execute in a single clock cycle via\", { size: 17, place: false });\nwrite(166, 326, \"pipelining.\", { size: 17, place: false });"
+    },
+    {
+      "id": "SNAP-18",
+      "title": "Worksheet write() overflow when chunks exceed number of detected answerLines extrapolates Y by +28px",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.632,
+      "inputCode": "step(1);\nsay(\"Writing long paragraph.\");\nwrite(200, 240, \"word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word\");",
+      "outputCode": "step(1);\nsay(\"Writing long paragraph.\");\nwrite(166, 236, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 281, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 326, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 371, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 399, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 427, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 455, \"word word word word word word word word word word word\", { size: 17, place: false });\nwrite(166, 483, \"word word word\", { size: 17, place: false });"
+    },
+    {
+      "id": "SNAP-19",
+      "title": "Worksheet write() inside unbraced if-statement expands to multi-statement syntax/logic bug when wrapped",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.379,
+      "inputCode": "step(1);\nsay(\"Conditional write.\");\nif (false) write(200, 240, \"First long clause that exceeds fifty eight characters easily so it wraps onto a second dotted line immediately\");",
+      "outputCode": "step(1);\nsay(\"Conditional write.\");\nif (false) (write(166, 236, \"First long clause that exceeds fifty eight characters\", { size: 17, place: false }), write(166, 281, \"easily so it wraps onto a second dotted line immediately\", { size: 17, place: false }));"
+    },
+    {
+      "id": "SNAP-20",
+      "title": "Combo layout (table + answer lines below): write() calls snap only to linesBelowTable when check() is present",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.403,
+      "inputCode": "step(1);\nsay(\"Checking table and writing below.\");\ncheck(650, 273);\nwrite(200, 500, \"Follow-up explanation on dotted line below table.\");",
+      "outputCode": "step(1);\nsay(\"Checking table and writing below.\");\ncheck(650, 273);\nwrite(186, 496, \"Follow-up explanation on dotted line below table.\", { size: 17, place: false });"
+    },
+    {
+      "id": "SNAP-21",
+      "title": "Combo layout with answer lines ONLY above table: check() + write() snaps write() to line above table",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.18,
+      "inputCode": "step(1);\nsay(\"Answering part a above and table below.\");\nwrite(200, 150, \"Part A answer above the table.\");\ncheck(650, 273);",
+      "outputCode": "step(1);\nsay(\"Answering part a above and table below.\");\nwrite(180, 146, \"Part A answer above the table.\", { size: 17, place: false });\ncheck(650, 273);"
+    },
+    {
+      "id": "SNAP-22",
+      "title": "Combo layout with answer lines BOTH above and below table: check() + write() for line ABOVE table gets forced BELOW table!",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.181,
+      "inputCode": "step(1);\nsay(\"Answering question 1a above the table and ticking 1b table.\");\nwrite(180, 150, \"Question 1a answer written above the table.\");\ncheck(650, 273);",
+      "outputCode": "step(1);\nsay(\"Answering question 1a above the table and ticking 1b table.\");\nwrite(180, 146, \"Question 1a answer written above the table.\", { size: 17, place: false });\ncheck(650, 273);"
+    },
+    {
+      "id": "SNAP-23",
+      "title": "User prompt 'solve this on a page, not on another page' contradiction check",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.168,
+      "inputCode": "step(1);\nsay(\"Solving.\");\nwrite(200, 240, \"Answer 1\");",
+      "outputCode": "step(1);\nsay(\"Solving.\");\nwrite(166, 236, \"Answer 1\", { size: 17, place: false });"
+    },
+    {
+      "id": "SNAP-24",
+      "title": "User explicitly asks 'solve on a page' when table is present: keeps receipt() card and still snaps check()",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.045,
+      "inputCode": "step(1);\nsay(\"Solving on a page and ticking.\");\ncheck(640, 270);\nreceipt(860, 150, \"Solution\", [\"Row 1 is RISC\"]);",
+      "outputCode": "step(1);\nsay(\"Solving on a page and ticking.\");\ncheck(650, 273);\nreceipt(860, 150, \"Solution\", [\"Row 1 is RISC\"]);"
+    },
+    {
+      "id": "SNAP-25",
+      "title": "User forbids page card ('directly on my screen') when numTables === 0 && numAnswerLines === 0 preserves write()",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.03,
+      "inputCode": "step(1);\nsay(\"Writing on screen.\");\nwrite(300, 300, \"x = 5\");",
+      "outputCode": "step(1);\nsay(\"Writing on screen.\");\nwrite(300, 300, \"x = 5\");"
+    },
+    {
+      "id": "SNAP-26",
+      "title": "Multiline template literal inside write() on blank exam layout converts newlines to spaces in receipt()",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.146,
+      "inputCode": "step(1);\nsay(\"Here.\");\nwrite(200, 200, `Line 1\nLine 2\nLine 3`);",
+      "outputCode": "step(1);\nsay(\"Here.\");\nreceipt(860, 150, \"Step-by-Step Solution\", [\"Line 1 Line 2 Line 3\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-27",
+      "title": "Single-word 200-char string without spaces in splitTextForAnswerLines does not infinite-loop or split mid-word",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.178,
+      "inputCode": "step(1);\nsay(\"Long token.\");\nwrite(200, 240, \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\");",
+      "outputCode": "step(1);\nsay(\"Long token.\");\nwrite(166, 236, \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\", { size: 17, place: false });"
+    },
+    {
+      "id": "SNAP-28",
+      "title": "Null layout with no tables/lines still converts loose write() to receipt() at default fallback spot (820, 150)",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.074,
+      "inputCode": "step(1);\nsay(\"Null layout test.\");\nwrite(100, 200, \"Step 1\");",
+      "outputCode": "step(1);\nsay(\"Null layout test.\");\nreceipt(820, 150, \"Step-by-Step Solution\", [\"Step 1\"], { w: 420, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-29",
+      "title": "Two-per-row check+cross pattern (totalTwoPerRow) with >20px Y offset snaps pairs to consecutive rows",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.15,
+      "inputCode": "step(1);\nsay(\"Marking both columns per row.\");\ncheck(650, 100); cross(830, 100);\ncross(650, 100); check(830, 100);\ncheck(650, 100); cross(830, 100);\ncross(650, 100); check(830, 100);",
+      "outputCode": "step(1);\nsay(\"Marking both columns per row.\");\ncheck(650, 273); cross(830, 273);\ncross(650, 328); check(830, 328);\ncheck(650, 383); cross(830, 383);\ncross(650, 438); check(830, 438);"
+    },
+    {
+      "id": "SNAP-30",
+      "title": "Table with ALL rows marked isHeader=true (dataRows.length === 0) leaves check() unsnapped",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.028,
+      "inputCode": "step(1);\nsay(\"Test.\");\ncheck(600, 220);",
+      "outputCode": "step(1);\nsay(\"Test.\");\ncheck(600, 220);"
+    },
+    {
+      "id": "SNAP-31",
+      "title": "Code comment mentioning 'check(1, 2)' triggers hasTableMarks and strips valid receipt() card!",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.034,
+      "inputCode": "step(1);\nsay(\"Here is the summary card.\");\n// Note: do not use check(100, 200) here\nreceipt(860, 150, \"Summary\", [\"Point 1\", \"Point 2\"]);",
+      "outputCode": "step(1);\nsay(\"Here is the summary card.\");\n// Note: do not use check(100, 200) here\nreceipt(860, 150, \"Summary\", [\"Point 1\", \"Point 2\"]);"
+    },
+    {
+      "id": "SNAP-32",
+      "title": "say() text mentioning 'paper(' prevents Case A from converting loose write() calls into a receipt() card!",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.055,
+      "inputCode": "step(1);\nsay(\"Let us solve this exam paper(1) problem.\");\nwrite(200, 250, \"Step 1: dy/dx = 3x^2\");\nwrite(200, 290, \"Step 2: x = 0\");",
+      "outputCode": "step(1);\nsay(\"Let us solve this exam paper(1) problem.\");\nreceipt(860, 150, \"Step-by-Step Solution\", [\"Step 1: dy/dx = 3x^2\",\"Step 2: x = 0\"], { w: 390, title: \"solution\" });"
+    },
+    {
+      "id": "SNAP-33",
+      "title": "Floating point coordinates in check(649.75, 272.4) preserve third argument options",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.101,
+      "inputCode": "step(1);\nsay(\"Check.\");\ncheck(649.75, 272.4, { tone: \"leaf\" });",
+      "outputCode": "step(1);\nsay(\"Check.\");\ncheck(650, 273, { tone: \"leaf\" });"
+    },
+    {
+      "id": "SNAP-34",
+      "title": "point() with nested parens in 4th options arg e.g. point(650, 273, 'RISC ✓', { fn: a(1) }) corrupts syntax",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.07,
+      "inputCode": "step(1);\nsay(\"Point.\");\npoint(650, 273, \"RISC ✓\", { fn: a(1) });",
+      "outputCode": "step(1);\nsay(\"Point.\");\ncheck(650, 273);"
+    },
+    {
+      "id": "SNAP-35",
+      "title": "check() with nested parens in 3rd arg e.g. check(650, 273, { color: rgb(0, 255, 0) }) corrupts syntax",
+      "status": "PASS",
+      "issue": null,
+      "elapsedMs": 0.088,
+      "inputCode": "step(1);\nsay(\"Check.\");\ncheck(650, 273, { color: rgb(0, 255, 0) });",
+      "outputCode": "step(1);\nsay(\"Check.\");\ncheck(650, 273, { color: rgb(0, 255, 0) });"
+    }
+  ]
+}

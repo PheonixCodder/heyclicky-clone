@@ -1,0 +1,308 @@
+[
+  {
+    "category": "WS-A: Build & Solution",
+    "item": "src/desktop/Kursor.sln (Debug & Release Clean Builds)",
+    "location": "src/desktop/Kursor.sln",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/dotnet-build-debug.txt",
+    "notes": "Compiles with 0 errors in Debug and Release, but clean --no-incremental build emits 343 warnings (CA2014 stackalloc-in-loop, 6 SYSLIB1032 broken JsonSerializerContext source-gen, CS4014 unawaited tasks) contradicting '0 Warnings' claim (AUD-A-001)."
+  },
+  {
+    "category": "WS-A: Build & Solution",
+    "item": "src/desktop/Directory.Build.props",
+    "location": "src/desktop/Directory.Build.props:1-13",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/dotnet-build-debug.txt",
+    "notes": "Globally suppresses 9 compiler warnings (SYSLIB1050;SYSLIB1043;CS0649;CS0169;CS0414;CS8632;CS8981;CS8500;CS9191) and binds third-party dependencies via $(HeyClickyRuntimeDir) raw DLLs instead of NuGet packages (AUD-A-001, AUD-A-002)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.Contracts.csproj",
+    "location": "src/desktop/Kursor.Contracts/Kursor.Contracts.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/branding-scan.json",
+    "notes": "Compiles as AssemblyName=HeyClicky.Contracts, sets <Nullable>annotations</Nullable> and <AllowUnsafeBlocks>True</AllowUnsafeBlocks>, and hardcodes %LOCALAPPDATA%\\HeyClicky in AppPaths.cs:12 (AUD-A-001, AUD-A-009, AUD-B-001)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.Drawing3D.csproj",
+    "location": "src/desktop/Kursor.Drawing3D/Kursor.Drawing3D.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/js-assets-comparison.json",
+    "notes": "Compiles as HeyClicky.Drawing3D.dll, uses 5 raw HintPath DLL references, and includes a wildcard for non-existent Assets\\Engine\\* (AUD-A-002, AUD-A-004, AUD-B-001)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.Drawing.csproj",
+    "location": "src/desktop/Kursor.Drawing/Kursor.Drawing.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/dotnet-build-debug.txt",
+    "notes": "Compiles as HeyClicky.Drawing.dll, uses 18 raw HintPath DLL references, and emits CS0162/CS0164 unreachable code warnings in PhotoLoader.cs:524 and CA2255 ModuleInitializer warning (AUD-A-001, AUD-A-002, AUD-B-001)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.Platform.csproj",
+    "location": "src/desktop/Kursor.Platform/Kursor.Platform.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/dotnet-build-debug.txt",
+    "notes": "Compiles as HeyClicky.Platform.dll, uses 15 raw HintPath DLL references, emits CA2014 stackalloc-in-loop at PrecisionTouchpad.cs:221, and collides with HeyClicky mutex/pipe/registry keys (AUD-A-001, AUD-A-002, AUD-A-008, AUD-B-001, AUD-B-003)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.Core.csproj",
+    "location": "src/desktop/Kursor.Core/Kursor.Core.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/dotnet-build-debug.txt",
+    "notes": "Compiles as HeyClicky.Core.dll, uses 23 raw HintPath DLL references, emits 6 SYSLIB1032 broken JsonSerializerContext warnings, and contains production Supabase/PostHog fallback logic in AppBundleConfiguration.cs & ClickyAnalytics.cs (AUD-A-001, AUD-A-002, AUD-B-001, AUD-B-002)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.Agents.csproj",
+    "location": "src/desktop/Kursor.Agents/Kursor.Agents.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/branding-scan.json",
+    "notes": "Compiles as HeyClicky.Agents.dll, uses 21 raw HintPath DLL references, hardcodes C:\\Users\\niles\\... in AgentHarnessRunnerProcess.cs:75, and injects 'HeyClicky Settings -> Integrations' in CodexHomeManager.cs:74-91 (AUD-A-002, AUD-A-006, AUD-B-001, AUD-B-004)."
+  },
+  {
+    "category": "WS-A: Desktop Projects",
+    "item": "Kursor.App.csproj",
+    "location": "src/desktop/Kursor.App/Kursor.App.csproj",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/branding-scan.json",
+    "notes": "Compiles as HeyClicky.dll/exe, uses 32 raw HintPath DLL references, bakes in live Sentry DSN, PostHog key, and UpdateFeedUrl in Properties/AssemblyInfo.cs:15-17, and defaults ClickyInkImages.WorkerBaseUrl to https://api.heyclicky.com (AUD-A-002, AUD-B-001, AUD-B-002, AUD-B-004)."
+  },
+  {
+    "category": "WS-A: Vulnerability & Dependency Audit",
+    "item": "dotnet list package --vulnerable --include-transitive",
+    "location": "src/desktop/Kursor.sln",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/dotnet-list-vulnerable.txt",
+    "notes": "NuGet vulnerability scanner is blinded because all 32 third-party libraries are referenced as local unpacked DLLs via HintPath instead of NuGet PackageReferences (AUD-A-002)."
+  },
+  {
+    "category": "WS-A: Vulnerability & Dependency Audit",
+    "item": "src/backend/package.json & npm audit",
+    "location": "src/backend/package.json:14,25",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/npm-audit.json",
+    "notes": "npm audit reports moderate vulnerability GHSA-rmxm-3fg6-px4f in @hono/node-server@1.19.19 (<2.1.3); engines.node specifies >=24.0.0 while setup-kursor.ps1 and README.md say v22+ (AUD-A-005)."
+  },
+  {
+    "category": "WS-A: Artifact & Hash Synchronization",
+    "item": "Compiled DLL/PDB/EXE SHA-256 comparison (bin/Debug/net9.0 vs dist/kursor-desktop vs %LOCALAPPDATA%\\HeyClickyApp\\current)",
+    "location": "dist/kursor-desktop/HeyClicky.exe",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/artifact-hash-comparison-prebuild.json",
+    "notes": "HeyClicky.exe in bin/Debug/net9.0 (SHA256 32C071E8...) does not match dist/kursor-desktop/HeyClicky.exe (SHA256 26AB7792...); fresh rebuild after commit bd1ab7d produces new hashes for all 7 DLLs (AUD-A-003)."
+  },
+  {
+    "category": "WS-A: Artifact & Hash Synchronization",
+    "item": "V8 JS Engine Assets SHA-256 comparison (src/desktop vs dist/kursor-desktop vs %LOCALAPPDATA%\\HeyClickyApp\\current)",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/js-assets-comparison.json",
+    "notes": "src/desktop/Kursor.Drawing3D/Assets/Engine is missing; clicky-draw-pieces.js in dist/kursor-desktop (66,985 B, SHA256 EAAC72...) differs from %LOCALAPPDATA%\\HeyClickyApp\\current (66,086 B, SHA256 8FE2A6...) (AUD-A-004)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/build-dist.ps1",
+    "location": "scripts/build-dist.ps1:1-126",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/artifact-hash-comparison-prebuild.json",
+    "notes": "Hardcodes '-c Debug', copies .pdb files into dist/kursor-desktop/, omits HeyClicky.exe apphost from staged files, and checks non-existent Kursor.Drawing3D/Assets/Engine (AUD-A-003, AUD-A-004)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/overlay-and-launch.ps1",
+    "location": "scripts/overlay-and-launch.ps1:1-75",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/artifact-hash-comparison-prebuild.json",
+    "notes": "Overlays Debug DLLs/PDBs into %LOCALAPPDATA%\\HeyClickyApp\\current without HeyClicky.exe and references non-existent Kursor.Drawing3D/Assets/Engine (AUD-A-003, AUD-A-004)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "start-kursor.ps1 & start-kursor.cmd",
+    "location": "start-kursor.ps1:1-147",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/system-state-check.json",
+    "notes": "-Restart flag only stops HeyClicky.exe and leaves backend node.exe on :8787 and sidecars running; fails silently if port 8787 is occupied by a non-Kursor service; single-quote path interpolation bug on line 105 (AUD-A-007)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "setup-kursor.ps1 & setup-kursor.cmd",
+    "location": "setup-kursor.ps1:1-97",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/system-state-check.json",
+    "notes": "Does not enforce Node.js major version (>=24 in package.json vs v22+ message) and creates unused %LOCALAPPDATA%\\Kursor directory alongside %LOCALAPPDATA%\\HeyClicky (AUD-A-005, AUD-A-009)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/seed-local-auth.ps1",
+    "location": "scripts/seed-local-auth.ps1:1-101",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/system-state-check.json",
+    "notes": "Seeds dead %LOCALAPPDATA%\\Kursor folder ignored by AppPaths.cs and registers HKCU\\Software\\Classes\\heyclicky instead of kursor:// (AUD-A-009, AUD-B-003)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/install-autostart.ps1, scripts/uninstall-autostart.ps1, scripts/start-kursor-hidden.vbs",
+    "location": "scripts/install-autostart.ps1:1-54",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/system-state-check.json",
+    "notes": "install-autostart.ps1 registers BOTH HKCU\\...\\Run\\Kursor AND Startup\\Kursor.lnk (double launch at login), conflicting with LaunchAtLogin.cs (HKCU\\...\\Run\\HeyClicky); uninstall-autostart.ps1 leaves Run\\HeyClicky and Desktop\\Kursor.lnk behind (AUD-A-008)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/package-portable.ps1",
+    "location": "scripts/package-portable.ps1:1-79",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/git-repo-hygiene.json",
+    "notes": "Lacks pre-flight check for dist/kursor-desktop/HeyClicky.exe and fails if running processes lock files during staging (AUD-A-010)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/install-runtime.ps1",
+    "location": "scripts/install-runtime.ps1:1-52",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/legal-ip-inventory.json",
+    "notes": "Downloads proprietary HeyClickyApp-1.1.5-win-x64-full.nupkg from github.com/heyclicky/clicky-releases-windows into %LOCALAPPDATA%\\HeyClickyApp\\current (AUD-B-005)."
+  },
+  {
+    "category": "WS-A: Scripts & Lifecycle",
+    "item": "scripts/install-dotnet.ps1 & scripts/check-status.ps1",
+    "location": "scripts/check-status.ps1:1-31",
+    "owner": "ws-ab-build-brand",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-ab/git-repo-hygiene.json",
+    "notes": "Read-only diagnostic and .NET 9 SDK helper scripts inspected; no destructive side effects."
+  },
+  {
+    "category": "WS-A: Git & Repo Hygiene",
+    "item": "Git working tree, history (git log -p), .gitignore, and committed secrets check",
+    "location": ".gitignore:1-46",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/git-repo-hygiene.json",
+    "notes": "src/backend/.env contains only empty placeholders and is properly gitignored (0 user API keys committed in git log), but repo lacks LICENSE/THIRD_PARTY_NOTICES, tracks 2,096 decompiled files in reference/decompiled/, and has unanchored [Rr]elease/ and [Dd]ebug/ in .gitignore:38 (AUD-A-010, AUD-B-005)."
+  },
+  {
+    "category": "WS-B: Branding & Telemetry",
+    "item": "Desktop Assembly Names & PE Metadata",
+    "location": "src/desktop/Kursor.App/Properties/AssemblyInfo.cs:8-17",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/branding-scan.json",
+    "notes": "All 7 .csproj files compile HeyClicky*.dll/exe and stamp AssemblyCompany/Product/Title = 'HeyClicky' (AUD-B-001)."
+  },
+  {
+    "category": "WS-B: Branding & Telemetry",
+    "item": "Production Cloud Fallbacks, Supabase JWT, Sentry DSN, PostHog Key, and Velopack Feed",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:36-43",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/branding-scan.json",
+    "notes": "Live PostHog key, Sentry DSN (SendDefaultPii=true), Velopack GitHub feed, api.heyclicky.com, and mrpvynsdsnimuisyhkow.supabase.co anon JWT remain baked in and activate if use-production-backend.flag exists or endpoints.json uses a non-loopback host; ClickyInkImages.cs:60 defaults to https://api.heyclicky.com (AUD-B-002)."
+  },
+  {
+    "category": "WS-B: Branding & Telemetry",
+    "item": "OS SingleInstance Mutex/MMF/Pipe, Process Killer, URI Scheme, and File Associations",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:80,312-341",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/system-state-check.json",
+    "notes": "Uses Local\\HeyClicky-<SID> mutex/pipe, kills processes named 'HeyClicky', and registers heyclicky://, clicky://, and HeyClicky.Document across 22 file extensions (AUD-B-003)."
+  },
+  {
+    "category": "WS-B: Branding & Telemetry",
+    "item": "UI Window Titles, Tray Icon/Tooltip, Error Dialogs, Agent Prompts, and Backend Links",
+    "location": "src/desktop/Kursor.App/HeyClicky.App/App.cs:111",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/branding-scan.json",
+    "notes": "4,712 'HeyClicky' and 19,632 'Clicky' hits remain across desktop source; fatal error dialogs, billing/settings support emails (hi@heyclicky.com), HeyClickyTray window class, CodexHomeManager instructions, and worker.ts /app-config links still reference HeyClicky (AUD-B-004)."
+  },
+  {
+    "category": "WS-B: Legal & IP Exposure",
+    "item": "reference/decompiled/, executable-file/HeyClicky-Setup.exe, and dist/kursor-desktop/ binaries & assets",
+    "location": "dist/kursor-desktop",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/legal-ip-inventory.json",
+    "notes": "Distributes binaries digitally signed by 'CN=Humansongs, Inc' (HeyClicky.exe, HeyClicky-Update.exe, clicky-harness.exe, ClickyBrowserHost.exe, HeyClicky-Setup.exe), 171 proprietary media/font/JS assets (89.4 MB), 26 prompt/skill files, and 2,096 decompiled C# files in git (AUD-B-005)."
+  },
+  {
+    "category": "WS-N: Documentation & DX",
+    "item": "README.md & src/backend/.env.example",
+    "location": "README.md:1-177",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/docs-audit.json",
+    "notes": "Documents non-existent ONEBRAIN_MODEL (actual: KURSOR_BRAIN_MODEL), non-existent writeOnPage primitive, session.json instead of DPAPI auth.localdev.bin/auth.bin, 2,102 C# files (actual: 2,097), and 6 dead env vars in .env.example including KURSOR_DEV_BYPASS_AUTH (AUD-N-001, AUD-N-002, AUD-N-003)."
+  },
+  {
+    "category": "WS-N: Documentation & DX",
+    "item": "AGENTS.md & docs/INDEX.md",
+    "location": "docs/INDEX.md:1-86",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/docs-audit.json",
+    "notes": "Claims 2,098 C# files in reference/decompiled/ (actual: 2,096), 2,102 C# files in src/desktop/ (actual: 2,097), and '0 Warnings, 0 Errors' on Kursor.sln (actual: 343 warnings on clean build) (AUD-A-001, AUD-N-003)."
+  },
+  {
+    "category": "WS-N: Documentation & DX",
+    "item": "docs/01-architecture-overview.md",
+    "location": "docs/01-architecture-overview.md:155-177",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/docs-audit.json",
+    "notes": "Places V8 Engine/*.js files under BundledResources\\ with wrong byte sizes and lists non-existent ClickyBrowserExtensionID.txt, Assets\\Clicky\\*.png, Assets\\Squad\\*.png, Assets\\StarterCards\\*.png, Assets\\ToolkitLogos\\*.png, and PlusJakartaSans-*.ttf (AUD-N-005)."
+  },
+  {
+    "category": "WS-N: Documentation & DX",
+    "item": "docs/02-api-contracts-and-worker-spec.md, docs/03-voice-ears-mouth-dictation.md, docs/04-drawing-2d-3d-and-ink-engine.md, docs/05-platform-win32-and-ui-shell.md",
+    "location": "docs/02-api-contracts-and-worker-spec.md",
+    "owner": "ws-ab-build-brand",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-ab/docs-audit.json",
+    "notes": "All file:/// links in docs/02, docs/03, docs/04, and docs/05 resolve cleanly (0 broken links) and backend test suite counts (18 + 7 = 25) match implementation."
+  },
+  {
+    "category": "WS-N: Documentation & DX",
+    "item": "docs/06-agents-proactive-and-memory.md",
+    "location": "docs/06-agents-proactive-and-memory.md:27-35,445-580",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/docs-audit.json",
+    "notes": "Contains 17 broken file:/// links pointing to non-existent subdirectories (HeyClicky.Agents.Codex, HeyClicky.Agents.Worker, HeyClicky.Agents.Prompt, HeyClicky.Agents.Clickys, HeyClicky.Agents.Integrations, HeyClicky.Core.Services/WorkerClient.cs) (AUD-N-004)."
+  },
+  {
+    "category": "WS-N: Documentation & DX",
+    "item": "docs/07-kursor-roadmap.md",
+    "location": "docs/07-kursor-roadmap.md:31-32,98-132",
+    "owner": "ws-ab-build-brand",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-ab/docs-audit.json",
+    "notes": "Marks Phases 4-7 as COMPLETED including namespace rebranding, kursor:// URI registration, .kursor file association, %LOCALAPPDATA%\\Kursor\\ migration, and '0 Warnings' build; misplaces TrayTooltip.cs in Kursor.App instead of Kursor.Core (AUD-N-004, AUD-N-005)."
+  }
+]

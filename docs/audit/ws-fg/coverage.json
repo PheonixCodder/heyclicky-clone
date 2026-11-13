@@ -1,0 +1,2099 @@
+[
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "--y__InlineArray5",
+    "location": "src/desktop/Kursor.Drawing/--y__InlineArray5.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "-PrivateImplementationDetails-",
+    "location": "src/desktop/Kursor.Drawing/-PrivateImplementationDetails-.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ScreenDrawingSounds",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio/ScreenDrawingSounds.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "SoundItem",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio/SoundItem.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "SoundPlayer",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Audio/SoundPlayer.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "CssColor",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/CssColor.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "HostBridge",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/HostBridge.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "NativeEngine",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ScreenshotSampler",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/ScreenshotSampler.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "SvgPath",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/SvgPath.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "SvgValues",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/SvgValues.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "TextLayout",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/TextLayout.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "TextShaper",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/TextShaper.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "NativeMethods",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Interop/NativeMethods.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonVideoFiles",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/LessonVideoFiles.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonVideoRecorder",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/LessonVideoRecorder.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-007 & AUD-F-008: Sets ShowInScreenRecordings synchronously without awaiting UI-thread affinity update, and Cancel() runs background thread join/file delete without awaiting in Dispose()."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "MF",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/MF.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "Mp4Probe",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4Probe.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "Mp4Soundtrack",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4Soundtrack.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "Mp4VideoWriter",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4VideoWriter.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-008: Public constructor does not validate odd/zero dimensions and overflows 32-bit int in width * height * 6 bitrate calculation."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "PhotoInspection",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/PhotoInspection.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "PhotoLoader",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/PhotoLoader.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "PhotoQueries",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/PhotoQueries.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ActionButtons",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/ActionButtons.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ButtonLabels",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/ButtonLabels.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "CardHandles",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/CardHandles.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-005 & AUD-F-006: Uses CanvasDevice.GetSharedDevice() without DeviceLost handling and MoveTo during cross-monitor drag."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "DrawingCaption",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/DrawingCaption.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "DrawingSuggestionCards",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/DrawingSuggestionCards.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ExternalActions",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/ExternalActions.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "GrabCursors",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/GrabCursors.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "KnownFolders",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/KnownFolders.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LiveCaption",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/LiveCaption.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-005: Uses CanvasDevice.GetSharedDevice() without DeviceLost recovery."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "OverlayWindow",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/OverlayWindow.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-006 (ignores WM_DPICHANGED and MoveTo does not refresh DPI scale) and AUD-F-007 (ShowInScreenRecordings setter fires and forgets ApplyCapturePolicyToAllAsync)."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "PinnedCards",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/PinnedCards.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-005 & AUD-F-006: Uses CanvasDevice.GetSharedDevice() without DeviceLost handling and MoveTo during cross-monitor drag."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "WindowButtonShapes",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/WindowButtonShapes.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "AnimationSpec",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/AnimationSpec.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "CompositionShadows",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/CompositionShadows.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "Drawing3DAdapter",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/Drawing3DAdapter.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IFigureSurface",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/IFigureSurface.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "MarkTiming",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/MarkTiming.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "Node",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/Node.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "NodeKind",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/NodeKind.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "PenMask",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/PenMask.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "PenStroke",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/PenStroke.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "RunningAnimation",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/RunningAnimation.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ScreenPainter",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/ScreenPainter.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-005: Uses CanvasDevice.GetSharedDevice() without DeviceLost recovery."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ScreenPenMath",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/ScreenPenMath.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "StageSurface",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/StageSurface.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "StageSwapChain",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/StageSwapChain.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-005: IDXGISwapChain1.Present calls result.CheckError() without handling DXGI_ERROR_DEVICE_REMOVED / DXGI_ERROR_DEVICE_RESET."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "WindowChromeInfo",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/WindowChromeInfo.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "DrawingThread",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "DrawingTimelineReport",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingTimelineReport.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "GpuPriority",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/GpuPriority.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonPenPose",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPenPose.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonPlaybackFrame",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPlaybackFrame.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonPlaybackScript",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPlaybackScript.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonPlaybackSounds",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPlaybackSounds.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "LessonPlaybackStage",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/LessonPlaybackStage.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "NotchVisibleSurfaces",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/NotchVisibleSurfaces.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "ScreenDrawingCanvas",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/ScreenDrawingCanvas.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "SystemComposition",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/SystemComposition.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-005: No DXGI_ERROR_DEVICE_REMOVED / DeviceLost handling in CopyInto / BeginDraw / EndDraw."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "AssemblyInfo",
+    "location": "src/desktop/Kursor.Drawing/Properties/AssemblyInfo.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "-RegexGenerator_g-F7574F012CF8662BB4428E0569B8990148C8CEFCEB6920EBA9F953742ED426801__TransformPattern_0",
+    "location": "src/desktop/Kursor.Drawing/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F7574F012CF8662BB4428E0569B8990148C8CEFCEB6920EBA9F953742ED426801__TransformPattern_0.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "-RegexGenerator_g-F7574F012CF8662BB4428E0569B8990148C8CEFCEB6920EBA9F953742ED426801__Utilities",
+    "location": "src/desktop/Kursor.Drawing/System.Text.RegularExpressions.Generated/-RegexGenerator_g-F7574F012CF8662BB4428E0569B8990148C8CEFCEB6920EBA9F953742ED426801__Utilities.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "GlobalVtableLookup",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/GlobalVtableLookup.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IDictionary_string_string",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IDictionary_string_string.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerable_System_Collections_Generic_KeyValuePair_string__string_",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_System_Collections_Generic_KeyValuePair_string__string_.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerable_System_Numerics_Vector2",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_System_Numerics_Vector2.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerable_byte",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_byte.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerable_int",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_int.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerable_object",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerable_object.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerator_System_Collections_Generic_KeyValuePair_string__string_",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerator_System_Collections_Generic_KeyValuePair_string__string_.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerator_System_Numerics_Vector2",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerator_System_Numerics_Vector2.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerator_byte",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerator_byte.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerator_int",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerator_int.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IEnumerator_object",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IEnumerator_object.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IList_System_Numerics_Vector2",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IList_System_Numerics_Vector2.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IList_byte",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IList_byte.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IList_int",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IList_int.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IReadOnlyDictionary_string_string",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IReadOnlyDictionary_string_string.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IReadOnlyList_System_Numerics_Vector2",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IReadOnlyList_System_Numerics_Vector2.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IReadOnlyList_byte",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IReadOnlyList_byte.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IReadOnlyList_int",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IReadOnlyList_int.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "IReadOnlyList_object",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/IReadOnlyList_object.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": "KeyValuePair_string_string",
+    "location": "src/desktop/Kursor.Drawing/WinRT.HeyClicky_DrawingGenericHelpers/KeyValuePair_string_string.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": ".NETCoreApp,Version=v9.0.AssemblyAttributes",
+    "location": "src/desktop/Kursor.Drawing/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-F: Kursor.Drawing C# Class",
+    "item": ".NETCoreApp,Version=v9.0.AssemblyAttributes",
+    "location": "src/desktop/Kursor.Drawing/obj/Release/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; class contracts and error paths verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "--y__InlineArray5",
+    "location": "src/desktop/Kursor.Drawing3D/--y__InlineArray5.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "--z__ReadOnlyArray",
+    "location": "src/desktop/Kursor.Drawing3D/--z__ReadOnlyArray.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "--z__ReadOnlySingleElementList",
+    "location": "src/desktop/Kursor.Drawing3D/--z__ReadOnlySingleElementList.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "-PrivateImplementationDetails-",
+    "location": "src/desktop/Kursor.Drawing3D/-PrivateImplementationDetails-.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "CatmullRomCurve",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/CatmullRomCurve.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "ClickyThreeKernel",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-G-003: Unbounded failed HashSet never evicts or clears on 300s idle V8 recycle, and loadFailed is permanent."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "CssColor",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/CssColor.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "DrawItem3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/DrawItem3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "EarClipping",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/EarClipping.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "FigureRenderer",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/FigureRenderer.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Geometry",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Geometry.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "GpuDevice",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuDevice.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-G-004: GpuDevice.Shared is an immutable Lazy<GpuDevice> singleton with no DXGI_ERROR_DEVICE_REMOVED recovery."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "GpuMemoryProbe",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuMemoryProbe.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "GpuMesh",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuMesh.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "GpuPassTimer",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuPassTimer.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "IStageSurface",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/IStageSurface.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "InkOutline",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/InkOutline.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "J",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/J.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "LabelPlacement3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/LabelPlacement3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "LabelWords",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/LabelWords.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Material3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Material3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-F-004: Studio material preset switch lacks cast and carbon presets promised by brain.ts:88."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Math3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Math3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Mesh3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Mesh3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "MeshBuilder",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/MeshBuilder.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Node3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Node3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "ObjectData",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ObjectData.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "PathFlattener",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/PathFlattener.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Pipelines",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Pipelines.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-G-004: Pipelines.Shared sets buildFailed = true permanently on any transient error with no device-lost reset."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Rect2",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Rect2.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Scene3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Scene3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Shaders",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Shaders.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "StageClick",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/StageClick.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "StageLook",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/StageLook.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "StudioLook",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/StudioLook.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "ThreeStage",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ThreeStage.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "AUD-G-002: Dispose() queues running.Join(5000); Release(); on ThreadPool, disposing D3D11/D2D1 resources even if Join(5000) times out."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "TickDue",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/TickDue.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "TickProvider",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/TickProvider.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "Vertex3D",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Vertex3D.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "WordsAnchor",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/WordsAnchor.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "WordsGlow",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/WordsGlow.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": "AssemblyInfo",
+    "location": "src/desktop/Kursor.Drawing3D/Properties/AssemblyInfo.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": ".NETCoreApp,Version=v9.0.AssemblyAttributes",
+    "location": "src/desktop/Kursor.Drawing3D/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "WS-G: Kursor.Drawing3D C# Class",
+    "item": ".NETCoreApp,Version=v9.0.AssemblyAttributes",
+    "location": "src/desktop/Kursor.Drawing3D/obj/Release/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/ws-fg/REPORT.md",
+    "notes": "Static source audit completed; D3D11/D2D1/HLSL/math contracts verified."
+  },
+  {
+    "category": "V8 JS Engine Asset",
+    "item": "clicky-draw-native.js",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "22 clickyCanvas methods, SVG DOM shim, __drainRender, timers, and tick3d watchdog verified across 57 programs.",
+    "owner": "ws-fg-drawing-2d-3d"
+  },
+  {
+    "category": "V8 JS Engine Asset",
+    "item": "clicky-draw-engine.js",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "AUD-F-003 (around.center vs brain.ts around.at) and AUD-F-004 (FIGURE_MATERIALS missing cast and carbon promised by brain.ts).",
+    "owner": "ws-fg-drawing-2d-3d"
+  },
+  {
+    "category": "V8 JS Engine Asset",
+    "item": "clicky-draw-pieces.js",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "AUD-F-001 (writeOnPage promised in README.md does not exist; openPage opens browser URL) and AUD-F-002 (spot() missing without polyfill).",
+    "owner": "ws-fg-drawing-2d-3d"
+  },
+  {
+    "category": "V8 JS Engine Asset",
+    "item": "clicky-three.js",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three.js",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Bundled Three.js r186 core geometry library verified in V8/Node VM.",
+    "owner": "ws-fg-drawing-2d-3d"
+  },
+  {
+    "category": "V8 JS Engine Asset",
+    "item": "clicky-three-parts.js",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "AUD-G-001: SHAPES.cone(o) ignores o.top parameter taught in brain.ts:74. All 16 shapes + cylinder alias, solidify/stretch/mirror modifiers, and 120k vertex cap verified.",
+    "owner": "ws-fg-drawing-2d-3d"
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "say",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof say === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "step",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof step === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "erase",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof erase === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "startOver",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof startOver === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "move",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof move === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "moveTo",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof moveTo === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "scale",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof scale === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "recolor",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof recolor === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "restyle",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof restyle === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "text",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof text === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "line",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof line === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "arrow",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof arrow === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "curve",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof curve === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "rect",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof rect === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "circle",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof circle === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "ellipse",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof ellipse === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "poly",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof poly === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "highlight",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof highlight === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "image",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof image === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "figure",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof figure === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "scene3d",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof scene3d === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "graph",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof graph === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "timeline",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof timeline === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "dot",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof dot === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "path",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof path === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "label",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof label === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "molecule",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof molecule === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "seen",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof seen === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "noted",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof noted === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "callout",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Primitive \"callout\" is referenced in README.md/docs/04/brain.ts fallback but is undefined in engine/pieces (AUD-F-001 / AUD-F-002)."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "brace",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Primitive \"brace\" is referenced in README.md/docs/04/brain.ts fallback but is undefined in engine/pieces (AUD-F-001 / AUD-F-002)."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "table",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Primitive \"table\" is referenced in README.md/docs/04/brain.ts fallback but is undefined in engine/pieces (AUD-F-001 / AUD-F-002)."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "chart",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Primitive \"chart\" is referenced in README.md/docs/04/brain.ts fallback but is undefined in engine/pieces (AUD-F-001 / AUD-F-002)."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "point",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof point === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "spot",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Primitive \"spot\" is referenced in README.md/docs/04/brain.ts fallback but is undefined in engine/pieces (AUD-F-001 / AUD-F-002)."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "ring",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof ring === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "frame",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof frame === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "check",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof check === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "cross",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof cross === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "write",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof write === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "underline",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof underline === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "strike",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof strike === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "num",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof num === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "connect",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof connect === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "trace",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof trace === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "sticky",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof sticky === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "clipping",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof clipping === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "receipt",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof receipt === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "legend",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof legend === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "paper",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof paper === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "openPage",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof openPage === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "writeOnPage",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Primitive \"writeOnPage\" is referenced in README.md/docs/04/brain.ts fallback but is undefined in engine/pieces (AUD-F-001 / AUD-F-002)."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "button",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof button === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "target",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof target === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "hover",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof hover === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "typeText",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof typeText === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "copyText",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof copyText === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "handOff",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof handOff === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "sfx",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof sfx === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "photo",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof photo === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "tie",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof tie === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "source",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof source === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "sources",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof sources === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "scroll",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof scroll === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "cheer",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof cheer === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "spotlight",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof spotlight === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "jobTicket",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof jobTicket === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "dreamMedal",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof dreamMedal === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "task",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof task === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "waitForUser",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof waitForUser === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "onScreen",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof onScreen === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "tag",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof tag === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "lessonTitle",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof lessonTitle === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "plan",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof plan === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "ink",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof ink === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "inkCircle",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof inkCircle === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "tourJob",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof tourJob === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "tuckJobs",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof tuckJobs === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "showNotch",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof showNotch === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "fadeAway",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof fadeAway === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-F: 2D DSL Primitive",
+    "item": "nextQuestions",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js & clicky-draw-pieces.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json",
+    "notes": "Verified typeof nextQuestions === \"function\" and executed in 57-program ClickyDraw test harness."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "box",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (1764 vertices, 1764 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "cyl",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (396 vertices, 2112 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "cylinder",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (292 vertices, 576 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "cone",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Normal build produced 231 vertices / 1152 indices, but ignores top parameter taught in brain.ts:74 (AUD-G-001)."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "tube",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (325 vertices, 1536 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "arrow",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (866 vertices, 4176 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "lathe",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (148 vertices, 648 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "sphere",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (726 vertices, 3840 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "torus",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (1825 vertices, 10368 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "capsule",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (450 vertices, 2448 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "pipe",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (3201 vertices, 18432 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "spring",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (2651 vertices, 14400 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "gear",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (2880 vertices, 2880 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "extrude",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (180 vertices, 180 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "blob",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (4722 vertices, 28320 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "poly",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (432 vertices, 432 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  },
+  {
+    "category": "WS-G: 3D Procedural Shape",
+    "item": "surface",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js",
+    "owner": "ws-fg-drawing-2d-3d",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json",
+    "notes": "Verified normal build (9 vertices, 24 indices, 0 NaN/OOB) + modifiers + parameter extremes."
+  }
+]

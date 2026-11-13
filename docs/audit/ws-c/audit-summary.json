@@ -1,0 +1,295 @@
+{
+  "corsAndKeyMinting": {
+    "preflightStatus": 403,
+    "preflightAllowOrigin": null,
+    "deepgramTokenStatus": 403,
+    "deepgramReturnsRawEnvKey": false,
+    "geminiTokenStatus": 403,
+    "geminiReturnsRawEnvKey": false,
+    "realtimeTokenStatus": 403,
+    "realtimeFallbackReturnsRawEnvKey": false,
+    "memoryReadWithoutAuthOrOriginRestriction": false
+  },
+  "authAudit": {
+    "authorizeStatus": 400,
+    "leaksTokenToExternalHost": false,
+    "redirectLocationPrefix": "",
+    "authStartHtmlEscapesScriptTag": true,
+    "authStartAllowsJavascriptSchemeInHref": false,
+    "jwtSignatureDecodedLiteral": "�~�����/dʃP�T5V�+���c�\u0011[4�V%�8<",
+    "logoutStatus": 200,
+    "revokedTokenStillAcceptedStatus": 401,
+    "forgedSignatureJwtAcceptedStatus": 401
+  },
+  "gzipAudit": {
+    "smallUncompressedBytes": 69,
+    "smallCompressedBytes": 89,
+    "smallGzipStatus": 200,
+    "over8kbUncompressedBytes": 12048,
+    "over8kbCompressedBytes": 156,
+    "over8kbGzipStatus": 200,
+    "corruptGzipStatus": 400,
+    "corruptGzipError": "invalid_gzip_payload",
+    "magnificationTest": {
+      "compressedBytes": 15331,
+      "uncompressedBytes": 15728652,
+      "expansionRatio": 1025.9,
+      "status": 413,
+      "elapsedMs": 15,
+      "hasMaxOutputLengthLimit": true
+    }
+  },
+  "contractsAndStubs": {
+    "deviceDtoCheck": {
+      "sentXClickyDeviceHeader": "CSHARP-DEVICE-GUID-999",
+      "sentDisplayNameBody": "CSharp-Desktop-Host",
+      "backendRecordedDeviceId": "CSHARP-DEVICE-GUID-999",
+      "backendRecordedDeviceName": "CSharp-Desktop-Host",
+      "hasCSharpRequiredIdField": true,
+      "hasCSharpRequiredDisplayNameField": true,
+      "hasCSharpRequiredIsThisDeviceField": true,
+      "hasCSharpRequiredCapabilitiesField": true
+    },
+    "starterPlanDtoCheck": {
+      "clickyKeysReturned": [
+        "id",
+        "key",
+        "title",
+        "name",
+        "tagline",
+        "role",
+        "description",
+        "prompt",
+        "why",
+        "initial_prompt",
+        "schedule_hint",
+        "intro_messages",
+        "reveal_line",
+        "first_asks",
+        "routine"
+      ],
+      "clickyHasCSharpRequiredFields": true,
+      "suggestionKeysReturned": [
+        "id",
+        "title",
+        "prompt",
+        "why",
+        "description",
+        "agent_prompt",
+        "deliverable",
+        "tagline",
+        "initial_prompt",
+        "schedule_hint",
+        "clicky_slug",
+        "clicky_key"
+      ],
+      "suggestionHasCSharpRequiredFields": true
+    },
+    "deadReturnedUrls": {
+      "composioProxyUrl": "http://127.0.0.1:8787/agent/mcp/composio",
+      "composioProxyStatus": 200,
+      "billingCheckoutUrl": "http://127.0.0.1:18791/billing/local-max-active",
+      "billingCheckoutStatus": 200,
+      "billingPortalUrl": "http://127.0.0.1:18791/billing/local-portal",
+      "billingPortalStatus": 200
+    },
+    "accountDeleteStub": {
+      "response": {
+        "ok": true,
+        "deleted": true
+      },
+      "sessionsBeforeDelete": 0,
+      "sessionsAfterDelete": 0,
+      "memoryLenBeforeDelete": 11730,
+      "memoryLenAfterDelete": 0,
+      "actuallyDeletedAnything": true
+    }
+  },
+  "sqliteAudit": {
+    "journalMode": "wal",
+    "foreignKeysEnabled": 1,
+    "tableStats": {
+      "users": {
+        "rowCount": 1,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_users_2",
+            "unique": 1,
+            "origin": "u",
+            "partial": 0
+          },
+          {
+            "seq": 1,
+            "name": "sqlite_autoindex_users_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "devices": {
+        "rowCount": 3,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_devices_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "memory": {
+        "rowCount": 1,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_memory_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "sessions": {
+        "rowCount": 3,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "idx_sessions_access_token",
+            "unique": 0,
+            "origin": "c",
+            "partial": 0
+          },
+          {
+            "seq": 1,
+            "name": "idx_sessions_user_id",
+            "unique": 0,
+            "origin": "c",
+            "partial": 0
+          },
+          {
+            "seq": 2,
+            "name": "sqlite_autoindex_sessions_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "threads": {
+        "rowCount": 2,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "idx_threads_user_id",
+            "unique": 0,
+            "origin": "c",
+            "partial": 0
+          },
+          {
+            "seq": 1,
+            "name": "sqlite_autoindex_threads_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "notifications": {
+        "rowCount": 2,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "idx_notifications_user_read",
+            "unique": 0,
+            "origin": "c",
+            "partial": 0
+          },
+          {
+            "seq": 1,
+            "name": "sqlite_autoindex_notifications_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "proactive_cards": {
+        "rowCount": 4,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "idx_proactive_cards_user_dismissed",
+            "unique": 0,
+            "origin": "c",
+            "partial": 0
+          },
+          {
+            "seq": 1,
+            "name": "sqlite_autoindex_proactive_cards_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      }
+    },
+    "queryPlans": {
+      "deleteSessionByAccessToken": [
+        {
+          "id": 3,
+          "parent": 0,
+          "notused": 54,
+          "detail": "SEARCH sessions USING COVERING INDEX idx_sessions_access_token (access_token=?)"
+        }
+      ],
+      "selectNotificationsByUser": [
+        {
+          "id": 5,
+          "parent": 0,
+          "notused": 61,
+          "detail": "SEARCH notifications USING INDEX idx_notifications_user_read (user_id=? AND is_read=?)"
+        }
+      ]
+    },
+    "sessionsGrowth": {
+      "before": 3,
+      "afterSingleTurn": 4,
+      "delta": 1
+    },
+    "hardcodedLocalAppConfigPath": null
+  },
+  "searchAudit": {
+    "emptyWebSearchStatus": 200,
+    "emptyImageSearchStatus": 404
+  },
+  "loadSoakMetrics": {
+    "concurrentRequests": 120,
+    "successCount": 120,
+    "errorCount": 0,
+    "totalLoadDurationMs": 177,
+    "throughputReqPerSec": 678,
+    "latencyMs": {
+      "min": 120.12,
+      "p50": 130.48,
+      "p95": 160.85,
+      "p99": 162.67,
+      "max": 162.73
+    },
+    "sseAbortTests": {
+      "attempted": 10,
+      "handledCleanly": 10,
+      "serverHealthyAfterAborts": true
+    },
+    "memoryBytes": {
+      "rssBefore": 156155904,
+      "rssAfter": 160595968,
+      "rssDeltaMB": 4.23,
+      "heapUsedBefore": 20098864,
+      "heapUsedAfter": 26421160,
+      "heapUsedDeltaMB": 6.03
+    }
+  }
+}

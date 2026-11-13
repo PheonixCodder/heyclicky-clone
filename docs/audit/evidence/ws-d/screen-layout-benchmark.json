@@ -1,0 +1,1849 @@
+{
+  "summaryMetrics": {
+    "totalCorpusImages": 66,
+    "tableDetection": {
+      "strictTP": 24,
+      "partialGeometryOrCountMismatch": 0,
+      "anyTableDetectedTP": 24,
+      "FN": 7,
+      "FP": 2,
+      "TN": 33,
+      "strictPrecision": 0.9231,
+      "anyDetectionPrecision": 0.9231,
+      "strictRecall": 0.7742,
+      "anyDetectionRecall": 0.7742
+    },
+    "answerLineDetection": {
+      "strictTP": 16,
+      "partialLineCountMismatch": 0,
+      "anyLineDetectedTP": 16,
+      "FN": 0,
+      "FP": 0,
+      "TN": 50,
+      "strictPrecision": 1,
+      "strictRecall": 1,
+      "anyDetectionRecall": 1
+    },
+    "timingMs": {
+      "standard1280x720": {
+        "count": 50,
+        "minMs": 188.4,
+        "p50Ms": 1429.18,
+        "meanMs": 1356.05,
+        "p95Ms": 2700.06,
+        "maxMs": 3536.48
+      },
+      "res1920x1080Ms": 2111.13,
+      "res2560x1440Ms": 2869.22,
+      "res4000x3000_12MP_Ms": 1022.06,
+      "res8000x8000_64MP_Ms": 45.51
+    }
+  },
+  "results": [
+    {
+      "id": "01_table_3col_standard",
+      "category": "table",
+      "description": "Standard 3-col x 5-row (1 header + 4 data) worksheet table at y=200..460",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/01_table_3col_standard.jpg",
+      "elapsedMs": 188.4,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 5,
+      "detectedTableRows": 5,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "expectedHeaderFirstRow": true,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 188.4 ms on main event loop"
+      ]
+    },
+    {
+      "id": "02_table_4col_standard",
+      "category": "table",
+      "description": "Standard 4-col x 6-row (1 header + 5 data) table at y=190..500",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/02_table_4col_standard.jpg",
+      "elapsedMs": 236.8,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 6,
+      "detectedTableRows": 6,
+      "expectedTableCols": 4,
+      "detectedTableCols": 4,
+      "expectedHeaderFirstRow": true,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 236.8 ms on main event loop"
+      ]
+    },
+    {
+      "id": "03_table_2col_standard",
+      "category": "table",
+      "description": "Standard 2-col x 4-row table at y=220..420",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/03_table_2col_standard.jpg",
+      "elapsedMs": 223.18,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 2,
+      "detectedTableCols": 2,
+      "expectedHeaderFirstRow": true,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 223.18 ms on main event loop"
+      ]
+    },
+    {
+      "id": "04_table_6col_8row_dense",
+      "category": "table",
+      "description": "Dense 6-col x 8-row spreadsheet grid at y=180..580",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/04_table_6col_8row_dense.jpg",
+      "elapsedMs": 296.83,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 8,
+      "detectedTableRows": 8,
+      "expectedTableCols": 6,
+      "detectedTableCols": 6,
+      "expectedHeaderFirstRow": true,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 296.83 ms on main event loop"
+      ]
+    },
+    {
+      "id": "05_table_borderless_whitespace",
+      "category": "table",
+      "description": "Borderless 3-col table aligned by whitespace only (no border lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/05_table_borderless_whitespace.jpg",
+      "elapsedMs": 441.88,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 4,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 441.88 ms on main event loop"
+      ]
+    },
+    {
+      "id": "06_table_horizontal_borders_only",
+      "category": "table",
+      "description": "Modern UI / Booktabs 3-col table with horizontal borders only (no vertical lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/06_table_horizontal_borders_only.jpg",
+      "elapsedMs": 566.35,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 4,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 150,
+        "w": 290,
+        "h": 420,
+        "label": "left margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 566.35 ms on main event loop"
+      ]
+    },
+    {
+      "id": "07_table_vertical_borders_only",
+      "category": "table",
+      "description": "Table with vertical column dividers only and no horizontal lines",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/07_table_vertical_borders_only.jpg",
+      "elapsedMs": 373.02,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 4,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 150,
+        "w": 290,
+        "h": 420,
+        "label": "left margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 373.02 ms on main event loop"
+      ]
+    },
+    {
+      "id": "08_table_merged_middle_row",
+      "category": "table",
+      "description": "3-col table where row 2 has merged internal cells (only outer left/right V borders in row 2)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/08_table_merged_middle_row.jpg",
+      "elapsedMs": 3536.48,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 5,
+      "detectedTableRows": 5,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 3536.48 ms on main event loop"
+      ]
+    },
+    {
+      "id": "09_table_merged_title_banner_row",
+      "category": "table",
+      "description": "3-col table with merged top title banner row (row 0 has only 2 outer V-lines, rows 1..4 have 4 V-lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/09_table_merged_title_banner_row.jpg",
+      "elapsedMs": 1972.53,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 5,
+      "detectedTableRows": 5,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1972.53 ms on main event loop"
+      ]
+    },
+    {
+      "id": "10_table_dark_mode_slate",
+      "category": "table",
+      "description": "Dark-mode 3-col table (bg rgb(30,34,42), light borders rgb(220,225,235))",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/10_table_dark_mode_slate.jpg",
+      "elapsedMs": 435.08,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 435.08 ms on main event loop"
+      ]
+    },
+    {
+      "id": "11_table_dark_mode_oled",
+      "category": "table",
+      "description": "OLED dark-mode 4-col table (bg rgb(15,15,15), white borders rgb(245,245,245))",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/11_table_dark_mode_oled.jpg",
+      "elapsedMs": 470.98,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 5,
+      "detectedTableRows": 5,
+      "expectedTableCols": 4,
+      "detectedTableCols": 4,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 470.98 ms on main event loop"
+      ]
+    },
+    {
+      "id": "12_table_medium_gray_bg",
+      "category": "table",
+      "description": "3-col table on medium-gray shaded background (bg rgb(148,150,154) < 160 luma cutoff, black borders)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/12_table_medium_gray_bg.jpg",
+      "elapsedMs": 366.06,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 366.06 ms on main event loop"
+      ]
+    },
+    {
+      "id": "13_table_faint_low_contrast_borders",
+      "category": "table",
+      "description": "Light UI table with subtle CSS borders (rgb(232,234,238) on white rgb(252,252,252), luma drop = 19 < 28)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/13_table_faint_low_contrast_borders.jpg",
+      "elapsedMs": 817.66,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 4,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 817.66 ms on main event loop"
+      ]
+    },
+    {
+      "id": "14_table_slight_skew_2px",
+      "category": "table",
+      "description": "Slightly skewed CamScanner 3-col table (+2px vertical drift across horizontal lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/14_table_slight_skew_2px.jpg",
+      "elapsedMs": 579.07,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 579.07 ms on main event loop"
+      ]
+    },
+    {
+      "id": "15_table_heavy_skew_12px",
+      "category": "table",
+      "description": "Skewed scan 3-col table (+12px vertical drift across 740px width, exceeding +-6px tracker)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/15_table_heavy_skew_12px.jpg",
+      "elapsedMs": 2210.67,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2210.67 ms on main event loop"
+      ]
+    },
+    {
+      "id": "16_table_near_top_y145_header_heuristic",
+      "category": "table",
+      "description": "Full 3-col table with visible 25px header row placed at y=145 (< 175 heuristic cutoff)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/16_table_near_top_y145_header_heuristic.jpg",
+      "elapsedMs": 1302.95,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 5,
+      "detectedTableRows": 5,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "expectedHeaderFirstRow": true,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1302.95 ms on main event loop"
+      ]
+    },
+    {
+      "id": "17_table_top_region_y70_to_210",
+      "category": "table",
+      "description": "3-col table in fullscreen PDF/app at y=70..210 (top 2 borders above y=135 scan start)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/17_table_top_region_y70_to_210.jpg",
+      "elapsedMs": 1514.91,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 3,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 150,
+        "w": 290,
+        "h": 420,
+        "label": "left margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 1514.91 ms on main event loop"
+      ]
+    },
+    {
+      "id": "18_table_bottom_region_y560_to_712",
+      "category": "table",
+      "description": "3-col table near bottom at y=560..712 (bottom border below H-20 = 700 scan limit)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/18_table_bottom_region_y560_to_712.jpg",
+      "elapsedMs": 2700.06,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 3,
+      "detectedTableRows": 3,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": false,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2700.06 ms on main event loop"
+      ]
+    },
+    {
+      "id": "19_table_tall_rows_130px",
+      "category": "table",
+      "description": "3-col table with tall multi-paragraph rows (rowHeight = 130px > 115px limit)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/19_table_tall_rows_130px.jpg",
+      "elapsedMs": 828.67,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 3,
+      "detectedTableRows": 3,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": false,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 828.67 ms on main event loop"
+      ]
+    },
+    {
+      "id": "20_table_compact_rows_6px",
+      "category": "table",
+      "description": "Compact grid with 6px row spacing (< 7px dy minimum)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/20_table_compact_rows_6px.jpg",
+      "elapsedMs": 1872.71,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 4,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 1872.71 ms on main event loop"
+      ]
+    },
+    {
+      "id": "21_table_narrow_checkbox_col_15px",
+      "category": "table",
+      "description": "3-col table where Col 2 and Col 3 are narrow 15px checkbox columns (< 20px xLines filter)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/21_table_narrow_checkbox_col_15px.jpg",
+      "elapsedMs": 1092.48,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1092.48 ms on main event loop"
+      ]
+    },
+    {
+      "id": "22_table_narrow_total_width_150px",
+      "category": "table",
+      "description": "Compact 2-col lookup table with total width 150px (< 170px bestLen threshold)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/22_table_narrow_total_width_150px.jpg",
+      "elapsedMs": 1120.88,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 2,
+      "detectedTableCols": 2,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1120.88 ms on main event loop"
+      ]
+    },
+    {
+      "id": "23_table_two_tables_on_one_screen",
+      "category": "table",
+      "description": "Two separate 3-col tables on the same screen (Table 1 at y=180..320, Table 2 at y=400..580)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/23_table_two_tables_on_one_screen.jpg",
+      "elapsedMs": 1562.06,
+      "returnedNull": false,
+      "expectedTables": 2,
+      "detectedTables": 2,
+      "detectedTableRows": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": false,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1562.06 ms on main event loop"
+      ]
+    },
+    {
+      "id": "24_table_with_red_highlight_bridge",
+      "category": "table",
+      "description": "3-col table with a red user highlight loop crossing horizontal & vertical borders",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/24_table_with_red_highlight_bridge.jpg",
+      "elapsedMs": 1335.81,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "expectedHeaderFirstRow": true,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1335.81 ms on main event loop"
+      ]
+    },
+    {
+      "id": "25_lines_dotted_4_standard",
+      "category": "answer_lines",
+      "description": "Worksheet with 4 standard dotted lines (dotW=3, gapW=4, span=620px, >85 dots)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/25_lines_dotted_4_standard.jpg",
+      "elapsedMs": 1514.98,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1514.98 ms on main event loop"
+      ]
+    },
+    {
+      "id": "26_lines_dotted_8_fullwidth",
+      "category": "answer_lines",
+      "description": "Worksheet with 8 full-width dotted lines (dotW=2, gapW=4, span=750px)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/26_lines_dotted_8_fullwidth.jpg",
+      "elapsedMs": 1598.31,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 8,
+      "detectedAnswerLines": 8,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1598.31 ms on main event loop"
+      ]
+    },
+    {
+      "id": "27_combo_table_plus_4_dotted_below",
+      "category": "answer_lines",
+      "description": "Combined 3-col table (y=190..350) + 4 dotted answer lines below (y=420..540)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/27_combo_table_plus_4_dotted_below.jpg",
+      "elapsedMs": 1349.88,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 3,
+      "detectedTableRows": 3,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": false,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1349.88 ms on main event loop"
+      ]
+    },
+    {
+      "id": "28_combo_dotted_above_and_below_table",
+      "category": "answer_lines",
+      "description": "2 dotted lines above (y=195, 230) + 3-col table (y=270..430) + 2 dotted lines below (y=480, 520)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/28_combo_dotted_above_and_below_table.jpg",
+      "elapsedMs": 1469.6,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 3,
+      "detectedTableRows": 3,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": false,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1469.6 ms on main event loop"
+      ]
+    },
+    {
+      "id": "29_lines_solid_underline_blanks",
+      "category": "answer_lines",
+      "description": "Worksheet with 4 solid underline answer blanks (span=620px, 2px thick solid rule)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/29_lines_solid_underline_blanks.jpg",
+      "elapsedMs": 1686.4,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1686.4 ms on main event loop"
+      ]
+    },
+    {
+      "id": "30_lines_dashed_10px_blanks",
+      "category": "answer_lines",
+      "description": "Worksheet with 4 dashed answer lines (dashW=10px > 8px limit, gapW=6px, span=640px)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/30_lines_dashed_10px_blanks.jpg",
+      "elapsedMs": 1644.91,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1644.91 ms on main event loop"
+      ]
+    },
+    {
+      "id": "31_lines_wide_gap_14px_dotted",
+      "category": "answer_lines",
+      "description": "Worksheet with 4 wide-spaced dotted lines (dotW=3px, gapW=14px > 12px gap limit)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/31_lines_wide_gap_14px_dotted.jpg",
+      "elapsedMs": 1439.99,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1439.99 ms on main event loop"
+      ]
+    },
+    {
+      "id": "32_lines_short_span_380px_dotted",
+      "category": "answer_lines",
+      "description": "Worksheet with 4 short fill-in-the-blank dotted lines (span=380px < W*0.35 = 448px)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/32_lines_short_span_380px_dotted.jpg",
+      "elapsedMs": 1353.74,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1353.74 ms on main event loop"
+      ]
+    },
+    {
+      "id": "33_lines_40_dots_under_50_threshold",
+      "category": "answer_lines",
+      "description": "Worksheet with 4 dotted lines having 42 dots each (span=504px >= 448px, but bestDots=42 < 50)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/33_lines_40_dots_under_50_threshold.jpg",
+      "elapsedMs": 1608.3,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1608.3 ms on main event loop"
+      ]
+    },
+    {
+      "id": "34_lines_top_of_page_y140_165",
+      "category": "answer_lines",
+      "description": "2 dotted answer lines near top of page (y=140, 165 < 180 scan start) + 2 at y=200, 235",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/34_lines_top_of_page_y140_165.jpg",
+      "elapsedMs": 1318.15,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1318.15 ms on main event loop"
+      ]
+    },
+    {
+      "id": "35_lines_faint_gray_dots_luma175",
+      "category": "answer_lines",
+      "description": "4 light-gray printed dotted lines (rgb(175,175,175), luma=175 >= 162 threshold)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/35_lines_faint_gray_dots_luma175.jpg",
+      "elapsedMs": 1591.46,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1591.46 ms on main event loop"
+      ]
+    },
+    {
+      "id": "36_lines_cream_shaded_paper_luma180",
+      "category": "answer_lines",
+      "description": "4 dark dotted lines on warm cream/gray textbook box (paper rgb(180,178,172) <= 188 threshold)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/36_lines_cream_shaded_paper_luma180.jpg",
+      "elapsedMs": 1590.82,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1590.82 ms on main event loop"
+      ]
+    },
+    {
+      "id": "37_lines_tight_vertical_spacing_15px",
+      "category": "answer_lines",
+      "description": "4 dotted answer lines with tight 15px line spacing (< 20px deduplication gap)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/37_lines_tight_vertical_spacing_15px.jpg",
+      "elapsedMs": 1429.18,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1429.18 ms on main event loop"
+      ]
+    },
+    {
+      "id": "38_lines_right_aligned_form_blanks",
+      "category": "answer_lines",
+      "description": "4 right-half dotted answer lines at x=580..1120 (span=540px, bestDots=77)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/38_lines_right_aligned_form_blanks.jpg",
+      "elapsedMs": 1407.76,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 150,
+        "w": 290,
+        "h": 420,
+        "label": "left margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 1407.76 ms on main event loop"
+      ]
+    },
+    {
+      "id": "39_distractor_printed_paragraphs",
+      "category": "distractor",
+      "description": "Dense printed textbook page (18 lines of body text, no tables or blank lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/39_distractor_printed_paragraphs.jpg",
+      "elapsedMs": 1075.71,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1075.71 ms on main event loop"
+      ]
+    },
+    {
+      "id": "40_distractor_math_exam_paper",
+      "category": "distractor",
+      "description": "Math exam paper with printed problem statements and short fraction bars (no blank answer lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/40_distractor_math_exam_paper.jpg",
+      "elapsedMs": 1230.59,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1230.59 ms on main event loop"
+      ]
+    },
+    {
+      "id": "41_distractor_math_coordinate_axes",
+      "category": "distractor",
+      "description": "Math exam paper with 2D x/y coordinate axes and curve (single H-axis and single V-axis)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/41_distractor_math_coordinate_axes.jpg",
+      "elapsedMs": 1423.02,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1423.02 ms on main event loop"
+      ]
+    },
+    {
+      "id": "42_distractor_code_editor_dark",
+      "category": "distractor",
+      "description": "Dark-theme code editor (VS Code style with sidebar, gutter, and code lines)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/42_distractor_code_editor_dark.jpg",
+      "elapsedMs": 1155.78,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1155.78 ms on main event loop"
+      ]
+    },
+    {
+      "id": "43_distractor_code_editor_light_split_panes",
+      "category": "distractor",
+      "description": "Light-theme IDE with 3 horizontal panel splitters and 3 vertical splitters (false-positive table trap!)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/43_distractor_code_editor_light_split_panes.jpg",
+      "elapsedMs": 2043.33,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 1,
+      "detectedTableRows": 2,
+      "detectedTableCols": 2,
+      "detectedHeaderFirstRow": false,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 150,
+        "w": 290,
+        "h": 420,
+        "label": "left margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FP",
+      "lineOutcome": "TN",
+      "notes": [
+        "False-positive table detected on non-table image!",
+        "Synchronous CPU block: 2043.33 ms on main event loop"
+      ]
+    },
+    {
+      "id": "44_distractor_blank_light_desktop",
+      "category": "distractor",
+      "description": "Blank white canvas (rgb(250,250,250))",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/44_distractor_blank_light_desktop.jpg",
+      "elapsedMs": 1653.71,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1653.71 ms on main event loop"
+      ]
+    },
+    {
+      "id": "45_distractor_blank_dark_desktop",
+      "category": "distractor",
+      "description": "Blank dark desktop (rgb(20,24,30))",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/45_distractor_blank_dark_desktop.jpg",
+      "elapsedMs": 2097.32,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2097.32 ms on main event loop"
+      ]
+    },
+    {
+      "id": "46_distractor_high_noise_jpeg",
+      "category": "distractor",
+      "description": "High-noise pseudo-random grain on light page (quality=60)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/46_distractor_high_noise_jpeg.jpg",
+      "elapsedMs": 2745.52,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2745.52 ms on main event loop"
+      ]
+    },
+    {
+      "id": "47_distractor_ruled_notebook_lines_only",
+      "category": "distractor",
+      "description": "Ruled notebook sheet with 10 solid horizontal lines and 1 left margin line (not a table or dotted line)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/47_distractor_ruled_notebook_lines_only.jpg",
+      "elapsedMs": 2472.15,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2472.15 ms on main event loop"
+      ]
+    },
+    {
+      "id": "48_distractor_bar_chart_with_grid",
+      "category": "distractor",
+      "description": "Bar chart with 5 horizontal gridlines and 4 vertical bar outlines (false-positive table trap!)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/48_distractor_bar_chart_with_grid.jpg",
+      "elapsedMs": 1459.28,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 1,
+      "detectedTableRows": 4,
+      "detectedTableCols": 4,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 150,
+        "w": 390,
+        "h": 420,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FP",
+      "lineOutcome": "TN",
+      "notes": [
+        "False-positive table detected on non-table image!",
+        "Synchronous CPU block: 1459.28 ms on main event loop"
+      ]
+    },
+    {
+      "id": "49_distractor_flowchart_boxes",
+      "category": "distractor",
+      "description": "Flowchart with 3 separate small boxes connected by arrows",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/49_distractor_flowchart_boxes.jpg",
+      "elapsedMs": 1851.36,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 760,
+        "y": 150,
+        "w": 480,
+        "h": 420,
+        "label": "right half"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1851.36 ms on main event loop"
+      ]
+    },
+    {
+      "id": "50_distractor_busy_right_margin_calm_left",
+      "category": "distractor",
+      "description": "Page with dense content on the right (x=720..1240) and calm whitespace on the left (x=20..350)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/50_distractor_busy_right_margin_calm_left.jpg",
+      "elapsedMs": 1545.65,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 150,
+        "w": 290,
+        "h": 420,
+        "label": "left margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1545.65 ms on main event loop"
+      ]
+    },
+    {
+      "id": "51_res_1920x1080_table_compact",
+      "category": "edge_resolution_or_corrupt",
+      "description": "1920x1080 (Full HD) 3-col table with 75px row height",
+      "resolution": "1920x1080",
+      "savedFile": "tests/audit/ws-d/corpus/51_res_1920x1080_table_compact.jpg",
+      "elapsedMs": 2111.13,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 225,
+        "w": 585,
+        "h": 630,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2111.13 ms on main event loop"
+      ]
+    },
+    {
+      "id": "52_res_1920x1080_table_scaled_125px_rows",
+      "category": "edge_resolution_or_corrupt",
+      "description": "1920x1080 (Full HD) 3-col table with 1.5x scaled rows (rowHeight = 125px > 115px hardcoded limit)",
+      "resolution": "1920x1080",
+      "savedFile": "tests/audit/ws-d/corpus/52_res_1920x1080_table_scaled_125px_rows.jpg",
+      "elapsedMs": 1953.98,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 225,
+        "w": 585,
+        "h": 630,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1953.98 ms on main event loop"
+      ]
+    },
+    {
+      "id": "53_res_2560x1440_table_scaled_2x",
+      "category": "edge_resolution_or_corrupt",
+      "description": "2560x1440 (QHD 2x DPI) 3-col table with 150px row height (> 115px hardcoded limit)",
+      "resolution": "2560x1440",
+      "savedFile": "tests/audit/ws-d/corpus/53_res_2560x1440_table_scaled_2x.jpg",
+      "elapsedMs": 2869.22,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 300,
+        "w": 780,
+        "h": 840,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 2869.22 ms on main event loop"
+      ]
+    },
+    {
+      "id": "54_res_2560x1440_dotted_lines_2x_dpi",
+      "category": "edge_resolution_or_corrupt",
+      "description": "2560x1440 (QHD 2x DPI) worksheet with 4 dotted lines scaled 2x (dotW=10px > 8px limit, gapW=8px)",
+      "resolution": "2560x1440",
+      "savedFile": "tests/audit/ws-d/corpus/54_res_2560x1440_dotted_lines_2x_dpi.jpg",
+      "elapsedMs": 2936.15,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 4,
+      "detectedAnswerLines": 4,
+      "calmCardSpot": {
+        "x": 860,
+        "y": 300,
+        "w": 780,
+        "h": 840,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 2936.15 ms on main event loop"
+      ]
+    },
+    {
+      "id": "55_res_640x480_table_and_offscreen_calmspot",
+      "category": "edge_resolution_or_corrupt",
+      "description": "640x480 (VGA) 3-col table (checks if calmCardSpot x=860 is off-screen on 640px width!)",
+      "resolution": "640x480",
+      "savedFile": "tests/audit/ws-d/corpus/55_res_640x480_table_and_offscreen_calmspot.jpg",
+      "elapsedMs": 591.94,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 1,
+      "expectedTableRows": 4,
+      "detectedTableRows": 4,
+      "expectedTableCols": 3,
+      "detectedTableCols": 3,
+      "detectedHeaderFirstRow": true,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 260,
+        "y": 150,
+        "w": 364,
+        "h": 314,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TP",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 591.94 ms on main event loop"
+      ]
+    },
+    {
+      "id": "56_res_640x480_dotted_lines",
+      "category": "edge_resolution_or_corrupt",
+      "description": "640x480 (VGA) worksheet with 3 dotted lines at x=120..540 (span=420px, dotW=3, gapW=4)",
+      "resolution": "640x480",
+      "savedFile": "tests/audit/ws-d/corpus/56_res_640x480_dotted_lines.jpg",
+      "elapsedMs": 436.46,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 3,
+      "detectedAnswerLines": 3,
+      "calmCardSpot": {
+        "x": 260,
+        "y": 150,
+        "w": 364,
+        "h": 314,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TP",
+      "notes": [
+        "Synchronous CPU block: 436.46 ms on main event loop"
+      ]
+    },
+    {
+      "id": "57_res_320x240_qvga",
+      "category": "edge_resolution_or_corrupt",
+      "description": "320x240 (QVGA) small screenshot with table at y=40..180",
+      "resolution": "320x240",
+      "savedFile": "tests/audit/ws-d/corpus/57_res_320x240_qvga.jpg",
+      "elapsedMs": 135.72,
+      "returnedNull": false,
+      "expectedTables": 1,
+      "detectedTables": 0,
+      "expectedTableRows": 3,
+      "expectedTableCols": 3,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 16,
+        "y": 20,
+        "w": 288,
+        "h": 204,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "FN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Missed expected table completely",
+        "Synchronous CPU block: 135.72 ms on main event loop"
+      ]
+    },
+    {
+      "id": "58_res_1x1_pixel_jpeg",
+      "category": "edge_resolution_or_corrupt",
+      "description": "1x1 pixel valid JPEG boundary check",
+      "resolution": "1x1",
+      "savedFile": "tests/audit/ws-d/corpus/58_res_1x1_pixel_jpeg.jpg",
+      "elapsedMs": 0.68,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    },
+    {
+      "id": "59_res_16x16_tiny_jpeg",
+      "category": "edge_resolution_or_corrupt",
+      "description": "16x16 pixel tiny JPEG boundary check",
+      "resolution": "16x16",
+      "savedFile": "tests/audit/ws-d/corpus/59_res_16x16_tiny_jpeg.jpg",
+      "elapsedMs": 0.35,
+      "returnedNull": false,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardSpot": {
+        "x": 15,
+        "y": 15,
+        "w": 1,
+        "h": 1,
+        "label": "right margin"
+      },
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    },
+    {
+      "id": "60_payload_empty_base64",
+      "category": "edge_resolution_or_corrupt",
+      "description": "Empty data URL prefix 'data:image/jpeg;base64,'",
+      "resolution": "0x0",
+      "elapsedMs": 0.01,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    },
+    {
+      "id": "61_payload_corrupt_random_bytes",
+      "category": "edge_resolution_or_corrupt",
+      "description": "Corrupt non-JPEG base64 bytes",
+      "resolution": "0x0",
+      "savedFile": "tests/audit/ws-d/corpus/61_payload_corrupt_random_bytes.bin",
+      "elapsedMs": 0.14,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    },
+    {
+      "id": "62_payload_truncated_jpeg",
+      "category": "edge_resolution_or_corrupt",
+      "description": "Truncated 1280x720 JPEG (sliced at 25% of byte stream)",
+      "resolution": "1280x720",
+      "savedFile": "tests/audit/ws-d/corpus/62_payload_truncated_jpeg.jpg",
+      "elapsedMs": 293.83,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 293.83 ms on main event loop"
+      ]
+    },
+    {
+      "id": "63_payload_png_bytes_with_jpeg_prefix",
+      "category": "edge_resolution_or_corrupt",
+      "description": "Valid PNG image bytes disguised with 'data:image/jpeg;base64,' prefix",
+      "resolution": "64x64",
+      "savedFile": "tests/audit/ws-d/corpus/63_payload_png_with_jpeg_prefix.png",
+      "elapsedMs": 0.2,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    },
+    {
+      "id": "64_payload_png_bytes_with_png_prefix",
+      "category": "edge_resolution_or_corrupt",
+      "description": "Valid PNG image with standard 'data:image/png;base64,' prefix (unsupported by jpeg-only decoder!)",
+      "resolution": "64x64",
+      "savedFile": "tests/audit/ws-d/corpus/64_payload_valid_png.png",
+      "elapsedMs": 0.17,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    },
+    {
+      "id": "65_res_4000x3000_12mp_sync_block",
+      "category": "edge_resolution_or_corrupt",
+      "description": "4000x3000 (12 MP) JPEG synchronous main-thread CPU block benchmark",
+      "resolution": "4000x3000",
+      "savedFile": "tests/audit/ws-d/corpus/65_res_4000x3000_12mp_sync_block.jpg",
+      "elapsedMs": 1022.06,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": [
+        "Synchronous CPU block: 1022.06 ms on main event loop"
+      ]
+    },
+    {
+      "id": "66_res_8000x8000_64mp_sync_block",
+      "category": "edge_resolution_or_corrupt",
+      "description": "8000x8000 (64 MP, 256MB raw RGBA) huge JPEG synchronous event-loop freeze check",
+      "resolution": "8000x8000",
+      "savedFile": "tests/audit/ws-d/corpus/66_res_8000x8000_64mp_sync_block.jpg",
+      "elapsedMs": 45.51,
+      "returnedNull": true,
+      "expectedTables": 0,
+      "detectedTables": 0,
+      "expectedAnswerLines": 0,
+      "detectedAnswerLines": 0,
+      "calmCardOffScreen": false,
+      "tableOutcome": "TN",
+      "lineOutcome": "TN",
+      "notes": []
+    }
+  ]
+}

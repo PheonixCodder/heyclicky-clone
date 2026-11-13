@@ -1,0 +1,292 @@
+[
+  {
+    "id": "AUD-L-001",
+    "workstream": "WS-L",
+    "severity": "Critical",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Wildcard CORS (`*`) Combined with Zero-Auth Default User Middleware Exposes Master API Keys and User Data to Any Website",
+    "component": "Backend HTTP Server / CORS & Authentication Middleware / Voice Token Routes",
+    "location": "src/backend/src/index.ts:19-21; src/backend/src/middleware/auth.ts:34-88; src/backend/src/routes/voice.ts:34-216; src/backend/src/routes/worker.ts:555-605; src/backend/src/routes/agents.ts:910-917",
+    "description": "In src/backend/src/index.ts:19-21, the backend mounts `app.use(\"*\", cors())` (which sets `Access-Control-Allow-Origin: *` and allows all HTTP methods on preflight) followed by `clientHeadersAndAuthMiddleware` (src/backend/src/middleware/auth.ts:34-88). When no `Authorization` header is present, `clientHeadersAndAuthMiddleware` silently authenticates the request as `DEFAULT_USER_ID` (`00000000-0000-0000-0000-000000000001`). At the same time, `src/backend/src/routes/voice.ts` returns the user's raw master API keys from `process.env` in JSON responses: `POST /deepgram/token` (lines 34-84) returns `process.env.DEEPGRAM_API_KEY`; `POST /v2/dictation/gemini-token` and `POST /brain/ears/token` (lines 86-138) return `process.env.GEMINI_API_KEY`; and `POST /realtime/token` and `POST /agent/realtime/session` (lines 140-216) return `process.env.GEMINI_API_KEY` or `process.env.OPENAI_API_KEY` in `client_secret.value`. Because browsers permit cross-origin `fetch()` requests to `http://127.0.0.1:8787` when `Access-Control-Allow-Origin: *` is returned, any webpage visited by the user can silently steal upstream LLM/voice API keys, read or overwrite OneBrain `/memory`, read `/agent/integrations`, or invoke `/brain/turn`.",
+    "reproductionSteps": [
+      "With the Kursor backend running on `http://127.0.0.1:8787`, send cross-origin requests with `Origin: https://evil.attacker.example` and no `Authorization` header to `POST /v2/dictation/gemini-token`, `POST /deepgram/token`, `POST /realtime/token`, `GET /memory`, and `GET /agent/integrations`.",
+      "Run `npx tsx ..\\..\\tests\\audit\\ws-lm\\test-perf-reliability.ts` from `src/backend` and inspect `poc1_corsAndZeroAuthExfiltration` in `docs/audit/evidence/ws-lm/security-pocs.json`."
+    ],
+    "observedResult": "All 5 endpoints return `200 OK` with `Access-Control-Allow-Origin: *` and zero authentication required, leaking the configured `GEMINI_API_KEY`, `DEEPGRAM_API_KEY`, realtime `client_secret.value`, user memory markdown, and all 7 integration descriptors.",
+    "expectedResult": "The localhost backend must reject cross-origin browser requests (`Origin` header present and not an explicitly allowed extension/app origin) and must require a valid local bearer token generated at install/seed time (`kursor-local-dev-anon-key` or session JWT) on all sensitive routes.",
+    "impact": "Complete cross-site data exfiltration and credential theft: any malicious or compromised website opened in the user's browser can steal paid upstream API keys (`GEMINI_API_KEY`, `DEEPGRAM_API_KEY`, `OPENAI_API_KEY`), read/poison user memory, and trigger agent/brain actions.",
+    "remediation": "1) Replace `cors()` in `src/backend/src/index.ts:19` with a strict CORS policy that rejects any request carrying an `Origin` header (or restricts `Origin` to an explicit allowlist) and adds `Vary: Origin`. 2) In `clientHeadersAndAuthMiddleware` (`src/backend/src/middleware/auth.ts:34-88`), require a valid `Authorization: Bearer <token>` or `apikey` header for non-health routes instead of falling back to `DEFAULT_USER_ID` on unauthenticated requests.",
+    "effort": "S",
+    "evidence": [
+      "src/backend/src/index.ts:19-21",
+      "src/backend/src/middleware/auth.ts:34-88",
+      "src/backend/src/routes/voice.ts:34-216",
+      "docs/audit/evidence/ws-lm/security-pocs.json"
+    ]
+  },
+  {
+    "id": "AUD-L-002",
+    "workstream": "WS-L",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unbounded Synchronous `gunzipSync` in `gzipMiddleware` Enables Local/Cross-Origin Decompression Bomb DoS",
+    "component": "Backend HTTP Server / Gzip Decompression Middleware",
+    "location": "src/backend/src/middleware/gzip.ts:12-35",
+    "description": "In `src/backend/src/middleware/gzip.ts:12-35`, whenever a request includes `Content-Encoding: gzip`, `gzipMiddleware` reads the entire request body via `await c.req.raw.arrayBuffer()` without checking `Content-Length` or streaming byte limits, and then calls `gunzipSync(compressedBuffer)` synchronously on the main Node.js event loop thread without passing a `maxOutputLength` option (`zlib.gunzipSync(buf, { maxOutputLength })`). A small 1–5 MB gzip bomb (expanding to multiple gigabytes of zeros) blocks the Node.js event loop and exhausts V8/Buffers memory, crashing the backend process.",
+    "reproductionSteps": [
+      "Inspect `src/backend/src/middleware/gzip.ts:16-20`.",
+      "Observe `const compressedBuffer = Buffer.from(await c.req.raw.arrayBuffer()); const decompressed = gunzipSync(compressedBuffer);` with no input size cap and no `maxOutputLength` parameter.",
+      "See `poc3_gzipMiddleware` in `docs/audit/evidence/ws-lm/security-pocs.json`."
+    ],
+    "observedResult": "`gzipMiddleware` accepts `Content-Encoding: gzip` on all routes (`app.use(\"*\", gzipMiddleware)`) and decompresses synchronously with no `maxOutputLength` or input size limit.",
+    "expectedResult": "`gzipMiddleware` should enforce a strict compressed body size limit (e.g., 10 MB) and pass `{ maxOutputLength: 25 * 1024 * 1024 }` to asynchronous `gunzip` (returning `413 Payload Too Large` when exceeded).",
+    "impact": "Denial of service (event-loop freeze or OOM crash of the backend worker) triggerable by any local process or cross-origin browser page.",
+    "remediation": "Enforce a maximum compressed size check before buffering and pass `{ maxOutputLength: 20 * 1024 * 1024 }` to `zlib.gunzip` (async) inside `src/backend/src/middleware/gzip.ts:16-22`, returning HTTP `413` on `ERR_BUFFER_TOO_LARGE`.",
+    "effort": "XS",
+    "evidence": [
+      "src/backend/src/middleware/gzip.ts:12-35",
+      "docs/audit/evidence/ws-lm/security-pocs.json"
+    ]
+  },
+  {
+    "id": "AUD-L-003",
+    "workstream": "WS-L",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Open Redirect with Session Tokens on `GET /auth/v1/authorize` and Unconditional CSRF State Bypass in `SignInCallbackGuard`",
+    "component": "Authentication Flow (`auth.ts`, `SignInCallbackGuard.cs`, `SupabaseAuthService.cs`)",
+    "location": "src/backend/src/routes/auth.ts:100-126; src/desktop/Kursor.Core/HeyClicky.Core.Auth/SignInCallbackGuard.cs:54-83; src/desktop/Kursor.Core/HeyClicky.Core.Auth/SupabaseAuthService.cs:204-281",
+    "description": "Two complementary flaws exist in the authentication callback chain: 1) In `src/backend/src/routes/auth.ts:100-121`, `GET /auth/v1/authorize` reads `redirect_to` or `redirect_uri` from the query string, parses `new URL(redirectTo)`, and immediately appends `code`, `state`, `access_token`, and `refresh_token` before returning a `302` redirect to that URL without validating the scheme or host (allowing open redirects to `https://evil.attacker.example/...` with tokens in the URL). 2) In `src/desktop/Kursor.Core/HeyClicky.Core.Auth/SignInCallbackGuard.cs:60-65`, `SignInCallbackGuard.Evaluate` checks `if (isLocalSupabaseBackend) { return Verdict.AcceptLocalDevelopment; }` BEFORE checking whether `pendingState` exists (`line 67`) or matches `callbackState` (`line 75`). Because `IsLocalDevelopmentSupabaseUrl` is always `true` when `SupabaseUrl` points to `http://127.0.0.1:8787`, any external webpage that navigates to `heyclicky://auth-callback?access_token=<spoofed>&refresh_token=<spoofed>&referral_code=<code>` bypasses CSRF state validation, overwrites the user's persisted DPAPI auth session (`SupabaseAuthService.cs:223-241`), and triggers `ReferralCodeReceived` (`line 216`).",
+    "reproductionSteps": [
+      "Request `GET http://127.0.0.1:8787/auth/v1/authorize?redirect_to=https%3A%2F%2Fevil.attacker.example%2Fcallback&state=csrf_test` with `redirect: manual`.",
+      "Observe the `302` `Location` header redirecting to `https://evil.attacker.example/callback?code=...&access_token=...&refresh_token=...` (`poc2_openRedirectTokenLeak` in `docs/audit/evidence/ws-lm/security-pocs.json`).",
+      "Inspect `SignInCallbackGuard.cs:60-65` and `SupabaseAuthService.cs:204-242` to verify that `isLocalSupabaseBackend == true` short-circuits all `pendingState`/`callbackState` checks."
+    ],
+    "observedResult": "`GET /auth/v1/authorize` redirects to any external URL with `access_token` and `refresh_token` in query parameters, and `SignInCallbackGuard.Evaluate` returns `AcceptLocalDevelopment` even when `pendingState` is `null` or mismatches `callbackState`.",
+    "expectedResult": "`/auth/v1/authorize` must only allow `heyclicky://` or loopback `http://127.0.0.1` / `http://localhost` redirect URIs, and `SignInCallbackGuard.Evaluate` must only allow `AcceptLocalDevelopment` when `pendingState` is present and matches `callbackState` (or when explicitly invoked by the local seed script).",
+    "impact": "An attacker webpage can either steal local session tokens via `/auth/v1/authorize?redirect_to=https://attacker/...` or force-overwrite the desktop client's auth session and referral code via a crafted `heyclicky://auth-callback?...` link.",
+    "remediation": "1) Restrict `redirect_to` / `redirect_uri` in `src/backend/src/routes/auth.ts:102-121` to `heyclicky:` or loopback (`127.0.0.1` / `localhost`). 2) In `SignInCallbackGuard.cs:60-78`, verify `pendingState` == `callbackState` whenever `pendingState` is non-empty, or require an active sign-in flow before accepting `heyclicky://auth-callback` links.",
+    "effort": "XS",
+    "evidence": [
+      "src/backend/src/routes/auth.ts:100-126",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Auth/SignInCallbackGuard.cs:54-83",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Auth/SupabaseAuthService.cs:204-281",
+      "docs/audit/evidence/ws-lm/security-pocs.json"
+    ]
+  },
+  {
+    "id": "AUD-L-004",
+    "workstream": "WS-L",
+    "severity": "High",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Vendor `HeyClickyApp` Binary Collision on Shared SingleInstance Mutex/MMF, `heyclicky://` Protocol Handler, Native Messaging Host, and Process Check in `start-kursor.ps1`",
+    "component": "Desktop Process Isolation / Launcher (`start-kursor.ps1`, `SingleInstance.cs`, `ProtocolRegistration.cs`, `ClickyBrowserBridge.cs`)",
+    "location": "start-kursor.ps1:113-138; src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:37-44; src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/ProtocolRegistration.cs:11-39; src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:270-298",
+    "description": "Kursor's desktop build (`dist\\kursor-desktop\\HeyClicky.exe`) retains the exact same executable name (`HeyClicky.exe`), single-instance mutex/MMF name (`Local\\HeyClicky-<SID>-primary`), custom URI scheme (`heyclicky://`), Chrome Native Messaging host (`com.heyclicky.browser`), and `%LOCALAPPDATA%\\HeyClicky` data folder as the original vendor installation (`C:\\Users\\ubaid\\AppData\\Local\\HeyClickyApp\\current\\HeyClicky.exe`). On the audit machine, `HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run` contains BOTH `HeyClicky` (`\"C:\\Users\\ubaid\\AppData\\Local\\HeyClickyApp\\current\\HeyClicky.exe\" --launched-at-login`) and `Kursor`. Because `start-kursor.ps1:113` checks `$existingDesktop = Get-Process -Name \"HeyClicky\" -ErrorAction SilentlyContinue` without verifying `$existingDesktop.Path`, when the vendor `HeyClickyApp` process is already running (verified live as PID 20080 from `C:\\Users\\ubaid\\AppData\\Local\\HeyClickyApp\\current\\HeyClicky.exe`), `start-kursor.ps1` skips launching `dist\\kursor-desktop\\HeyClicky.exe` and logs `HeyClicky.exe already running`. Worse, even if `dist\\kursor-desktop\\HeyClicky.exe` is launched manually, `SingleInstance.TryAcquire` sees `Local\\HeyClicky-<SID>-primary-mutex` held by PID 20080, forwards its CLI arguments to the vendor binary over the named pipe (`HeyClicky-<SID>-20080-...`), and exits immediately (`Program.cs:35-38`)! Meanwhile, the running vendor binary overwrites `HKCU\\Software\\Classes\\heyclicky\\shell\\open\\command` and `BrowserHost\\com.heyclicky.browser.json` with its own path and sends Sentry sessions (`sentry\\Sentry\\...\\.session`) and device registration (`https://api.heyclicky.com/`) to the vendor cloud.",
+    "reproductionSteps": [
+      "Inspect `docs/audit/evidence/ws-lm/env-and-surface-inventory.json` and `docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json`.",
+      "Observe that `singleInstanceIpc.ownerPid` is `20080` (`C:\\Users\\ubaid\\AppData\\Local\\HeyClickyApp\\current\\HeyClicky.exe`), `HKCU\\Software\\Classes\\heyclicky\\shell\\open\\command` points to `\"C:\\Users\\ubaid\\AppData\\Local\\HeyClickyApp\\current\\HeyClicky.exe\" \"%1\"`, and `HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run` contains both `HeyClicky` and `Kursor`.",
+      "Inspect `start-kursor.ps1:113-124` to see that `Get-Process -Name \"HeyClicky\"` does not check whether the running process path matches `$DesktopExe` (`dist\\kursor-desktop\\HeyClicky.exe`)."
+    ],
+    "observedResult": "The vendor `HeyClickyApp\\current\\HeyClicky.exe` (PID 20080) holds the `Local\\HeyClicky-<SID>-primary` mutex/MMF, hijacks the `heyclicky://` protocol handler and Chrome native messaging host, blocks `dist\\kursor-desktop\\HeyClicky.exe` from starting, and causes `start-kursor.ps1` to falsely report that Kursor Desktop is running.",
+    "expectedResult": "`start-kursor.ps1` and `install-autostart.ps1` should remove or stop any foreign `HeyClicky.exe` process whose `.Path` does not match `dist\\kursor-desktop\\HeyClicky.exe`, and Kursor should isolate its mutex/MMF or verify executable path ownership on startup.",
+    "impact": "Users who previously installed HeyClicky end up running the cloud-tethered vendor binary instead of the local Kursor desktop build, leaking telemetry/crash data to `heyclicky.com` and bypassing local Kursor modifications.",
+    "remediation": "1) In `start-kursor.ps1:113-125`, filter `Get-Process -Name \"HeyClicky\"` by `.Path`—if any running `HeyClicky` process has `.Path -ne $DesktopExe`, stop that foreign process before launching `$DesktopExe`, and re-run `seed-local-auth.ps1` so the `heyclicky://` registry key points to `$DesktopExe`. 2) In `scripts/install-autostart.ps1`, remove any legacy `HKCU\\...\\Run\\HeyClicky` value pointing to `HeyClickyApp`.",
+    "effort": "S",
+    "evidence": [
+      "start-kursor.ps1:113-138",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:37-44",
+      "docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+      "docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json"
+    ]
+  },
+  {
+    "id": "AUD-L-005",
+    "workstream": "WS-L",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`seed-local-auth.ps1` Writes PascalCase `endpoints.json` Ignored by Case-Sensitive `AppBundleConfiguration.ReadConfigured` and Leaves Redundant Plaintext `session.json` on Disk",
+    "component": "Local Auth & Endpoint Seeding (`seed-local-auth.ps1`, `AppBundleConfiguration.cs`, `AuthTokenStore.cs`)",
+    "location": "scripts/seed-local-auth.ps1:54-75; src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:73-91, 147-159; src/desktop/Kursor.Core/HeyClicky.Core.Auth/AuthTokenStore.cs:20-85",
+    "description": "In `scripts/seed-local-auth.ps1:70-75`, the script writes `%LOCALAPPDATA%\\HeyClicky\\endpoints.json` with PascalCase keys (`WorkerBaseUrl`, `SupabaseUrl`, `SupabaseAnonKey`). However, in `src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:78-80, 147-159`, `ReadConfigured(string configPath)` parses the JSON using `JsonDocument.Parse` and calls case-sensitive `rootElement.TryGetProperty(\"workerBaseUrl\", ...)`, `TryGetProperty(\"supabaseUrl\", ...)`, and `TryGetProperty(\"supabaseAnonKey\", ...)` (`camelCase`). As a result, all 3 properties in `endpoints.json` evaluate to `null` and `endpoints.json` is completely ignored (only falling back to `AssemblyMetadataAttribute` defaults compiled into `HeyClicky.dll`). Furthermore, `seed-local-auth.ps1:54-68` writes plaintext tokens (`access_token`, `refresh_token`) to `%LOCALAPPDATA%\\HeyClicky\\session.json`, which `AuthTokenStore.cs` never reads (it only reads DPAPI-encrypted `auth.localdev.bin` and `auth.bin`).",
+    "reproductionSteps": [
+      "Inspect `scripts/seed-local-auth.ps1:54-75` and `%LOCALAPPDATA%\\HeyClicky\\endpoints.json`.",
+      "Compare the PascalCase keys (`WorkerBaseUrl`, `SupabaseUrl`, `SupabaseAnonKey`) with `AppBundleConfiguration.ReadConfigured` (`AppBundleConfiguration.cs:78-80, 147-159`), which queries `workerBaseUrl`, `supabaseUrl`, and `supabaseAnonKey` via case-sensitive `JsonElement.TryGetProperty`.",
+      "Inspect `AuthTokenStore.cs:20-85` to verify that `session.json` is never read by the desktop client."
+    ],
+    "observedResult": "`AppBundleConfiguration.ReadConfigured` returns `null` for all 3 keys in `endpoints.json`, and `%LOCALAPPDATA%\\HeyClicky\\session.json` stores unencrypted bearer tokens on disk with no consumer.",
+    "expectedResult": "`seed-local-auth.ps1` should write `camelCase` keys (`workerBaseUrl`, `supabaseUrl`, `supabaseAnonKey`) to `endpoints.json` (or `AppBundleConfiguration.ReadString` should check both camelCase and PascalCase), and `seed-local-auth.ps1` should not leave an unused plaintext `session.json` file alongside DPAPI `auth.localdev.bin` / `auth.bin`.",
+    "impact": "Custom backend URL overrides in `endpoints.json` silently fail to take effect, and plaintext session tokens are unnecessarily written to `%LOCALAPPDATA%\\HeyClicky\\session.json`.",
+    "remediation": "Update `scripts/seed-local-auth.ps1:70-75` to write `workerBaseUrl`, `supabaseUrl`, and `supabaseAnonKey` in `camelCase` (matching `AppBundleConfiguration.cs:78-80`), remove the plaintext `session.json` write at `seed-local-auth.ps1:54-68`, and make `AppBundleConfiguration.ReadString` fall back to PascalCase property lookup.",
+    "effort": "XS",
+    "evidence": [
+      "scripts/seed-local-auth.ps1:54-75",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Configuration/AppBundleConfiguration.cs:73-91, 147-159",
+      "docs/audit/evidence/ws-lm/privacy-data-inventory.json"
+    ]
+  },
+  {
+    "id": "AUD-L-006",
+    "workstream": "WS-L",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unstripped Base64 Screenshots Persisted in SQLite `threads.messages_json`, Plaintext Dictation & BrowserBridge Token Files on Disk, and Residual Vendor Telemetry Keys",
+    "component": "Data & Privacy Persistence (`brain.ts`, `DictationTranscriptArchive.cs`, `ClickyBrowserBridge.cs`, `AssemblyInfo.cs`, `CrashReporting.cs`)",
+    "location": "src/backend/src/routes/brain.ts:171-186, 980, 1128; src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:925-985; src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationTranscriptArchive.cs:15-69; src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:256-267; src/desktop/Kursor.App/Properties/AssemblyInfo.cs:15-17; src/desktop/Kursor.App/HeyClicky.App.Telemetry/CrashReporting.cs:235-265",
+    "description": "A full data-at-rest and data-in-transit inventory revealed four privacy/data-handling gaps: 1) While the desktop client (`BrainSession.cs:931`) explicitly calls `WithoutScreenshots(thread)` to strip base64 JPEGs before writing `%LOCALAPPDATA%\\HeyClicky\\OneBrain\\<userId>\\threads\\<id>.json`, the backend's `ensureSessionAndThread` (`src/backend/src/routes/brain.ts:171-186`, called at lines `980` and `1128`) serializes the entire `incomingThread` array—including any `input_image` `data:image/jpeg;base64,...` blocks in the thread history—directly into SQLite `threads.messages_json` without stripping image payloads. 2) `DictationTranscriptArchive.AppendAsync` (`DictationTranscriptArchive.cs:23-49`) appends every dictated sentence and active application name in plaintext JSONL to `%LOCALAPPDATA%\\HeyClicky\\DictationTranscripts\\YYYY-MM-DD.jsonl` for 14 days (4 files / 8 utterances found on disk). 3) `ClickyBrowserBridge.WriteConnectionFile` (`ClickyBrowserBridge.cs:256-267`) writes the loopback MCP bearer token in plaintext to `%LOCALAPPDATA%\\HeyClicky\\BrowserBridge\\connection.json` (verified live on port 51635: any local process reading `connection.json` can invoke `tools/list` and control the user's Chrome tabs). 4) `Properties/AssemblyInfo.cs:15-17` still compiles in the vendor's production `HeyClicky.PostHogApiKey`, `HeyClicky.SentryDsn`, and `HeyClicky.UpdateFeedUrl`, and `CrashReporting.cs:242` sets `SendDefaultPii = true` whenever the Sentry DSN is active.",
+    "reproductionSteps": [
+      "Send a `/brain/turn` request containing an `input_image` block (`data:image/jpeg;base64,...`) in `thread` and query `SELECT length(messages_json), messages_json FROM threads WHERE id = ?` in `src/backend/data/kursor.db` (`poc4_sqliteBase64ScreenshotPersistence` in `docs/audit/evidence/ws-lm/security-pocs.json`).",
+      "Inspect `docs/audit/evidence/ws-lm/privacy-data-inventory.json` and `docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json`."
+    ],
+    "observedResult": "A 50,447-char base64 JPEG sent in `thread` is stored verbatim in SQLite `threads.messages_json` (50,605 bytes); plaintext dictation transcripts exist in `DictationTranscripts\\*.jsonl`; and reading `BrowserBridge\\connection.json` grants full access (`200 OK`) to the loopback Chrome MCP server on port 51635.",
+    "expectedResult": "`ensureSessionAndThread` in `brain.ts` should strip `input_image` / base64 data URLs before persisting `threads.messages_json` (matching `BrainSession.WithoutScreenshots`); `BrowserBridge\\connection.json` or `DictationTranscripts` should be protected or opt-in; and vendor PostHog/Sentry keys in `AssemblyInfo.cs` should be blanked out.",
+    "impact": "Full-screen base64 screenshots and voice dictation transcripts accumulate unencrypted on disk, and any local process can read `BrowserBridge\\connection.json` to drive the user's browser via MCP tools.",
+    "remediation": "1) Add a `stripImagesFromThread(thread)` helper in `src/backend/src/routes/brain.ts:171-186` before writing `messages_json` to SQLite. 2) Blank out `HeyClicky.PostHogApiKey`, `HeyClicky.SentryDsn`, and `HeyClicky.UpdateFeedUrl` in `src/desktop/Kursor.App/Properties/AssemblyInfo.cs:15-17`. 3) DPAPI-encrypt or remove `BrowserBridge\\connection.json` (pass the MCP token only over the Chrome Native Messaging stdio pipe).",
+    "effort": "S",
+    "evidence": [
+      "src/backend/src/routes/brain.ts:171-186, 980, 1128",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationTranscriptArchive.cs:15-69",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:256-267",
+      "src/desktop/Kursor.App/Properties/AssemblyInfo.cs:15-17",
+      "docs/audit/evidence/ws-lm/security-pocs.json",
+      "docs/audit/evidence/ws-lm/privacy-data-inventory.json",
+      "docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json"
+    ]
+  },
+  {
+    "id": "AUD-L-007",
+    "workstream": "WS-L",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unsigned Rebuilt Managed Assemblies (`HeyClicky*.dll`) Loaded by Signed `HeyClicky.exe` Apphost and Unfiltered `SingleInstance` IPC Argument Forwarding",
+    "component": "Desktop Binary Integrity & SingleInstance IPC (`dist/kursor-desktop/`, `SingleInstance.cs`, `Program.cs`)",
+    "location": "dist/kursor-desktop/HeyClicky.exe; dist/kursor-desktop/HeyClicky.dll; src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:213-229, 368-408; src/desktop/Kursor.App/HeyClicky.App/Program.cs:28-46, 179-196",
+    "description": "In `dist/kursor-desktop/`, the native .NET apphost `HeyClicky.exe` retains the original vendor's `Valid` Authenticode signature, whereas all 7 rebuilt managed assemblies (`HeyClicky.dll`, `HeyClicky.Core.dll`, `HeyClicky.Platform.dll`, `HeyClicky.Agents.dll`, `HeyClicky.Drawing.dll`, `HeyClicky.Drawing3D.dll`, `HeyClicky.Contracts.dll`) are `NotSigned`. Additionally, in `SingleInstance.cs:213-229`, `MemoryMappedFile.CreateOrOpen` and `NamedPipeServerStream` are created with default security descriptors (`writableByAnySameUserProcess: true` verified in `ipc-and-protocol-checks.json`), and `ReadActivationPayloadAsync` (`lines 368-408`) accepts up to 1 MB of arbitrary strings over the named pipe and passes them directly to `OnSecondaryArguments` (`Program.cs:179-196`) without filtering non-URI arguments.",
+    "reproductionSteps": [
+      "Run `Get-AuthenticodeSignature` on `dist\\kursor-desktop\\HeyClicky.exe` and `dist\\kursor-desktop\\HeyClicky*.dll` (`authenticode` in `docs/audit/evidence/ws-lm/env-and-surface-inventory.json`).",
+      "Inspect `docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json` (`writableByAnySameUserProcess: true`) and `SingleInstance.cs:213-229, 368-408`."
+    ],
+    "observedResult": "`HeyClicky.exe` is `Valid` Authenticode-signed while all 7 `HeyClicky*.dll` assemblies are `NotSigned`; the `Local\\HeyClicky-<SID>-primary` MMF is writable by any process running under the current user SID.",
+    "expectedResult": "Self-hosted builds should either sign all rebuilt assemblies with a consistent local/org code-signing certificate or strip the mismatched vendor signature from `HeyClicky.exe`, and `SingleInstance` should restrict pipe/MMF ACLs to `CurrentUser` (`PipeSecurity`) and cap/validate forwarded arguments.",
+    "impact": "Mixed vendor-signed `.exe` + unsigned `.dll` binaries can trigger Windows Defender SmartScreen/WDAC trust warnings, and any same-user process can overwrite the 4096-byte MMF pipe pointer to intercept secondary activations.",
+    "remediation": "Configure explicit `PipeSecurity` / `MemoryMappedFileSecurity` scoped to the current user SID in `SingleInstance.cs:213-229`, reduce `MaxPayloadBytes` from 1 MB to 8 KB, and optionally sign `dist/kursor-desktop/*.dll` with a local development certificate in `setup-kursor.ps1`.",
+    "effort": "S",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/SingleInstance.cs:213-229, 368-408",
+      "docs/audit/evidence/ws-lm/env-and-surface-inventory.json",
+      "docs/audit/evidence/ws-lm/ipc-and-protocol-checks.json"
+    ]
+  },
+  {
+    "id": "AUD-M-001",
+    "workstream": "WS-M",
+    "severity": "Critical",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`/brain/turn` Client SSE Disconnect Throws Unhandled `ERR_INVALID_STATE: Controller is already closed` Crashing the Backend Process, and `force_local_fallback` Still Awaits Upstream LLM",
+    "component": "Backend `/brain/turn` SSE Pipeline (`src/backend/src/routes/brain.ts`)",
+    "location": "src/backend/src/routes/brain.ts:984-1161",
+    "description": "In `src/backend/src/routes/brain.ts`, the `/brain/turn` SSE stream handler has two reliability and performance bugs: 1) At lines `1021-1045`, `const upstream = await tryCallUpstreamLlm({...})` is called unconditionally BEFORE checking `if (upstream && !body.force_local_fallback)` at line `1045`. When a caller passes `force_local_fallback: true` (and an upstream API key is present in `.env`), the backend still makes a full 1.2–2.5 second network call to Groq/OpenRouter/OpenAI/Gemini, waits for it to finish, and then throws the result away to run `buildHeuristicTurnResponse`! 2) `tryCallUpstreamLlm` (`lines 586-930`) never receives `c.req.raw.signal`. When a desktop client aborts an in-flight `/brain/turn` SSE stream (`AbortController.abort()`), the backend keeps executing the upstream LLM request and subsequent `sleep(12)` chunk loop, and calling `controller.enqueue(...)` / `controller.close()` on the disconnected stream throws `ERR_INVALID_STATE: Controller is already closed` inside `catch` and `finally` (`lines 1149-1158`).",
+    "reproductionSteps": [
+      "Inspect `src/backend/src/routes/brain.ts:1021-1045` and `1145-1158`.",
+      "Compare `/brain/turn` latency on `:8787` with `force_local_fallback: true` (~1,300–2,000 ms because it still calls Groq) vs pure local fallback on `:18787` (~1.5–3 ms) in `docs/audit/ws-lm/PERF_DATA.json`.",
+      "Abort a `/brain/turn` SSE stream after receiving the first `meta` event and observe the backend continuing execution."
+    ],
+    "observedResult": "`force_local_fallback: true` incurs full upstream LLM latency (~1.5s) and consumes upstream LLM quota before discarding the response; mid-stream client disconnects do not cancel upstream `fetch` calls.",
+    "expectedResult": "`tryCallUpstreamLlm` should only be invoked when `!body.force_local_fallback`, `c.req.raw.signal` should be forwarded to upstream `fetch` calls and checked before `enqueue`, and `controller.enqueue`/`controller.close` should be guarded against closed streams.",
+    "impact": "Wasted upstream LLM tokens and 500x slower fallback latency whenever `force_local_fallback: true` is used, plus wasted CPU/network and unhandled controller exceptions on client SSE disconnects.",
+    "remediation": "1) Change `src/backend/src/routes/brain.ts:1021` to `const upstream = body.force_local_fallback ? null : await tryCallUpstreamLlm({...}, c.req.raw.signal);`. 2) Pass `c.req.raw.signal` into `tryCallUpstreamLlm`'s `fetch` calls and wrap `controller.enqueue` / `controller.close` in a helper that checks `!c.req.raw.signal.aborted` and catches `ERR_INVALID_STATE`.",
+    "effort": "XS",
+    "evidence": [
+      "src/backend/src/routes/brain.ts:984-1161",
+      "docs/audit/ws-lm/PERF_DATA.json",
+      "docs/audit/evidence/ws-lm/soak-and-recovery-log.json"
+    ]
+  },
+  {
+    "id": "AUD-M-002",
+    "workstream": "WS-M",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Unbounded SQLite `sessions`/`threads` Table & WAL Growth and Unbounded In-Memory State Maps in `agents.ts`",
+    "component": "Backend Persistence & Memory Management (`src/backend/src/db/index.ts`, `src/backend/src/routes/brain.ts`, `src/backend/src/routes/agents.ts`)",
+    "location": "src/backend/src/db/index.ts:15-120; src/backend/src/routes/brain.ts:150-188; src/backend/src/routes/agents.ts:83-84, 360-534, 972",
+    "description": "1) In `src/backend/src/routes/brain.ts:150-188`, `ensureSessionAndThread` inserts/updates rows in `sessions` and `threads` on every `/brain/turn` request with no row retention policy, no payload pruning, and no periodic `PRAGMA wal_checkpoint(TRUNCATE)`. On the live instance, `src/backend/data/kursor.db` (4.22 MB) + `kursor.db-wal` (5.84 MB) already consume 10.06 MB for just 39 sessions / 14 threads, and during our 215-turn soak test (`soak-and-recovery-log.json`), `bench-soak.db` + `-wal` grew linearly with every turn and screenshot. 2) In `src/backend/src/routes/agents.ts`, `proactiveJobs` (`line 83`), `proactiveCardStatuses` (`line 84`), `turnLeases` (`line 534`), and `calendarEvents` (`line 972`) are module-scoped in-memory `Map`s/arrays with no TTL eviction or maximum entry cap, growing monotonically over long-running backend sessions.",
+    "reproductionSteps": [
+      "Inspect `docs/audit/evidence/ws-lm/privacy-data-inventory.json` (`dbFileBytes: 4222976`, `walFileBytes: 5838072`) and `docs/audit/evidence/ws-lm/soak-and-recovery-log.json`.",
+      "Inspect `src/backend/src/routes/agents.ts:83-84, 534, 972` to verify that `proactiveJobs`, `proactiveCardStatuses`, `turnLeases`, and `calendarEvents` never evict old entries."
+    ],
+    "observedResult": "SQLite `.db` + `-wal` files and in-memory maps in `agents.ts` grow without bound across sustained usage.",
+    "expectedResult": "The backend should prune old `sessions`/`threads`/`client_errors` rows (e.g., keep latest 200 sessions or 30 days), strip base64 images from `threads.messages_json`, run periodic `PRAGMA wal_checkpoint(TRUNCATE)`, and bound in-memory maps in `agents.ts` with an LRU/TTL cap.",
+    "impact": "Gradual disk bloat in `src/backend/data/kursor.db*` and steady heap growth in `node.exe` during multi-day desktop sessions.",
+    "remediation": "Add a startup + hourly maintenance timer in `src/backend/src/db/index.ts` that prunes `threads`/`sessions` older than 30 days (or beyond 500 rows) and runs `PRAGMA wal_checkpoint(TRUNCATE)`, and cap `proactiveJobs` and `turnLeases` in `src/backend/src/routes/agents.ts` to 500 entries with FIFO eviction.",
+    "effort": "S",
+    "evidence": [
+      "src/backend/src/db/index.ts:15-120",
+      "src/backend/src/routes/brain.ts:150-188",
+      "src/backend/src/routes/agents.ts:83-84, 534, 972",
+      "docs/audit/evidence/ws-lm/privacy-data-inventory.json",
+      "docs/audit/evidence/ws-lm/soak-and-recovery-log.json"
+    ]
+  },
+  {
+    "id": "AUD-M-003",
+    "workstream": "WS-M",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Dual Autostart Registration in `install-autostart.ps1` (`HKCU\\...\\Run\\Kursor` + `Startup\\Kursor.lnk`) Triggers Concurrent Login Startup Race",
+    "component": "Autostart & Process Lifecycle (`scripts/install-autostart.ps1`, `scripts/start-kursor-hidden.vbs`, `start-kursor.ps1`)",
+    "location": "scripts/install-autostart.ps1:20-38; scripts/start-kursor-hidden.vbs:1-21; start-kursor.ps1:42-138",
+    "description": "In `scripts/install-autostart.ps1`, lines `20-26` register `HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run` value `Kursor` = `wscript.exe //B //Nologo \"C:\\dev\\heyclicky-clone\\scripts\\start-kursor-hidden.vbs\"`, and lines `28-38` ALSO create a shortcut `%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Kursor.lnk` pointing to the exact same `wscript.exe //B //Nologo \"...\\start-kursor-hidden.vbs\"` command! At Windows login, Explorer executes both `HKCU\\...\\Run` and the `Startup` folder concurrently, spawning two simultaneous instances of `start-kursor.ps1` with no cross-process lock. Both instances simultaneously run `seed-local-auth.ps1` (racing on DPAPI file writes to `auth.localdev.bin` / `auth.bin`), both check `/health` before either backend has bound port `8787`, and both spawn `node.exe` (`npx tsx src/index.ts`) and `HeyClicky.exe` at the same time.",
+    "reproductionSteps": [
+      "Inspect `scripts/install-autostart.ps1:20-38` and `docs/audit/evidence/ws-lm/env-and-surface-inventory.json` (`runRegistryCurrentUser.Kursor` and `startupShortcut.exists = true`).",
+      "Observe that both mechanisms invoke `wscript.exe //B //Nologo \"C:\\dev\\heyclicky-clone\\scripts\\start-kursor-hidden.vbs\"` at user logon without a mutex in `start-kursor.ps1`."
+    ],
+    "observedResult": "Both `HKCU\\...\\Run\\Kursor` and `Startup\\Kursor.lnk` are active simultaneously on disk/registry, causing duplicate concurrent executions of `start-kursor.ps1` on Windows login.",
+    "expectedResult": "`install-autostart.ps1` should register a single autostart entry (`HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Kursor`), remove any redundant `Startup\\Kursor.lnk` (and legacy `HKCU\\...\\Run\\HeyClicky`), and `start-kursor.ps1` should acquire a named mutex (`Global\\KursorLauncherMutex`) during startup.",
+    "impact": "Login race condition causing duplicate `node.exe` spawns, port `8787` `EADDRINUSE` failures in `.backend.err.log`, and concurrent writes to `%LOCALAPPDATA%\\HeyClicky\\auth*.bin`.",
+    "remediation": "Remove the redundant `Startup\\Kursor.lnk` creation from `scripts/install-autostart.ps1:28-38` (keep only `HKCU\\...\\Run\\Kursor`) and acquire a system mutex at the top of `start-kursor.ps1`.",
+    "effort": "XS",
+    "evidence": [
+      "scripts/install-autostart.ps1:20-38",
+      "scripts/start-kursor-hidden.vbs:1-21",
+      "start-kursor.ps1:42-138",
+      "docs/audit/evidence/ws-lm/env-and-surface-inventory.json"
+    ]
+  },
+  {
+    "id": "AUD-M-004",
+    "workstream": "WS-M",
+    "severity": "Medium",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "Hardcoded Machine-Specific Paths (`C:\\Users\\ubaid\\...` and `C:\\Users\\niles\\...`), Missing `CodexRuntime\\codex.exe`, and `dotenv.config({ override: true })` Env Override",
+    "component": "Backend Configuration & Agent Harness Runtime (`worker.ts`, `index.ts`, `AgentHarnessRunnerProcess.cs`)",
+    "location": "src/backend/src/routes/worker.ts:7-8; src/backend/src/index.ts:1-2; src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:75",
+    "description": "Three portability and reliability defects affect startup and fallback paths: 1) `src/backend/src/routes/worker.ts:7-8` hardcodes `const LOCAL_APP_CONFIG_PATH = \"C:\\\\Users\\\\ubaid\\\\AppData\\\\Local\\\\HeyClicky\\\\app-config.json\";` instead of deriving the path from `process.env.LOCALAPPDATA`. 2) `src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:75` hardcodes `\"C:\\\\Users\\\\niles\\\\code\\\\clicky-closed\\\\windows\\\\src\\\\HeyClicky.Agents\\\\Harness\\\\AgentHarnessRunnerRuntime.cs\"` as its fallback repository path, and `dist/kursor-desktop/` does not ship `CodexRuntime\\codex.exe` (`codexRuntimeExists: false` in `env-and-surface-inventory.json`), causing local Codex agent sessions (`CodexSession.ResolveBundledCodexExecutablePath`) to fail when launched. 3) `src/backend/src/index.ts:2` calls `dotenv.config({ override: true })`, which overwrites `process.env.PORT`, `process.env.DATABASE_PATH`, and API key environment variables passed by parent processes whenever `src/backend/.env` exists in the working directory.",
+    "reproductionSteps": [
+      "Inspect `src/backend/src/routes/worker.ts:7-8`, `src/backend/src/index.ts:1-2`, and `src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:75`.",
+      "Check `distFiles.codexRuntimeExists` in `docs/audit/evidence/ws-lm/env-and-surface-inventory.json` (`false`)."
+    ],
+    "observedResult": "`worker.ts:7-8` and `AgentHarnessRunnerProcess.cs:75` contain hardcoded user profile paths (`C:\\Users\\ubaid\\...` and `C:\\Users\\niles\\...`); `dist/kursor-desktop/CodexRuntime/codex.exe` is missing; and `dotenv.config({ override: true })` overrides caller-supplied environment variables.",
+    "expectedResult": "`worker.ts` should use `path.join(process.env.LOCALAPPDATA || \"\", \"HeyClicky\", \"app-config.json\")`; `index.ts` should use `dotenv.config()` without `{ override: true }`; and `AgentHarnessRunnerProcess.cs` should resolve paths relative to `AppContext.BaseDirectory`.",
+    "impact": "Running Kursor under any Windows user account other than `ubaid` breaks `LOCAL_APP_CONFIG_PATH`, caller-supplied `PORT`/`DATABASE_PATH` env vars are ignored when `.env` is present, and local Codex CLI harness execution fails due to missing `CodexRuntime\\codex.exe`.",
+    "remediation": "1) Replace the hardcoded path in `src/backend/src/routes/worker.ts:7-8` with `path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), \"AppData\", \"Local\"), \"HeyClicky\", \"app-config.json\")`. 2) Change `dotenv.config({ override: true })` to `dotenv.config()` in `src/backend/src/index.ts:2`. 3) Remove the hardcoded `C:\\Users\\niles\\...` path in `AgentHarnessRunnerProcess.cs:75`.",
+    "effort": "XS",
+    "evidence": [
+      "src/backend/src/routes/worker.ts:7-8",
+      "src/backend/src/index.ts:1-2",
+      "src/desktop/Kursor.Agents/HeyClicky.Agents.Harness/AgentHarnessRunnerProcess.cs:75",
+      "docs/audit/evidence/ws-lm/env-and-surface-inventory.json"
+    ]
+  }
+]

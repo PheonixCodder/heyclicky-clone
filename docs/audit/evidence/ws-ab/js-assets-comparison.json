@@ -1,0 +1,478 @@
+﻿[
+    {
+        "Location":  "src/Kursor.Drawing/Assets/Engine",
+        "RelName":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Location":  "src/Kursor.Drawing/Assets/Engine",
+        "RelName":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Location":  "src/Kursor.Drawing/Assets/Engine",
+        "RelName":  "clicky-draw-pieces.js",
+        "Length":  66985,
+        "LastWriteTimeUtc":  "2026-11-12T10:39:04.5756251Z",
+        "SHA256":  "EAAC7283CC5EF188B688560E84DE280B1728BB4806838682C6BFFC2554395C95"
+    },
+    {
+        "Location":  "src/Kursor.Drawing/Assets/Engine",
+        "RelName":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Location":  "src/Kursor.Drawing/Assets/Engine",
+        "RelName":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Location":  "src/Kursor.Drawing3D/Assets/Engine",
+        "RelName":  "\u003cDIR_MISSING\u003e",
+        "Length":  0,
+        "LastWriteTimeUtc":  null,
+        "SHA256":  "DIR_MISSING"
+    },
+    {
+        "Location":  "dist/Assets/Engine",
+        "RelName":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Location":  "dist/Assets/Engine",
+        "RelName":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Location":  "dist/Assets/Engine",
+        "RelName":  "clicky-draw-pieces.js",
+        "Length":  66985,
+        "LastWriteTimeUtc":  "2026-11-12T10:39:04.5756251Z",
+        "SHA256":  "EAAC7283CC5EF188B688560E84DE280B1728BB4806838682C6BFFC2554395C95"
+    },
+    {
+        "Location":  "dist/Assets/Engine",
+        "RelName":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Location":  "dist/Assets/Engine",
+        "RelName":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "clicky-model-instructions.md",
+        "Length":  6104,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8789771Z",
+        "SHA256":  "33365DE06D78650529E2642ED18968D936EC075D8E47AB7F14B8C5BAEC0E6685"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\clickup\\SKILL.md",
+        "Length":  3100,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8857212Z",
+        "SHA256":  "F6A40035A43455A781A7BB3A512FC35A962D75B7FC43D186998EA562605119F6"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\dropbox\\SKILL.md",
+        "Length":  3129,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8887245Z",
+        "SHA256":  "1EB95369E997F07A21452690DD652E02AD62BB8F53CD687B5F24C89B0D38BADF"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\gmail\\SKILL.md",
+        "Length":  3201,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8927833Z",
+        "SHA256":  "B11A62EE4F7B7247C7344309B75E855283444D8B7E33E28DF65B35C2911E2449"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\googledocs\\SKILL.md",
+        "Length":  2188,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8977841Z",
+        "SHA256":  "5AEA97069B4754E31AF8EFA18F16568664FE4F859568A76BDA82DBB68FCCEE7A"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\googletasks\\SKILL.md",
+        "Length":  2866,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9027792Z",
+        "SHA256":  "AF695F2CC7088C3E261A46FEB845CB9F8B16B7B783668E7618876108A6C05884"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\hubspot\\SKILL.md",
+        "Length":  3214,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9070194Z",
+        "SHA256":  "CD2C534AACC5FCD3A8A16FD9FE73935B4E9D900DF545CB8B06C1BB7E6C25FC9B"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\jira\\SKILL.md",
+        "Length":  3238,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9105361Z",
+        "SHA256":  "1CC50DC43DDEBE393F53100F285700CE277102786F17A7AC5F875DF9F68B3343"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\linear\\SKILL.md",
+        "Length":  1910,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9131541Z",
+        "SHA256":  "5F0FDF80315C494B5CF01A277ECC1B59D9E4B55AA88585819D3A09108449B52B"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\microsoft_teams\\SKILL.md",
+        "Length":  3225,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9171528Z",
+        "SHA256":  "66E10C87E23FB253816E2709FD3AFB34FF1A286C0800AB85562F1692CE02CFA0"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\outlook\\SKILL.md",
+        "Length":  3615,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9211710Z",
+        "SHA256":  "E16CF2387795C5E1CB55E170002E7C767FE117D81BB23AE52DD967A94D7CF4A9"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "integration-skills\\salesforce\\SKILL.md",
+        "Length":  3263,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9291810Z",
+        "SHA256":  "FD4586D9AD350964BD64255FBD6DE1DB4124AA06EAE717100938756E06A3BB7B"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\SKILL.md",
+        "Length":  7253,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9570346Z",
+        "SHA256":  "955FDF6B18624DBE4F39816C8D5596F629DD90845519D95D143121B6574C5B42"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\batching.md",
+        "Length":  3019,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9363658Z",
+        "SHA256":  "F9FCDF3065A1EBAD347FD71EFCA1E89EF9A9FCC9012760961827766A5B81ECBA"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\confirmations.md",
+        "Length":  3376,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9383666Z",
+        "SHA256":  "208167A6DEA98C4F34003FABE05A93BC18503C5482F48E18AEC6C845C2022C82"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\files.md",
+        "Length":  2081,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9419413Z",
+        "SHA256":  "CF6A920CCE94D8FAC231E007BF2B63679E0817D34930906C56746306248E00DB"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\safety.md",
+        "Length":  1627,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9439730Z",
+        "SHA256":  "75183B2A229DBAC8D2DD0B03DE1413669018074FF7626E9DAF512D07BA05FC3F"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\tabs.md",
+        "Length":  3032,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9469821Z",
+        "SHA256":  "D0D2D5A1F93F0BA99285B4A2C895AF272021081D0B0DF60BC0233DE0EB2CC259"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\troubleshooting.md",
+        "Length":  8238,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9550294Z",
+        "SHA256":  "EAD10572783D4486107A814C011B1CC03BEC56164A50AEE02D09C345D6050490"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\ATTRIBUTION.md",
+        "Length":  164,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9687016Z",
+        "SHA256":  "CE56A13FE055F6627643F8A91FF74532AFFEF87B6DFBA02F83521148ED4FFFF9"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\LICENSE.txt",
+        "Length":  1084,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9712416Z",
+        "SHA256":  "879778C7455042A271FFEB2C3E048D26EB5F27F7C1C094AE917002FD56754AC6"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\SKILL.md",
+        "Length":  2730,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9790628Z",
+        "SHA256":  "AFAC6B5B71952AF08F8DCD19C01EC1D80A040240CC50929E3ADD8200B3FCD459"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\agents\\openai.yaml",
+        "Length":  312,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9621153Z",
+        "SHA256":  "056E5EDDFDD9B9B506B8175C902745A715CCADA6FCB8409AF1AAD9E868DE40A1"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\assets\\vercel-small.svg",
+        "Length":  248,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9647975Z",
+        "SHA256":  "9A4A9DF1BF8BAB7378DB306AFF8C2B77067789FC093CC36E37A9EAD242A0D0B2"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\assets\\vercel.png",
+        "Length":  788,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9668062Z",
+        "SHA256":  "AB37FFB06BDB1AB6D076C26329E8677D057BA95D66F7E2C710221345FF6E2043"
+    },
+    {
+        "Location":  "dist/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\scripts\\deploy.sh",
+        "Length":  9178,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9764249Z",
+        "SHA256":  "A9B7A28CE86797F62FADCE490156722025BEDD4E9165D7690B6E82619FAE5690"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/Assets/Engine",
+        "RelName":  "clicky-draw-engine.js",
+        "Length":  259913,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.8447410Z",
+        "SHA256":  "E77A304A415C4F3280AC2BC960CC50DDAE1A18249F8E71CBF0DE9F1C0203F158"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/Assets/Engine",
+        "RelName":  "clicky-draw-native.js",
+        "Length":  50405,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9159166Z",
+        "SHA256":  "B4FF7291C6BA66C511DDC4994666F5DE33D0C635E0847F9C6715B782E7140A92"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/Assets/Engine",
+        "RelName":  "clicky-draw-pieces.js",
+        "Length":  66086,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:03.9943865Z",
+        "SHA256":  "670CDB78756B770618A75528EF527BCBDA1B37C681E5EAF83A20E6BF029CDE50"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/Assets/Engine",
+        "RelName":  "clicky-three-parts.js",
+        "Length":  41390,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0208678Z",
+        "SHA256":  "BABE7655986F4D10233335BD6B785FB991DC8C061EDB83F07E41C1A8D83C29DE"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/Assets/Engine",
+        "RelName":  "clicky-three.js",
+        "Length":  429525,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:04.0633603Z",
+        "SHA256":  "514DDBEC9E3BCE59CF131C6EF90F1345D125E6C686E3D3875DC515BE1160E17E"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "clicky-model-instructions.md",
+        "Length":  6104,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8789771Z",
+        "SHA256":  "33365DE06D78650529E2642ED18968D936EC075D8E47AB7F14B8C5BAEC0E6685"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\clickup\\SKILL.md",
+        "Length":  3100,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8857212Z",
+        "SHA256":  "F6A40035A43455A781A7BB3A512FC35A962D75B7FC43D186998EA562605119F6"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\dropbox\\SKILL.md",
+        "Length":  3129,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8887245Z",
+        "SHA256":  "1EB95369E997F07A21452690DD652E02AD62BB8F53CD687B5F24C89B0D38BADF"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\gmail\\SKILL.md",
+        "Length":  3201,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8927833Z",
+        "SHA256":  "B11A62EE4F7B7247C7344309B75E855283444D8B7E33E28DF65B35C2911E2449"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\googledocs\\SKILL.md",
+        "Length":  2188,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.8977841Z",
+        "SHA256":  "5AEA97069B4754E31AF8EFA18F16568664FE4F859568A76BDA82DBB68FCCEE7A"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\googletasks\\SKILL.md",
+        "Length":  2866,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9027792Z",
+        "SHA256":  "AF695F2CC7088C3E261A46FEB845CB9F8B16B7B783668E7618876108A6C05884"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\hubspot\\SKILL.md",
+        "Length":  3214,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9070194Z",
+        "SHA256":  "CD2C534AACC5FCD3A8A16FD9FE73935B4E9D900DF545CB8B06C1BB7E6C25FC9B"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\jira\\SKILL.md",
+        "Length":  3238,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9105361Z",
+        "SHA256":  "1CC50DC43DDEBE393F53100F285700CE277102786F17A7AC5F875DF9F68B3343"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\linear\\SKILL.md",
+        "Length":  1910,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9131541Z",
+        "SHA256":  "5F0FDF80315C494B5CF01A277ECC1B59D9E4B55AA88585819D3A09108449B52B"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\microsoft_teams\\SKILL.md",
+        "Length":  3225,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9171528Z",
+        "SHA256":  "66E10C87E23FB253816E2709FD3AFB34FF1A286C0800AB85562F1692CE02CFA0"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\outlook\\SKILL.md",
+        "Length":  3615,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9211710Z",
+        "SHA256":  "E16CF2387795C5E1CB55E170002E7C767FE117D81BB23AE52DD967A94D7CF4A9"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "integration-skills\\salesforce\\SKILL.md",
+        "Length":  3263,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9291810Z",
+        "SHA256":  "FD4586D9AD350964BD64255FBD6DE1DB4124AA06EAE717100938756E06A3BB7B"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\SKILL.md",
+        "Length":  7253,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9570346Z",
+        "SHA256":  "955FDF6B18624DBE4F39816C8D5596F629DD90845519D95D143121B6574C5B42"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\batching.md",
+        "Length":  3019,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9363658Z",
+        "SHA256":  "F9FCDF3065A1EBAD347FD71EFCA1E89EF9A9FCC9012760961827766A5B81ECBA"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\confirmations.md",
+        "Length":  3376,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9383666Z",
+        "SHA256":  "208167A6DEA98C4F34003FABE05A93BC18503C5482F48E18AEC6C845C2022C82"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\files.md",
+        "Length":  2081,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9419413Z",
+        "SHA256":  "CF6A920CCE94D8FAC231E007BF2B63679E0817D34930906C56746306248E00DB"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\safety.md",
+        "Length":  1627,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9439730Z",
+        "SHA256":  "75183B2A229DBAC8D2DD0B03DE1413669018074FF7626E9DAF512D07BA05FC3F"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\tabs.md",
+        "Length":  3032,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9469821Z",
+        "SHA256":  "D0D2D5A1F93F0BA99285B4A2C895AF272021081D0B0DF60BC0233DE0EB2CC259"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\clicky-browser\\references\\troubleshooting.md",
+        "Length":  8238,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9550294Z",
+        "SHA256":  "EAD10572783D4486107A814C011B1CC03BEC56164A50AEE02D09C345D6050490"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\ATTRIBUTION.md",
+        "Length":  164,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9687016Z",
+        "SHA256":  "CE56A13FE055F6627643F8A91FF74532AFFEF87B6DFBA02F83521148ED4FFFF9"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\LICENSE.txt",
+        "Length":  1084,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9712416Z",
+        "SHA256":  "879778C7455042A271FFEB2C3E048D26EB5F27F7C1C094AE917002FD56754AC6"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\SKILL.md",
+        "Length":  2730,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9790628Z",
+        "SHA256":  "AFAC6B5B71952AF08F8DCD19C01EC1D80A040240CC50929E3ADD8200B3FCD459"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\agents\\openai.yaml",
+        "Length":  312,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9621153Z",
+        "SHA256":  "056E5EDDFDD9B9B506B8175C902745A715CCADA6FCB8409AF1AAD9E868DE40A1"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\assets\\vercel-small.svg",
+        "Length":  248,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9647975Z",
+        "SHA256":  "9A4A9DF1BF8BAB7378DB306AFF8C2B77067789FC093CC36E37A9EAD242A0D0B2"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\assets\\vercel.png",
+        "Length":  788,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9668062Z",
+        "SHA256":  "AB37FFB06BDB1AB6D076C26329E8677D057BA95D66F7E2C710221345FF6E2043"
+    },
+    {
+        "Location":  "AppData/HeyClickyApp/BundledResources",
+        "RelName":  "skills\\vercel-deploy\\scripts\\deploy.sh",
+        "Length":  9178,
+        "LastWriteTimeUtc":  "2026-11-08T05:02:09.9764249Z",
+        "SHA256":  "A9B7A28CE86797F62FADCE490156722025BEDD4E9165D7690B6E82619FAE5690"
+    }
+]

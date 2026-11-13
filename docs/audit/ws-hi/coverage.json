@@ -1,0 +1,137 @@
+[
+  {
+    "category": "WS-H: Platform Layer (Win32 / Overlay)",
+    "item": "OverlayHost click-through window styles (WS_EX_TRANSPARENT | WS_EX_LAYERED | WS_EX_NOREDIRECTIONBITMAP | WS_EX_TOOLWINDOW | WS_EX_TOPMOST)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:500-526",
+    "owner": "ws-hi-platform-core",
+    "status": "PASS",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:500-526",
+    "notes": "OverlayHost.CreateOverlayWindow sets WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_NOREDIRECTIONBITMAP (0x082800A8) and WindowProcedure returns HTTRANSPARENT (-1) on WM_NCHITTEST (132u)."
+  },
+  {
+    "category": "WS-H: Platform Layer (Win32 / Overlay)",
+    "item": "CaptureExclusion (WDA_EXCLUDEFROMCAPTURE = 0x11) and ScreenCaptureYield (WinEventHook & DWM cloaking)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/CaptureExclusion.cs:11-94, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/ScreenCaptureYield.cs:15-169, src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:367-371,528",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:367-371,528",
+    "notes": "AUD-H-003: CaptureExclusion applies SetWindowDisplayAffinity(hwnd, 0x11) and ScreenCaptureYield uses DwmSetWindowAttribute(DWMWA_CLOAK = 13) + SetWindowPos during snipping tools, but OverlayHost.ThreadMain finally block never calls ScreenCaptureYield.Unregister(WindowHandle)."
+  },
+  {
+    "category": "WS-H: Platform Layer (Win32 / Overlay)",
+    "item": "Multi-monitor virtual screen bounds (SM_XVIRTUALSCREEN..SM_CYVIRTUALSCREEN) and WM_DPICHANGED handling",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:374-396,531-547, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DisplayEnumerator.cs:13-96",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:539-540",
+    "notes": "AUD-H-004: Virtual screen bounds use GetSystemMetrics(76..79) and refresh on WM_DISPLAYCHANGE (126u), but WM_DPICHANGED (736u) returns LRESULT(0) without calling RefreshDisplays()."
+  },
+  {
+    "category": "WS-H: Platform Layer (Win32 / Overlay)",
+    "item": "OverlayHost GPU device loss recovery (DXGI_ERROR_DEVICE_REMOVED / DXGI_ERROR_DEVICE_RESET)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:354-371,443,606-610",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:354-371,443",
+    "notes": "AUD-H-002: RunLoop has no catch/recreate path for DXGI_ERROR_DEVICE_REMOVED (0x887A0005); any device loss kills the overlay thread permanently while leaving OverlayHost.shared non-null."
+  },
+  {
+    "category": "WS-H: Platform Layer (Overlay / Physics)",
+    "item": "CursorOverlay, CursorLayer, FramePacer, idle CPU/GPU usage, and PenRideTrajectory physics",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorOverlay.cs:1-210, src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorLayer.cs:1-860, src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/FramePacer.cs:1-45, src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/PenRideTrajectory.cs:1-214",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/FramePacer.cs:15, docs/audit/evidence/ws-hi/test-runner-output.txt",
+    "notes": "AUD-H-003: Idle CPU/GPU blocks indefinitely on WaitHandle.WaitAny when shouldTick is false, and PenRideTrajectory physics passed deterministic trajectory tests (WsHiAuditRunner Test 3), but FramePacer leaks its kernel waitable timer handle (CreateWaitableTimerExW) without CloseHandle/IDisposable."
+  },
+  {
+    "category": "WS-H: Platform Layer (Capture)",
+    "item": "ScreenCaptureService, DesktopDuplicationSource, GraphicsCaptureSource, and CaptureGpu",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureService.cs:1-518, src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/DesktopDuplicationSource.cs:1-208, src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs:1-162, src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/CaptureGpu.cs:1-318",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs:87-100, src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureService.cs:396",
+    "notes": "AUD-H-005: GraphicsCaptureSource leaks Direct3D11CaptureFrame when TrySetResult loses a race; ScreenCaptureService hardcodes gpus[0] for WGC fallback on multi-GPU systems; DesktopDuplicationSource ignores ProtectedContentMaskedOut."
+  },
+  {
+    "category": "WS-H: Platform Layer (Input)",
+    "item": "LowLevelInputHub WH_KEYBOARD_LL hook timeout, thread priority, keystroke logging, AltGr, and cleanup",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:1-600",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:166-176,458-479,565-593",
+    "notes": "AUD-H-006: Uses ThreadPriority.Highest and does not log alphanumeric keystrokes to disk, and AltGr (LCtrl+RAlt) is filtered in ShortcutMonitor, but Release() never stops the hook thread or unhooks WH_KEYBOARD_LL, and CheckHookAlive replays duplicate keys under UIPI or >80ms hook latency."
+  },
+  {
+    "category": "WS-H: Platform Layer (Input)",
+    "item": "ShortcutMonitor hotkey state machine, AltGr filtering, and Start Menu masking",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:1-912",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:878-881",
+    "notes": "AUD-H-007: MaskStartMenu() is only invoked for ShortcutAction.DictationDown when Dictation has HotkeyModifiers.Win, omitting PushToTalk, TextMode, and HandsFreeDictation."
+  },
+  {
+    "category": "WS-H: Platform Layer (Input / Safety)",
+    "item": "ClickyScreenActuator, ClickyTakeBackWatch, ClickyUserInputBlocker, and ClickyTakeOverController safety",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyScreenActuator.cs:1-680, src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyTakeBackWatch.cs:1-95, src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyUserInputBlocker.cs:1-370, src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:445-478,961-993,1364-1368",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:445-478,963,1364-1368",
+    "notes": "AUD-H-010 & AUD-H-006: ClickyTakeOverController sets actuatingUntil = Now + 30s and ignores ClickyTakeBackWatch mouse take-back callbacks during active actuation; EnsureConsentToDriveAsync skips user consent for 600s (recent_yes) or after any PTT press during an offer card; ClickyUserInputBlocker re-hooks WH_MOUSE_LL/WH_KEYBOARD_LL every 1s."
+  },
+  {
+    "category": "WS-H: Platform Layer (Audio / Permissions)",
+    "item": "WASAPI Audio (WasapiMicrophoneCapture, WasapiAudioOutput, VoiceRenderStream, WasapiRenderStream, EarconPlayer, AudioTopologyMonitor) and PermissionService",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/WasapiMicrophoneCapture.cs:1-860, src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/WasapiAudioOutput.cs:1-145, src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/VoiceRenderStream.cs:1-450, src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/EarconPlayer.cs:1-340, src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/AudioTopologyMonitor.cs:1-310, src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions/PermissionService.cs:1-310",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/EarconPlayer.cs:290-291, src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions/PermissionService.cs:266, docs/audit/evidence/ws-hi/test-runner-output.txt",
+    "notes": "AUD-H-009: Hot-swap via AudioTopologyMonitor, Bluetooth Hands-Free avoidance, linear resampling, and underrun recovery work properly, but EarconPlayer.DecodeWavToStereo48k throws DivideByZeroException on <8-bit WAV headers and PermissionService.ReadConsentStoreValue leaks an HKEY handle."
+  },
+  {
+    "category": "WS-H: Platform Layer (UIA / Privacy & Clipboard)",
+    "item": "UIAutomationHelpers, UiaPageText, ForegroundAppInfo, DictationTextTarget, and TextInsertion",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UiaPageText.cs:1-225, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UIAutomationHelpers.cs:1-345, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:1-610, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/TextInsertion.cs:1-425",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UiaPageText.cs:131-147, src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:544-570",
+    "notes": "AUD-H-001 & AUD-H-008: UiaPageText and ReadBrowserAddress scrape Incognito/InPrivate browsers, password managers, and password fields (ignoring UIA_IsPasswordPropertyId) and send them to /brain/turn; DictationTextTarget.BlindPasteAsync and TextInsertion.SnapshotClipboard destroy user clipboard contents."
+  },
+  {
+    "category": "WS-I: Core Layer (Brain & Companion Sessions)",
+    "item": "BrainSession screenshot pruning (MaximumScreenshotsInThread = 48), BrainSseParser SSE streaming, and CompanionSession state transitions",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:1-345, src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSseParser.cs:1-130, src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:1-5978",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsDesktopActions.cs:91-159, docs/audit/evidence/ws-hi/test-runner-output.txt",
+    "notes": "AUD-I-001: BrainSession screenshot pruning (48 cap) and BrainSseParser SSE chunk/CR/LF parsing passed all dynamic tests (WsHiAuditRunner Tests 2 & 4), and CompanionSession properly handles PTT interruptions and state transitions, but CompanionSession executes LLM typeText via WindowsDesktopActions.TypeIntoFocusedFieldAsync without user confirmation or password/terminal guards."
+  },
+  {
+    "category": "WS-I: Core Layer (SayLines & DrawingCaptionTiming)",
+    "item": "SayLines JS parser and DrawingCaptionTiming audio/caption synchronization",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Brain/SayLines.cs:1-140, src/desktop/Kursor.Core/HeyClicky.Core.Voice/DrawingCaptionTiming.cs:1-145",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Core/HeyClicky.Core.Brain/SayLines.cs:42-138, docs/audit/evidence/ws-hi/test-runner-output.txt",
+    "notes": "AUD-I-002: DrawingCaptionTiming passed all synchronization and latency tests (WsHiAuditRunner Test 2), but SayLines.Extract extracts false-positive say(...) calls from JS comments and strings, misses say (...) with whitespace, and corrupts \\r and \\uXXXX escapes (WsHiAuditRunner Test 1)."
+  },
+  {
+    "category": "WS-I: Core Layer (HeyClicky.Core.Ink Model)",
+    "item": "ClickyInkParser, ClickyInkPatchStream, ClickyInkMatch, ClickyInkNoteStore, ClickyLiveNoteStore, ClickyInkDashboardSplit, ClickyInkFrontPagePlanner",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1-1780, src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:1-750, src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyLiveNoteStore.cs:1-140, src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkDashboardSplit.cs:1-215, src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkFrontPagePlanner.cs:1-310",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1593-1594,1619, src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:27-50, docs/audit/evidence/ws-hi/test-runner-output.txt",
+    "notes": "AUD-I-003 & AUD-I-004: ClickyInkParser withstood malformed markdown, unclosed <ink-...> tags, 120-deep nesting, and 5,000-line inputs in 15ms without hanging, but EmphasisMarks/MarkingFirstLink corrupts every **bold**, ==highlight==, and [link](url) span into literal integer digits ('57345$157346'), and ClickyInkNoteStore/ClickyLiveNoteStore suffer from unsynchronized Dictionary mutations across threads."
+  },
+  {
+    "category": "WS-I: Core & Platform Thread-Safety & Unhandled Exceptions",
+    "item": "Scan Kursor.Core (565 files) and Kursor.Platform (346 files) for async void, unawaited tasks, lock ordering, and UnobservedTaskException",
+    "location": "src/desktop/Kursor.Core/, src/desktop/Kursor.Platform/",
+    "owner": "ws-hi-platform-core",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-hi/thread-safety-scan.txt",
+    "notes": "AUD-I-005: 0 async void methods exist and CrashReporting.cs:203 registers TaskScheduler.UnobservedTaskException, but 53 unawaited Task.Run/ContinueWith sites lack local fault observation and 4 iterator methods contain ILSpy Iterator.Dispose() decompilation failures."
+  }
+]

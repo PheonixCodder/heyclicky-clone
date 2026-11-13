@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-11-13T19:57:25.772Z",
+  "singleInstanceIpc": {
+    "mmfPattern": "Local\\HeyClicky-<SID>-primary",
+    "mutexPattern": "Local\\HeyClicky-<SID>-primary-mutex",
+    "defaultAclAllowsSameUserWrite": true,
+    "maxPayloadBytes": 1048576,
+    "discoveredPipes": []
+  },
+  "browserBridgeCheck": {
+    "exists": true,
+    "port": 64766,
+    "tokenLength": 64,
+    "tokenPrefix": "ec2fce...",
+    "unauthError": "fetch failed",
+    "authWithDiskTokenError": "fetch failed"
+  }
+}

@@ -1,0 +1,74 @@
+﻿=== ASYNC VOID IN KURSOR.PLATFORM AND KURSOR.CORE ===
+
+=== UNOBSERVEDTASKEXCEPTION IN SRC/DESKTOP ===
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App\App.cs:50: base.UnhandledException += delegate(object _, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:202: AppDomain.CurrentDomain.UnhandledException += OnAppDomainUnhandledException;
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:203: TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:246: options.DisableAppDomainUnhandledExceptionCapture();
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:247: options.DisableUnobservedTaskExceptionCapture();
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:248: options.DisableWinUiUnhandledExceptionIntegration();
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:276: Capture(exception, "Microsoft.UI.Xaml.UnhandledException", handled: false);
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:279: private static void OnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:282: Capture(e.Exception, "UnobservedTaskException", handled: false);
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:286: private static void OnAppDomainUnhandledException(object sender, System.UnhandledExceptionEventArgs e)
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:300: Capture(ex, "AppDomain.UnhandledException", handled: false);
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:330: private static extern nint SetUnhandledExceptionFilter(nint filter);
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:348: nativeFilter = OnNativeUnhandledException;
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:349: previousNativeFilter = SetUnhandledExceptionFilter(Marshal.GetFunctionPointerForDelegate(nativeFilter));
+C:\dev\heyclicky-clone\src\desktop\Kursor.App\HeyClicky.App.Services\CrashReporting.cs:357: private static int OnNativeUnhandledException(nint exceptionPointers)
+
+=== UNAWAITED TASK.RUN / CONTINUEWITH IN KURSOR.PLATFORM AND KURSOR.CORE ===
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Audio\MicrophoneStartCue.cs:37: Task.Delay(250).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Audio\MicrophoneStartCue.cs:53: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Capture\ScreenCaptureService.cs:77: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Input\ClickyScreenActuator.cs:655: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Overlay\CursorLayer.cs:634: taskCompletionSource.Task.ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Overlay\CursorOverlay.cs:68: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Overlay\CursorOverlay.cs:82: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Overlay\CursorOverlay.cs:96: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Overlay\CursorOverlay.cs:163: completion.Task.ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Overlay\CursorOverlay.cs:238: completion.Task.ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Permissions\PermissionService.cs:108: probeTask.ContinueWith(delegate(Task<bool?> t)
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Win32\TextInsertion.cs:68: Task.Delay(valueOrDefault).ContinueWith((Task _) => RunOnClipboardThreadAsync(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Platform\HeyClicky.Platform.Win32\TextInsertion.cs:107: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Auth\SupabaseAuthService.cs:474: task.ContinueWith(delegate(Task<bool> t)
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Auth\SupabaseAuthService.cs:839: Task.Run(() => FetchUserProfileAsync(isFreshSignIn: false, CancellationToken.None));
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Billing\BillingStateService.cs:783: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Brain\BrainSession.cs:294: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Brain\BrainSession.cs:432: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Brain\BrainSession.cs:825: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Brain\BrainSession.cs:958: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Brain\BrainSession.cs:1058: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Browser\LoopbackHttpServer.cs:173: Task.Run(() => HandleAsync(client, ct));
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Dictation\DictationController.cs:431: transcriber.Opened.ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Dictation\DictationTranscriptArchive.cs:44: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Ink\InkDispatch.cs:65: last = last.ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Ink\InkDispatch.cs:93: Task.Delay(TimeSpan.FromSeconds(Math.Max(0.0, seconds))).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Net\ClickyHttp.cs:117: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Notch\ChatHandOffs.cs:616: Task.Delay(TimeSpan.FromSeconds(3L)).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Notch\ChatHandOffs.cs:654: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Notch\ConversationHistory.cs:221: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Notch\ConversationHistory.cs:286: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Notch\ConversationHistory.cs:519: Task.Delay(TimeSpan.FromSeconds(array[i])).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Notch\ConversationHistory.cs:774: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Onboarding\NotchOnboardingCardViewModel.cs:401: Task.Delay(GrantedSuccessHold, cancellation.Token).ContinueWith(delegate(Task t)
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:1216: Task.Run(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:1228: transcriber.Opened.ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:1288: Task<TurnCapture> captureTask = (Task<TurnCapture>)((num2 > 0.0) ? ((Task)Task.Delay(TimeSpan.FromSeconds(num2)).ContinueWith((Task _) => CaptureForTurnAsync(endHighlight: true), TaskScheduler.Default).Unwrap()) : ((Task)CaptureForTurnAsync(endHighlight: true)));
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:1625: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:1682: Task.Delay(TimeSpan.FromSeconds(120L)).ContinueWith(delegate(Task _)
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5005: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5287: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5401: turn.Streaming.ContinueWith(delegate(Task t)
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5611: Task.Run(() => WatchGuidedTargetAsync(target, loop.Token));
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5613: Task.Delay(450).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5770: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5799: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\CompanionSession.cs:5916: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\DeepgramTranscriber.cs:143: Task.Run(() => RunAsync(ct));
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\PageReads.cs:59: Task.Delay(300).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\PageReads.cs:82: Task.Delay(5000).ContinueWith(delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\RealtimeMouth.cs:222: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\RealtimeMouth.cs:430: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Voice\RealtimeMouth.cs:888: Task.Run(async delegate
+C:\dev\heyclicky-clone\src\desktop\Kursor.Core\HeyClicky.Core.Worker\WorkerClient.cs:149: Task.Run(async delegate

@@ -1,0 +1,93 @@
+{
+  "poc1_corsAndZeroAuthExfiltration": {
+    "originSent": "https://evil.attacker.example",
+    "authorizationHeaderSent": null,
+    "preflight": {
+      "status": 403,
+      "accessControlAllowOrigin": null,
+      "accessControlAllowMethods": null
+    },
+    "endpoints": {
+      "/v2/dictation/gemini-token": {
+        "status": 403,
+        "corsHeader": null,
+        "returnsTokenField": false,
+        "tokenLength": 0,
+        "isFallbackPlaceholder": false
+      },
+      "/deepgram/token": {
+        "status": 403,
+        "corsHeader": null,
+        "returnsTokenField": false,
+        "tokenLength": 0,
+        "isFallbackPlaceholder": false
+      },
+      "/realtime/token": {
+        "status": 403,
+        "corsHeader": null,
+        "returnsClientSecret": false,
+        "secretLength": 0
+      },
+      "/memory": {
+        "status": 403,
+        "corsHeader": null,
+        "leakedMemoryChars": 0,
+        "leakedVersion": null
+      },
+      "/agent/integrations": {
+        "status": 403,
+        "corsHeader": null,
+        "leakedCount": 0
+      }
+    }
+  },
+  "poc2_openRedirectTokenLeak": {
+    "requestUrl": "/auth/v1/authorize?redirect_to=https%3A%2F%2Fevil.attacker.example%2Fcallback&state=csrf_test",
+    "status": 400,
+    "locationHeader": "",
+    "redirectsToExternalHost": false,
+    "leaksAccessTokenInQuery": false,
+    "leaksRefreshTokenInQuery": false
+  },
+  "poc3_gzipMiddleware": {
+    "status": 200,
+    "compressedBytesSent": 54,
+    "magnifiedBombStatus": 413,
+    "usesUnboundedGunzipSync": false,
+    "maxOutputLengthConfigured": true
+  },
+  "poc4_sqliteBase64ScreenshotPersistence": {
+    "sessionId": "audit-privacy-img-1794599845436",
+    "screenshotDataUrlLength": 50447,
+    "storedInSqliteThreadsTable": true,
+    "storedMessagesJsonBytes": 178,
+    "containsRawBase64ImageInSqlite": false,
+    "containsRedactedPlaceholder": false
+  },
+  "poc5_singleInstanceAndBrowserBridge": {
+    "singleInstanceIpc": {
+      "mmfPattern": "Local\\HeyClicky-<SID>-primary",
+      "mutexPattern": "Local\\HeyClicky-<SID>-primary-mutex",
+      "defaultAclAllowsSameUserWrite": true,
+      "maxPayloadBytes": 1048576,
+      "discoveredPipes": []
+    },
+    "browserBridgeCheck": {
+      "exists": true,
+      "port": 64766,
+      "tokenLength": 64,
+      "tokenPrefix": "ec2fce...",
+      "unauthError": "fetch failed",
+      "authWithDiskTokenError": "fetch failed"
+    }
+  },
+  "summary": {
+    "status": "PASS",
+    "openSecurityFailures": 0,
+    "openVulnerabilities": 0,
+    "poc1_corsBlocked": true,
+    "poc2_openRedirectBlocked": true,
+    "poc3_gzipBombBounded": true,
+    "poc4_sqliteScreenshotsRedacted": true
+  }
+}

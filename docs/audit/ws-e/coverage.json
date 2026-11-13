@@ -1,0 +1,200 @@
+[
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /deepgram/token",
+    "location": "src/backend/src/routes/voice.ts:34",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "Returns DeepgramTokenResponse DTO ({ token, key, access_token, ws_url, url, model: 'nova-3', expires_in: 3600 }). Verified with and without DEEPGRAM_API_KEY."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /v2/dictation/deepgram-token",
+    "location": "src/backend/src/routes/voice.ts:35",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "Alias for POST /deepgram/token consumed by DeepgramTranscriber.MintTokenAsync."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /v2/dictation/gemini-token",
+    "location": "src/backend/src/routes/voice.ts:86",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-002 & AUD-E-012: Returns raw GEMINI_API_KEY ('AIzaSy...') or 'gem_kursor_local_dev_token' instead of a Google v1alpha ephemeral auth_token required by BidiGenerateContentConstrained, and ignores body.keyterms and body.language."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /brain/ears/token",
+    "location": "src/backend/src/routes/voice.ts:87",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-002 & AUD-E-012: Alias of /v2/dictation/gemini-token used by CompanionSession for Gemini Live Ears; fails BidiGenerateContentConstrained WebSocket handshake with raw API key or local dev token."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /realtime/token",
+    "location": "src/backend/src/routes/voice.ts:215",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-012: Returns 'ek_kursor_local_realtime_secret' when OPENAI_API_KEY is unset (triggering local /agent/realtime/speak fallback), but if OPENAI_API_KEY is set and /v1/realtime/sessions fails (e.g. default model 'gpt-realtime-2.1-mini'), returns raw 'sk-...' key which bypasses RealtimeMouth's StartsWith('ek_kursor_') fallback check."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /agent/realtime/session",
+    "location": "src/backend/src/routes/voice.ts:216",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-012: Primary endpoint called by RealtimeMouth.MintEphemeralKeyAsync; same fallback defect when OPENAI_API_KEY is present but session minting fails."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "HEAD /agent/realtime/warmup",
+    "location": "src/backend/src/routes/voice.ts:218",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "Returns HTTP 204 No Content as expected by RealtimeMouth.WarmupConnection."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "GET /agent/realtime/warmup",
+    "location": "src/backend/src/routes/voice.ts:218",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "Returns HTTP 204 No Content."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /agent/realtime/speak",
+    "location": "src/backend/src/routes/voice.ts:413",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-001 & AUD-E-009: Synthesizes 24 kHz 16-bit mono PCM via warm Windows SAPI PowerShell worker; however, a 7000ms timeout in synthesizeViaWarmWindowsSapi fails to evict the timed-out entry from warmSynthQueue, desynchronizing subsequent callers' audio responses and spawning duplicate one-shot PowerShell processes. Also lacks process exit/signal cleanup for warmSynthProc."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /v2/dictation/cleanup",
+    "location": "src/backend/src/routes/voice.ts:485",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-002, AUD-E-005 & AUD-E-007: Tested across 112 transcripts in both localCleanupHeuristic and live LLM modes. Ignores all 7 DictationCleanupContext fields sent by C# (app_name, site_host, before_text, selected_text, after_text, single_line, known_terms), is vulnerable to dictated prompt injection, and localCleanupHeuristic corrupts URLs/code/emojis and returns raw filler words on pure-filler input."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /v2/dictation/transcribe",
+    "location": "src/backend/src/routes/voice.ts:829",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-003 & AUD-E-012: Tested across 8/16/44.1/48 kHz mono/stereo WAV, silence, <=44B short buffers, 3.2MB large WAV, corrupt WAV header, JSON base64 vs multipart, 10 language codes, and missing/invalid API keys. Returns HTTP 200 with hardcoded dummy text ('Hello from Kursor local dictation transcription.') on <=44B audio, corrupt headers, or provider failure, and drops 3-letter ISO codes ('yue', 'fil')."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /brain/ears/transcribe",
+    "location": "src/backend/src/routes/voice.ts:830",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-003: Shares handleTranscribe with /v2/dictation/transcribe; returns HTTP 200 hardcoded dummy text on provider failure or short/corrupt audio, which CompanionSession.TranscribeFallbackAsync submits to /brain/turn as a user prompt."
+  },
+  {
+    "category": "Backend HTTP Route (voiceRoutes)",
+    "item": "POST /ears/transcribe",
+    "location": "src/backend/src/routes/voice.ts:831",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-003: Alias for handleTranscribe; exhibits the same HTTP 200 dummy text fallback defect."
+  },
+  {
+    "category": "Desktop Namespace (Kursor.Core)",
+    "item": "HeyClicky.Core.Voice (41 C# files: GeminiTranscriber, DeepgramTranscriber, RealtimeMouth, CompanionSession, GeminiMouthTurns, TimeStretcher, DrawingCaptionTiming, Pcm16, Pcm16MonoResampler, EarsLanguage, VoiceCatalog)",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Voice",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-002, AUD-E-003, AUD-E-012: GeminiTranscriber fails against BidiGenerateContentConstrained with raw API keys or local dev token; CompanionSession.TranscribeFallbackAsync forwards dummy fallback text to /brain/turn; RealtimeMouth local HTTP TTS fallback only triggers when secret starts with 'ek_kursor_'."
+  },
+  {
+    "category": "Desktop Namespace (Kursor.Core)",
+    "item": "HeyClicky.Core.Dictation (16 C# files: DictationController, DictationTranscriptionClient, DictationHotkeyStateMachine, DictationCorrectionDetector, DictationVocabulary, DictationTranscriptArchive, DictationLanguageCatalog, DictationCleanupContext)",
+    "location": "src/desktop/Kursor.Core/HeyClicky.Core.Dictation",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-002, AUD-E-003, AUD-E-005, AUD-E-006, AUD-E-010: DictationController.RunBatchAsync bypasses CleanUpAsync; DeliverAsync archives password-field transcripts in plaintext to DictationTranscripts/*.jsonl and copies to non-transient clipboard; DictationCorrectionDetector auto-learns ordinary sentence-initial edits and secret tokens."
+  },
+  {
+    "category": "Desktop Namespace (Kursor.Platform)",
+    "item": "HeyClicky.Platform.Input (24 C# files: ShortcutMonitor, LowLevelInputHub, KeyboardLayoutInfo, ForegroundIntegrity, ClickyUserInputBlocker)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-004 & AUD-E-008: ShortcutMonitor lacks non-modifier chord cancellation for PushToTalk (Ctrl+Alt), and SendMaskKey(VK_F24) is blocked by UIPI when an elevated window is focused."
+  },
+  {
+    "category": "Desktop Namespace (Kursor.Platform)",
+    "item": "HeyClicky.Platform.Win32 (DictationTextTarget, TextInsertion)",
+    "location": "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "docs/audit/evidence/ws-e/voice-dictation-audit-results.json",
+    "notes": "AUD-E-004, AUD-E-006, AUD-E-011: TextInsertion ignores SendInput return value under UIPI and restores old clipboard after 560ms, destroying dictated text on elevated windows; CopyTextAsync omits markTransient on RefusedUnsafeTarget; SnapshotClipboard skips handle formats and RestoreClipboard omits transient markers."
+  },
+  {
+    "category": "Global Hotkey Slot",
+    "item": "PushToTalk (Default: Control | Alt, Hold)",
+    "location": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs:38",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:367-384, 429-437",
+    "notes": "AUD-E-008: Pressing Ctrl+Alt+<Key> (IDE shortcuts or Ctrl+LeftAlt international AltGr combinations) triggers PushToTalkDown without cancelling when the non-modifier key is pressed."
+  },
+  {
+    "category": "Global Hotkey Slot",
+    "item": "TextMode (Default: Control, DoubleTap)",
+    "location": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs:40",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:469-473, 558-595",
+    "notes": "DoubleTap detector requires two clean taps within 350ms with no intervening non-modifier key, mouse click, or scroll wheel event."
+  },
+  {
+    "category": "Global Hotkey Slot",
+    "item": "Dictation (Default: Control | Win, Hold)",
+    "location": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs:42",
+    "owner": "ws-e-voice-dictation",
+    "status": "FAIL",
+    "evidence": "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:807-831",
+    "notes": "AUD-E-004: Includes non-modifier chord cancellation (DictationCancel) and 5s stuck-modifier watchdog, but SendMaskKey(VK_F24) is blocked by UIPI when an elevated window is focused, causing the Windows Start menu to open on release."
+  },
+  {
+    "category": "Global Hotkey Slot",
+    "item": "HandsFreeDictation (Default: Control | Win, DoubleTap)",
+    "location": "src/desktop/Kursor.Contracts/HeyClicky/HotkeyBinding.cs:44",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "src/desktop/Kursor.Core/HeyClicky.Core.Dictation/DictationHotkeyStateMachine.cs:111-170",
+    "notes": "DictationHotkeyStateMachine cleanly transitions Hold->HandsFree on second tap within 380ms and suppresses the trailing HoldUp (<450ms) from immediately stopping hands-free mode."
+  },
+  {
+    "category": "ShortcutAction Enum",
+    "item": "All 11 ShortcutAction values (PushToTalkDown, PushToTalkUp, TextComposerToggle, DictationDown, DictationUp, Escape, DictationCancel, HandsFreeDictationToggle, ProactiveDebugSweep, MorningPreviewChord, SystemScreenshotShortcut)",
+    "location": "src/desktop/Kursor.Contracts/HeyClicky/ShortcutAction.cs:5-15",
+    "owner": "ws-e-voice-dictation",
+    "status": "PASS",
+    "evidence": "src/desktop/Kursor.App/HeyClicky.App.Wiring/HotkeyRouter.cs:11-56",
+    "notes": "All 11 ShortcutAction values are routed in HotkeyRouter.Route and ShortcutMonitor."
+  }
+]

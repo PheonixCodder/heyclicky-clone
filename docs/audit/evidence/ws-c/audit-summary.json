@@ -1,0 +1,247 @@
+{
+  "corsAndKeyMinting": {
+    "preflightStatus": 204,
+    "preflightAllowOrigin": "*",
+    "deepgramTokenStatus": 200,
+    "deepgramReturnsRawEnvKey": false,
+    "geminiTokenStatus": 200,
+    "geminiReturnsRawEnvKey": false,
+    "realtimeTokenStatus": 200,
+    "realtimeFallbackReturnsRawEnvKey": false,
+    "memoryReadWithoutAuthOrOriginRestriction": true
+  },
+  "authAudit": {
+    "authorizeStatus": 302,
+    "leaksTokenToExternalHost": true,
+    "redirectLocationPrefix": "https://external-attacker.example/capture",
+    "authStartHtmlEscapesScriptTag": true,
+    "authStartAllowsJavascriptSchemeInHref": false,
+    "jwtSignatureDecodedLiteral": "kursor-local-dev-signature",
+    "logoutStatus": 200,
+    "revokedTokenStillAcceptedStatus": 200,
+    "forgedSignatureJwtAcceptedStatus": 200
+  },
+  "gzipAudit": {
+    "smallUncompressedBytes": 69,
+    "smallCompressedBytes": 89,
+    "smallGzipStatus": 200,
+    "over8kbUncompressedBytes": 12048,
+    "over8kbCompressedBytes": 156,
+    "over8kbGzipStatus": 200,
+    "corruptGzipStatus": 400,
+    "corruptGzipError": "invalid_gzip_payload",
+    "magnificationTest": {
+      "compressedBytes": 15331,
+      "uncompressedBytes": 15728652,
+      "expansionRatio": 1025.9,
+      "status": 200,
+      "elapsedMs": 2039,
+      "hasMaxOutputLengthLimit": false
+    }
+  },
+  "contractsAndStubs": {
+    "deviceDtoCheck": {
+      "sentXClickyDeviceHeader": "CSHARP-DEVICE-GUID-999",
+      "sentDisplayNameBody": "CSharp-Desktop-Host",
+      "backendRecordedDeviceId": "local-win-device-01",
+      "backendRecordedDeviceName": "KURSOR-PC",
+      "hasCSharpRequiredIdField": false,
+      "hasCSharpRequiredDisplayNameField": false,
+      "hasCSharpRequiredIsThisDeviceField": false,
+      "hasCSharpRequiredCapabilitiesField": false
+    },
+    "starterPlanDtoCheck": {
+      "clickyKeysReturned": [
+        "title",
+        "prompt",
+        "why"
+      ],
+      "clickyHasCSharpRequiredFields": false,
+      "suggestionKeysReturned": [
+        "id",
+        "title",
+        "tagline",
+        "initial_prompt",
+        "schedule_hint"
+      ],
+      "suggestionHasCSharpRequiredFields": false
+    },
+    "deadReturnedUrls": {
+      "composioProxyUrl": "http://127.0.0.1:8787/mcp/composio",
+      "composioProxyStatus": 404,
+      "billingCheckoutUrl": "http://127.0.0.1:8787/billing/local-max-active",
+      "billingCheckoutStatus": 404,
+      "billingPortalUrl": "http://127.0.0.1:8787/billing/local-portal",
+      "billingPortalStatus": 404
+    },
+    "accountDeleteStub": {
+      "response": {
+        "ok": true,
+        "deleted": true
+      },
+      "usersBeforeDelete": 1,
+      "usersAfterDelete": 1,
+      "memoryBeforeDelete": 1,
+      "memoryAfterDelete": 1,
+      "actuallyDeletedAnything": false
+    }
+  },
+  "sqliteAudit": {
+    "journalMode": "wal",
+    "foreignKeysEnabled": 1,
+    "tableStats": {
+      "users": {
+        "rowCount": 1,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_users_2",
+            "unique": 1,
+            "origin": "u",
+            "partial": 0
+          },
+          {
+            "seq": 1,
+            "name": "sqlite_autoindex_users_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "devices": {
+        "rowCount": 2,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_devices_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "memory": {
+        "rowCount": 1,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_memory_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "sessions": {
+        "rowCount": 51,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_sessions_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "threads": {
+        "rowCount": 23,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_threads_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "notifications": {
+        "rowCount": 2,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_notifications_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      },
+      "proactive_cards": {
+        "rowCount": 14,
+        "indexes": [
+          {
+            "seq": 0,
+            "name": "sqlite_autoindex_proactive_cards_1",
+            "unique": 1,
+            "origin": "pk",
+            "partial": 0
+          }
+        ]
+      }
+    },
+    "queryPlans": {
+      "deleteSessionByAccessToken": [
+        {
+          "id": 3,
+          "parent": 0,
+          "notused": 216,
+          "detail": "SCAN sessions"
+        }
+      ],
+      "selectNotificationsByUser": [
+        {
+          "id": 4,
+          "parent": 0,
+          "notused": 216,
+          "detail": "SCAN notifications"
+        },
+        {
+          "id": 26,
+          "parent": 0,
+          "notused": 0,
+          "detail": "USE TEMP B-TREE FOR ORDER BY"
+        }
+      ]
+    },
+    "sessionsGrowth": {
+      "before": 51,
+      "afterSingleTurn": 52,
+      "delta": 1
+    },
+    "hardcodedLocalAppConfigPath": null
+  },
+  "searchAudit": {
+    "emptyWebSearchStatus": 200,
+    "emptyImageSearchStatus": 404
+  },
+  "loadSoakMetrics": {
+    "concurrentRequests": 120,
+    "successCount": 120,
+    "errorCount": 0,
+    "totalLoadDurationMs": 31566,
+    "throughputReqPerSec": 3.8,
+    "latencyMs": {
+      "min": 7561.57,
+      "p50": 8301.65,
+      "p95": 25799.99,
+      "p99": 28619.01,
+      "max": 31331.88
+    },
+    "sseAbortTests": {
+      "attempted": 10,
+      "handledCleanly": 10,
+      "serverHealthyAfterAborts": true
+    },
+    "memoryBytes": {
+      "rssBefore": 124452864,
+      "rssAfter": 135487488,
+      "rssDeltaMB": 10.52,
+      "heapUsedBefore": 17610368,
+      "heapUsedAfter": 19930144,
+      "heapUsedDeltaMB": 2.21
+    }
+  }
+}

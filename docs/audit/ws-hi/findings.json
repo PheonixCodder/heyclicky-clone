@@ -1,0 +1,325 @@
+[
+  {
+    "id": "AUD-H-001",
+    "workstream": "WS-H",
+    "severity": "High",
+    "category": "Security / Privacy (UIA & Browser Scraping)",
+    "title": "Unfiltered UIA DOM & Browser URL Scraping of Incognito/InPrivate, Password Managers, and Password Fields",
+    "component": "HeyClicky.Platform.Win32.UiaPageText, HeyClicky.Platform.Win32.UIAutomationHelpers, HeyClicky.Platform.Win32.ForegroundAppInfo, HeyClicky.Core.Tools.WindowsPageReader",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UiaPageText.cs:28-64",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UiaPageText.cs:91-174",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UIAutomationHelpers.cs:251-297",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/ForegroundAppInfo.cs:60-72",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsPageReader.cs:13-32",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsPageReader.cs:79-107",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:2420-2441",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:3044-3052"
+    ],
+    "status": "FAIL",
+    "summary": "UiaPageText.Read and UIAutomationHelpers.ReadBrowserAddress scrape up to 60,000 characters of UIA tree text and full browser URLs from the foreground window without checking for Incognito/InPrivate/Private Browsing window titles, password manager processes (1Password, Bitwarden, KeePassXC), banking windows, or UIA_IsPasswordPropertyId on Edit controls. This scraped text and URL are attached to turn.page and transmitted to /brain/turn.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UiaPageText.cs:131-147",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/UIAutomationHelpers.cs:251-297",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsPageReader.cs:13-32"
+    ],
+    "remediation": "Check UIA_IsPasswordPropertyId (30009) in UiaPageText.Walk before reading ValuePattern/LegacyIAccessible.Value; skip or redact windows whose title matches Incognito / InPrivate / Private Browsing or whose process belongs to a blocklist of password managers (1Password, Bitwarden, KeePassXC, Dashlane)."
+  },
+  {
+    "id": "AUD-H-002",
+    "workstream": "WS-H",
+    "severity": "High",
+    "category": "Reliability / GPU Device Loss",
+    "title": "OverlayHost Has Zero GPU Device-Loss Recovery (DXGI_ERROR_DEVICE_REMOVED / DXGI_ERROR_DEVICE_RESET)",
+    "component": "HeyClicky.Platform.Overlay.OverlayHost",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:109-121",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:354-371",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:443",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:606-610"
+    ],
+    "status": "FAIL",
+    "summary": "OverlayHost.RunLoop calls CompositionDevice.Commit() and overlay layers call BeginDraw inside a single top-level try/catch in ThreadMain. When a GPU driver reset, TDR, or adapter change raises DXGI_ERROR_DEVICE_REMOVED (0x887A0005) or DXGI_ERROR_DEVICE_RESET (0x887A0007), RunLoop exits to ThreadMain, destroys the overlay HWND, and terminates the overlay thread permanently while leaving OverlayHost.shared non-null so subsequent OverlayHost.Acquire() calls return a dead host.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:354-371",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:443"
+    ],
+    "remediation": "Catch COMException for DXGI_ERROR_DEVICE_REMOVED / DXGI_ERROR_DEVICE_RESET / D2DERR_RECREATE_TARGET inside RunLoop, tear down and recreate the D3D11Device, DXGIDevice, D2D1Device, and IDCompositionDesktopDevice, and notify registered IOverlayLayer instances to recreate device-dependent surfaces."
+  },
+  {
+    "id": "AUD-H-003",
+    "workstream": "WS-H",
+    "severity": "Medium",
+    "category": "Resource Management / Kernel Handle Leak",
+    "title": "OverlayHost Never Unregisters from ScreenCaptureYield and FramePacer Leaks Kernel Waitable Timer",
+    "component": "HeyClicky.Platform.Overlay.OverlayHost, HeyClicky.Platform.Overlay.FramePacer, HeyClicky.Platform.Win32.ScreenCaptureYield",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:96-98",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:148-151",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:367-371",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:528",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/FramePacer.cs:10-44"
+    ],
+    "status": "FAIL",
+    "summary": "OverlayHost.CreateOverlayWindow registers its HWND with both CaptureExclusion.Register and ScreenCaptureYield.Register (line 528), but ThreadMain's finally block (lines 367-371) only calls CaptureExclusion.Unregister(WindowHandle) and never calls ScreenCaptureYield.Unregister(WindowHandle), leaving a destroyed HWND in ScreenCaptureYield.overlayHwnds. Additionally, FramePacer allocates a kernel waitable timer via CreateWaitableTimerExW (line 15) without implementing IDisposable or calling CloseHandle, and OverlayHost never disposes ManualResetEventSlim ready, AutoResetEvent wakeEvent, or EventWaitHandle gpuIdle.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:367-371",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:528",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/FramePacer.cs:15"
+    ],
+    "remediation": "Call ScreenCaptureYield.Unregister(WindowHandle) in OverlayHost.ThreadMain finally block, implement IDisposable on FramePacer to CloseHandle(timer), and dispose ready, wakeEvent, and gpuIdle during OverlayHost teardown."
+  },
+  {
+    "id": "AUD-H-004",
+    "workstream": "WS-H",
+    "severity": "Medium",
+    "category": "Multi-Monitor / DPI Scaling",
+    "title": "OverlayHost.WindowProcedure Ignores WM_DPICHANGED (0x02E0) Without Refreshing Display Scales",
+    "component": "HeyClicky.Platform.Overlay.OverlayHost, HeyClicky.Platform.Overlay.CursorLayer",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:531-547",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorLayer.cs:402-406"
+    ],
+    "status": "FAIL",
+    "summary": "In OverlayHost.WindowProcedure (lines 539-540), WM_DPICHANGED (736u / 0x02E0) immediately returns LRESULT(0) without scheduling RefreshDisplays(). Only WM_DISPLAYCHANGE (126u / 0x007E) refreshes DisplaySnapshot.Scale. When a user changes monitor DPI scaling in Windows Settings without changing resolution, OverlayHost.Displays and CursorLayer.currentDisplay.Scale remain stale until a resolution change occurs.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/OverlayHost.cs:539-540"
+    ],
+    "remediation": "Schedule RefreshDisplays() and resize/reposition the virtual-screen overlay window on both WM_DISPLAYCHANGE (126u) and WM_DPICHANGED (736u)."
+  },
+  {
+    "id": "AUD-H-005",
+    "workstream": "WS-H",
+    "severity": "Medium",
+    "category": "Resource Leak / Multi-GPU Screen Capture",
+    "title": "GraphicsCaptureSource Frame Leak on Timeout Race, Multi-GPU Adapter Mismatch, and Stale Static WinRT Device",
+    "component": "HeyClicky.Platform.Capture.GraphicsCaptureSource, HeyClicky.Platform.Capture.ScreenCaptureService, HeyClicky.Platform.Capture.DesktopDuplicationSource",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs:25-27",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs:87-111",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureService.cs:396",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/DesktopDuplicationSource.cs:78-115"
+    ],
+    "status": "FAIL",
+    "summary": "1) In GraphicsCaptureSource.CaptureMonitor, framePool.FrameArrived calls firstFrame.TrySetResult(pool.TryGetNextFrame()); if the 250ms timeout or an earlier frame wins the race, the newly acquired Direct3D11CaptureFrame is rejected by TrySetResult and leaked without Dispose(). 2) ScreenCaptureService.TryCaptureWithGraphicsCaptureAsync hardcodes gpu = gpus[0] (line 396) instead of selecting the CaptureGpu that owns the target display. 3) GraphicsCaptureSource caches a static winrtDevice tied to winrtDeviceOwner without invalidating it cleanly if that CaptureGpu is disposed while another GPU is used. 4) DesktopDuplicationSource.TryCapture ignores frameInfo.ProtectedContentMaskedOut, returning blacked-out frames without signalling protected content.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/GraphicsCaptureSource.cs:87-100",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Capture/ScreenCaptureService.cs:396"
+    ],
+    "remediation": "In FrameArrived, store pool.TryGetNextFrame() in a local variable and call frame?.Dispose() if !firstFrame.TrySetResult(frame). Select the CaptureGpu matching the target display's adapter in TryCaptureWithGraphicsCaptureAsync."
+  },
+  {
+    "id": "AUD-H-006",
+    "workstream": "WS-H",
+    "severity": "Medium",
+    "category": "Input Hook Lifecycle / UIPI",
+    "title": "LowLevelInputHub Never Unhooks on Release, Replays Duplicate Keys Under UIPI/Delay, and ClickyUserInputBlocker Re-Hooks Every 1s",
+    "component": "HeyClicky.Platform.Input.LowLevelInputHub, HeyClicky.Platform.Input.ClickyUserInputBlocker",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:166-176",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:458-479",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:565-593",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyUserInputBlocker.cs:328-353"
+    ],
+    "status": "FAIL",
+    "summary": "1) LowLevelInputHub.Release() decrements referenceCount to 0 but never stops the hook thread, disposes watchdogTimer, or calls UnhookWindowsHookEx. 2) When an elevated window has focus (UIPI blocks WH_KEYBOARD_LL while GetAsyncKeyState still sees keys) or when hook delivery takes >80ms, CheckHookAlive sets hookDead = true, replays recentRawKeys (emitting duplicate key events if the hook callback was merely delayed), and reinstalls WH_KEYBOARD_LL every 1s. 3) ClickyUserInputBlocker unconditionally uninstalls and reinstalls WH_MOUSE_LL and WH_KEYBOARD_LL hooks every 1,000ms while input is held.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:166-176",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/LowLevelInputHub.cs:458-479",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyUserInputBlocker.cs:328-353"
+    ],
+    "remediation": "Check whether the foreground window is elevated (UIPI) before declaring WH_KEYBOARD_LL dead in CheckHookAlive; avoid unconditional 1-second hook reinstallation in ClickyUserInputBlocker; and cleanly unhook when referenceCount reaches 0 or on process exit."
+  },
+  {
+    "id": "AUD-H-007",
+    "workstream": "WS-H",
+    "severity": "Low",
+    "category": "Keyboard Shortcuts / Win-Key Masking",
+    "title": "ShortcutMonitor.MaskStartMenu Only Masks DictationDown and Omits PushToTalk, TextMode, and HandsFreeDictation",
+    "component": "HeyClicky.Platform.Input.ShortcutMonitor",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:878-881"
+    ],
+    "status": "FAIL",
+    "summary": "ShortcutMonitor.Dispatch checks if (item == ShortcutAction.DictationDown && currentShortcuts.Dictation.Modifiers.HasFlag(HotkeyModifiers.Win)) before calling MaskStartMenu(). If a user binds PushToTalk, TextMode, or HandsFreeDictation to a Win-key combination (or standalone Win key), releasing the Win key opens the Windows Start Menu.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ShortcutMonitor.cs:878-881"
+    ],
+    "remediation": "Call MaskStartMenu() whenever any triggered shortcut binding includes HotkeyModifiers.Win or a standalone LWin/RWin trigger key."
+  },
+  {
+    "id": "AUD-H-008",
+    "workstream": "WS-H",
+    "severity": "Medium",
+    "category": "Data Integrity / Clipboard Preservation",
+    "title": "DictationTextTarget.BlindPasteAsync and TextInsertion.SnapshotClipboard Permanently Destroy User Clipboard Data",
+    "component": "HeyClicky.Platform.Win32.DictationTextTarget, HeyClicky.Platform.Win32.TextInsertion",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:544-570",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/TextInsertion.cs:341-395"
+    ],
+    "status": "FAIL",
+    "summary": "1) DictationTextTarget.BlindPasteAsync invokes TextInsertion.PasteTextAsync(text, restoreClipboard: false) for apps in BlindPasteProcesses (WeChat, ms-teams, ChatGPT, Codex, sublime_text, ApplicationFrameHost) and fallback paths, permanently overwriting the user's clipboard with dictated text. 2) Even when restoreClipboard: true is used, TextInsertion.SnapshotClipboard() skips handle-based formats (CF_BITMAP, CF_DSPBITMAP, CF_METAFILEPICT, CF_ENHMETAFILE, CF_PALETTE) and payloads exceeding 64 MB, and then calls EmptyClipboard(), permanently destroying copied images or large clipboard items.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/DictationTextTarget.cs:544-570",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Win32/TextInsertion.cs:356-389"
+    ],
+    "remediation": "Restore the clipboard after a short delay in BlindPasteAsync (e.g., 250-500ms after Ctrl+V completes) instead of passing restoreClipboard: false, and snapshot CF_DIB / CF_DIBV5 or preserve bitmap handles when snapshotting clipboard state."
+  },
+  {
+    "id": "AUD-H-009",
+    "workstream": "WS-H",
+    "severity": "Low",
+    "category": "Audio / Permissions Robustness",
+    "title": "EarconPlayer.DecodeWavToStereo48k Throws DivideByZeroException on Sub-8-Bit WAV and PermissionService Leaks RegistryKey",
+    "component": "HeyClicky.Platform.Audio.EarconPlayer, HeyClicky.Platform.Permissions.PermissionService",
+    "locations": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/EarconPlayer.cs:290-322",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions/PermissionService.cs:266"
+    ],
+    "status": "FAIL",
+    "summary": "1) EarconPlayer.DecodeWavToStereo48k computes int num5 = Math.Max(1, num2) * (bitsPerSample / 8) and int num6 = num4 / num5 without validating bitsPerSample >= 8 or num > 0. A malformed WAV header with bitsPerSample = 4 (e.g., ADPCM) or 0 causes num5 == 0 and throws an unhandled DivideByZeroException. Verified dynamically by WsHiAuditRunner Test 5. 2) PermissionService.ReadConsentStoreValue (line 266) calls Registry.LocalMachine.OpenSubKey(subKeyPath) without a using statement, leaking the native HKEY handle.",
+    "evidence": [
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Audio/EarconPlayer.cs:290-291",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Permissions/PermissionService.cs:266",
+      "docs/audit/evidence/ws-hi/test-runner-output.txt"
+    ],
+    "remediation": "Validate bitsPerSample is 8, 16, 24, or 32 and sampleRate > 0 before dividing in DecodeWavToStereo48k, and wrap Registry.LocalMachine.OpenSubKey in a using declaration."
+  },
+  {
+    "id": "AUD-H-010",
+    "workstream": "WS-H",
+    "severity": "High",
+    "category": "Safety / User Take-Back & Consent",
+    "title": "ClickyTakeOverController Ignores User Mouse/Keyboard Take-Back During Active Actuation and Bypasses Consent via recent_yes / PTT",
+    "component": "HeyClicky.Core.Drive.ClickyTakeOverController, HeyClicky.Platform.Input.ClickyTakeBackWatch, HeyClicky.Platform.Input.ClickyScreenActuator",
+    "locations": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:445-478",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:961-993",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:1364-1368",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:1519-1527",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Input/ClickyTakeBackWatch.cs:14-67"
+    ],
+    "status": "FAIL",
+    "summary": "1) Before executing a batch of synthetic actions, ClickyTakeOverController sets actuatingUntil = DateTimeOffset.Now.AddSeconds(30.0) (line 963). In OnUserMovedMouse (lines 1364-1368), any trigger from ClickyTakeBackWatch is ignored while DateTimeOffset.Now < actuatingUntil. Because ClickyUserInputBlocker only passes Escape through while blocking all other mouse/keyboard events, physical mouse movement, mouse clicks, scroll wheel, or non-Escape keystrokes cannot stop an in-progress action batch for up to 30 seconds. 2) EnsureConsentToDriveAsync skips the consent prompt if any drive ended within the last 600 seconds (recent_yes, lines 445-451) or if the user pressed Push-To-Talk while an offer card was visible (StopBecauseUserSpoke sets offerAnsweredBySpeaking = true at lines 1519-1527 regardless of whether the user said 'No').",
+    "evidence": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:445-478",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:963",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Drive/ClickyTakeOverController.cs:1364-1368"
+    ],
+    "remediation": "Since ClickyTakeBackWatch already filters out synthetic events via ExtraInfo == 1296124995, do not ignore OnUserMovedMouse during actuation; cancel the active CancellationTokenSource immediately when physical user mouse movement, clicks, or keystrokes are detected. Require explicit affirmative consent per task rather than auto-approving on any PTT speech or a 10-minute recent_yes window."
+  },
+  {
+    "id": "AUD-I-001",
+    "workstream": "WS-I",
+    "severity": "High",
+    "category": "Safety / Unconfirmed Synthetic Input",
+    "title": "WindowsDesktopActions.TypeIntoFocusedFieldAsync Injects Keystrokes and Enter Without User Confirmation or Password/Terminal Guards",
+    "component": "HeyClicky.Core.Tools.WindowsDesktopActions, HeyClicky.Core.Voice.CompanionSession",
+    "locations": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsDesktopActions.cs:91-159",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsDesktopActions.cs:240-251",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:3434-3459"
+    ],
+    "status": "FAIL",
+    "summary": "When the LLM emits a typeText field on a turn response, CompanionSession invokes WindowsDesktopActions.TypeIntoFocusedFieldAsync(typeText, pressEnter) without user confirmation or takeover consent. TypeIntoFocusedFieldAsync does not check if the focused element is a password field (IsPassword) or a shell/terminal (cmd, powershell, WindowsTerminal, mintty), sends untagged SendInput events (ExtraInfo = 0), spawns 3 separate STA threads per call for clipboard operations, and wipes non-text clipboard contents when Clipboard.GetText() returns null.",
+    "evidence": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsDesktopActions.cs:91-159",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Tools/WindowsDesktopActions.cs:240-251",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:3434-3459"
+    ],
+    "remediation": "Block or require explicit user confirmation before executing typeText (especially when pressEnter == true or when the focused process is a terminal/shell), tag synthetic inputs with ClickySyntheticExtraInfo, and reuse TextInsertion.PasteTextAsync instead of raw Clipboard.Clear()."
+  },
+  {
+    "id": "AUD-I-002",
+    "workstream": "WS-I",
+    "severity": "Medium",
+    "category": "Parser Correctness / Caption Synchronization",
+    "title": "SayLines JS Scanner Extracts False Positives From Comments/Strings, Misses Whitespace Calls, and Corrupts Escapes",
+    "component": "HeyClicky.Core.Brain.SayLines",
+    "locations": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Brain/SayLines.cs:11-138"
+    ],
+    "status": "FAIL",
+    "summary": "SayLines.Extract scans JS drawing code via raw substring searches without tracking JS lexical state: 1) say('...') inside // line comments, /* block comments */, or string literals of other calls (e.g., write(\"use say('hi')\")) is extracted as spoken dialogue; 2) say ('...') or step ('...') with whitespace before '(' is missed because it searches specifically for \"say(\" and \"step(\"; 3) \\r escapes are decoded to literal 'r' instead of '\\r', and \\uXXXX / \\xXX escapes are corrupted; 4) template literals containing ${...} output raw JS source expressions. Verified dynamically by WsHiAuditRunner Test 1.",
+    "evidence": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Brain/SayLines.cs:42-138",
+      "docs/audit/evidence/ws-hi/test-runner-output.txt"
+    ],
+    "remediation": "Use a stateful single-pass JS lexer in SayLines.Extract that skips // and /* */ comments and non-target string literals, allows optional whitespace between identifier and '(', and properly decodes '\\r' and '\\uXXXX'."
+  },
+  {
+    "id": "AUD-I-003",
+    "workstream": "WS-I",
+    "severity": "High",
+    "category": "Data Corruption / Decompilation Regression in Ink Parser",
+    "title": "ClickyInkParser.EmphasisMarks and MarkingFirstLink Corrupt Every **Bold**, ==Highlight==, and [Link](url) Span Into Literal Integer Digits",
+    "component": "HeyClicky.Core.Ink.ClickyInkParser",
+    "locations": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:20-29",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1591-1596",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1613-1623"
+    ],
+    "status": "FAIL",
+    "summary": "In ClickyInkParser, Private Use Area char markers (BoldOn = '\\ue001' = 57345, BoldOff = '\\ue002' = 57346, HighlightOn = '\\ue003' = 57347, HighlightOff = '\\ue004' = 57348, LinkOn = '\\ue005' = 57349, LinkOff = '\\ue006' = 57350) were decompiled as integer literals inside interpolated replacement strings: BoldPattern.Replace(text, $\"{57345}$1{57346}\") and HighlightPattern.Replace(text, $\"{57347}$1{57348}\"). Because \"57346\" immediately follows \"$1\", .NET Regex.Replace interprets \"$157346\" as capture group 157346 (which does not exist) and outputs the literal string \"57345$157346\", completely erasing the user's bolded or highlighted words! Similarly, MarkingFirstLink outputs literal \"57349label57350\" instead of PUA characters. Verified dynamically by WsHiAuditRunner Test 6.",
+    "evidence": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1593-1594",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkParser.cs:1619",
+      "docs/audit/evidence/ws-hi/test-runner-output.txt"
+    ],
+    "remediation": "Replace the integer literals in ClickyInkParser.EmphasisMarks (lines 1593-1594) and MarkingFirstLink (line 1619) with the char constants BoldOn/BoldOff ('\\ue001'/'\\ue002'), HighlightOn/HighlightOff ('\\ue003'/'\\ue004'), and LinkOn/LinkOff ('\\ue005'/'\\ue006')."
+  },
+  {
+    "id": "AUD-I-004",
+    "workstream": "WS-I",
+    "severity": "Medium",
+    "category": "Concurrency / Thread Safety in Ink Note Stores",
+    "title": "Unsynchronized Dictionary Mutations and Race Conditions in ClickyInkNoteStore and ClickyLiveNoteStore",
+    "component": "HeyClicky.Core.Ink.ClickyInkNoteStore, HeyClicky.Core.Ink.ClickyLiveNoteStore",
+    "locations": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:27-50",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:348-512",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:712-737",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyLiveNoteStore.cs:12-23",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyLiveNoteStore.cs:76-133"
+    ],
+    "status": "FAIL",
+    "summary": "ClickyInkNoteStore and ClickyLiveNoteStore store state in standard non-concurrent Dictionary<,> and HashSet<> fields (versionsByNoteId, selectedVersionByNoteId, lastDocumentByNoteId, liveNotes, settledNotes, watched, pendingStreamedTexts) without any lock or synchronization. ClickyInkNoteStore.PreloadVersions runs on a background Task.Run thread and mutates versionsByNoteId and selectedVersionByNoteId while SSE streaming (StreamPatch), timer callbacks, and UI threads concurrently read and mutate the same dictionaries. Concurrent calls corrupt internal Dictionary buckets and throw InvalidOperationException or NullReferenceException. Verified dynamically by WsHiAuditRunner Test 7.",
+    "evidence": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:27-50",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkNoteStore.cs:712-737",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyLiveNoteStore.cs:12-23",
+      "docs/audit/evidence/ws-hi/test-runner-output.txt"
+    ],
+    "remediation": "Synchronize access to ClickyInkNoteStore and ClickyLiveNoteStore state using a dedicated lock object or ConcurrentDictionary, and marshal UI-observable state mutations onto the dispatcher."
+  },
+  {
+    "id": "AUD-I-005",
+    "workstream": "WS-I",
+    "severity": "Medium",
+    "category": "Concurrency / Unobserved Tasks & Decompiler Iterator Artifacts",
+    "title": "53 Unawaited Fire-and-Forget Task Sites and 4 Decompiler Iterator.Dispose Failures Across Kursor.Core and Kursor.Platform",
+    "component": "Kursor.Core, Kursor.Platform",
+    "locations": [
+      "src/desktop/Kursor.Core/HeyClicky.Core.Auth/SupabaseAuthService.cs:839",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Net/LoopbackHttpServer.cs:173",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:1216",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:1228",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/CompanionSession.cs:5611",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Voice/DeepgramTranscriber.cs:143",
+      "src/desktop/Kursor.Platform/HeyClicky.Platform.Overlay/CursorOverlay.cs:68",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkLiveNote.cs:1420",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkRowMotion.cs:472",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Browser/ClickyBrowserBridge.cs:849",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Connectors/McpOAuth.cs:551"
+    ],
+    "status": "FAIL",
+    "summary": "Static scan across all 911 C# files in Kursor.Platform (346) and Kursor.Core (565) confirmed 0 async void methods and confirmed that CrashReporting.cs:203 hooks TaskScheduler.UnobservedTaskException. However: 1) 53 fire-and-forget Task.Run / ContinueWith call sites (48 in Kursor.Core, 5 in Kursor.Platform) do not observe returned tasks or attach fault continuations locally, relying on finalizer-time UnobservedTaskException; 2) 4 iterator methods in Kursor.Core contain '//yield-return decompiler failed: Unexpected instruction in Iterator.Dispose()' (ClickyInkLiveNote.cs:1420, ClickyInkRowMotion.cs:472, ClickyBrowserBridge.cs:849, McpOAuth.cs:551), risking skipped finally cleanup when enumerators are disposed early.",
+    "evidence": [
+      "docs/audit/evidence/ws-hi/thread-safety-scan.txt",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkLiveNote.cs:1420",
+      "src/desktop/Kursor.Core/HeyClicky.Core.Ink/ClickyInkRowMotion.cs:472"
+    ],
+    "remediation": "Route fire-and-forget tasks through a helper that logs exceptions immediately upon fault, and reconstruct the try/finally blocks in the 4 iterator methods where ILSpy emitted Iterator.Dispose() warnings."
+  }
+]

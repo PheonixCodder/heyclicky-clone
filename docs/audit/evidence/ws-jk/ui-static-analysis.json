@@ -1,0 +1,213 @@
+﻿{
+    "timestampUtc":  "2026-11-13T18:40:54.9020132Z",
+    "totalCsFiles":  886,
+    "asyncVoidCount":  10,
+    "asyncVoidOccurrences":  [
+                                 {
+                                     "file":  "HeyClicky.App/AppHost.cs",
+                                     "line":  2003,
+                                     "code":  "public async void Quit()"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App/AppHost.cs",
+                                     "line":  2190,
+                                     "code":  "public async void SetCursorDocked(bool dock)"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App/AppHost.cs",
+                                     "line":  2400,
+                                     "code":  "public async void StartHomeTourForDebug()"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App/AppHost.cs",
+                                     "line":  6447,
+                                     "code":  "public async void ResetAllDataAndQuit()"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch/NotchView.cs",
+                                     "line":  596,
+                                     "code":  "private async void OnDrop(object sender, DragEventArgs e)"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Peek/ClickyDrawingWindowViewer.cs",
+                                     "line":  28,
+                                     "code":  "public async void Present(StoredLesson stored, LessonService service)"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Peek/NotchChatComposer.cs",
+                                     "line":  949,
+                                     "code":  "private async void PickFiles()"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Peek/NotchChatComposer.cs",
+                                     "line":  1092,
+                                     "code":  "private async void OnPaste(object sender, TextControlPasteEventArgs e)"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Surfaces/ComposerBox.cs",
+                                     "line":  410,
+                                     "code":  "private async void PickFiles()"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Surfaces/ComposerBox.cs",
+                                     "line":  433,
+                                     "code":  "private async void OnPaste(object sender, TextControlPasteEventArgs e)"
+                                 }
+                             ],
+    "heyClickyUrlEmailRefs":  [
+                                  {
+                                      "file":  "HeyClicky.App/AppHost.cs",
+                                      "line":  3834,
+                                      "code":  "OpenUrl(\"https://mail.google.com/mail/?view=cm\u0026fs=1\u0026to=hi@heyclicky.com\u0026su=hi%20clicky%20team\u0026body=%3Cjk%20my%20twitter%20dm%27s%20got%20way%20too%20crazy%2C%20so%20email%20me%20here%3E\");"
+                                  },
+                                  {
+                                      "file":  "HeyClicky.App.Demo/ReferralFixture.cs",
+                                      "line":  25,
+                                      "code":  "[\"payout_contact_email\"] = \"hi@heyclicky.com\""
+                                  },
+                                  {
+                                      "file":  "HeyClicky.App.Services/CrashReporting.cs",
+                                      "line":  592,
+                                      "code":  "ClickyAnalytics.TrackAppError(\"crash_test\", new InvalidOperationException(\"HEYCLICKY_CRASH_TEST=report-error: a forced user-visible error\"), \"error, plz restart me. if still broken, send email to hi@heyclicky.com very srry!\");"
+                                  },
+                                  {
+                                      "file":  "HeyClicky.App.Settings/SettingsContent.cs",
+                                      "line":  1095,
+                                      "code":  "(UIElement)Ui.Text(\"New people can\u0027t join through your link right now. Everything you have already earned is unchanged. Questions? Write to \" + (Str(terms[\"payout_contact_email\"]) ?? \"hi@heyclicky.com\") + \".\", 12.5, FontWeights.Normal, MessagesPalette.Current.SecondaryText, TextAlignment.Left, 0, wrap: true)"
+                                  },
+                                  {
+                                      "file":  "HeyClicky.App.Settings/SettingsContent.cs",
+                                      "line":  2430,
+                                      "code":  "text5 = (flag2 ? \"The connection dropped before we could confirm the deletion finished. Please try again. If this keeps happening, email hi@heyclicky.com.\" : \"Nothing was deleted. Please try again, or email hi@heyclicky.com.\");"
+                                  },
+                                  {
+                                      "file":  "HeyClicky.App.Settings/SettingsContent.cs",
+                                      "line":  6391,
+                                      "code":  "string email = Str(terms[\"payout_contact_email\"]) ?? \"hi@heyclicky.com\";"
+                                  },
+                                  {
+                                      "file":  "HeyClicky.App.Settings/SettingsContent.cs",
+                                      "line":  6812,
+                                      "code":  "string email = Str(terms[\"payout_contact_email\"]) ?? \"hi@heyclicky.com\";"
+                                  }
+                              ],
+    "macHoldoverRefs":  [
+                            {
+                                "file":  "HeyClicky.App/AppHost.cs",
+                                "line":  3018,
+                                "code":  "LaunchContext = (withoutChrome ? (launch.LaunchContext + \" They chose not to connect Chrome for this job: don\u0027t ask about Chrome again. For a step on a website they\u0027re signed into, call mac_step and HeyClicky does it on their screen while they watch.\") : launch.LaunchContext),"
+                            },
+                            {
+                                "file":  "HeyClicky.App.Browser/ChromeSetupFlow.cs",
+                                "line":  625,
+                                "code":  "PassAnswer(\"HeyClicky is passing on the user\u0027s answer to your Chrome question: they\u0027d rather not connect Chrome now. Carry on without it: read public pages by fetching them or searching the web, and for a step on a website they\u0027re signed into, call mac_step (HeyClicky does it on their screen while they watch). What only their login shows (their home feed, inbox, cart, orders, settings) isn\u0027t on any public page, so a search or a guessed account won\u0027t find it: get that part with mac_step. Anything public, their own public posts included, search or fetch as usual. If your work is already done, there\u0027s nothing more to do.\", \"I\u0027d rather not connect Chrome now. Carry on without it: read public pages by fetching them or searching the web, and for each step on a website I\u0027m signed into, call mac_step and HeyClicky does it on my screen while I watch. What only my login shows (my home feed, inbox, cart, orders, settings) isn\u0027t on any public page, so a search or a guessed account won\u0027t find it: get that part with mac_step. Anything public, my own public posts included, search or fetch as usual.\", threadId);"
+                            },
+                            {
+                                "file":  "HeyClicky.App.Dock/ChromeSetupJobs.cs",
+                                "line":  62,
+                                "code":  "string context = \"HeyClicky started this as background work while their Chrome wasn\u0027t connected.\" + (withoutChrome ? \" They chose not to connect Chrome for this job: don\u0027t ask about Chrome again. For a step on a website they\u0027re signed into, call mac_step and HeyClicky does it on their screen while they watch.\" : \"\");"
+                            },
+                            {
+                                "file":  "HeyClicky.App.Drive/AgentDriveConsent.cs",
+                                "line":  293,
+                                "code":  "Log.Info(\"drive\", \"mac_step asked thread=\" + threadId);"
+                            },
+                            {
+                                "file":  "HeyClicky.App.Wiring/AgentToolHost.cs",
+                                "line":  133,
+                                "code":  "LaunchContext = (withoutChrome ? (launch.LaunchContext + \" They chose not to connect Chrome for this job: don\u0027t ask about Chrome again. For a step on a website they\u0027re signed into, call mac_step and HeyClicky does it on their screen while they watch.\") : launch.LaunchContext),"
+                            }
+                        ],
+    "isTabStopOccurrences":  [
+                                 {
+                                     "file":  "HeyClicky.App.Billing/PaywallWindow.cs",
+                                     "line":  62,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Documents/SpreadsheetGridView.cs",
+                                     "line":  70,
+                                     "code":  "IsTabStop = false,"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Documents/SpreadsheetGridView.cs",
+                                     "line":  138,
+                                     "code":  "base.IsTabStop = true;"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Documents/SpreadsheetPreview.cs",
+                                     "line":  151,
+                                     "code":  "IsTabStop = false,"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Peek/ClickyDrawingWindowView.cs",
+                                     "line":  397,
+                                     "code":  "IsTabStop = true,"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Peek/NotchChatView.cs",
+                                     "line":  154,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Surfaces/ActivitySurface.cs",
+                                     "line":  24,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Surfaces/ActivitySurface.cs",
+                                     "line":  31,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Surfaces/OnboardingCardSurface.cs",
+                                     "line":  34,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Surfaces/TextResponseSurface.cs",
+                                     "line":  39,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Notch.Window/HeyClickyWindow.cs",
+                                     "line":  839,
+                                     "code":  "IsTabStop = true,"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Onboarding/InterviewStage.cs",
+                                     "line":  120,
+                                     "code":  "IsTabStop = true,"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Onboarding/TutorialWindow.cs",
+                                     "line":  67,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Settings/GelSlider.cs",
+                                     "line":  73,
+                                     "code":  "base.IsTabStop = true;"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Settings/SettingsContent.cs",
+                                     "line":  1878,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.Settings/SettingsContent.cs",
+                                     "line":  7427,
+                                     "code":  "IsTabStop = false"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.UI/Pressable.cs",
+                                     "line":  60,
+                                     "code":  "IsTabStop = value \u0026\u0026 looksClickable;"
+                                 },
+                                 {
+                                     "file":  "HeyClicky.App.UI/Pressable.cs",
+                                     "line":  186,
+                                     "code":  "IsTabStop = handCursor;"
+                                 }
+                             ]
+}

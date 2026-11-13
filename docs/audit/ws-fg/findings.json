@@ -1,0 +1,248 @@
+[
+  {
+    "id": "AUD-F-001",
+    "workstream": "WS-F",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "README.md and docs/04 claim nonexistent `writeOnPage` / `callout` / `brace` / `table` / `chart` primitives and misdescribe `openPage` as a study-card builder",
+    "component": "Kursor.Drawing / Assets/Engine/clicky-draw-pieces.js & clicky-draw-engine.js",
+    "location": "README.md:20-21; docs/04-drawing-2d-3d-and-ink-engine.md:31,35; src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js:457-460",
+    "description": "README.md (lines 20-21) states that Kursor's Interactive Sticky Notes & Screen Ink Notebook uses `openPage` + `writeOnPage` to spawn draggable, expandable on-screen study cards with markdown headings, bullet lists, and math steps. In reality, `writeOnPage` does not exist anywhere in `clicky-draw-pieces.js`, `clicky-draw-engine.js`, or `clicky-draw-native.js` (calling it throws `ReferenceError: writeOnPage is not defined`), and `openPage(url)` (clicky-draw-pieces.js:460) emits an invisible action dot (`{role: 'open', payload: String(url)}`) that opens an HTTP/HTTPS URL in the user's browser on the final beat. Furthermore, `docs/04-drawing-2d-3d-and-ink-engine.md` (lines 31, 35) lists `callout`, `brace`, `table`, and `chart` as engine primitives, none of which exist in `makeApi` or `clicky-draw-pieces.js`.",
+    "reproductionSteps": [
+      "Run `node tests/audit/ws-fg/test-2d-engine.mjs`.",
+      "Inspect program `21_openPage_url_action_AUD_F_001` (`openPage(\"https://example.com/docs\")`) and program `22_writeOnPage_hallucinated_primitive_AUD_F_001` (`writeOnPage(\"Study Card\", \"Markdown body\")`) in `docs/audit/evidence/ws-fg/test-2d-engine-output.json`, as well as `missingPrimitives`."
+    ],
+    "observedResult": "`writeOnPage(...)` fails with `code stopped at line 861: writeOnPage is not defined (kept the 0 marks before it)`; `openPage(...)` emits `{ role: 'open', text: 'https://example.com/docs' }` with `cardCount: 0`; `callout`, `brace`, `table`, and `chart` evaluate to `typeof === 'undefined'`.",
+    "expectedResult": "Documentation and prompts must accurately reflect the implemented study-card primitives (`paper`, `sticky`, `receipt`, `clipping`, `legend`) and browser action (`openPage(url)`), or alias `writeOnPage` if intended as a compatibility shim.",
+    "impact": "Any developer, prompt, or test relying on `README.md` or `docs/04` to create study cards via `openPage` + `writeOnPage` or draw tables/charts via `table()`/`chart()`/`callout()`/`brace()` will trigger runtime `ReferenceError` failures in V8.",
+    "remediation": "Update `README.md:20-21` and `docs/04-drawing-2d-3d-and-ink-engine.md:31,35` to document the actual card primitives (`paper`, `sticky`, `receipt`, `clipping`, `legend`) and graph/timeline APIs (`graph`, `timeline`), and remove nonexistent primitive names.",
+    "effort": "S",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json (programs 21 & 22; missingPrimitives array)"
+  },
+  {
+    "id": "AUD-F-002",
+    "workstream": "WS-F",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`spot()` primitive is missing from `clicky-draw-pieces.js` despite being documented in `docs/04` and polyfilled in `brain.ts` fallback",
+    "component": "Kursor.Drawing / Assets/Engine/clicky-draw-pieces.js & src/backend/src/routes/brain.ts",
+    "location": "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js:180; src/backend/src/routes/brain.ts:911-914; docs/04-drawing-2d-3d-and-ink-engine.md:29,31,181",
+    "description": "`clicky-draw-pieces.js:180` defines `point(x, y, name)` to ring and label a screen coordinate, but does not define `spot(x, y, name)`. `docs/04-drawing-2d-3d-and-ink-engine.md` (lines 29, 31, 181) documents `spot()` as the primary pointer primitive, and `src/backend/src/routes/brain.ts:911-914` (`buildLocalFallbackProgram`) has to inject an inline workaround `const spot = typeof point === \"function\" ? point : () => {};` before calling `spot(500, 300, \"Kursor Active\")`. Any LLM response that emits `spot(...)` without that inline polyfill fails at runtime with `ReferenceError: spot is not defined`.",
+    "reproductionSteps": [
+      "Run `node tests/audit/ws-fg/test-2d-engine.mjs`.",
+      "Compare program `03_spot_undefined_without_polyfill_AUD_F_002` against `04_spot_with_brain_ts_polyfill` in `docs/audit/evidence/ws-fg/test-2d-engine-output.json`."
+    ],
+    "observedResult": "Program `03_spot_undefined_without_polyfill_AUD_F_002` aborts with `code stopped at line 861: spot is not defined (kept the 0 marks before it)`.",
+    "expectedResult": "`clicky-draw-pieces.js` should export `const spot = point;` as a first-class alias so both `point(x, y, label)` and `spot(x, y, label)` work without per-program polyfills.",
+    "impact": "LLM-generated ClickyDraw programs that call `spot(x, y, label)` (a frequent model hallucination/synonym for `point`) crash at the `spot()` statement and drop all subsequent drawing marks in that beat.",
+    "remediation": "Add `const spot = point` in `src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-pieces.js` right after `const point = ...` (line 184).",
+    "effort": "S",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json (programs 03 & 04)"
+  },
+  {
+    "id": "AUD-F-003",
+    "workstream": "WS-F",
+    "severity": "P1",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`ONE_BRAIN_DRAWING_AND_3D_INSTRUCTIONS` in `brain.ts` teaches `around: { count, axis, at }` instead of `around.center`, breaking non-origin circular 3D arrays",
+    "component": "Backend Prompt (`src/backend/src/routes/brain.ts`) vs `clicky-draw-engine.js`",
+    "location": "src/backend/src/routes/brain.ts:85; src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:706,718-720",
+    "description": "In `src/backend/src/routes/brain.ts:85`, `ONE_BRAIN_DRAWING_AND_3D_INSTRUCTIONS` instructs the LLM to repeat 3D parts around an axis using `around: { count: 10, axis: \"x\"|\"y\"|\"z\", at: [0,0,0] }`. However, `clicky-draw-engine.js:720` reads `around.center`, not `around.at`: `const center = v3(around.center, [0, 0, 0])`. When the LLM follows the system prompt and passes `at: [x, y, z]` inside `around`, `around.center` is `undefined` and silently defaults to `[0, 0, 0]`, revolving the parts around the world origin instead of the specified pivot.",
+    "reproductionSteps": [
+      "Run `node tests/audit/ws-fg/test-2d-engine.mjs`.",
+      "Inspect program `34_figure_materials_and_around_audit_AUD_F_003_004` in `docs/audit/evidence/ws-fg/test-2d-engine-output.json`, where `f.torus({ at: [2, 1, 0], ..., around: { count: 4, axis: \"y\", at: [2, 0, 0] } })` is executed."
+    ],
+    "observedResult": "Instead of revolving at radius 0 around `[2, 0, 0]` (staying at `x = 2`), the 4 copies revolve at radius 2 around `[0, 0, 0]`, placing the 180-degree copy at `[-2, 1, 0]` (`aroundWithAtPositions[2][0] === -2`).",
+    "expectedResult": "`brain.ts:85` should teach `center: [0,0,0]` (and `clicky-draw-engine.js:720` should accept `v3(around.center, null) || v3(around.at, [0, 0, 0])`).",
+    "impact": "Every 3D figure generated by OneBrain that uses `around` on an off-origin subassembly (e.g., turbine blades, wheel bolts, planetary gears) scatters the repeated parts around `[0, 0, 0]`.",
+    "remediation": "Update `src/backend/src/routes/brain.ts:85` to `around: { count: 10, axis: \"x\"|\"y\"|\"z\", center: [0,0,0] }` and accept `around.center || around.at` in `clicky-draw-engine.js:720`.",
+    "effort": "S",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json (program 34 custom.aroundWithAtPositions)"
+  },
+  {
+    "id": "AUD-F-004",
+    "workstream": "WS-F",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`ONE_BRAIN_DRAWING_AND_3D_INSTRUCTIONS` in `brain.ts` teaches unsupported 3D material names `\"cast\"` and `\"carbon\"`",
+    "component": "Backend Prompt (`src/backend/src/routes/brain.ts`) vs `clicky-draw-engine.js` & `Material3D.cs`",
+    "location": "src/backend/src/routes/brain.ts:88; src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:561-562,635-641; src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Material3D.cs:85-211",
+    "description": "`src/backend/src/routes/brain.ts:88` instructs the LLM that valid 3D materials are `\"steel\"|\"alu\"|\"brass\"|\"copper\"|\"chrome\"|\"cast\"|\"titanium\"|\"gold\"|\"carbon\"|\"rubber\"|\"glass\"|\"wood\"|\"ceramic\"|\"plastic\"|\"paint:red\"|\"glow:cyan\"`. However, neither `\"cast\"` nor `\"carbon\"` exists in `FIGURE_MATERIALS` (`clicky-draw-engine.js:561-562`, which instead has `'iron'` and `'black'`) or in `Material3D.Studio` (`Material3D.cs:85-211`). When `mat: \"cast\"` or `mat: \"carbon\"` is used, `FIGURE_MATERIALS.includes(kind)` is `false`, so `clicky-draw-engine.js:638-640` rewrites `material` to `{ mat: 'gloss', tint: 'cast' }` (or `'carbon'`). Subsequently, `Material3D.Studio` fails to parse `'cast'`/`'carbon'` as a hex color in `Math3D.LinearColor` and renders light-grey glossy plastic (`#B9BEC4`, roughness 0.22, metallic 0) instead of dark cast iron or matte carbon fiber.",
+    "reproductionSteps": [
+      "Run `node tests/audit/ws-fg/test-2d-engine.mjs`.",
+      "Inspect program `34_figure_materials_and_around_audit_AUD_F_003_004` in `docs/audit/evidence/ws-fg/test-2d-engine-output.json`."
+    ],
+    "observedResult": "`f.box({ mat: \"cast\" })` produces `material: { mat: \"gloss\", tint: \"cast\" }`; `f.sphere({ mat: \"carbon\" })` produces `material: { mat: \"gloss\", tint: \"carbon\" }`. In `Material3D.Studio`, both render as default `#B9BEC4` glossy plastic.",
+    "expectedResult": "The prompt in `brain.ts:88` and `FIGURE_MATERIALS` / `Material3D.Studio` must agree on material preset names (`\"iron\"` / `\"black\"`, or add `\"cast\"` and `\"carbon\"` to `FIGURE_MATERIALS` and `Material3D.Studio`).",
+    "impact": "3D parts assigned `mat: \"cast\"` or `mat: \"carbon\"` by OneBrain lose their dark metallic/matte appearance and render as pale grey glossy plastic.",
+    "remediation": "Replace `\"cast\"` and `\"carbon\"` with `\"iron\"` and `\"black\"` in `src/backend/src/routes/brain.ts:88`, or add `\"cast\"` and `\"carbon\"` aliases to `FIGURE_MATERIALS` (`clicky-draw-engine.js:561`) and `Material3D.Studio` (`Material3D.cs:85`).",
+    "effort": "S",
+    "evidence": "docs/audit/evidence/ws-fg/test-2d-engine-output.json (program 34 custom.castMaterial & custom.carbonMaterial)"
+  },
+  {
+    "id": "AUD-F-005",
+    "workstream": "WS-F",
+    "severity": "P1",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "No `DXGI_ERROR_DEVICE_REMOVED` / `DeviceLost` recovery across `ScreenPainter`, `SystemComposition`, `LiveCaption`, `PinnedCards`, `CardHandles`, or `StageSwapChain`",
+    "component": "Kursor.Drawing (Direct2D / Win2D / DirectComposition)",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing/SystemComposition.cs:99-188; src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/ScreenPainter.cs:402-460; src/desktop/Kursor.Drawing/HeyClicky.Drawing.Painter/StageSwapChain.cs:147-159; src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/LiveCaption.cs:83,310; src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/PinnedCards.cs:455",
+    "description": "`Kursor.Drawing` uses `CanvasDevice.GetSharedDevice()` (Win2D) in `ScreenPainter`, `LiveCaption`, `PinnedCards`, `CardHandles`, and `SystemComposition`, plus raw COM `ICompositionDrawingSurfaceInterop.BeginDraw` / `ID2D1DeviceContext` in `SystemComposition.CopyInto` (`SystemComposition.cs:143-188`) and `IDXGISwapChain1.Present` in `StageSwapChain.Present` (`StageSwapChain.cs:158`). None of these classes subscribe to `CanvasDevice.DeviceLost` or catch `DXGI_ERROR_DEVICE_REMOVED` (`0x887A0005`) / `DXGI_ERROR_DEVICE_RESET` (`0x887A0007`) / `D2DERR_RECREATE_TARGET` (`0x8899000C`). In `SystemComposition.CopyInto` (lines 165, 180), `Marshal.ThrowExceptionForHR` throws an unhandled `COMException` on the UI thread when `BeginDraw` or `EndDraw` returns device-removed.",
+    "reproductionSteps": [
+      "Inspect `SystemComposition.cs:143-188`, `ScreenPainter.cs`, `LiveCaption.cs:83,310`, `PinnedCards.cs:455`, `CardHandles.cs:796`, and `StageSwapChain.cs:147-159`.",
+      "Search `src/desktop/Kursor.Drawing/` for `DeviceLost`, `0x887A0005`, `0x8899000C`, or `IsDeviceLost` (0 matches)."
+    ],
+    "observedResult": "Zero handlers or recovery paths exist for GPU driver resets, TDR events, or display adapter transitions.",
+    "expectedResult": "Catch `COMException` for `DXGI_ERROR_DEVICE_REMOVED` / `DXGI_ERROR_DEVICE_RESET` / `D2DERR_RECREATE_TARGET`, invoke `CanvasDevice.RaiseDeviceLost()` / recreate `CompositionGraphicsDevice` and swap chains.",
+    "impact": "Any GPU driver update, TDR reset, laptop hybrid-GPU switch, or RDP reconnect while overlays are active causes unhandled `COMException` crashes or permanently blank overlays.",
+    "remediation": "Handle `DXGI_ERROR_DEVICE_REMOVED`, `DXGI_ERROR_DEVICE_RESET`, and `D2DERR_RECREATE_TARGET` in `SystemComposition.CopyInto` and `StageSwapChain.Present`, and recreate `CompositionGraphicsDevice` / Win2D resources when `CanvasDevice.GetSharedDevice()` reports device loss.",
+    "effort": "M",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing/HeyClicky.Drawing/SystemComposition.cs:99-188` and `StageSwapChain.cs:147-159`"
+  },
+  {
+    "id": "AUD-F-006",
+    "workstream": "WS-F",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`OverlayWindow` ignores `WM_DPICHANGED` (`0x02E0`) and `MoveTo()` does not refresh `scale` across mixed-DPI monitors",
+    "component": "Kursor.Drawing / HeyClicky.Drawing.Overlay.OverlayWindow",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/OverlayWindow.cs:220-226,338-407,462-466",
+    "description": "`OverlayWindow.Fit(int widthPx, int heightPx)` (`OverlayWindow.cs:220-226`) queries `GetDpiForWindow(Handle)` and updates `scale = dpi / 96f`, `Root.Scale`, and `Root.Size`. However, `Fit()` is only called from `ShowOver()` and `Reframe()`. `WindowProcedure` (`OverlayWindow.cs:338-407`) does not handle `WM_DPICHANGED` (`0x02E0`), and `MoveTo(int x, int y)` (`OverlayWindow.cs:462-466`, called during interactive card dragging in `CardHandles.ContinueDrag` and `PinnedCards`) moves the HWND via `SetWindowPos` without updating `scale` or `Root.Scale` when crossing onto a monitor with a different DPI.",
+    "reproductionSteps": [
+      "Inspect `OverlayWindow.cs:220-226` (`Fit`), `OverlayWindow.cs:338-407` (`WindowProcedure`), and `OverlayWindow.cs:462-466` (`MoveTo`)."
+    ],
+    "observedResult": "`MoveTo` calls `SetWindowPos` with `SWP_NOSIZE` and never re-evaluates `GetDpiForWindow(Handle)`, leaving `OverlayWindow.Scale` and `Root.Scale` at the source monitor's DPI scale.",
+    "expectedResult": "`WindowProcedure` should handle `WM_DPICHANGED` (`0x02E0`) and `MoveTo` should check `GetDpiForWindow(Handle)` and re-run `Fit` if the monitor DPI changed.",
+    "impact": "Dragging pinned study cards or moving interactive overlays between a 100% DPI external monitor and a 150%/200% DPI laptop screen results in mis-scaled visuals and offset pointer hitboxes.",
+    "remediation": "Handle `WM_DPICHANGED` (`0x02E0`) in `OverlayWindow.WindowProcedure` and check `GetDpiForWindow(Handle)` in `OverlayWindow.MoveTo` to update `scale`, `Root.Scale`, and window pixel bounds when DPI changes.",
+    "effort": "S",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/OverlayWindow.cs:220-226,338-407,462-466`"
+  },
+  {
+    "id": "AUD-F-007",
+    "workstream": "WS-F",
+    "severity": "P3",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`OverlayWindow.ShowInScreenRecordings` property setter fires and forgets `ApplyCapturePolicyToAllAsync()` without observing exceptions",
+    "component": "Kursor.Drawing / HeyClicky.Drawing.Overlay.OverlayWindow",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/OverlayWindow.cs:86-97,114-141",
+    "description": "In `OverlayWindow.cs:94`, the static property setter `ShowInScreenRecordings` invokes `ApplyCapturePolicyToAllAsync();` without awaiting the returned `Task` or attaching an exception continuation. Moreover, callers such as `LessonVideoRecorder.Start` (`LessonVideoRecorder.cs:64`) set `OverlayWindow.ShowInScreenRecordings = true` and immediately assume `SetWindowDisplayAffinity` has been updated on all overlay HWNDs, even though `ApplyCapturePolicyToAllAsync` marshals asynchronously via `DispatcherQueue.EnqueueAsync` when called off the UI thread.",
+    "reproductionSteps": [
+      "Inspect `OverlayWindow.cs:86-97` and `LessonVideoRecorder.cs:64-65`."
+    ],
+    "observedResult": "`ApplyCapturePolicyToAllAsync()` is called as a fire-and-forget `Task` inside a synchronous property setter, creating both an unobserved-exception hazard and a race with `LessonVideoRecorder.Start`.",
+    "expectedResult": "`ApplyCapturePolicyToAllAsync` should wrap its body in a `try/catch` and `LessonVideoRecorder` should ensure capture affinity is applied before capturing frames.",
+    "impact": "When `LessonVideoRecorder.Start` is called from a background thread, the first recorded frames can still have `WDA_EXCLUDEFROMCAPTURE` set on overlay windows, omitting the drawing overlay from the start of the MP4.",
+    "remediation": "Add a `try/catch` inside `ApplyCapturePolicyToAllAsync` and expose an awaitable `SetShowInScreenRecordingsAsync(bool)` method for `LessonVideoRecorder`.",
+    "effort": "S",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing/HeyClicky.Drawing.Overlay/OverlayWindow.cs:86-97` and `LessonVideoRecorder.cs:64`"
+  },
+  {
+    "id": "AUD-F-008",
+    "workstream": "WS-F",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`Mp4VideoWriter` lacks input dimension validation (odd/zero dimensions) and overflows `int` bitrate arithmetic before `long` cast",
+    "component": "Kursor.Drawing / HeyClicky.Drawing.Media.Mp4VideoWriter & LessonVideoRecorder",
+    "location": "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4VideoWriter.cs:5,41-60; src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/LessonVideoRecorder.cs:158-167",
+    "description": "`Mp4VideoWriter` (`Mp4VideoWriter.cs:5`) is a `public sealed class` whose constructor (`Mp4VideoWriter.cs:41-60`) passes `width` and `height` directly to Media Foundation's H.264 encoder without validating that `width > 0`, `height > 0`, and both are even integers (H.264 requires even width/height). Furthermore, line 50 computes `Math.Min(2147483647L, width * height * 6)` where `width * height * 6` is evaluated in 32-bit signed `int` arithmetic before widening to `long` (`2147483647L`). Additionally, in `LessonVideoRecorder.Cancel()` (`LessonVideoRecorder.cs:158-167`), `Task.Run` joins the recording thread and deletes the output file asynchronously in the background without `Dispose()` waiting on that task.",
+    "reproductionSteps": [
+      "Inspect `Mp4VideoWriter.cs:41-60` and `LessonVideoRecorder.cs:158-174`."
+    ],
+    "observedResult": "Passing odd dimensions to `new Mp4VideoWriter(path, 1921, 1080)` throws raw Media Foundation `COMException` in `MF.Check`, and `width * height * 6` uses 32-bit `int` multiplication despite the `2147483647L` `long` literal.",
+    "expectedResult": "`Mp4VideoWriter` should clamp/round dimensions to even positive integers (or throw `ArgumentOutOfRangeException`), compute `(long)width * height * 6L`, and `LessonVideoRecorder.Dispose()` should wait for any pending `Cancel()` task.",
+    "impact": "Direct callers of `Mp4VideoWriter` with non-even monitor crop sizes fail with raw `COMException`, and `LessonVideoRecorder.Cancel()` can race with immediate file cleanup.",
+    "remediation": "Validate and round `width` and `height` to even positive bounds in `Mp4VideoWriter`, change bitrate calculation to `(uint)Math.Min(2147483647L, (long)width * height * 6L)`, and track the cancellation `Task` in `LessonVideoRecorder`.",
+    "effort": "S",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing/HeyClicky.Drawing.Media/Mp4VideoWriter.cs:41-60` and `LessonVideoRecorder.cs:158-174`"
+  },
+  {
+    "id": "AUD-G-001",
+    "workstream": "WS-G",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`ONE_BRAIN_DRAWING_AND_3D_INSTRUCTIONS` in `brain.ts` teaches `top` radius on `f.cone(...)`, which `clicky-three-parts.js` completely ignores",
+    "component": "Backend Prompt (`src/backend/src/routes/brain.ts`) vs `clicky-three-parts.js`",
+    "location": "src/backend/src/routes/brain.ts:74; src/desktop/Kursor.Drawing/Assets/Engine/clicky-three-parts.js:372-377",
+    "description": "In `src/backend/src/routes/brain.ts:74`, `ONE_BRAIN_DRAWING_AND_3D_INSTRUCTIONS` teaches the LLM to build truncated cones/nozzles using `f.cone({ at: [x,y,z], r: 0.6, top: 0.2, h: 0.7, axis: \"x\"|\"y\"|\"z\", mat: \"alu\", name: \"Nozzle\" })`. However, `SHAPES.cone(o)` in `clicky-three-parts.js:372-377` never reads `o.top`—it always constructs a pointed cone with apex `[0, h / 2]` (`new T.ConeGeometry(r, h, ...)`). Only `SHAPES.cyl(o)` (`clicky-three-parts.js:365-371`) reads `o.top` to construct a frustum.",
+    "reproductionSteps": [
+      "Run `node tests/audit/ws-fg/test-3d-engine.mjs`.",
+      "Inspect `coneTopParameterIgnoredByteIdentical` in `docs/audit/evidence/ws-fg/test-3d-engine-output.json`."
+    ],
+    "observedResult": "`clickyThreeBuild('cone', JSON.stringify({ r: 0.8, top: 0.4, h: 1.2, seg: 24 }))` produces a vertex buffer that is 100% byte-for-byte identical to `clickyThreeBuild('cone', JSON.stringify({ r: 0.8, h: 1.2, seg: 24 }))` (`coneTopParameterIgnoredByteIdentical: true`).",
+    "expectedResult": "`SHAPES.cone(o)` should delegate to `SHAPES.cyl(o)` when `typeof o.top === 'number' && o.top > 0`, or `brain.ts:74` should remove `top: 0.2` from `f.cone(...)` (since `f.cyl` already documents `top: 0.9` on line 73).",
+    "impact": "Whenever OneBrain follows its own prompt example (`f.cone({ r: 0.6, top: 0.2, h: 0.7, name: \"Nozzle\" })`), nozzles and frustums render as sharp pointed cones instead of truncated cones.",
+    "remediation": "In `clicky-three-parts.js:372`, if `num(o.top, 0) > 0`, forward `SHAPES.cone(o)` to `SHAPES.cyl(o)`, and remove misleading `top: 0.2` from `f.cone` in `src/backend/src/routes/brain.ts:74`.",
+    "effort": "S",
+    "evidence": "docs/audit/evidence/ws-fg/test-3d-engine-output.json (`coneTopParameterIgnoredByteIdentical: true`, test `ext_04_cone_with_top_param_AUD_G_001`)"
+  },
+  {
+    "id": "AUD-G-002",
+    "workstream": "WS-G",
+    "severity": "P2",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`ThreeStage.Dispose()` disposes D3D11/D2D1 GPU resources on `ThreadPool` even if `frameThread.Join(5000)` times out, racing with active rendering",
+    "component": "Kursor.Drawing3D / HeyClicky.Drawing3D.ThreeStage",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ThreeStage.cs:1083-1120",
+    "description": "In `ThreeStage.Dispose()` (`ThreeStage.cs:1083-1107`), if `frameThread.IsAlive` is true, `Dispose()` queues a background work item via `ThreadPool.QueueUserWorkItem`: `running.Join(5000); Release();`. If `running.Join(5000)` times out after 5 seconds (for example, if `frameThread` is blocked in `WaitForCompositorFrame` or V8 `RunTicks`), `Release()` (`ThreeStage.cs:1110-1120`) still executes unconditionally on the ThreadPool thread, calling `d2dTarget.Dispose()`, `backBuffer.Dispose()`, `renderer.Dispose()`, and `wake.Dispose()` while `frameThread` is still running and accessing those exact native COM pointers (`d2d`, `renderer`, `backBuffer`, `wake`).",
+    "reproductionSteps": [
+      "Inspect `ThreeStage.cs:1083-1120` (`Dispose` and `Release`) and `ThreeStage.cs:1330-1375` (`FrameLoop`)."
+    ],
+    "observedResult": "`Release()` is called unconditionally after `running.Join(5000)` without checking whether `running.Join(5000)` returned `true` or `false`, and without synchronizing with `RenderFrame()`.",
+    "expectedResult": "`Release()` must only execute after `frameThread` has actually terminated (or inside a `finally` block at the exit of `FrameLoop` itself) so native D3D11/D2D1 COM objects are never disposed while `FrameLoop` is executing.",
+    "impact": "Use-after-free native access violation (`0xC0000005`) or `ObjectDisposedException` on `wake` if a `ThreeStage` frame takes longer than 5 seconds during shutdown.",
+    "remediation": "Move `Release()` into a `finally` block at the end of `FrameLoop()` when `disposed` is set, rather than calling `Release()` from an external `ThreadPool` thread after a bounded `Join(5000)`.",
+    "effort": "S",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ThreeStage.cs:1083-1120`"
+  },
+  {
+    "id": "AUD-G-003",
+    "workstream": "WS-G",
+    "severity": "P3",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`ClickyThreeKernel` permanently caches failed recipe keys in an unbounded `failed` HashSet and never recovers from `loadFailed`",
+    "component": "Kursor.Drawing3D / HeyClicky.Drawing3D.ClickyThreeKernel",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:30,118-121,179-190,236-238",
+    "description": "`ClickyThreeKernel` (`ClickyThreeKernel.cs:30`) maintains a `HashSet<string> failed = new HashSet<string>()` of failed `\"kind:recipeJson\"` keys. While successful geometries in `shapes` are capped at `MaxCachedShapes = 256` with FIFO eviction (`CacheShape`, lines 142-158), `failed` has no size cap or eviction policy, and is never cleared even when the V8 runtime idles out after 300 seconds (`Run`, lines 179-190). Additionally, if `LoadEngine()` fails once (`loadFailed = true`, line 222), the kernel is permanently bricked for the lifetime of the process.",
+    "reproductionSteps": [
+      "Inspect `ClickyThreeKernel.cs:30,118-158,179-240`."
+    ],
+    "observedResult": "`failed` grows monotonically across the process lifetime without bound, and `MarkFailed` permanently blacklists keys even if failure was caused by a transient V8 teardown/interrupt.",
+    "expectedResult": "Cap `failed` (e.g., `<= 256` entries) and clear `failed` when the V8 runtime is recycled after the 300s idle timeout.",
+    "impact": "Unbounded memory growth in `failed` over long sessions with malformed LLM recipes, and permanent blacklisting of recipes after any transient V8 error.",
+    "remediation": "Clear `failed` when disposing the idle V8 engine in `Run()` and cap `failed.Count` to `256` entries in `MarkFailed()`.",
+    "effort": "S",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:30,118-240`"
+  },
+  {
+    "id": "AUD-G-004",
+    "workstream": "WS-G",
+    "severity": "P3",
+    "confidence": "Confirmed",
+    "status": "FAIL",
+    "title": "`Pipelines.Shared` permanently disables all 3D rendering (`buildFailed = true`) on any transient shader/pipeline error and `GpuDevice.Shared` cannot recover from device loss",
+    "component": "Kursor.Drawing3D / HeyClicky.Drawing3D.Pipelines & GpuDevice",
+    "location": "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/Pipelines.cs:20,145-165; src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuDevice.cs:19-45",
+    "description": "`GpuDevice.Shared` (`GpuDevice.cs:19`) is a static `Lazy<GpuDevice>` singleton with no mechanism to recreate the `ID3D11Device` or `ID2D1Device` if `GetDeviceRemovedReason()` becomes non-zero. Furthermore, `Pipelines.Shared` (`Pipelines.cs:145-165`) catches any exception during pipeline construction, sets a static `buildFailed = true`, and returns `null` for the remainder of the process lifetime.",
+    "reproductionSteps": [
+      "Inspect `GpuDevice.cs:19-45` and `Pipelines.cs:20,145-165`."
+    ],
+    "observedResult": "Both `GpuDevice.Shared` and `Pipelines.Shared` are one-shot static singletons with no device-loss reset path.",
+    "expectedResult": "`GpuDevice` should check `D3D.GetDeviceRemovedReason()` and allow recreating the shared `GpuDevice` and `Pipelines` instances after a GPU reset.",
+    "impact": "If the D3D11 device is removed or reset, all 3D stages (`ThreeStage.FrameLoop`) catch the exception, set `paused = true` (`ThreeStage.cs:1347`), and 3D rendering ceases until the application is restarted.",
+    "remediation": "Replace the immutable `Lazy<GpuDevice>` singleton with a resettable device manager that recreates `GpuDevice` and `Pipelines` when `ID3D11Device.GetDeviceRemovedReason()` indicates device removal.",
+    "effort": "M",
+    "evidence": "Static source audit of `src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/GpuDevice.cs:19-45` and `Pipelines.cs:145-165`"
+  }
+]

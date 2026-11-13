@@ -1,0 +1,199 @@
+{
+  "crossAuditor": "ws-c-backend",
+  "targetWorkstream": "WS-D",
+  "primaryAuditor": "ws-d-brain-vision",
+  "primaryReportPath": "docs/audit/ws-d/REPORT.md",
+  "timestamp": "2026-11-13T12:44:00Z",
+  "summary": {
+    "totalPass1Findings": 8,
+    "confirmed": 8,
+    "disputed": 0,
+    "newFindingsAdded": 4
+  },
+  "verdicts": [
+    {
+      "id": "AUD-D-001",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/brain.ts:433, 578-601, 660-668, 691-705, 958-962",
+        "docs/audit/evidence/ws-d/model-provider-verification.json"
+      ],
+      "notes": "Confirmed 100% against brain.ts and live OpenRouter probes: (1) all 4 explicit :free fallback models at brain.ts:700-704 return HTTP 404 on OpenRouter; (2) 'baidu/ernie-5.5-flash-preview:free' at line 601 is unreachable dead code because requestedModel defaults to 'anthropic/claude-sonnet-4.6' at line 962; (3) ONEBRAIN_MODEL in README.md is never read; (4) runGroqVisionEye failure on screenshot turns retries qwen/qwen3.8-27b twice, disables groq-120b (line 580), and calls qwen/qwen3.8-27b a 3rd time at line 590; (5) payload.tools is omitted for all Groq and OpenRouter calls (lines 661-668)."
+    },
+    {
+      "id": "AUD-D-002",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/utils/screenLayout.ts:68-82, 144-482, 492-510",
+        "src/backend/src/routes/brain.ts:385, 976",
+        "docs/audit/evidence/ws-d/screen-layout-benchmark.json"
+      ],
+      "notes": "Confirmed 100%: extractPromptInput (brain.ts:385, called at line 976 before ReadableStream starts) runs analyzeScreenLayout synchronously on the Node.js main thread using pure-JS jpeg-js with no maxResolutionInMP or maxMemoryUsageInMB override, blocking the event loop for 423ms p50 / 750ms p95 on 1280x720, 1.36s on 1080p, 2.18s on 1440p, and 6.94s on 12MP images."
+    },
+    {
+      "id": "AUD-D-003",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/utils/screenLayout.ts:690-698",
+        "docs/audit/evidence/ws-d/snap-program-adversarial.json"
+      ],
+      "notes": "Confirmed 100%: Case B at screenLayout.ts:694-697 uses /^[ \\t]*(?:receipt|clipping)\\s*\\([\\s\\S]*?\\)\\s*;?[ \\t]*$/gm. When a receipt() call has a trailing inline comment, [\\s\\S]*? spans across newlines and wipes out subsequent step(), say(), and check() calls up to the next line ending in ');' (verified in SNAP-01 and SNAP-03), or stops early on inner ')' in multiline calls and leaves a fatal JS SyntaxError (SNAP-02)."
+    },
+    {
+      "id": "AUD-D-004",
+      "severity": "High",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:145-148, 249-301, 347-350, 583-588, 605-649",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing/DrawingThread.cs:191-231",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:650-652, 835-851",
+        "src/desktop/Kursor.Drawing3D/HeyClicky.Drawing3D/ClickyThreeKernel.cs:290, 349",
+        "docs/audit/evidence/ws-d/v8-sandbox-watchdog-analysis.json"
+      ],
+      "notes": "Confirmed 100% with one minor method-name precision refinement: in clicky-draw-native.js:835-851, the 3D tick runner is clickyCanvas.tick3d (invoked via __win.tick3d), where the 8ms check `if (Date.now() - started > 8)` at line 847 runs only after `fn(+entry[1] || 0, +dt || 1 / 60)` returns on line 844. Zero V8 interrupt watchdogs exist in NativeEngine or ClickyThreeKernel, DrawingThread.Invoke blocks indefinitely on done.Wait() (line 220), and ClickyThreeKernel.cs:290 omits V8RuntimeConstraints."
+    },
+    {
+      "id": "AUD-D-005",
+      "severity": "High",
+      "verdict": "CONFIRMED_WITH_REFINEMENT",
+      "evidence": [
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/NativeEngine.cs:149-153, 575-581, 651-678",
+        "src/desktop/Kursor.Drawing/HeyClicky.Drawing.Engine/HostBridge.cs:7-122",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-native.js:18-44",
+        "src/desktop/Kursor.Drawing/Assets/Engine/clicky-draw-engine.js:1057, 1089"
+      ],
+      "notes": "Confirmed core finding (unrestricted global access to __hostRaw / __host, unbounded timer flood, and persistent global/prototype pollution across turns) with two technical precision refinements from C# source inspection: (1) HostBridge.cs:7 inherits from V8FastHostObject<HostBridge> (not reflection-based HostObject), so it does NOT expose .Speak(), .PlaySound(), or .GetType(); instead, it exposes lowercase fast-proxy methods `schedule`, `cancel`, `log`, `caption`, `markSound`, `buttonReady`, `shape3d`, `textWidth`, `textBox`, `setPath`, `pathLength`, `pathPoint`, `pathBox`, `inkFor`, `busyFor`, `lumFor`, `figuresFloat`, and `r0`..`r3`. (2) NativeEngine.Clear() is at lines 575-581 (not 296-306) and DOES call CancelAllTimers() on C# timerTokens (line 579); HOWEVER, clearNow() in clicky-draw-native.js fails to clear the JS `timerCallbacks` Map (line 25), leaking all timer callback closures in V8 memory across turns, and setTimeout/setInterval during a turn has no concurrency cap."
+    },
+    {
+      "id": "AUD-D-006",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/utils/screenLayout.ts:95-142, 271-395, 405-481, 486-515",
+        "docs/audit/evidence/ws-d/screen-layout-benchmark.json"
+      ],
+      "notes": "Confirmed 100% against screenLayout.ts and the 66-image corpus benchmark: 35.48% strict table recall (11/31), 37.50% strict answer-line recall (6/16), 0% recall on solid underline and dashed worksheet blanks (causing Case A to replace valid inline write() calls with a floating receipt() card), 2 false-positive table detections (IDE split panes and bar chart gridlines), and off-screen calmCardSpot {x: 860, y: 150} on 640x480 screens because candidateSpots are hardcoded for 1280x720."
+    },
+    {
+      "id": "AUD-D-007",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/utils/screenLayout.ts:645-689, 720-724, 735-777, 811-835",
+        "docs/audit/evidence/ws-d/snap-program-adversarial.json"
+      ],
+      "notes": "Confirmed 100% across all 19 failing adversarial cases in snap-program-adversarial.json: Case A produces `const w2 = ;` SyntaxError when a 2nd write() call is assigned to a variable (line 685 replaces with ''), hasTableMarks/hasCardAlready match keywords inside comments and say() strings (lines 646-648), options with ')' break writeFullRegex/point regexes (lines 664, 736), RISC/CISC column indices are hardcoded (lines 721-724), ViT 720/565 rescaling corrupts valid 720p Y coordinates (lines 756-776), and lines 829-832 discard answer lines above tables."
+    },
+    {
+      "id": "AUD-D-008",
+      "severity": "Medium",
+      "verdict": "CONFIRMED",
+      "evidence": [
+        "src/backend/src/routes/brain.ts:512-556, 1039-1088, 1177-1295",
+        "docs/audit/evidence/ws-d/brain-prompt-matrix.json"
+      ],
+      "notes": "Confirmed 100%: POST /brain/compact never updates SQLite threads.messages_json and emits note_item with role='developer' (line 1224) which POST /brain/turn drops at line 517; assistant history turns without say() are completely dropped (lines 538-550); tryCallUpstreamLlm never populates computerCalls; and /brain/session-end performs zero memory consolidation into SQLite memory."
+    }
+  ],
+  "newFindings": [
+    {
+      "id": "AUD-D-009",
+      "workstream": "WS-D",
+      "severity": "High",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "POST /brain/turn Drops All function_call, function_call_output, and developer Context Items From Thread History, Breaking Multi-Round Tool Execution",
+      "component": "OneBrain Tool Continuation & Thread History (brain.ts vs BrainSession.cs)",
+      "location": "src/backend/src/routes/brain.ts:272-356, 512-556; src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:463, 572, 616, 658-677, 732-750",
+      "description": "When the C# desktop client executes a tool call emitted by `/brain/turn` (`BrainSession.AppendToolResult` at `BrainSession.cs:732-750` and `CommitTurn` at `lines 658-677`), it appends `{ \"type\": \"function_call\", \"call_id\": ..., \"name\": ..., \"arguments\": ... }` and `{ \"type\": \"function_call_output\", \"call_id\": ..., \"output\": ... }` to `thread` and sends a continuation turn to `POST /brain/turn`. However, `tryCallUpstreamLlm` (`brain.ts:516-517`) only forwards items matching `item.type === \"message\" && (item.role === \"user\" || item.role === \"assistant\")`, silently dropping 100% of `function_call` and `function_call_output` items! In addition, `BrainSession.CommitTurn` records turn context notes (`note` at line 572), web search results (`searchRecords` at line 616), and pending app notes (`line 463`) as `Message(\"developer\", ...)`, all of which `brain.ts:517` also drops on subsequent turns.",
+      "reproductionSteps": [
+        "Inspect `BrainSession.AppendToolResult` (`BrainSession.cs:732-750`) and `BrainSession.CommitTurn` (`lines 572, 616, 658-677`).",
+        "Inspect `extractPromptInput` (`brain.ts:272-356`) and `tryCallUpstreamLlm` (`brain.ts:512-556`)."
+      ],
+      "observedResult": "On any tool-result continuation turn, `brain.ts` drops all `function_call` and `function_call_output` items from `messages` and re-sends only the prior user message, so the upstream LLM never receives the output of the tool it called.",
+      "expectedResult": "`tryCallUpstreamLlm` and `extractPromptInput` must convert `function_call`, `function_call_output`, and `role === \"developer\"` (search records / turn context notes) items in `thread` into OpenAI-compatible assistant `tool_calls` / `role: \"tool\"` (or structured context messages) so multi-round tool calls and search records reach the LLM.",
+      "impact": "Multi-round tool execution (`fetch_web`, `bash`, `gmail_draft`, `calendar_list`, etc.) and search record persistence in `BrainSession` fail to deliver tool outputs to the LLM on continuation turns.",
+      "remediation": "In `src/backend/src/routes/brain.ts:512-556`, map `item.type === \"function_call\"` and `item.type === \"function_call_output\"` (and `item.role === \"developer\"` notes) into `messages` instead of filtering solely for `user`/`assistant` `message` items.",
+      "effort": "M",
+      "evidence": [
+        "src/backend/src/routes/brain.ts:512-556",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:572, 616, 658-677, 732-750"
+      ]
+    },
+    {
+      "id": "AUD-D-010",
+      "workstream": "WS-D",
+      "severity": "Medium",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "BrainReplyAccumulator Compares Unstripped lastReportedCode.Length Against URL-Stripped text3.Length in Finish(), Dropping Final Code Updates When Links Are Stripped",
+      "component": "Desktop OneBrain Stream Accumulator (BrainReplyAccumulator.cs & ProgramText.cs)",
+      "location": "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainReplyAccumulator.cs:228-250; src/desktop/Kursor.Core/HeyClicky.Core.Brain/ProgramText.cs:125-213",
+      "description": "During SSE streaming (`ReportCodeIfItGrew` at `BrainReplyAccumulator.cs:243-249`), `lastReportedCode` is assigned the raw `ProgramText.ProgramCode(rawText, isComplete: false)` *before* `ProgramText.WithoutLinks(text)` strips URLs/markdown links, so `lastReportedCode.Length` includes the length of any stripped URLs. When the stream finishes (`Finish()` at `lines 229-235`), `text3` is computed *after* `ProgramText.WithoutLinks(...)` and compared via `if (text3.Length > 0 && text3.Length > lastReportedCode.Length)`. If `WithoutLinks` stripped a URL or markdown link whose byte length exceeds the final streamed chunk length, `text3.Length <= lastReportedCode.Length`, and `Finish()` silently skips `onCodeUpdate?.Invoke(text3)`, leaving the live drawing engine with an incomplete program.",
+      "reproductionSteps": [
+        "Compare `BrainReplyAccumulator.ReportCodeIfItGrew` (`lines 243-249`) with `BrainReplyAccumulator.Finish` (`lines 229-235`).",
+        "Trace a streamed program containing a URL outside strings (e.g., a trailing comment `// https://example.com/very/long/path`) where the final chunk is `< 35` chars."
+      ],
+      "observedResult": "`ReportCodeIfItGrew` stores the pre-`WithoutLinks` string in `lastReportedCode`, while `Finish()` compares the post-`WithoutLinks` `text3.Length` against `lastReportedCode.Length`, skipping the final `onCodeUpdate` callback when `text3.Length <= lastReportedCode.Length`.",
+      "expectedResult": "`ReportCodeIfItGrew` must assign `lastReportedCode = ProgramText.WithoutLinks(text)` so both streaming and completion compare post-`WithoutLinks` strings (or `Finish()` should check `text3 != lastReportedCode`).",
+      "impact": "Streaming programs from which `WithoutLinks` strips URLs can drop their final `onCodeUpdate` invocation at stream completion.",
+      "remediation": "In `BrainReplyAccumulator.ReportCodeIfItGrew` (`line 246`), set `string stripped = ProgramText.WithoutLinks(text);` and compare/store `stripped` in `lastReportedCode`, and in `Finish()` (`line 231`) check `if (text3.Length > 0 && text3 != lastReportedCode)`.",
+      "effort": "S",
+      "evidence": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainReplyAccumulator.cs:228-250"
+      ]
+    },
+    {
+      "id": "AUD-D-011",
+      "workstream": "WS-D",
+      "severity": "Medium",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "POST /brain/turn Always Wraps Output in Fenced ```js Blocks, Defeating BrainReplyAccumulator.SpeechOnly Mode",
+      "component": "OneBrain SpeechOnly Mode Contract (brain.ts vs BrainReplyAccumulator.cs)",
+      "location": "src/backend/src/routes/brain.ts:36-41, 249, 682; src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainReplyAccumulator.cs:37, 58, 215-226",
+      "description": "`BrainReplyAccumulator` (`BrainReplyAccumulator.cs:37, 58, 215-226`) supports a `SpeechOnly` mode where `Finish()` checks `if (SpeechOnly && !text.Contains(\"```\", StringComparison.Ordinal))` to populate `Reply.SpokenSentence` and wrap plain spoken prose into `SayLine(...)`. However, `POST /brain/turn` (`brain.ts:249, 682`) unconditionally wraps every upstream and fallback response in ```` ```js ... ``` ```` fences regardless of request flags. Consequently, `!text.Contains(\"```\")` is always `false` and `Reply.SpokenSentence` is never populated.",
+      "reproductionSteps": [
+        "Inspect `BrainReplyAccumulator.Finish()` at `BrainReplyAccumulator.cs:215-226`.",
+        "Inspect `tryCallUpstreamLlm` (`brain.ts:682`) and `buildLocalFallbackProgram` (`brain.ts:249`)."
+      ],
+      "observedResult": "Because `brain.ts` always wraps output in ```` ```js ```` fences, `BrainReplyAccumulator.Finish()` never enters the `SpeechOnly` branch and leaves `Reply.SpokenSentence = null`.",
+      "expectedResult": "When speech-only mode is requested (or in `BrainReplyAccumulator.Finish()`), extract `Reply.SpokenSentence` from `SayLines.InOrder(Reply.Code)` even when ```` ```js ```` fences are present.",
+      "impact": "`Reply.SpokenSentence` is always `null` when consuming `/brain/turn` responses.",
+      "remediation": "Populate `Reply.SpokenSentence` in `BrainReplyAccumulator.Finish()` via `SayLines.InOrder(Reply.Code)` when `SpeechOnly` is true and `text` contains code fences.",
+      "effort": "S",
+      "evidence": [
+        "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainReplyAccumulator.cs:215-226",
+        "src/backend/src/routes/brain.ts:249, 682"
+      ]
+    },
+    {
+      "id": "AUD-D-012",
+      "workstream": "WS-D",
+      "severity": "Low",
+      "confidence": "Confirmed",
+      "status": "FAIL",
+      "title": "Screenshot Reference Deduplication Protocol (clicky_file / screenshot_file / 409 screenshot_files_unavailable) Is Unimplemented in POST /brain/turn",
+      "component": "OneBrain Screenshot Reference Protocol (brain.ts vs BrainSession.cs / BrainClient.cs)",
+      "location": "src/backend/src/routes/brain.ts:318-378, 1131-1147; src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainClient.cs:77-80, 174-177; src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:580-584, 1097-1126",
+      "description": "`BrainSession.cs` and `BrainClient.cs` implement a screenshot-by-reference protocol to avoid re-uploading up to 32 full base64 screenshots on every turn: the worker returns `screenshot_file` in `done` (`BrainReplyAccumulator.cs:118`), `BrainSession.ThreadForWorker` (`lines 1097-1126`) replaces `image_url` with `{\"type\": \"input_image\", \"clicky_file\": \"...\"}` on subsequent turns, and if a referenced `clicky_file` is missing on the worker, the worker returns HTTP 409 or SSE error `screenshot_files_unavailable` (`BrainClient.cs:77, 174`) so the client falls back to sending full `image_url` payloads. `src/backend/src/routes/brain.ts` never emits `screenshot_file` in `done` (`lines 1131-1147`) and `extractPromptInput` (`lines 318-378`) silently ignores `input_image` blocks that contain `clicky_file` without `image_url` instead of returning `409 screenshot_files_unavailable`.",
+      "reproductionSteps": [
+        "Inspect `BrainSession.ThreadForWorker` (`BrainSession.cs:1097-1126`) and `BrainClient.StreamTurnAsync` (`BrainClient.cs:77-80`).",
+        "Send a `POST /brain/turn` request containing `{\"type\": \"input_image\", \"clicky_file\": \"scr_missing_01\"}` in `thread` and inspect `extractPromptInput` (`brain.ts:318-378`)."
+      ],
+      "observedResult": "`brain.ts` silently ignores `clicky_file` blocks without returning `409 screenshot_files_unavailable` and never issues `screenshot_file` IDs in `done`, forcing the client to re-transmit and SQLite to re-store full base64 screenshots on every turn.",
+      "expectedResult": "Cache uploaded turn screenshots by hash/ID (`screenshot_file`) and resolve `clicky_file` references in `extractPromptInput`, returning HTTP 409 `{\"error\": \"screenshot_files_unavailable\"}` if a referenced file ID is not found.",
+      "impact": "Multi-turn sessions re-upload up to 32 full base64 screenshots on every turn, and any `clicky_file`-only thread item is silently dropped instead of triggering the client's 409 fallback retry.",
+      "remediation": "Implement an in-memory/disk screenshot cache keyed by `screenshot_file` in `src/backend/src/routes/brain.ts`, return `screenshot_file` in the `done` SSE event, and return HTTP 409 `screenshot_files_unavailable` when an unknown `clicky_file` is encountered.",
+      "effort": "M",
+      "evidence": [
+        "src/backend/src/routes/brain.ts:318-378, 1131-1147",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainSession.cs:1097-1126",
+        "src/desktop/Kursor.Core/HeyClicky.Core.Brain/BrainClient.cs:77-80"
+      ]
+    }
+  ]
+}

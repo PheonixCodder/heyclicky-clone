@@ -64,9 +64,9 @@ All 7 managed `.NET 9.0` assemblies from `HeyClicky v1.1.5` have been decompiled
 ### C. Packaged Distribution, Multi-Device Setup & Autostart Scripts
 - **Project Documentation & Git Ignore**: [`README.md`](file:///C:/dev/heyclicky-clone/README.md) & [`.gitignore`](file:///C:/dev/heyclicky-clone/.gitignore)
 - **Runnable Distribution**: [`dist/kursor-desktop/`](file:///C:/dev/heyclicky-clone/dist/kursor-desktop)
-- **Build & Stage Script**: [`scripts/build-dist.ps1`](file:///C:/dev/heyclicky-clone/scripts/build-dist.ps1)
+- **Build & Stage Scripts**: [`scripts/build-dist.ps1`](file:///C:/dev/heyclicky-clone/scripts/build-dist.ps1), [`scripts/overlay-and-launch.ps1`](file:///C:/dev/heyclicky-clone/scripts/overlay-and-launch.ps1), [`scripts/install-runtime.ps1`](file:///C:/dev/heyclicky-clone/scripts/install-runtime.ps1), [`scripts/install-dotnet.ps1`](file:///C:/dev/heyclicky-clone/scripts/install-dotnet.ps1), & [`scripts/check-status.ps1`](file:///C:/dev/heyclicky-clone/scripts/check-status.ps1)
 - **One-Command Launcher**: [`start-kursor.ps1`](file:///C:/dev/heyclicky-clone/start-kursor.ps1) & [`start-kursor.cmd`](file:///C:/dev/heyclicky-clone/start-kursor.cmd)
-- **One-Step New Device Setup**: [`setup-kursor.ps1`](file:///C:/dev/heyclicky-clone/setup-kursor.ps1) & [`setup-kursor.cmd`](file:///C:/dev/heyclicky-clone/setup-kursor.cmd)
+- **One-Step New Device Setup**: [`setup-kursor.ps1`](file:///C:/dev/heyclicky-clone/setup-kursor.ps1), [`setup-kursor.cmd`](file:///C:/dev/heyclicky-clone/setup-kursor.cmd), & [`scripts/seed-local-auth.ps1`](file:///C:/dev/heyclicky-clone/scripts/seed-local-auth.ps1) (camelCase `endpoints.json`, DPAPI `auth.localdev.bin`/`auth.bin`, and `heyclicky://` URI registration)
 - **Portable Release Packager**: [`scripts/package-portable.ps1`](file:///C:/dev/heyclicky-clone/scripts/package-portable.ps1) (builds `release/Kursor-Portable-win-x64.zip`)
 - **Windows Autostart Integration**: [`scripts/install-autostart.ps1`](file:///C:/dev/heyclicky-clone/scripts/install-autostart.ps1), [`scripts/uninstall-autostart.ps1`](file:///C:/dev/heyclicky-clone/scripts/uninstall-autostart.ps1), & [`scripts/start-kursor-hidden.vbs`](file:///C:/dev/heyclicky-clone/scripts/start-kursor-hidden.vbs)
 

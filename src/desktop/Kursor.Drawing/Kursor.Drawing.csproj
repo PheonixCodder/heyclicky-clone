@@ -17,49 +17,49 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Windows.SDK.NET">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Windows.SDK.NET.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Windows.SDK.NET.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Graphics.Canvas.Interop">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.Graphics.Canvas.Interop.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.Graphics.Canvas.Interop.dll</HintPath>
     </Reference>
     <Reference Include="WinRT.Runtime">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\WinRT.Runtime.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\WinRT.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.Direct2D1">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.Direct2D1.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.DirectX">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.DirectX.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.DirectX.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.InteractiveExperiences.Projection">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.InteractiveExperiences.Projection.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.InteractiveExperiences.Projection.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.DXGI">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.DXGI.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.Direct3D11">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.Direct3D11.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpGen.Runtime">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\SharpGen.Runtime.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\SharpGen.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="SharpGen.Runtime.COM">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\SharpGen.Runtime.COM.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\SharpGen.Runtime.COM.dll</HintPath>
     </Reference>
     <Reference Include="ClearScript.V8">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\ClearScript.V8.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\ClearScript.V8.dll</HintPath>
     </Reference>
     <Reference Include="ClearScript.Core">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\ClearScript.Core.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\ClearScript.Core.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.XAudio2">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.XAudio2.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="Vortice.Mathematics">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Vortice.Mathematics.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Vortice.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WinUI">
-      <HintPath>C:\Users\ubaid\AppData\Local\HeyClickyApp\current\Microsoft.WinUI.dll</HintPath>
+      <HintPath>$(HeyClickyRuntimeDir)\Microsoft.WinUI.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

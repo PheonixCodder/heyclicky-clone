@@ -111,6 +111,7 @@ authRoutes.get("/auth/v1/authorize", (c) => {
     `${redirectTo}${separator}` +
     `code=kursor_local_code` +
     `&state=${encodeURIComponent(state)}` +
+    `&clicky_state=${encodeURIComponent(state)}` +
     `&access_token=${encodeURIComponent(accessToken)}` +
     `&refresh_token=${encodeURIComponent(refreshToken)}` +
     `&token_type=bearer` +
@@ -121,20 +122,54 @@ authRoutes.get("/auth/v1/authorize", (c) => {
 
 /**
  * GET /auth/start
- * Used by HeyClicky's `SupabaseAuthService.GetGoogleSignInUrl(state)`
- * (`{WorkerBaseUrl}/auth/start?provider=google&platform=windows&state={state}`).
+ * Used by HeyClicky's `SupabaseAuthService.GoogleSignInStartUrl(state)`
+ * (`{WorkerBaseUrl}/auth/start?state={state}`).
  */
 authRoutes.get("/auth/start", (c) => {
-  const state = c.req.query("state") ?? "kursor_state";
+  const state = c.req.query("state") ?? c.req.query("clicky_state") ?? "kursor_state";
   const scheme = c.req.query("scheme") === "kursor" ? "kursor" : "heyclicky";
-  const { accessToken, refreshToken } = createLocalJwt();
+  const { accessToken, refreshToken, expiresIn } = createLocalJwt();
 
   const location =
     `${scheme}://auth-callback?` +
     `access_token=${encodeURIComponent(accessToken)}` +
     `&refresh_token=${encodeURIComponent(refreshToken)}` +
-    `&code=kursor_local_code` +
-    `&state=${encodeURIComponent(state)}`;
+    `&expires_in=${expiresIn}` +
+    `&clicky_state=${encodeURIComponent(state)}` +
+    `&state=${encodeURIComponent(state)}` +
+    `&code=kursor_local_code`;
+
+  const accept = c.req.header("accept") ?? "";
+  if (accept.includes("text/html")) {
+    const safeHref = location.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sign in to HeyClicky (Local Kursor)</title>
+  <meta http-equiv="refresh" content="0;url=${safeHref}" />
+  <style>
+    body { background:#0f1117; color:#f3f4f6; font-family:system-ui,-apple-system,sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+    .card { background:#181b24; border:1px solid #2a2f3d; border-radius:16px; padding:32px 40px; text-align:center; max-width:420px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    h1 { font-size:20px; margin:0 0 8px; }
+    p { color:#9ca3af; font-size:14px; margin:0 0 24px; line-height:1.5; }
+    a.btn { display:inline-block; background:#3b82f6; color:#fff; text-decoration:none; font-weight:600; padding:12px 24px; border-radius:999px; font-size:14px; }
+    a.btn:hover { background:#2563eb; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Signed in to Kursor!</h1>
+    <p>Redirecting back to the HeyClicky desktop app...<br/>If your browser asks to open HeyClicky, click <b>Open</b>.</p>
+    <a class="btn" id="openBtn" href="${safeHref}">Open HeyClicky</a>
+  </div>
+  <script>
+    window.location.replace(${JSON.stringify(location)});
+  </script>
+</body>
+</html>`;
+    return c.html(html, 200);
+  }
 
   return c.redirect(location, 302);
 });

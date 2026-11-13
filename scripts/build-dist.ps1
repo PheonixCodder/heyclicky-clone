@@ -22,6 +22,14 @@ $DotnetExe = if ($DotnetCmd) {
     throw ".NET 9.0 SDK ('dotnet') not found in PATH or ~/.dotnet/dotnet.exe. Install from https://dotnet.microsoft.com/download/dotnet/9.0"
 }
 
+if (-not (Test-Path (Join-Path $DistDir "HeyClicky.exe")) -and -not (Test-Path (Join-Path $BaseRuntimeDir "HeyClicky.exe"))) {
+    $InstallRuntimeScript = Join-Path $PSScriptRoot "install-runtime.ps1"
+    if (Test-Path $InstallRuntimeScript) {
+        Write-Host "==> 0. Bootstrapping HeyClicky v1.1.5 base runtime assets..." -ForegroundColor Cyan
+        & $InstallRuntimeScript
+    }
+}
+
 Write-Host "==> 1. Building Kursor.sln (7 .NET 9.0 projects)..." -ForegroundColor Cyan
 & $DotnetExe build $SolutionPath -c Debug --nologo
 if ($LASTEXITCODE -ne 0) {
@@ -33,15 +41,34 @@ if (-not (Test-Path $DistDir)) {
     New-Item -ItemType Directory -Path $DistDir -Force | Out-Null
 }
 
-if (Test-Path $BaseRuntimeDir) {
+if (-not (Test-Path (Join-Path $DistDir "HeyClicky.exe")) -and (Test-Path $BaseRuntimeDir)) {
     # Copy base WinUI 3 / ClearScript V8 / ONNX / Vortice / HarnessRuntime files if not already staged
     $null = robocopy $BaseRuntimeDir $DistDir /E /XO /NFL /NDL /NJH /NJS /NC /NS
 } elseif (-not (Test-Path (Join-Path $DistDir "HeyClicky.exe"))) {
-    Write-Warning "Base runtime directory ($BaseRuntimeDir) not found and dist/kursor-desktop is not pre-populated."
+    $InstallRuntimeScript = Join-Path $PSScriptRoot "install-runtime.ps1"
+    if (Test-Path $InstallRuntimeScript) {
+        Write-Host "[*] Base runtime not found locally; bootstrapping via scripts/install-runtime.ps1..." -ForegroundColor Yellow
+        & $InstallRuntimeScript
+    } else {
+        Write-Warning "Base runtime directory ($BaseRuntimeDir) not found and dist/kursor-desktop is not pre-populated."
+    }
 }
 
 Write-Host "==> 3. Overlaying compiled Kursor assemblies & patched V8 engine scripts..." -ForegroundColor Cyan
-$AppBinDir = Join-Path $RepoRoot "src\desktop\Kursor.App\bin\x64\Debug\net9.0-windows10.0.22621.0"
+foreach ($procName in @("HeyClicky", "ClickyBrowserHost", "clicky-harness", "RestartAgent")) {
+    Get-Process -Name $procName -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+}
+Start-Sleep -Seconds 2
+
+$CandidateBinDirs = @(
+    (Join-Path $RepoRoot "src\desktop\Kursor.App\bin\Debug\net9.0"),
+    (Join-Path $RepoRoot "src\desktop\Kursor.App\bin\x64\Debug\net9.0"),
+    (Join-Path $RepoRoot "src\desktop\Kursor.App\bin\x64\Debug\net9.0-windows10.0.22621.0")
+)
+$AppBinDir = $CandidateBinDirs | Where-Object { Test-Path (Join-Path $_ "HeyClicky.Core.dll") } | Select-Object -First 1
+if (-not $AppBinDir) {
+    $AppBinDir = $CandidateBinDirs[0]
+}
 $Assemblies = @(
     "HeyClicky.Contracts.dll",
     "HeyClicky.Contracts.pdb",
@@ -86,38 +113,10 @@ if (Test-Path $Drawing3DEngineAssets) {
 }
 
 Write-Host "==> 4. Configuring Kursor local backend endpoints & pre-authenticated session..." -ForegroundColor Cyan
-$EndpointsJson = @"
-{
-  "WorkerBaseUrl": "http://127.0.0.1:8787",
-  "SupabaseUrl": "http://127.0.0.1:8787",
-  "SupabaseAnonKey": "kursor-local-anon-key"
+$SeedAuthScript = Join-Path $RepoRoot "scripts\seed-local-auth.ps1"
+if (Test-Path $SeedAuthScript) {
+    & $SeedAuthScript
 }
-"@
-
-$SessionJson = @"
-{
-  "AccessToken": "kursor-local-access-token",
-  "RefreshToken": "kursor-local-refresh-token",
-  "ExpiresAtUnixSeconds": 4102444800,
-  "User": {
-    "Id": "00000000-0000-0000-0000-000000000001",
-    "Email": "local@kursor.local"
-  }
-}
-"@
-
-foreach ($dirName in @("Kursor", "HeyClicky")) {
-    $appDataPath = Join-Path $env:LOCALAPPDATA $dirName
-    if (-not (Test-Path $appDataPath)) {
-        New-Item -ItemType Directory -Path $appDataPath -Force | Out-Null
-    }
-    Set-Content -Path (Join-Path $appDataPath "endpoints.json") -Value $EndpointsJson -Encoding UTF8
-    $sessionFile = Join-Path $appDataPath "session.json"
-    if (-not (Test-Path $sessionFile)) {
-        Set-Content -Path $sessionFile -Value $SessionJson -Encoding UTF8
-    }
-}
-Set-Content -Path (Join-Path $DistDir "endpoints.json") -Value $EndpointsJson -Encoding UTF8
 
 Write-Host "`n[SUCCESS] Kursor Desktop Suite staged at: $DistDir" -ForegroundColor Green
 Write-Host " Executable: $(Join-Path $DistDir 'HeyClicky.exe')" -ForegroundColor Green

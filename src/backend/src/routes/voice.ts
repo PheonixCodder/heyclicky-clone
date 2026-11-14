@@ -509,12 +509,74 @@ if (process.platform === "win32") {
   }
 }
 
-async function synthesizePcm24kMono(text: string): Promise<Buffer> {
+function extractWavPcmData(wavBuf: Buffer): Buffer {
+  if (
+    wavBuf.length >= 44 &&
+    wavBuf.toString("ascii", 0, 4) === "RIFF" &&
+    wavBuf.toString("ascii", 8, 12) === "WAVE"
+  ) {
+    let offset = 12;
+    while (offset + 8 <= wavBuf.length) {
+      const chunkId = wavBuf.toString("ascii", offset, offset + 4);
+      const chunkSize = wavBuf.readUInt32LE(offset + 4);
+      const dataStart = offset + 8;
+      if (chunkId === "data") {
+        const end =
+          chunkSize === 0xffffffff || dataStart + chunkSize > wavBuf.length
+            ? wavBuf.length
+            : dataStart + chunkSize;
+        const raw = wavBuf.subarray(dataStart, end);
+        // Ensure even byte length for 16-bit PCM samples
+        return raw.byteLength % 2 === 0
+          ? raw
+          : raw.subarray(0, raw.byteLength - 1);
+      }
+      if (chunkSize === 0xffffffff) break;
+      offset = dataStart + chunkSize + (chunkSize % 2);
+    }
+  }
+  const fallback = wavBuf.subarray(Math.min(44, wavBuf.length));
+  return fallback.byteLength % 2 === 0
+    ? fallback
+    : fallback.subarray(0, fallback.byteLength - 1);
+}
+
+function resolveGroqOrpheusVoice(requestedVoice?: string): string {
+  const envVoice = process.env.GROQ_TTS_VOICE?.trim().toLowerCase();
+  const validOrpheus = new Set([
+    "autumn",
+    "diana",
+    "hannah",
+    "austin",
+    "daniel",
+    "troy",
+  ]);
+  if (envVoice && validOrpheus.has(envVoice)) return envVoice;
+
+  const v = (requestedVoice || "").replace(/^(gemini|openai):/i, "").trim().toLowerCase();
+  if (validOrpheus.has(v)) return v;
+  if (["ash", "ballad", "echo", "verse", "cedar", "charon", "fenrir", "orus"].includes(v)) {
+    return "troy";
+  }
+  if (["coral", "shimmer", "aoede", "leda"].includes(v)) {
+    return "autumn";
+  }
+  if (["sage", "kore", "zephyr"].includes(v)) {
+    return "diana";
+  }
+  // Default warm, upbeat companion voice (matching Clicky's "marin" / "Puck" persona)
+  return "hannah";
+}
+
+async function synthesizePcm24kMono(
+  text: string,
+  requestedVoice?: string
+): Promise<Buffer> {
   const startMs = Date.now();
   const cleanText = text.trim();
   if (!cleanText) return Buffer.alloc(4800, 0);
 
-  // 1. Try Groq TTS (`canopylabs/orpheus-v1-english`) if GROQ_API_KEY is configured
+  // 1. Try Groq Neural TTS (`canopylabs/orpheus-v1-english`) if GROQ_API_KEY is configured
   const groqKey = process.env.GROQ_API_KEY?.trim();
   if (
     groqKey &&
@@ -522,6 +584,7 @@ async function synthesizePcm24kMono(text: string): Promise<Buffer> {
     Date.now() >= groqTtsUnavailableUntil
   ) {
     try {
+      const orpheusVoice = resolveGroqOrpheusVoice(requestedVoice);
       const res = await fetch("https://api.groq.com/openai/v1/audio/speech", {
         method: "POST",
         headers: {
@@ -531,7 +594,7 @@ async function synthesizePcm24kMono(text: string): Promise<Buffer> {
         body: JSON.stringify({
           model: "canopylabs/orpheus-v1-english",
           input: cleanText,
-          voice: "troy",
+          voice: orpheusVoice,
           response_format: "wav",
         }),
         signal: AbortSignal.timeout(6000),
@@ -539,9 +602,9 @@ async function synthesizePcm24kMono(text: string): Promise<Buffer> {
       if (res.ok) {
         const wavBuf = Buffer.from(await res.arrayBuffer());
         if (wavBuf.length > 44) {
-          const pcm = wavBuf.subarray(44);
+          const pcm = extractWavPcmData(wavBuf);
           console.log(
-            `[Mouth/Groq Orpheus] Synthesized ${pcm.byteLength}B (${Date.now() - startMs} ms): "${cleanText.slice(0, 60)}"`
+            `[Mouth/Groq Orpheus (${orpheusVoice})] Synthesized ${pcm.byteLength}B (${Date.now() - startMs} ms): "${cleanText.slice(0, 60)}"`
           );
           return pcm;
         }
@@ -605,14 +668,16 @@ $synth.Speak($txt)
 
 voiceRoutes.post("/agent/realtime/speak", async (c) => {
   let text = "";
+  let voice = "";
   try {
     const body = await c.req.json();
     text = typeof body?.text === "string" ? body.text : "";
+    voice = typeof body?.voice === "string" ? body.voice : "";
   } catch {
     // Ignore parse error
   }
 
-  const pcmBuffer = await synthesizePcm24kMono(text);
+  const pcmBuffer = await synthesizePcm24kMono(text, voice);
   const b64Audio = pcmBuffer.toString("base64");
   const jsonl =
     JSON.stringify({

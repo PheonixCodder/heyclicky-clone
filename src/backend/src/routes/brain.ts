@@ -598,14 +598,16 @@ async function runGroqVisionEye(
   extracted: ExtractedPromptInput
 ): Promise<string> {
   if (extracted.imageDataUrls.length === 0) return "";
-  const visionPrompt = `Read this 1280x720 screenshot carefully for the user's request: "${extracted.userText}"
+  const visionPrompt = `Analyze this 1280x720 desktop screenshot for the user's request: "${extracted.userText}"
 ${extracted.screenLayout ? extracted.screenLayout.layoutPromptNote : ""}
-Ignore any red/blue Kursor overlay boxes or floating cards from a previous turn.
-Output a concise plain-text OCR & coordinate mapping report (under 180 words):
-1. EXACT VERBATIM TEXT of all visible worksheet questions (e.g. part (a), part (b)), table column headers (e.g. Col 1 Statement, Col 2 RISC, Col 3 CISC), and each visible table row statement (Row 1..N). Note if the user's voice transcript misheard a word on screen (e.g. "disk" -> "RISC/CISC").
-2. Map each visible Statement Row (Row 1..N) to its exact (cx, cy) column centers from Measured Screen Geometry, and map each visible blank dotted line (Line 1..M) to which question part it belongs to. Do NOT guess the answers yourself — only transcribe the exact text and coordinates.`;
+Ignore any red/blue Kursor overlay marks or floating cards from a previous turn.
+Output a structured, high-precision 1280x720 Screen Vision & Coordinate Report (under 380 words):
+1. ACTIVE APP & SCENE: Name the active application(s), window layout, and what the user is looking at.
+2. UI ELEMENTS & TARGETS (1280x720 pixel coordinates): List the exact (x, y, w, h) bounding boxes and (cx, cy) centers of all UI buttons, menus, tabs, input fields, code lines, errors, or visual items relevant to "${extracted.userText}".
+3. VERBATIM TEXT / CODE / ERRORS: Transcribe the exact visible text of relevant code blocks, terminal/compiler errors, article paragraphs, math problems, or UI labels. Note if the user's voice transcript misheard a word on screen (e.g. "disk" -> "RISC/CISC").
+4. WORKSHEETS & TABLES (if present): If a table or worksheet is visible, transcribe every column header and row statement (Row 1..N) and map each row to its exact (cx, cy) column centers from Measured Screen Geometry, plus any blank answer lines (Line 1..M).`;
 
-  for (const maxTok of [250, 150]) {
+  for (const maxTok of [550, 300]) {
     try {
       const res = await fetch(
         "https://api.groq.com/openai/v1/chat/completions",
@@ -645,7 +647,7 @@ Output a concise plain-text OCR & coordinate mapping report (under 180 words):
           );
           return text;
         }
-      } else if (res.status === 429 && maxTok === 250) {
+      } else if (res.status === 429 && maxTok === 550) {
         await new Promise((r) => setTimeout(r, 1200));
       }
     } catch {
@@ -898,14 +900,14 @@ async function tryCallUpstreamLlm(
           provider.name === "openrouter"
             ? 4096
             : provider.name === "groq-120b"
-              ? 2048
+              ? 4096
               : provider.name === "groq-qwen-vision"
-                ? 420
-                : 1024,
+                ? 1024
+                : 2048,
         ...(provider.name === "openrouter"
           ? { reasoning: { effort: "low" } }
           : provider.name === "groq-120b"
-            ? { reasoning_effort: "low" }
+            ? { reasoning_effort: "medium" }
             : provider.name === "groq-qwen-vision"
               ? { reasoning_effort: "none" }
               : {}),
@@ -1045,7 +1047,7 @@ async function tryCallUpstreamLlm(
         codeText = `step(1);\nsay(${spokenEscaped});\nclipping(${calmSpot.x}, ${calmSpot.y}, ${Math.min(440, calmSpot.w)}, "Kursor Notes", ${bodyEscaped}, "Kursor");`;
       } else if (codeText) {
         const hasVisualCall =
-          /\b(?:ring|frame|point|target|hover|underline|connect|trace|check|cross|strike|num|sticky|clipping|receipt|legend|paper|write|figure|scene3d|circle|ellipse|rect|poly|line|curve|arrow|highlight)\s*\(/.test(
+          /\b(?:ring|frame|point|spot|target|hover|underline|connect|trace|check|cross|strike|num|sticky|clipping|receipt|legend|paper|write|figure|scene3d|circle|ellipse|rect|poly|line|curve|arrow|highlight|handOff|button|openPage|copyText|typeText)\s*\(/.test(
             codeText
           );
         if (!hasVisualCall) {
@@ -1061,12 +1063,20 @@ async function tryCallUpstreamLlm(
       }
 
       // Snap table check(x, y) / cross(x, y) calls to exact measured pixel cell centers,
-      // and convert loose write() calls on non-blank pages into a clean draggable receipt() page!
-      codeText = snapProgramToScreenLayout(
-        codeText,
-        extracted.screenLayout,
-        extracted.userText
-      );
+      // and convert loose write() calls on non-blank pages into a clean draggable receipt() page
+      // ONLY when the program uses worksheet primitives (check/cross/write) or the prompt asks to solve/fill a worksheet/table!
+      const shouldSnapWorksheet =
+        /\b(?:check|cross|write)\s*\(/.test(codeText) ||
+        /\b(?:table|tick|cross|worksheet|fill|blank|row|column|statement|solve|question)\b/i.test(
+          extracted.userText
+        );
+      if (shouldSnapWorksheet) {
+        codeText = snapProgramToScreenLayout(
+          codeText,
+          extracted.screenLayout,
+          extracted.userText
+        );
+      }
 
       // Sanitize dangerous V8 host/prototype/infinite-loop patterns
       codeText = sanitizeGeneratedClickyJs(codeText);

@@ -103,19 +103,28 @@ if (-not $BackendUp) {
     $TsxCli = Join-Path $BackendDir "node_modules\tsx\dist\cli.mjs"
 
     if ($Hidden) {
-        $LogFile = Join-Path $DataDir "backend-autostart.log"
+        $OutLogFile = Join-Path $DataDir "backend-autostart.out.log"
+        $ErrLogFile = Join-Path $DataDir "backend-autostart.err.log"
         Start-Process -FilePath $NodeExe `
             -ArgumentList "`"$TsxCli`"", "--env-file-if-exists=.env", "src/index.ts" `
             -WorkingDirectory $BackendDir `
             -WindowStyle Hidden `
-            -RedirectStandardOutput $LogFile `
-            -RedirectStandardError $LogFile
+            -RedirectStandardOutput $OutLogFile `
+            -RedirectStandardError $ErrLogFile
     } else {
-        Start-Process -FilePath "powershell.exe" `
-            -ArgumentList "-NoExit", "-Command", "npm run dev" `
-            -WorkingDirectory $BackendDir
+        $OutLogFile = Join-Path $DataDir "backend.out.log"
+        $ErrLogFile = Join-Path $DataDir "backend.err.log"
+        Start-Process -FilePath $NodeExe `
+            -ArgumentList "`"$TsxCli`"", "--env-file-if-exists=.env", "src/index.ts" `
+            -WorkingDirectory $BackendDir `
+            -WindowStyle Hidden `
+            -RedirectStandardOutput $OutLogFile `
+            -RedirectStandardError $ErrLogFile
     }
-    Start-Sleep -Seconds 3
+    for ($i = 0; $i -lt 20; $i++) {
+        if (Test-BackendRunning) { break }
+        Start-Sleep -Milliseconds 500
+    }
 } else {
     Write-Host "[+] Kursor Backend Server is already running on http://127.0.0.1:8787" -ForegroundColor Green
 }

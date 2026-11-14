@@ -247,7 +247,7 @@ async function runTests() {
         assert.equal(getRes1.status, 200);
         const mem1 = (await getRes1.json()) as any;
         assert.equal(typeof mem1.markdown, "string");
-        assert.equal(mem1.has_profile, true);
+        assert.equal(typeof mem1.has_profile, "boolean");
 
         const updatedText = "# Kursor Memory\n- Prefers TypeScript & C# .NET 9";
         const putRes = await fetch(`${url}/memory`, {
@@ -263,6 +263,7 @@ async function runTests() {
         const getRes2 = await fetch(`${url}/memory`);
         const mem2 = (await getRes2.json()) as any;
         assert.equal(mem2.markdown, updatedText);
+        assert.equal(mem2.has_profile, true);
       }
     );
 

@@ -170,9 +170,9 @@ workerRoutes.get("/app-config", (c) => c.json(handleGetAppConfig()));
 // ============================================================================
 function handleGetRuntimeModels() {
   const defaultBrainModel =
-    process.env.OPENROUTER_DEFAULT_MODEL || "anthropic/claude-sonnet-4.6";
+    process.env.OPENROUTER_DEFAULT_MODEL || "nvidia/nemotron-3.5-super-vl:free";
   const fastBrainModel =
-    process.env.OPENROUTER_FAST_MODEL || "google/gemini-3.1-flash-lite-preview";
+    process.env.OPENROUTER_FAST_MODEL || "google/gemma-4-26b-a4b-it:free";
   const earsProvider = process.env.EARS_PRIMARY_PROVIDER || "deepgram";
   const mouthProvider =
     process.env.MOUTH_PRIMARY_PROVIDER || "openai-realtime";
@@ -188,12 +188,12 @@ function handleGetRuntimeModels() {
       fast_model: fastBrainModel,
       vision_model: defaultBrainModel,
       search_model:
-        process.env.OPENROUTER_SEARCH_MODEL || "perplexity/sonar-pro",
-      fallback_providers: ["openai", "anthropic", "gemini"],
+        process.env.OPENROUTER_SEARCH_MODEL || "particle-ai/particle-1:free",
+      fallback_providers: ["groq", "openai", "anthropic", "gemini"],
       models: [
         {
           id: defaultBrainModel,
-          name: "Claude Sonnet 4.6 (OpenRouter)",
+          name: "NVIDIA Nemotron 3.5 Super VL (OpenRouter)",
           provider: "openrouter",
           tier: "max",
           supports_vision: true,
@@ -201,15 +201,15 @@ function handleGetRuntimeModels() {
         },
         {
           id: fastBrainModel,
-          name: "Gemini 3.1 Flash Lite (OpenRouter)",
+          name: "Google Gemma 4 26B A4B (OpenRouter)",
           provider: "openrouter",
           tier: "pro",
           supports_vision: true,
           supports_tools: true,
         },
         {
-          id: "openai/gpt-5.4",
-          name: "GPT-5.4 (OpenRouter)",
+          id: "particle-ai/particle-1:free",
+          name: "Particle-1 Multimodal (OpenRouter)",
           provider: "openrouter",
           tier: "max",
           supports_vision: true,

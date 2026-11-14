@@ -1014,7 +1014,12 @@ voiceRoutes.post("/v2/dictation/cleanup", async (c) => {
           body: JSON.stringify({
             model:
               process.env.OPENROUTER_FAST_MODEL ||
-              "google/gemini-3.1-flash-lite-preview",
+              "google/gemma-4-26b-a4b-it:free",
+            models: [
+              "google/gemma-4-26b-a4b-it:free",
+              "particle-ai/particle-1:free",
+              "nvidia/nemotron-3.5-super-vl:free",
+            ],
             temperature: 0.1,
             max_tokens: 1024,
             messages: [

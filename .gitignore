@@ -69,6 +69,11 @@ release/
 reference/decompiled/
 executable-file/
 services/
+.agents/
+.claude/
+agent/
+data/
+skills-lock.json
 
 # 7. OS & Editor Metadata
 .DS_Store

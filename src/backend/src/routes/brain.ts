@@ -675,7 +675,6 @@ Output a structured, high-precision 1280x720 Screen Vision & Coordinate Report (
               "nvidia/nemotron-3.5-super-vl:free",
               "particle-ai/particle-1:free",
               "google/gemma-4-26b-a4b-it:free",
-              "thinkingmachines/inkling-2-small:free",
             ],
             temperature: 0.1,
             max_tokens: 550,
@@ -947,8 +946,20 @@ async function tryCallUpstreamLlm(
         },
       ];
 
+      const openRouterPrimaryFallbacks = Array.from(
+        new Set([
+          provider.model,
+          "nvidia/nemotron-3.5-super-vl:free",
+          "particle-ai/particle-1:free",
+          "google/gemma-4-26b-a4b-it:free",
+        ])
+      ).slice(0, 3);
+
       const payload: Record<string, any> = {
         model: provider.model,
+        ...(provider.name === "openrouter"
+          ? { models: openRouterPrimaryFallbacks }
+          : {}),
         messages: providerMessages,
         temperature: 0.25,
         max_tokens:
@@ -968,13 +979,11 @@ async function tryCallUpstreamLlm(
               : {}),
       };
 
-      // Forward tools when calling tool-capable models
+      // Forward tools when calling tool-capable models (OpenRouter free vision models all support tools)
       if (
         Array.isArray(tools) &&
         tools.length > 0 &&
-        provider.name !== "groq-qwen-vision" &&
-        !provider.model.endsWith(":free") &&
-        provider.model !== "openrouter/free"
+        provider.name !== "groq-qwen-vision"
       ) {
         payload.tools = tools;
       }
@@ -1006,19 +1015,13 @@ async function tryCallUpstreamLlm(
           firstChoice.tool_calls.length > 0);
 
       if ((!res.ok || !firstHasOutput) && provider.name === "openrouter") {
-        // Automatic fallback across active OpenRouter free multimodal vision models
+        // Second-tier fallback across next 3 active OpenRouter free multimodal vision models (OpenRouter enforces max 3 items in `models`)
         const fallbackPayload: Record<string, any> = {
-          model: "nvidia/nemotron-3.5-super-vl:free",
+          model: "thinkingmachines/inkling-2-small:free",
           models: [
-            "nvidia/nemotron-3.5-super-vl:free",
-            "particle-ai/particle-1:free",
             "thinkingmachines/inkling-2-small:free",
             "google/gemma-4-31b-it:free",
-            "google/gemma-4-26b-a4b-it:free",
-            "inclusionai/ling-3.2-flash:free",
-            "dots-studio/dots-3-note-preview:free",
             "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-            "openrouter/free",
           ],
           messages: providerMessages,
           temperature: 0.25,

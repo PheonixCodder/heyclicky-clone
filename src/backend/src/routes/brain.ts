@@ -654,6 +654,61 @@ Output a structured, high-precision 1280x720 Screen Vision & Coordinate Report (
       // Fall through
     }
   }
+
+  // Fallback VisionEye via OpenRouter free multimodal vision models if OPENROUTER_API_KEY is available
+  const orKey = process.env.OPENROUTER_API_KEY?.trim();
+  if (isUsableApiKey(orKey)) {
+    try {
+      const orRes = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${orKey}`,
+            "HTTP-Referer": "https://kursor.dev",
+            "X-Title": "Kursor OneBrain VisionEye",
+          },
+          body: JSON.stringify({
+            model: "nvidia/nemotron-3.5-super-vl:free",
+            models: [
+              "nvidia/nemotron-3.5-super-vl:free",
+              "particle-ai/particle-1:free",
+              "google/gemma-4-26b-a4b-it:free",
+              "thinkingmachines/inkling-2-small:free",
+            ],
+            temperature: 0.1,
+            max_tokens: 550,
+            messages: [
+              {
+                role: "user",
+                content: [
+                  {
+                    type: "image_url",
+                    image_url: { url: extracted.imageDataUrls[0] },
+                  },
+                  { type: "text", text: visionPrompt },
+                ],
+              },
+            ],
+          }),
+          signal: AbortSignal.timeout(12000),
+        }
+      );
+      if (orRes.ok) {
+        const orData = (await orRes.json()) as any;
+        const orText = orData?.choices?.[0]?.message?.content?.trim();
+        if (orText) {
+          console.log(
+            `[OneBrain/OpenRouterVisionEye] Extracted screen reading via ${orData?.model || "openrouter"} (${orData?.usage?.completion_tokens || 0} tokens)`
+          );
+          return orText;
+        }
+      }
+    } catch {
+      // Fall through
+    }
+  }
   return "";
 }
 
@@ -853,7 +908,7 @@ async function tryCallUpstreamLlm(
         process.env.ONEBRAIN_MODEL ||
         process.env.OPENROUTER_DEFAULT_MODEL ||
         requestedModel ||
-        "baidu/ernie-5.5-flash-preview:free",
+        "nvidia/nemotron-3.5-super-vl:free",
       supportsVision: true,
       headers: {
         "HTTP-Referer": "https://kursor.dev",
@@ -951,15 +1006,18 @@ async function tryCallUpstreamLlm(
           firstChoice.tool_calls.length > 0);
 
       if ((!res.ok || !firstHasOutput) && provider.name === "openrouter") {
-        // Automatic fallback for OpenRouter :free models
+        // Automatic fallback across active OpenRouter free multimodal vision models
         const fallbackPayload: Record<string, any> = {
-          model:
-            provider.model.endsWith(":free") ||
-            provider.model === "openrouter/free"
-              ? provider.model
-              : "openrouter/free",
+          model: "nvidia/nemotron-3.5-super-vl:free",
           models: [
-            "baidu/ernie-5.5-flash-preview:free",
+            "nvidia/nemotron-3.5-super-vl:free",
+            "particle-ai/particle-1:free",
+            "thinkingmachines/inkling-2-small:free",
+            "google/gemma-4-31b-it:free",
+            "google/gemma-4-26b-a4b-it:free",
+            "inclusionai/ling-3.2-flash:free",
+            "dots-studio/dots-3-note-preview:free",
+            "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
             "openrouter/free",
           ],
           messages: providerMessages,

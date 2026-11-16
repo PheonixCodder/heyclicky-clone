@@ -32,8 +32,11 @@ async function handleDeepgramToken(c: any) {
     // Allow empty body
   }
 
+  const rawDeepgramKey = process.env.DEEPGRAM_API_KEY?.trim() || "";
   const apiKey =
-    process.env.DEEPGRAM_API_KEY?.trim() || "dg_kursor_local_dev_token";
+    !rawDeepgramKey || rawDeepgramKey.startsWith("your_")
+      ? "dg_kursor_local_dev_token"
+      : rawDeepgramKey;
   const model =
     typeof body.model === "string" && body.model.trim()
       ? body.model.trim()
@@ -92,6 +95,8 @@ function normalizeLanguageCode(rawLang: string): string {
   return base || "en";
 }
 
+let latestMintedKeyterms: string[] = [];
+
 async function handleGeminiToken(c: any) {
   if (isForbiddenCrossOrigin(c)) {
     return c.json({ error: "Forbidden cross-origin token request" }, 403);
@@ -121,14 +126,21 @@ async function handleGeminiToken(c: any) {
     .map((t: string) => t.trim())
     .slice(0, 64);
 
+  latestMintedKeyterms = keyterms;
+
   const earsPrimaryProvider = (
     process.env.EARS_PRIMARY_PROVIDER || "gemini"
   )
     .trim()
     .toLowerCase();
 
+  const rawGeminiKey = process.env.GEMINI_API_KEY?.trim() || "";
   const geminiKey =
-    process.env.GEMINI_API_KEY?.trim() || "gem_kursor_local_dev_token";
+    !rawGeminiKey ||
+    rawGeminiKey.startsWith("your_") ||
+    earsPrimaryProvider === "groq"
+      ? "gem_kursor_local_dev_token"
+      : rawGeminiKey;
   const authMode = geminiKey.startsWith("AIza")
     ? "api_key"
     : "ephemeral_token";
@@ -203,8 +215,10 @@ async function handleRealtimeToken(c: any) {
       ? body.mouth_provider.toLowerCase()
       : (process.env.MOUTH_PRIMARY_PROVIDER || "openai-realtime").toLowerCase();
 
-  const openAiKey = process.env.OPENAI_API_KEY?.trim() || "";
-  const geminiKey = process.env.GEMINI_API_KEY?.trim() || "";
+  const rawOpenAiKey = process.env.OPENAI_API_KEY?.trim() || "";
+  const openAiKey = rawOpenAiKey.startsWith("your_") ? "" : rawOpenAiKey;
+  const rawGeminiKey = process.env.GEMINI_API_KEY?.trim() || "";
+  const geminiKey = rawGeminiKey.startsWith("your_") ? "" : rawGeminiKey;
   const expiresAt = Math.floor(Date.now() / 1000) + 3600;
 
   // Check if Gemini TTS fallback is requested or if only GEMINI_API_KEY is available
@@ -1122,17 +1136,331 @@ voiceRoutes.post("/v2/dictation/cleanup", async (c) => {
 // ============================================================================
 // 5. DICTATION BATCH TRANSCRIBE (`POST /v2/dictation/transcribe` & `POST /brain/ears/transcribe`)
 // Supports BOTH:
-// - `multipart/form-data` (`file` or `audio` field)
-// - `application/json` (`audio_wav_base64`, `language`, `context` matching `DictationTranscriptionClient.cs`)
+// - `multipart/form-data` (`file` or `audio` field, plus optional `prompt`, `context`, `keyterms`)
+// - `application/json` (`audio_wav_base64`, `language`, `prompt`, `keyterms`, `context` matching `DictationTranscriptionClient.cs`)
 // Uses Groq Whisper (`whisper-large-v3-turbo`), falling back to Deepgram / OpenAI.
 // ============================================================================
+export const DEFAULT_WHISPER_PROMPT =
+  "HeyClicky, Clicky, Kursor. Solve this question, solve question number A, solve question number B, question part A, question part B, pipeline stages, clock cycles, truth table, trace table, question number one, step by step, step-by-step solutions, exact value, in decimals, integral, derivative, integration by parts, natural log, ln x, sin x, cos x, tan x, pi, equation, formula, tick or cross, check marks, highlight, explain, RISC, CISC, pipelining, processor, registers, cache, virtual machine, 3D model, diagram, components, code, function, bug, terminal.";
+
+const WAKE_AND_PROPER_KEYTERMS = new Set([
+  "hey clicky",
+  "heyclicky",
+  "clicky",
+  "kursor",
+  "claude",
+  "ubaidullah",
+  "ismail",
+  "pro",
+  "user",
+]);
+
+const DEFAULT_PROMPT_KEYTERMS = new Set([
+  ...WAKE_AND_PROPER_KEYTERMS,
+  ...DEFAULT_WHISPER_PROMPT.split(/[,.;]+/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean),
+]);
+
+export function buildWhisperVocabularyPrompt(
+  promptHint?: string,
+  extraKeyterms?: string[]
+): string {
+  const parts: string[] = [DEFAULT_WHISPER_PROMPT];
+  const mergedTerms = [
+    ...(Array.isArray(extraKeyterms) ? extraKeyterms : []),
+    ...latestMintedKeyterms,
+  ]
+    .map((t) => (typeof t === "string" ? t.trim() : ""))
+    .filter(Boolean);
+
+  if (mergedTerms.length > 0) {
+    const uniqueTerms = Array.from(new Set(mergedTerms)).slice(0, 48);
+    parts.push(uniqueTerms.join(", ") + ".");
+  }
+  if (typeof promptHint === "string" && promptHint.trim().length > 0) {
+    parts.push(promptHint.trim());
+  }
+
+  const words = parts.join(" ").split(/\s+/).filter(Boolean).slice(0, 220);
+  return words.join(" ").slice(0, 800);
+}
+
+export function isWhisperPromptEcho(
+  raw: string,
+  extraKeyterms?: string[],
+  _whisperPrompt?: string
+): boolean {
+  const trimmed = raw.trim();
+  if (!trimmed) return true;
+
+  if (
+    /^(?:hey\s*clicky|clicky|claude|kursor|ubaidullah|ismail|pro|user)(?:\s*[,.;!]+\s*(?:hey\s*clicky|clicky|claude|kursor|ubaidullah|ismail|pro|user))+[.!?]*$/i.test(
+      trimmed
+    )
+  ) {
+    return true;
+  }
+
+  const stripped = trimmed.replace(/[.!?]+$/, "").trim();
+  const defaultPromptLower = DEFAULT_WHISPER_PROMPT.toLowerCase();
+  const commaCount = (stripped.match(/,/g) || []).length;
+
+  // Verbatim substring of DEFAULT_WHISPER_PROMPT containing 3+ commas (4+ comma-separated items)
+  if (
+    stripped.length >= 16 &&
+    commaCount >= 3 &&
+    defaultPromptLower.includes(stripped.toLowerCase())
+  ) {
+    return true;
+  }
+
+  // Comma-separated list of keyterms with no conversational sentence structure
+  const chunks = stripped
+    .split(/\s*,\s*/)
+    .map((c) => c.replace(/[.!?]+$/, "").trim())
+    .filter(Boolean);
+  if (
+    chunks.length >= 4 ||
+    (chunks.length >= 3 &&
+      /^(?:hey\s*clicky|clicky|kursor)$/i.test(chunks[0]))
+  ) {
+    const knownTerms = new Set(DEFAULT_PROMPT_KEYTERMS);
+    const wakeOrExtraTerms = new Set(WAKE_AND_PROPER_KEYTERMS);
+    for (const t of latestMintedKeyterms) {
+      if (typeof t === "string" && t.trim()) {
+        const lower = t.trim().toLowerCase();
+        knownTerms.add(lower);
+        wakeOrExtraTerms.add(lower);
+      }
+    }
+    if (Array.isArray(extraKeyterms)) {
+      for (const t of extraKeyterms) {
+        if (typeof t === "string" && t.trim()) {
+          const lower = t.trim().toLowerCase();
+          knownTerms.add(lower);
+          wakeOrExtraTerms.add(lower);
+        }
+      }
+    }
+    const matchedCount = chunks.filter((c) =>
+      knownTerms.has(c.toLowerCase())
+    ).length;
+    const allWakeOrExtra = chunks.every(
+      (c) =>
+        wakeOrExtraTerms.has(c.toLowerCase()) &&
+        !/\b(?:question|table|pipeline|step|integral|derivative|decimal|decimals|value|equation|formula|code|function|bug|terminal|diagram|model)\b/i.test(
+          c
+        )
+    );
+    const allShortNonVerbal = chunks.every(
+      (c) =>
+        c.split(/\s+/).length <= 3 &&
+        !/\b(?:solve|explain|what|how|why|can|could|would|please|help|show|draw|write|tell|find|check|look)\b/i.test(
+          c
+        )
+    );
+    if (
+      matchedCount === chunks.length &&
+      allShortNonVerbal &&
+      (allWakeOrExtra || chunks.length >= 5)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function normalizeCompanionTranscript(
+  raw: string,
+  extraKeyterms?: string[],
+  whisperPrompt?: string
+): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  if (isWhisperPromptEcho(trimmed, extraKeyterms, whisperPrompt)) {
+    return "";
+  }
+  return trimmed
+    .replace(
+      /\b(?:sub[\s-]+by[\s-]+sub|sub[\s-]+by[\s-]+step|step[\s-]+by[\s-]+sub)\b/gi,
+      "step by step"
+    )
+    .replace(
+      /^(?:so\s+i['’]?ll\s+(?:just|this)|saw\s+this|so\s+this)\s+question\b(?!\s+(?:is|was|has|had|asks|says|states|wants|gives|shows|requires|means|looks|seems|comes|on|in|at|from|about|that|which)\b)/i,
+      "Solve this question"
+    )
+    .replace(
+      /^(?:zahl|zall|saul|soul|salve|sol|sow|shawl|svald|sval|svall|sault|sald|sov|solv|solved|solve)\s+(this\s+)?question\b/i,
+      (_match, hasThis) => (hasThis ? "Solve this question" : "Solve question")
+    )
+    .replace(
+      /^(?:zahl|zall|saul|soul|salve|sol|sow|shawl|svald|sval|svall|sault|sald|sov|solv|solved)\b(?=\s+(?:this|the|question|part|problem|it|number|q\b|\d))/i,
+      "Solve"
+    )
+    .replace(
+      /\b(solve|also\s+solve|and\s+solve|now\s+solve|do|explain|for)\s+(?:pi|pie)\s*([1234i]+)\b/gi,
+      "$1 part $2"
+    )
+    .replace(
+      /\b(question(?:\s+number)?|problem|number)\s+c\s*,?\s*x\b/gi,
+      "$1 6"
+    )
+    .replace(
+      /\b(question(?:\s+number)?|problem)\s+by\s+(\d{1,2})(?:\s+and\s+[a-d]\b)?/gi,
+      "$1 $2"
+    )
+    .replace(
+      /\b(solve\s+(?:this\s+|the\s+)?question)\s+number\s+[a-c](?=\s*[.,!?]*\s*$)/i,
+      "$1"
+    );
+}
+
+function extractContextPromptHint(contextVal: unknown): {
+  hint: string;
+  terms: string[];
+} {
+  if (!contextVal) return { hint: "", terms: [] };
+  let ctxObj: Record<string, unknown> | null = null;
+  if (typeof contextVal === "string") {
+    const trimmed = contextVal.trim();
+    if (!trimmed) return { hint: "", terms: [] };
+    if (trimmed.startsWith("{")) {
+      try {
+        ctxObj = JSON.parse(trimmed) as Record<string, unknown>;
+      } catch {
+        return { hint: trimmed, terms: [] };
+      }
+    } else {
+      return { hint: trimmed, terms: [] };
+    }
+  } else if (typeof contextVal === "object") {
+    ctxObj = contextVal as Record<string, unknown>;
+  }
+  if (!ctxObj) return { hint: "", terms: [] };
+
+  const terms: string[] = [];
+  if (Array.isArray(ctxObj.known_terms)) {
+    for (const t of ctxObj.known_terms) {
+      if (typeof t === "string" && t.trim()) terms.push(t.trim());
+    }
+  }
+  const metaParts: string[] = [];
+  if (typeof ctxObj.app_name === "string" && ctxObj.app_name.trim()) {
+    metaParts.push(ctxObj.app_name.trim());
+  }
+  if (typeof ctxObj.window_title === "string" && ctxObj.window_title.trim()) {
+    metaParts.push(ctxObj.window_title.trim());
+  }
+  if (typeof ctxObj.site_host === "string" && ctxObj.site_host.trim()) {
+    metaParts.push(ctxObj.site_host.trim());
+  }
+  if (typeof ctxObj.selected_text === "string" && ctxObj.selected_text.trim()) {
+    metaParts.push(ctxObj.selected_text.trim().slice(0, 120));
+  }
+  return { hint: metaParts.join(", "), terms };
+}
+
+export async function transcribeWithGroqWhisper(
+  wavBuffer: Buffer,
+  fileName = "audio.wav",
+  promptHint?: string,
+  normalizedLang = "en",
+  extraKeyterms?: string[]
+): Promise<string | null> {
+  const groqKey = process.env.GROQ_API_KEY?.trim();
+  if (!groqKey || groqKey.startsWith("your_")) return null;
+  const startMs = Date.now();
+  try {
+    const form = new FormData();
+    const blob = new Blob([new Uint8Array(wavBuffer)], {
+      type: "audio/wav",
+    });
+    form.append("file", blob, fileName);
+    form.append("model", "whisper-large-v3-turbo");
+    if (
+      normalizedLang &&
+      normalizedLang !== "multi" &&
+      normalizedLang !== "auto" &&
+      normalizedLang.length === 2
+    ) {
+      form.append("language", normalizedLang);
+    }
+    const whisperPrompt = buildWhisperVocabularyPrompt(
+      promptHint,
+      extraKeyterms
+    );
+    form.append("prompt", whisperPrompt);
+
+    const groqRes = await fetch(
+      "https://api.groq.com/openai/v1/audio/transcriptions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${groqKey}`,
+        },
+        body: form,
+        signal: AbortSignal.timeout(12000),
+      }
+    );
+
+    if (groqRes.ok) {
+      const data = (await groqRes.json()) as any;
+      if (typeof data?.text === "string") {
+        const text = normalizeCompanionTranscript(
+          data.text,
+          extraKeyterms,
+          whisperPrompt
+        );
+        if (!text && data.text.trim()) {
+          console.log(
+            `[Ears/Groq Whisper] Ignored prompt-echo hallucination (${Date.now() - startMs} ms): "${data.text.trim()}"`
+          );
+          return "";
+        }
+        console.log(
+          `[Ears/Groq Whisper] Transcribed (${Date.now() - startMs} ms): "${text}"`
+        );
+        return text;
+      }
+    } else {
+      const errText = await groqRes.text().catch(() => "");
+      console.warn(
+        `[Ears/Groq Whisper] HTTP ${groqRes.status}: ${errText.slice(0, 200)}`
+      );
+    }
+  } catch (err: any) {
+    console.warn(`[Ears/Groq Whisper] Error:`, err?.message || err);
+  }
+  return null;
+}
+
 async function handleTranscribe(c: any) {
   const startMs = Date.now();
   const contentType = c.req.header("content-type")?.toLowerCase() ?? "";
 
   let audioBuffer: Buffer | null = null;
-  let language = "en";
-  let promptHint = "";
+  let language = c.req.query("language") || "en";
+  const promptHints: string[] = [];
+  const keyterms: string[] = [];
+
+  // Parse query parameters (`keyterm`, `keywords`, `prompt`) e.g. from `/v1/listen?model=nova-3&keyterm=...`
+  const queryKeyterms = [
+    ...(c.req.queries("keyterm") ?? []),
+    ...(c.req.queries("keywords") ?? []),
+  ];
+  for (const kt of queryKeyterms) {
+    if (typeof kt === "string" && kt.trim()) {
+      for (const part of kt.split(",")) {
+        if (part.trim()) keyterms.push(part.trim());
+      }
+    }
+  }
+  const queryPrompt = c.req.query("prompt");
+  if (typeof queryPrompt === "string" && queryPrompt.trim()) {
+    promptHints.push(queryPrompt.trim());
+  }
 
   if (contentType.includes("multipart/form-data")) {
     try {
@@ -1146,6 +1474,35 @@ async function handleTranscribe(c: any) {
       if (typeof langField === "string" && langField.trim()) {
         language = langField.trim();
       }
+      const promptField = formData.get("prompt");
+      if (typeof promptField === "string" && promptField.trim()) {
+        promptHints.push(promptField.trim());
+      }
+      const keytermField =
+        formData.get("keyterms") ??
+        formData.get("keyterm") ??
+        formData.get("keywords");
+      if (typeof keytermField === "string" && keytermField.trim()) {
+        for (const part of keytermField.split(",")) {
+          if (part.trim()) keyterms.push(part.trim());
+        }
+      }
+      const contextField = formData.get("context");
+      if (contextField) {
+        const { hint, terms } = extractContextPromptHint(contextField);
+        if (hint) promptHints.push(hint);
+        keyterms.push(...terms);
+      }
+    } catch {
+      // Fall through
+    }
+  } else if (
+    contentType.includes("audio/") ||
+    contentType.includes("application/octet-stream")
+  ) {
+    try {
+      const ab = await c.req.arrayBuffer();
+      audioBuffer = Buffer.from(ab);
     } catch {
       // Fall through
     }
@@ -1160,8 +1517,18 @@ async function handleTranscribe(c: any) {
       if (typeof body.language === "string" && body.language.trim()) {
         language = body.language.trim();
       }
-      if (typeof body.prompt === "string") {
-        promptHint = body.prompt;
+      if (typeof body.prompt === "string" && body.prompt.trim()) {
+        promptHints.push(body.prompt.trim());
+      }
+      if (Array.isArray(body.keyterms)) {
+        for (const kt of body.keyterms) {
+          if (typeof kt === "string" && kt.trim()) keyterms.push(kt.trim());
+        }
+      }
+      if (body.context) {
+        const { hint, terms } = extractContextPromptHint(body.context);
+        if (hint) promptHints.push(hint);
+        keyterms.push(...terms);
       }
     } catch {
       // Fall through
@@ -1181,68 +1548,23 @@ async function handleTranscribe(c: any) {
   }
 
   const normalizedLang = normalizeLanguageCode(language);
+  const combinedPromptHint = promptHints.filter(Boolean).join(". ");
 
   const tryGroqStt = async () => {
-    const groqKey = process.env.GROQ_API_KEY?.trim();
-    if (!groqKey || groqKey.startsWith("your_")) return null;
-    try {
-      const form = new FormData();
-      const blob = new Blob([new Uint8Array(audioBuffer!)], {
-        type: "audio/wav",
+    const text = await transcribeWithGroqWhisper(
+      audioBuffer!,
+      "dictation.wav",
+      combinedPromptHint,
+      normalizedLang,
+      keyterms
+    );
+    if (text !== null) {
+      return c.json({
+        text,
+        transcript: text,
+        provider: "groq",
+        stt_ms: Date.now() - startMs,
       });
-      form.append("file", blob, "dictation.wav");
-      form.append("model", "whisper-large-v3-turbo");
-      if (
-        normalizedLang &&
-        normalizedLang !== "multi" &&
-        normalizedLang !== "auto" &&
-        normalizedLang.length === 2
-      ) {
-        form.append("language", normalizedLang);
-      }
-      const defaultWhisperPrompt =
-        "Hey Clicky, Kursor. Solve this question on my screen, tick or cross, check marks, RISC, CISC, pipelining, processor, registers, cache, virtual machine, 3D model, diagram, components, code.";
-      form.append(
-        "prompt",
-        promptHint
-          ? `${defaultWhisperPrompt} ${promptHint}`.slice(0, 800)
-          : defaultWhisperPrompt
-      );
-
-      const groqRes = await fetch(
-        "https://api.groq.com/openai/v1/audio/transcriptions",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${groqKey}`,
-          },
-          body: form,
-          signal: AbortSignal.timeout(12000),
-        }
-      );
-
-      if (groqRes.ok) {
-        const data = (await groqRes.json()) as any;
-        if (typeof data?.text === "string") {
-          const text = data.text.trim();
-          console.log(
-            `[Ears/Groq Whisper] Transcribed (${Date.now() - startMs} ms): "${text}"`
-          );
-          return c.json({
-            text,
-            transcript: text,
-            provider: "groq",
-            stt_ms: Date.now() - startMs,
-          });
-        }
-      } else {
-        const errText = await groqRes.text().catch(() => "");
-        console.warn(
-          `[Ears/Groq Whisper] HTTP ${groqRes.status}: ${errText.slice(0, 200)}`
-        );
-      }
-    } catch (err: any) {
-      console.warn(`[Ears/Groq Whisper] Error:`, err?.message || err);
     }
     return null;
   };
@@ -1253,8 +1575,14 @@ async function handleTranscribe(c: any) {
     try {
       const dgLang =
         normalizedLang && normalizedLang !== "auto" ? normalizedLang : "en";
+      const allKeyterms = Array.from(
+        new Set([...keyterms, ...latestMintedKeyterms])
+      ).slice(0, 32);
+      const keytermQuery = allKeyterms
+        .map((kt) => `&keyterm=${encodeURIComponent(kt)}`)
+        .join("");
       const dgRes = await fetch(
-        `https://api.deepgram.com/v1/listen?model=nova-3&smart_format=true&language=${encodeURIComponent(dgLang)}`,
+        `https://api.deepgram.com/v1/listen?model=nova-3&smart_format=true&language=${encodeURIComponent(dgLang)}${keytermQuery}`,
         {
           method: "POST",
           headers: {
@@ -1271,7 +1599,7 @@ async function handleTranscribe(c: any) {
         const transcript =
           data?.results?.channels?.[0]?.alternatives?.[0]?.transcript;
         if (typeof transcript === "string") {
-          const clean = transcript.trim();
+          const clean = normalizeCompanionTranscript(transcript);
           return c.json({
             text: clean,
             transcript: clean,
@@ -1304,6 +1632,11 @@ async function handleTranscribe(c: any) {
       ) {
         form.append("language", normalizedLang);
       }
+      const whisperPrompt = buildWhisperVocabularyPrompt(
+        combinedPromptHint,
+        keyterms
+      );
+      form.append("prompt", whisperPrompt);
 
       const oaiRes = await fetch(
         "https://api.openai.com/v1/audio/transcriptions",
@@ -1320,7 +1653,11 @@ async function handleTranscribe(c: any) {
       if (oaiRes.ok) {
         const data = (await oaiRes.json()) as any;
         if (typeof data?.text === "string") {
-          const clean = data.text.trim();
+          const clean = normalizeCompanionTranscript(
+            data.text,
+            keyterms,
+            whisperPrompt
+          );
           return c.json({
             text: clean,
             transcript: clean,
@@ -1363,3 +1700,4 @@ async function handleTranscribe(c: any) {
 voiceRoutes.post("/v2/dictation/transcribe", handleTranscribe);
 voiceRoutes.post("/brain/ears/transcribe", handleTranscribe);
 voiceRoutes.post("/ears/transcribe", handleTranscribe);
+voiceRoutes.post("/v1/listen", handleTranscribe);

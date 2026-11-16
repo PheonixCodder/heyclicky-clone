@@ -2094,7 +2094,7 @@
             // floor is 8pt, not 8 units. A unit floor there drew a 12pt pill's words a third too big, wrapped onto two lines
             // and spilling out of the pill it was measured for.
             const unitPoints = +global.__canvasUnitPoints > 0 ? +global.__canvasUnitPoints : 1;
-            const minSize = style === 'ui' ? 8 / unitPoints : 13;
+            const minSize = style === 'ui' ? 8 / unitPoints : 10;
             if (fs < minSize) { report.warnings.push(`${m.id || i}: text size ${fs} is too small to read, used ${Math.round(minSize)}`); fs = minSize; }
             // HeyClicky (2026-10-20): a tighter line for the morning paper's headlines (lineHeight on the mark)
             const lineHeight = +m.lineHeight > 0.8 ? +m.lineHeight : LINE_HEIGHT;
@@ -2683,7 +2683,7 @@
       // HeyClicky: the drawing guide teaches o.style ('hand' | 'title' | 'body'); o.font is the lab's older name.
       const font = op.font != null ? op.font : op.style;
       if (font != null) m.style = ({ handwriting: 'hand', handwritten: 'hand', rounded: 'title', bold: 'title', plain: 'body', sans: 'body', typewriter: 'mono', code: 'mono' })[font] || font;
-      if (op.size != null && +op.size > 0) m.size = Math.max(13, Math.min(72, +op.size));
+      if (op.size != null && +op.size > 0) m.size = Math.max(10, Math.min(72, +op.size));
       if (op.weight != null) m.weight = op.weight === 'bold' ? 700 : op.weight === 'normal' ? 400 : op.weight;
     } else {
       const w = op.width != null ? op.width : op.size;

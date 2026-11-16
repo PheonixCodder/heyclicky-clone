@@ -57,7 +57,8 @@ All 7 managed `.NET 9.0` assemblies from `HeyClicky v1.1.5` have been decompiled
   - [`src/backend/src/routes/worker.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/routes/worker.ts) (`WorkerClient` routes + zero-key web/image search)
   - [`src/backend/src/routes/voice.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/routes/voice.ts) (Deepgram, Gemini Live, OpenAI Realtime token minting + Groq Dictation cleanup & transcription)
   - [`src/backend/src/routes/brain.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/routes/brain.ts) (`OneBrain` `/brain/turn` SSE streaming via OpenRouter/OpenAI/Gemini/Groq, `/brain/compact`, `/brain/session-end`, `/brain/prewarm`)
-  - [`src/backend/src/utils/screenLayout.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/utils/screenLayout.ts) (Deterministic `1280×720` pixel table/grid detector, cell-center coordinate snapper, blank-line detector & calm placement analyzer)
+  - [`src/backend/src/utils/winOcr.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/utils/winOcr.ts) (Persistent local native Windows WinRT OCR daemon via `Windows.Media.Ocr.OcrEngine` returning exact `1280×720` line and word bounding boxes)
+  - [`src/backend/src/utils/screenLayout.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/utils/screenLayout.ts) (Universal Semantic Screen Scene Graph: deterministic `1280×720` table/grid detector, pixel-level dotted/dashed/solid answer-line detector, OCR-to-slot pairing, and semantic coordinate snapper)
   - [`src/backend/src/routes/agents.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/routes/agents.ts) (`/proactive/*`, `/agents/*`, `/agent/*` turn leases & notifications, `/connectors/*`, `/calendar/upcoming`, `/tools/*`)
 - **Test Suites**: [`src/backend/src/test-phase1.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/test-phase1.ts) (18/18 passing) & [`src/backend/src/test-phase2.ts`](file:///C:/dev/heyclicky-clone/src/backend/src/test-phase2.ts) (7/7 passing)
 

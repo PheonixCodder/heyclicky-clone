@@ -75,6 +75,9 @@ const __densify = (pts, step) => {
 // never sits on another mark's ring or frame either.
 const __pills = []
 const __marked = []
+const __boards = []
+const __windows = []
+const __WIN_HEADER = __pt(28), __WIN_PAD = __pt(24), __WIN_RADIUS = __pt(10)
 const __overlaps = (b, list) => list.some(o => b[0] < o[0] + o[2] + 4 && b[0] + b[2] + 4 > o[0] && b[1] < o[1] + o[3] + 4 && b[1] + b[3] + 4 > o[1])
 const __onCanvas = b => b[0] >= 4 && b[1] >= 4 && b[0] + b[2] <= W - 4 && b[1] + b[3] <= H - 4
 const __clampBox = b => [max(4, min(b[0], W - 4 - b[2])), max(4, min(b[1], H - 4 - b[3])), b[2], b[3]]
@@ -168,7 +171,7 @@ const __nameMark = (box, str, o = {}) => {
   __marked.push(box)
   // the calmest spot (least text and controls under it), nearer spots preferred: each step down the list must be
   // clearly calmer to win, and the far ring only when everything close sits on text
-  const cost = (b, k) => __busyAt(b[0], b[1], w, h) + k * 0.004 + (k >= spots.length - 4 ? 0.02 : 0)
+  const cost = (b, k) => __busyAt(b[0], b[1], w, h) + k * 0.004 + (k >= spots.length - 4 ? 0.02 : 0) + (o && o.preferTop && k !== 0 && k !== 4 && k !== 8 ? 0.35 : 0)
   let pick = free[0], pickCost = pick ? cost(pick, spots.findIndex(p => p[0] === pick[0] && p[1] === pick[1])) : Infinity
   free.forEach(b => { const c = cost(b, spots.findIndex(p => p[0] === b[0] && p[1] === b[1])); if (c < pickCost) { pick = b; pickCost = c } })
   if (!pick) pick = __clampBox([spots[0][0], spots[0][1], w, h])
@@ -209,12 +212,37 @@ const __outline = (x, y, w, h, o, fallbackRadius) => __roundRect(x, y, w, h, __o
 // dashed outline in Clicky's ink that follows its shape, named in a pill. In the app Clicky's cursor drags it open
 // from its top-left corner like a selection, as the old walkthrough's highlight did.
 const frame = (x, y, w, h, name, o = {}) => {
-  const p = __pt(3), bx = x - p, by = y - p, bw = w + 2 * p, bh = h + 2 * p
+  const p = __pt(3), minGap = (name && String(name).trim()) ? __pt(34) : __pt(8)
+  if (h > 100 && y < 40) y = max(40, y)
+  const origBottom = y + h
+  const priorBoxes = [
+    ...__marked
+      .filter(m => Array.isArray(m) && m.length >= 4 && m[2] >= __pt(80) && m[3] >= __pt(36))
+      .map(m => ({box: m, isPill: false})),
+    ...__pills
+      .filter(m => Array.isArray(m) && m.length >= 4)
+      .map(m => ({box: m, isPill: true}))
+  ].sort((a, b) => a.box[1] - b.box[1])
+  for (const {box: prev, isPill} of priorBoxes) {
+    const overlapX = min(x + w, prev[0] + prev[2]) - max(x, prev[0])
+    if (overlapX <= (isPill ? 0 : 0.5 * min(w, prev[2]))) continue
+    const prevTop = prev[1], prevBottom = prev[1] + prev[3]
+    if (!isPill && ((prevTop < y - p && prevBottom > y + h + p && prev[3] > h * 1.6) ||
+        (y - p < prevTop && y + h + p > prevBottom && h > prev[3] * 1.6))) continue
+    if ((prevTop <= y - p && prevBottom + minGap > y - p) ||
+        (isPill && y - p < prevTop && prevTop < y + h * 0.5 && y + h + p + minGap > prevTop && prevBottom + minGap > y - p)) {
+      y = round(prevBottom + p + minGap)
+      h = max(min(h, __pt(48)), origBottom - y)
+    } else if (y - p < prevTop && y + h + p + minGap > prevTop) {
+      h = max(__pt(32), round(prevTop - p - minGap - y))
+    }
+  }
+  const bx = x - p, by = y - p, bw = w + 2 * p, bh = h + 2 * p
   const shape = typeof o.r === 'number' ? Object.assign({}, o, {r: o.r + p}) : o, radius = __outlineRadius(bw, bh, shape, __pt(8))
   const pts = __roundRect(bx, by, bw, bh, radius), marquee = __hostMarquee() ? [bx, by, bw, bh, radius] : null
   poly(pts, {fill: INK, fillAlpha: 0.07, outline: false, wash: false, role: 'frame', marquee})
   line(pts.concat([pts[0]]), __screenPen({tone: INK, dash: __pt(8), dashGap: __pt(5), smooth: false, wobble: 0, role: 'frame', label: name, marquee}))
-  __nameMark([x - p, y - p, w + 2 * p, h + 2 * p], name)
+  __nameMark([bx, by, bw, bh], name, Object.assign({preferTop: true}, o))
 }
 // The corner radius of a ring's loop: a pill for a thin thing (a word, a number, a button, a bar), a round loop
 // only for something small (an icon, an avatar, a face), and a hand-drawn rounded box for anything bigger. A full
@@ -248,9 +276,147 @@ const ink = (pts, o = {}) => {
 }
 const inkCircle = (x, y, r, o = {}) => circle(x, y, r, Object.assign({}, __SCREEN_PEN, o, {tone: o.tone || INK}))
 // write(x, y, text): free words on calm space (a sketch, a diagram), in the ink that reads there.
+// Short cell tokens (<= 4 chars without spaces/'=' or wrap options, e.g. "I1", "I2", "0", "1", "T", "F")
+// default to horizontal + vertical centering so table cells never push labels against their right border.
+// Longer prose / worksheet lines automatically bound width to maxW, scale font size for near-fits,
+// and word-wrap multi-line sentences across worksheet lines without overflowing the page or screen margin.
 const write = (x, y, str, o = {}) => {
-  const s = o.size || 24, w = String(str).length * s * 0.5, x0 = o.anchor === 'middle' ? x - w / 2 : o.anchor === 'end' ? x - w : x
-  text(x, y, str, Object.assign({style: 'hand', size: s, place: false}, o, {tone: o.tone || __inkAt(x0, y - s, w, s * 1.25)}))
+  o = o && typeof o === 'object' ? o : {}
+  const cleanStr = String(str == null ? '' : str)
+  const trimmed = cleanStr.trim()
+  if (!trimmed) return null
+  const baseOpts = Object.assign({style: 'hand', place: false}, o)
+  delete baseOpts.maxW
+  delete baseOpts.wrapX
+  delete baseOpts.lineGap
+  delete baseOpts.wrap
+  delete baseOpts.maxLines
+  delete baseOpts.w
+  delete baseOpts.fit
+  const hasWrapOpts = o.maxW != null || o.wrapX != null || o.lineGap != null || o.wrap != null
+  const isShortCellToken = !hasWrapOpts && trimmed.length <= 4 && !/[\s=]/.test(trimmed) && o.anchor !== 'start'
+  const anchor = o.anchor || (isShortCellToken ? 'middle' : undefined)
+  if (anchor) baseOpts.anchor = anchor
+  if (anchor === 'middle' && !cleanStr.includes('\n')) {
+    const s = o.size || 18
+    const yy = !o.baseline && !o.top ? y + round(s * 0.32) : y
+    const w = trimmed.length * s * 0.5, x0 = x - w / 2
+    return text(x, yy, trimmed, Object.assign({}, baseOpts, {size: s, anchor: 'middle', tone: o.tone || __inkAt(x0, yy - s, w, s * 1.25)}))
+  }
+  let sz = o.size || 16
+  const drawY = y
+  const rightMarginW = max(60, 1264 - x)
+  const rawMaxW = (typeof o.maxW === 'number' && o.maxW > 40)
+    ? o.maxW
+    : (x >= 220 && x <= 650 ? max(220, 985 - x) : min(rightMarginW, max(180, 1245 - x)))
+  const maxW = min(rawMaxW, rightMarginW)
+  const wrapX = typeof o.wrapX === 'number' ? o.wrapX : x
+  const wrapMaxW = max(80, min(1264 - wrapX, maxW + (x - wrapX)))
+  const measureW = (txt, fontSz) => typeof __tw === 'function' ? __tw(txt, fontSz, 600) : String(txt).length * fontSz * 0.52
+  const clampLineToWidth = (txt, fontSz, limitW) => {
+    if (measureW(txt, fontSz) <= limitW) return txt
+    const words = txt.split(/[ \t]+/).filter(Boolean)
+    if (words.length > 1) {
+      while (words.length > 1 && measureW(words.join(' ') + '…', fontSz) > limitW) {
+        words.pop()
+      }
+      const candidate = words.join(' ') + '…'
+      if (measureW(candidate, fontSz) <= limitW) return candidate
+    }
+    let chars = txt
+    while (chars.length > 1 && measureW(chars + '…', fontSz) > limitW) {
+      chars = chars.slice(0, -1).trimEnd()
+    }
+    return chars + '…'
+  }
+  const maxLines = (typeof o.maxLines === 'number' && o.maxLines > 1) ? floor(o.maxLines) : 1
+  if (maxLines === 1) {
+    const singleLineTxt = trimmed.replace(/\s*\r?\n\s*/g, ' ').replace(/[ \t]{2,}/g, ' ').trim()
+    const minEngineSz = 10
+    let fitSz = max(minEngineSz, sz)
+    let fits = measureW(singleLineTxt, fitSz) <= maxW
+    if (!fits) {
+      for (var trySz = fitSz - 1; trySz >= minEngineSz; trySz--) {
+        if (measureW(singleLineTxt, trySz) <= maxW) {
+          fitSz = trySz
+          fits = true
+          break
+        }
+      }
+    }
+    let finalTxt = singleLineTxt
+    if (!fits) {
+      fitSz = minEngineSz
+      const words = singleLineTxt.split(/[ \t]+/).filter(Boolean)
+      if (words.length > 1) {
+        while (words.length > 1 && measureW(words.join(' '), fitSz) > maxW) {
+          words.pop()
+        }
+        const candidate = words.join(' ').replace(/[,;:\-–—]+$/, '').trim()
+        finalTxt = (candidate && measureW(candidate, fitSz) <= maxW)
+          ? candidate
+          : clampLineToWidth(singleLineTxt, fitSz, maxW)
+      } else {
+        finalTxt = clampLineToWidth(singleLineTxt, fitSz, maxW)
+      }
+    }
+    const finalW = measureW(finalTxt, fitSz)
+    const x0 = anchor === 'end' ? x - finalW : anchor === 'middle' ? x - finalW / 2 : x
+    return text(x, drawY, finalTxt, Object.assign({}, baseOpts, {size: fitSz, tone: o.tone || __inkAt(x0, drawY - fitSz, finalW, fitSz * 1.25)}))
+  }
+
+  // Explicit multi-line word wrapping ONLY when caller explicitly passes { maxLines: 2 } (or higher)
+  const hasExplicitNewlines = cleanStr.includes('\n')
+  const estW = measureW(trimmed, sz)
+  sz = hasExplicitNewlines && estW <= maxW ? sz : max(13, min(sz, 15))
+  const paragraphs = cleanStr.split(/\r?\n/).map(p => p.trim()).filter(Boolean)
+  const wrapAtSize = fontSz => {
+    if (o.wrap === false) return paragraphs.slice()
+    const out = []
+    for (const para of paragraphs) {
+      const words = para.split(/[ \t]+/).filter(Boolean)
+      let cur = ''
+      for (const w of words) {
+        const curMaxW = out.length === 0 ? maxW : wrapMaxW
+        const next = cur ? cur + ' ' + w : w
+        if (cur && measureW(next, fontSz) > curMaxW) {
+          out.push(cur)
+          cur = w
+        } else {
+          cur = next
+        }
+      }
+      if (cur) out.push(cur)
+    }
+    return out
+  }
+  let lines = wrapAtSize(sz)
+  while (sz > 13 && lines.length > max(2, paragraphs.length)) {
+    sz -= 1
+    lines = wrapAtSize(sz)
+  }
+  if (lines.length > maxLines) {
+    const lastIdx = maxLines - 1
+    const lastMaxW = lastIdx === 0 ? maxW : wrapMaxW
+    const combinedTail = lines.slice(lastIdx).join(' ')
+    lines = lines.slice(0, maxLines)
+    lines[lastIdx] = clampLineToWidth(combinedTail, sz, lastMaxW)
+  }
+  const lineStep = o.lineGap || round(sz * 2.1)
+  let firstMark = null
+  for (let i = 0; i < lines.length; i++) {
+    const lx = i === 0 ? x : wrapX
+    const ly = drawY + i * lineStep
+    const curMaxW = i === 0 ? maxW : wrapMaxW
+    const lw = measureW(lines[i], sz)
+    const lineSz = lw > curMaxW ? max(13, floor(sz * (curMaxW / lw))) : sz
+    const ln = clampLineToWidth(lines[i], lineSz, curMaxW)
+    const finalW = measureW(ln, lineSz)
+    const x0 = anchor === 'end' ? lx - finalW : anchor === 'middle' ? lx - finalW / 2 : lx
+    const mk = text(lx, ly, ln, Object.assign({}, baseOpts, {size: lineSz, tone: o.tone || __inkAt(x0, ly - lineSz, finalW, lineSz * 1.25)}))
+    if (i === 0) firstMark = mk
+  }
+  return firstMark
 }
 
 // ---- Teaching on the content: the story drawn across the real things on screen
@@ -566,10 +732,66 @@ const __tape = (cx, cy, w, h, deg) => {
 // on the tape or above the paper. baseline 'alphabetic' (the same baseline as 'auto') skips that lift, so
 // the first line sits on y and the rest go down into the fit box, as with one line.
 const __TOP = 'alphabetic'
-// Paper never lands on a 3D figure: it steps aside to the nearest free spot beside it.
+// Paper never lands on a 3D figure or an existing window/card in __windows:
+// it stacks below/above if vertical room permits, or moves to the opposite horizontal margin / adjacent column.
 const __clear = (x, y, w, h) => {
-  const [cx, cy] = typeof clearOfFigures === 'function' ? clearOfFigures(x, y, w, h) : [x, y]
-  return [max(28, min(cx, W - w - 28)), max(56, min(cy, H - h - 28))]
+  const [fx, fy] = typeof clearOfFigures === 'function' ? clearOfFigures(x, y, w, h) : [x, y]
+  if (w < 80 || h < 50) return [max(4, min(fx, W - w - 4)), max(4, min(fy, H - h - 4))]
+  const minX = 28, maxX = max(28, W - w - 28), minY = 56, maxY = max(56, H - h - 28)
+  const clamp = (px, py) => [max(minX, min(px, maxX)), max(minY, min(py, maxY))]
+  let [cx, cy] = clamp(fx, fy)
+  if (!__windows.length) return [cx, cy]
+  const gapX = __WIN_PAD * 2 + __pt(12), gapY = __WIN_PAD * 2 + __WIN_HEADER + __pt(10)
+  const minGapX = __WIN_PAD * 2 + __pt(4), minGapY = __WIN_PAD * 2 + __WIN_HEADER + __pt(4)
+  const hitsWindows = (ax, ay, gx = minGapX, gy = minGapY) => __windows.some(b =>
+    ax < b[0] + b[2] + gx && ax + w + gx > b[0] &&
+    ay < b[1] + b[3] + gy && ay + h + gy > b[1]
+  )
+  if (!hitsWindows(cx, cy)) return [cx, cy]
+  const oppX = cx + w / 2 < W / 2 ? maxX : minX
+  const cands = []
+  for (const b of __windows) {
+    // Tier 1: stack below or above the existing window on the same horizontal side
+    cands.push(
+      [cx, b[1] + b[3] + gapY, 0], [b[0], b[1] + b[3] + gapY, 0],
+      [cx, b[1] + b[3] + minGapY, 0.02], [b[0], b[1] + b[3] + minGapY, 0.02],
+      [cx, b[1] - h - gapY, 0.04], [b[0], b[1] - h - gapY, 0.04],
+      [cx, b[1] - h - minGapY, 0.06], [b[0], b[1] - h - minGapY, 0.06]
+    )
+  }
+  for (const b of __windows) {
+    // Tier 2: opposite horizontal margin (keeps the center canvas unobstructed)
+    cands.push(
+      [oppX, cy, 0.1], [oppX, b[1], 0.12], [oppX, minY, 0.15], [oppX, maxY, 0.18]
+    )
+    // Tier 3: adjacent column right or left of the window
+    cands.push(
+      [b[0] + b[2] + gapX, cy, 0.3], [b[0] + b[2] + gapX, b[1], 0.32], [b[0] + b[2] + gapX, minY, 0.35],
+      [b[0] - w - gapX, cy, 0.3], [b[0] - w - gapX, b[1], 0.32], [b[0] - w - gapX, minY, 0.35]
+    )
+  }
+  // Tier 4: corners & mid-margin fallback positions
+  for (const gx of [minX, maxX, round((minX + maxX) / 2)]) {
+    for (const gy of [minY, round((minY + maxY) / 2), maxY]) {
+      cands.push([gx, gy, 0.5])
+    }
+  }
+  const inkList = typeof __inkBoxes === 'function' ? __inkBoxes() : []
+  let best = null, bestScore = Infinity
+  for (const [rx, ry, tierCost] of cands) {
+    const [ax, ay] = clamp(rx, ry)
+    if (hitsWindows(ax, ay)) continue
+    const box = [ax, ay, w, h]
+    const markPenalty = (__overlaps(box, __marked) ? 1.5 : 0) + (__overlaps(box, inkList) ? 1.0 : 0)
+    const busyPenalty = __busyAt(ax, ay, w, h)
+    const distPenalty = Math.hypot(ax - cx, ay - cy) * 0.00015
+    const score = tierCost + markPenalty + busyPenalty + distPenalty
+    if (score < bestScore) {
+      bestScore = score
+      best = [ax, ay]
+    }
+  }
+  return best || [oppX, cy]
 }
 const sticky = (x, y, str, color = 'butter', o = {}) => {
   const s = o.size || 170, deg = o.tilt ?? -2, c = __PAPER[color] || color;
@@ -747,7 +969,6 @@ const __BOARDS = {dots: 1, grid: 1, plain: 1}
 const __WASHES = {'#D4A017': ['#FEEA3D', 0.12], '#3380FF': ['#0F7FFF', 0.08], '#FF4C4C': ['#FF5A4C', 0.08], '#26C281': ['#26C281', 0.1]}
 const __WASH = __WASHES[INK] || [INK, 0.09]
 const __WIN_BOARD = __PAPER.white
-const __WIN_HEADER = __pt(28), __WIN_PAD = __pt(24), __WIN_RADIUS = __pt(10)
 const __hostWindows = () => typeof __hostDrawsWindows !== 'undefined' && __hostDrawsWindows === true
 // The outline of a box with only its top corners rounded (a title bar).
 const __topRoundRect = (x, y, w, h, r) => {
@@ -758,11 +979,13 @@ const __topRoundRect = (x, y, w, h, r) => {
 }
 // Whiteboard windows drawn so far (their writing areas): sources() puts its credits under them, and the window grows
 // to hold them (the engine fits a window to what is drawn on it), so a card without sources has no empty footer.
-const __boards = []
+// Every window (paper, receipt, clipping) is tracked in __windows so subsequent cards never stack on top of it,
+// while __boards tracks only footer-capable whiteboards (paper() and __card3d()) for sources() and num().
 const __win = (x, y, w, h, o = {}) => {
   const head = __WIN_HEADER, pad = __WIN_PAD
   // kept on the screen: a box placed hard against its top or left edge loses some of the margin there instead
   const X = max(2, x - pad), Y = max(2, y - pad - head), Wd = x + w + pad - X, Hd = y + h + pad - Y
+  __windows.push([x, y, w, h])
   if (o.footer) __boards.push([x, y, w, h])
   const title = o.title == null ? '' : String(o.title).replace(/\s+/g, ' ').trim().slice(0, 60)
   const board = __BOARDS[o.board] ? o.board : o.grid === false ? 'plain' : 'grid'
@@ -789,22 +1012,87 @@ if (__hostWindows()) __card3d = (x, y, w, h, o = {}) => __win(x, y, w, h, {title
 
 // receipt(x, y, title, items): a short list in a window, its title on top of the board.
 const receipt = (x, y, title, items = [], o = {}) => {
-  const w = o.w || 280, charsPerLine = max(18, floor((w - 16) / 8.8))
-  const itemHeights = items.map((it, i) => {
-    const s = (i + 1) + '. ' + String(it == null ? '' : it)
-    const nLines = max(1, min(4, ceil(s.length / charsPerLine)))
-    return nLines === 1 ? 30 : nLines * 23 + 8
-  })
-  const h = 52 + itemHeights.reduce((a, b) => a + b, 0);
+  const w = o.w || 280, sh = typeof H === 'number' && H > 0 ? H : 720, maxH = sh - 64
+  const list = Array.isArray(items) ? items : []
+  const extractLabel = it => {
+    const raw = typeof it === 'string' ? it : (it && typeof it === 'object' ? (it.text || it.label || '') : (it == null ? '' : String(it)))
+    return String(raw).trim()
+  }
+  const countWrappedLines = (s, charsPerLine) => {
+    const words = String(s || '').trim().split(/\s+/).filter(Boolean)
+    if (!words.length) return 1
+    let lines = 1, col = 0
+    for (const word of words) {
+      const len = word.length
+      if (col === 0) {
+        if (len > charsPerLine) {
+          lines += ceil(len / charsPerLine) - 1
+          col = len % charsPerLine || charsPerLine
+        } else {
+          col = len
+        }
+      } else if (col + 1 + len <= charsPerLine) {
+        col += 1 + len
+      } else {
+        lines += 1
+        if (len > charsPerLine) {
+          lines += ceil(len / charsPerLine) - 1
+          col = len % charsPerLine || charsPerLine
+        } else {
+          col = len
+        }
+      }
+    }
+    return max(1, min(6, lines))
+  }
+  const candidates = [
+    { itemSize: 18, singleLineH: 30, ih: 23, charW: 8.8, extraGap: 8, gapH: 10, headerH: 52 },
+    { itemSize: 14, singleLineH: 22, ih: 18, charW: 7.2, extraGap: 6, gapH: 10, headerH: 44 },
+    { itemSize: 12, singleLineH: 18, ih: 16, charW: 6.2, extraGap: 4, gapH: 6, headerH: 40 }
+  ]
+  const layoutItems = c => {
+    const charsPerLine = max(16, floor((w - __pt(28)) / c.charW))
+    let stepNum = 0
+    const rows = list.map(it => {
+      const label = extractLabel(it)
+      if (label === '') return {isSpacer: true, text: '', h: c.gapH, nLines: 0}
+      stepNum += 1
+      const cleanLabel = label.replace(/^\d+[.)]\s+/, '')
+      const s = stepNum + '. ' + cleanLabel
+      const nLines = countWrappedLines(s, charsPerLine)
+      const rowH = nLines === 1 ? (c.singleLineH || c.ih + 6) : nLines * c.ih + (c.extraGap || 4)
+      return {isSpacer: false, text: s, h: rowH, nLines}
+    })
+    const totalH = c.headerH + rows.reduce((a, r) => a + r.h, 0)
+    return {rows, totalH, itemSize: c.itemSize, headerH: c.headerH}
+  }
+  let layout = layoutItems(candidates[0])
+  for (let i = 1; i < candidates.length && layout.totalH > maxH; i++) {
+    layout = layoutItems(candidates[i])
+  }
+  if (layout.totalH > maxH) {
+    const bodyH = max(1, layout.totalH - layout.headerH)
+    const scale = max(0.68, (maxH - layout.headerH) / bodyH)
+    layout.itemSize = max(11, floor(layout.itemSize * scale))
+    layout.rows = layout.rows.map(r => Object.assign({}, r, {
+      h: r.isSpacer
+        ? max(__pt(6), floor(r.h * scale))
+        : max(__pt(16), ceil((r.nLines || 1) * layout.itemSize * 1.32) + __pt(2), floor(r.h * scale))
+    }))
+    layout.totalH = layout.headerH + layout.rows.reduce((a, r) => a + r.h, 0)
+  }
+  const h = layout.totalH;
   [x, y] = __clear(x, y, w, h)
   __win(x, y, w, h, {board: o.board || 'plain', title: o.title || 'notes'})
-  text(x, y + 24, title, {style: 'title', size: 20, tone: 'ink', fit: [w, 28], baseline: __TOP, place: false})
-  let curY = y + 56
-  items.forEach((it, i) => {
-    const ih = itemHeights[i]
-    text(x, curY, (i + 1) + '. ' + it, {style: 'hand', size: 18, tone: 'ink', fit: [w, ih - 4], baseline: __TOP, place: false})
-    curY += ih
+  text(x, y + (layout.headerH <= 40 ? 16 : (layout.headerH < 50 ? 20 : 24)), title, {style: 'title', size: layout.headerH <= 40 ? 16 : (layout.headerH < 50 ? 18 : 20), tone: 'ink', fit: [w, 28], baseline: __TOP, place: false})
+  let curY = y + (layout.headerH <= 40 ? 40 : (layout.headerH < 50 ? 46 : 56))
+  layout.rows.forEach(r => {
+    if (!r.isSpacer) {
+      text(x, curY, r.text, {style: 'hand', size: layout.itemSize, tone: 'ink', fit: [w, max(14, r.h - 4)], baseline: __TOP, place: false})
+    }
+    curY += r.h
   })
+  return {box: [x, y, w, h]}
 }
 // clipping(x, y, w, title, body, source): a fact in a window, its source in the title bar.
 const clipping = (x, y, w, title, body, source, o = {}) => {

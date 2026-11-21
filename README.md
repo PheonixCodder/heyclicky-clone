@@ -91,7 +91,7 @@ Edit [`src/backend/.env`](file:///C:/dev/heyclicky-clone/src/backend/.env) (copi
 
 ## ⚡ Windows Autostart (Run Automatically When Computer Starts)
 
-Kursor includes a windowless background autostart launcher ([`scripts/start-kursor-hidden.vbs`](file:///C:/dev/heyclicky-clone/scripts/start-kursor-hidden.vbs)) that starts both the local Node.js backend (`127.0.0.1:8787`) and `HeyClicky.exe` silently at Windows login without flashing any terminal windows.
+Kursor includes a windowless background launcher ([`scripts/start-kursor-hidden.vbs`](file:///C:/dev/heyclicky-clone/scripts/start-kursor-hidden.vbs)) that starts both the local Node.js backend (`127.0.0.1:8787`) and `HeyClicky.exe` silently at Windows login without flashing any terminal windows.
 
 ### Enable Autostart
 ```powershell
